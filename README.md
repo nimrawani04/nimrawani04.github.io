@@ -1,73 +1,68 @@
-# Welcome to your Lovable project
+# 🌐 Nimra Wani – Portfolio
 
-## Project info
+Welcome to my personal portfolio website!  
+I’m **Nimra Wani** — a Computer Science student and Full-Stack Developer.  
+This website showcases who I am, what I build, and how to get in touch.
 
-**URL**: https://lovable.dev/projects/b55473d8-6901-4c2c-ac95-aa8de1c265a8
+🔗 **Live Site:** [nimrawani.vercel.app](https://nimrawani.vercel.app)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 📑 Table of Contents
+- [About Me](#-about-me)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Getting Started](#-getting-started)
+- [Deployment](#-deployment)
+- [Contact](#-contact)
+- [License](#-license)
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b55473d8-6901-4c2c-ac95-aa8de1c265a8) and start prompting.
+## 👩‍💻 About Me
 
-Changes made via Lovable will be committed automatically to this repo.
+I’m a passionate developer focused on creating responsive, user-friendly, and elegant web applications.  
+I enjoy working across the stack — from crafting clean UI components to building robust back-end APIs.  
+This portfolio highlights my projects, skills, and journey as a developer.
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## ✨ Features
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- 🏠 Home page with personal introduction  
+- 💼 Projects section with live demos and GitHub links  
+- 🧰 Skills overview  
+- 📬 Contact form for direct communication  
+- 📱 Fully responsive and mobile-friendly design  
+- ⚡ Modern animations and clean UI/UX
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🛠 Tech Stack
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+**Frontend:** React.js / Next.js, HTML5, CSS3, JavaScript (ES6+)  
+**Styling:** Tailwind CSS (or your preferred CSS framework)  
+**Deployment:** Vercel  
+**Version Control:** Git & GitHub  
+**Design Tools:** Figma / Canva  
 
-# Step 3: Install the necessary dependencies.
-npm i
+> _Update the technologies above if you used different tools._
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 🚀 Getting Started
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+If you’d like to run this project locally, follow these steps:
 
-**Use GitHub Codespaces**
+```bash
+# 1. Clone the repository
+git clone https://github.com/your-username/your-portfolio.git
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# 2. Navigate to the project directory
+cd your-portfolio
 
-## What technologies are used for this project?
+# 3. Install dependencies
+npm install  # or yarn install
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/b55473d8-6901-4c2c-ac95-aa8de1c265a8) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+# 4. Start the development server
+npm run dev  # or npm start
