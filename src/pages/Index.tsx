@@ -43,13 +43,14 @@ const Index = () => {
       description:
         "Developed a responsive e-commerce website with contact form integration using Web3Forms and deployed it on Vercel. Focused on user-friendly UI and clean front-end design principles.",
       tech: ["HTML", "CSS", "JavaScript", "Web3Forms", "Vercel"],
-      link: "https://vercel.com",
+      link: "https://araaaz.vercel.app/",
     },
     {
       title: "Academic Portal",
       description:
         "Created a simple academic management portal for organizing and displaying student details, grades, and announcements with dynamic front-end interactions.",
       tech: ["HTML", "CSS", "JavaScript"],
+      link: "https://nimrawani04.github.io/cukAcademicPortal/",
     },
     {
       title: "Smart House using Arduino",
@@ -68,7 +69,7 @@ const Index = () => {
       description:
         "Designed and developed a personal portfolio showcasing projects and achievements using modern web technologies.",
       tech: ["HTML", "CSS", "JavaScript"],
-      link: "https://example.com",
+      link: "https://nimrawani04.github.io/portfolio/",
     },
   ];
 
