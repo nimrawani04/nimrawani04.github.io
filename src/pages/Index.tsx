@@ -73,18 +73,42 @@ const Index = () => {
     },
   ];
 
-  const skills = {
-    "Creative Design": ["Photoshop", "Illustrator", "Canva", "UI/UX"],
-    "Web Development": ["HTML", "CSS", "JavaScript", "React", "Tailwind CSS"],
-    Programming: ["C", "C++", "Java", "Python", "Arduino"],
-    Content: ["Blogging", "Copywriting", "Social Media"],
-    Core: [
-      "Analytical Thinking",
-      "Problem Solving",
-      "Innovation",
-      "Communication",
-    ],
-  };
+const certifications = [
+  {
+    title: "Artificial Intelligence Fundamentals",
+    provider: "IBM SkillsBuild",
+    year: "2025",
+    link: "https://www.credly.com/",
+    tags: ["AI", "Machine Learning", "Deep Learning"],
+  },
+  {
+    title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
+    provider: "Oracle",
+    year: "2025",
+    link: "https://catalog-education.oracle.com/",
+    tags: ["AI", "OCI", "Cloud"],
+  },
+  {
+    title: "Prepare Data for ML APIs on Google Cloud",
+    provider: "Google Cloud",
+    year: "2025",
+    link: "https://www.cloudskillsboost.google/",
+    tags: ["Python", "TensorFlow", "ML"],
+  },
+  {
+    title: "Python for Artificial Intelligence (5-Day Workshop)",
+    provider: "NIT Srinagar",
+    year: "2025",
+    tags: ["Python", "NumPy", "Pandas", "Scikit-Learn"],
+  },
+  {
+    title: "DSA in Modern Product Engineering",
+    provider: "TechBairn",
+    year: "2025",
+    tags: ["DSA", "Algorithms", "Problem Solving"],
+  },
+];
+
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
@@ -237,49 +261,56 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Skills Section */}
-        <section id="skills" className="py-24 px-6">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Skills & <span className="text-gradient">Expertise</span>
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {Object.entries(skills).map(([category, items], i) => (
-                  <motion.div
-                    key={category}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                  >
-                    <Card className="p-6 bg-card/50 backdrop-blur-sm border-border/50 h-full hover:border-primary/50 transition-colors">
-                      <h3 className="text-xl font-bold mb-4 text-primary">
-                        {category}
-                      </h3>
-                      <div className="flex flex-wrap gap-2">
-                        {items.map((skill, j) => (
-                          <Badge
-                            key={j}
-                            variant="secondary"
-                            className="text-xs"
-                          >
-                            {skill}
-                          </Badge>
-                        ))}
-                      </div>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
+       {/* Certifications Section */}
+<section id="certifications" className="py-24 px-6 bg-muted/20">
+  <div className="max-w-6xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+        Certifications & <span className="text-gradient">Credentials</span>
+      </h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {certifications.map((cert, i) => (
+          <Card
+            key={i}
+            className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors"
+          >
+            <h3 className="text-xl font-bold mb-1">{cert.title}</h3>
+            <p className="text-primary font-semibold">{cert.provider}</p>
+            <p className="text-muted-foreground text-sm mb-3">
+              Issued {cert.year}
+            </p>
+
+            <div className="flex flex-wrap gap-2 mb-4">
+              {cert.tags.map((tag, j) => (
+                <Badge key={j} variant="secondary" className="text-xs">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+
+            {cert.link && (
+              <a
+                href={cert.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+              >
+                View Credential
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            )}
+          </Card>
+        ))}
+      </div>
+    </motion.div>
+  </div>
+</section>
 
         {/* Experience Section */}
         <section id="experience" className="py-24 px-6 bg-muted/20">
