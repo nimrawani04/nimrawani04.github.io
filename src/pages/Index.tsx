@@ -441,55 +441,72 @@ const certifications = [
 </section>
 
 
-        {/* Awards Section */}
-        <section id="awards" className="py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Awards & <span className="text-gradient">Achievements</span>
-              </h2>
+       {/* Awards & Recognitions Section */}
+<section id="awards" className="py-24 px-6">
+  <div className="max-w-5xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+        Awards & <span className="text-gradient">Recognitions</span>
+      </h2>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl">🏆</div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2">
-                        1st Place – Logo Designing Competition
-                      </h3>
-                      <p className="text-primary font-semibold mb-2">
-                        Central University of Kashmir
-                      </p>
-                      <p className="text-muted-foreground text-sm">
-                        Cyber Concave 2025
-                      </p>
-                    </div>
-                  </div>
-                </Card>
+      <div className="space-y-8">
+        {/* Ranked / Winning Achievements */}
+        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+          <h3 className="text-2xl font-bold mb-6 text-primary">
+            🏆 Competitive Achievements
+          </h3>
 
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl">🥇</div>
-                    <div>
-                      <h3 className="text-xl font-bold mb-2">
-                        First Rank – Open Build Challenge
-                      </h3>
-                      <p className="text-muted-foreground text-sm">
-                        Organised by FOSS NIT Srinagar in collabration with <a href="https://fossunited.org/">FOSS
-                        United</a>.
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+          <ul className="space-y-4 text-muted-foreground">
+            <li>
+              <strong>1st Position – Logo Designing Competition</strong><br />
+              Cyber Conclave 2025, Central University of Kashmir — Recognized for
+              creativity, visual communication, and design thinking.
+            </li>
+
+            <li>
+              <strong>First Rank – Open Build Challenge</strong><br />
+              Organized by FOSS NIT Srinagar in collaboration with FOSS United —
+              Demonstrated strong problem-solving and collaborative development skills.
+            </li>
+          </ul>
+        </Card>
+
+        {/* Participation & Involvement */}
+        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+          <h3 className="text-2xl font-bold mb-6 text-primary">
+            🎯 Participation & Involvement
+          </h3>
+
+          <ul className="space-y-4 text-muted-foreground">
+            <li>
+              <strong>Coding Challenge – Tech Summit 2025</strong><br />
+              Participated in a competitive coding event focused on logical thinking,
+              problem-solving, and teamwork.
+            </li>
+
+            <li>
+              <strong>Code Debugging Competition – Cyber Conclave 2025</strong><br />
+              Actively participated in debugging challenges involving C programming
+              and analytical problem-solving.
+            </li>
+
+            <li>
+              <strong>Treasure Hunt – Cyber Conclave 2025</strong><br />
+              Participated in a team-based challenge emphasizing decision-making,
+              time management, and critical thinking.
+            </li>
+          </ul>
+        </Card>
+      </div>
+    </motion.div>
+  </div>
+</section>
+
 
         {/* Contact Section */}
         <section id="contact" className="py-24 px-6 bg-muted/20">
