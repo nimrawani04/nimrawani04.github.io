@@ -109,6 +109,8 @@ const certifications = [
   },
 ];
 
+  
+
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
@@ -312,83 +314,132 @@ const certifications = [
   </div>
 </section>
 
+       {/* Education Section */}
+<section id="education" className="py-24 px-6">
+  <div className="max-w-5xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+        Education
+      </h2>
+
+      <div className="space-y-8">
+        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50">
+          <h3 className="text-2xl font-bold">
+            B.Tech in Computer Engineering
+          </h3>
+          <p className="text-primary font-semibold">
+            Central University of Kashmir, Ganderbal
+          </p>
+          <p className="text-muted-foreground">
+            Oct 2023 – Jun 2027
+          </p>
+        </Card>
+
+        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50">
+          <h3 className="text-2xl font-bold">
+            Senior Secondary Education
+          </h3>
+          <p className="text-primary font-semibold">
+            Delhi Public School, Srinagar
+          </p>
+          <p className="text-muted-foreground">
+            Mar 2009 – Mar 2023
+          </p>
+        </Card>
+      </div>
+    </motion.div>
+  </div>
+</section>
+
         {/* Experience Section */}
-        <section id="experience" className="py-24 px-6 bg-muted/20">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Experience & <span className="text-gradient">Education</span>
-              </h2>
+<section id="experience" className="py-24 px-6 bg-muted/20">
+  <div className="max-w-5xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+        Experience
+      </h2>
 
-              <div className="space-y-8">
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                      <Briefcase className="w-6 h-6 text-primary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-2">
-                        Currently Seeking Opportunities
-                      </h3>
-                      <p className="text-muted-foreground mb-4">
-                        Gaining foundational experience through personal and
-                        collaborative projects.
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="secondary">AI/ML</Badge>
-                        <Badge variant="secondary">
-                          Full Stack Development
-                        </Badge>
-                        <Badge variant="secondary">Embedded Systems</Badge>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
+      <div className="space-y-8">
+        {/* Experience 1 */}
+        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+          <h3 className="text-2xl font-bold mb-1">
+            Campus Lead
+          </h3>
+          <p className="text-primary font-semibold">
+            Open Source Connect · Remote
+          </p>
+          <p className="text-muted-foreground text-sm mb-4">
+            Dec 2025 – Present
+          </p>
 
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
-                      <Award className="w-6 h-6 text-secondary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-2">
-                        B.Tech in Computer Science & Engineering
-                      </h3>
-                      <p className="text-primary font-semibold mb-2">
-                        Central University of Kashmir, Ganderbal
-                      </p>
-                      <p className="text-muted-foreground">
-                        Expected July 2027
-                      </p>
-                    </div>
-                  </div>
-                </Card>
+          <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+            <li>
+              Led and coordinated open-source awareness initiatives and student
+              engagement activities.
+            </li>
+            <li>
+              Promoted open-source culture, collaboration, and participation in
+              technical events and hackathons.
+            </li>
+            <li>
+              Acted as a bridge between students and the open-source community.
+            </li>
+          </ul>
 
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
-                      <Award className="w-6 h-6 text-secondary" />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-2xl font-bold mb-2">
-                        12th (CBSE) – Medical + Mathematics
-                      </h3>
-                      <p className="text-primary font-semibold mb-2">
-                        Delhi Public School, Srinagar
-                      </p>
-                      <p className="text-muted-foreground">2022</p>
-                    </div>
-                  </div>
-                </Card>
-              </div>
-            </motion.div>
+          <div className="flex flex-wrap gap-2 mt-4">
+            <Badge variant="secondary">Leadership</Badge>
+            <Badge variant="secondary">Open Source</Badge>
+            <Badge variant="secondary">Community Building</Badge>
           </div>
-        </section>
+        </Card>
+
+        {/* Experience 2 */}
+        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+          <h3 className="text-2xl font-bold mb-1">
+            Student Intern
+          </h3>
+          <p className="text-primary font-semibold">
+            National Institute of Technology Srinagar · Hybrid
+          </p>
+          <p className="text-muted-foreground text-sm mb-4">
+            Dec 2025 – Present
+          </p>
+
+          <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+            <li>
+              Gaining hands-on experience in applied computer science concepts
+              through academic and practical exposure.
+            </li>
+            <li>
+              Worked on problem-solving tasks, coding exercises, and technical
+              discussions under faculty guidance.
+            </li>
+            <li>
+              Strengthened foundations in programming, algorithms, and teamwork.
+            </li>
+          </ul>
+
+          <div className="flex flex-wrap gap-2 mt-4">
+            <Badge variant="secondary">Internship</Badge>
+            <Badge variant="secondary">Problem Solving</Badge>
+            <Badge variant="secondary">Programming</Badge>
+          </div>
+        </Card>
+      </div>
+    </motion.div>
+  </div>
+</section>
+
 
         {/* Awards Section */}
         <section id="awards" className="py-24 px-6">
