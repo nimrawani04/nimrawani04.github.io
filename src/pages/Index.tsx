@@ -240,7 +240,7 @@ const certifications = [
           </div>
         </section>
 
-       {/* About Section */}
+     {/* About Section */}
 <section id="about" className="py-24 px-6">
   <div className="max-w-5xl mx-auto">
     <motion.div
@@ -255,14 +255,13 @@ const certifications = [
 
       <Card className="p-8 md:p-12 bg-card/50 backdrop-blur-sm border-border/50">
         <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-          I’m a Computer Science student with a strong focus on building
-          reliable, scalable, and user-centered digital solutions. I enjoy
-          applying technical knowledge to solve real-world problems through
-          clean code and structured development practices.
+          I’m a Computer Science student focused on building reliable,
+          scalable, and user-centered digital solutions through clean,
+          structured development practices.
         </p>
 
         <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-          My core interests lie in{" "}
+          My interests include{" "}
           <span className="text-primary font-semibold">
             Artificial Intelligence
           </span>
@@ -274,18 +273,15 @@ const certifications = [
           <span className="text-primary font-semibold">
             Full Stack Web Development
           </span>
-          . I am particularly interested in integrating AI and ML models into
-          web applications to create intelligent, data-driven, and efficient
-          systems.
+          , with a focus on integrating intelligent systems into modern web
+          applications.
         </p>
 
-       <p className="text-lg text-muted-foreground leading-relaxed">
-  With a strong interest in mathematics and logical reasoning, I enjoy
-  understanding the principles behind algorithms and data-driven models.
-  I value continuous learning, collaboration, and building maintainable,
-  future-ready solutions.
-</p>
-
+        <p className="text-lg text-muted-foreground leading-relaxed">
+          I have a strong interest in mathematics and logical reasoning and
+          enjoy understanding the foundations behind algorithms and
+          data-driven models while continuously learning and collaborating.
+        </p>
       </Card>
     </motion.div>
   </div>
