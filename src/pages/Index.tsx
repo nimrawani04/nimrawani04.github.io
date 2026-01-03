@@ -536,8 +536,7 @@ const certifications = [
   <strong>
     Coding Competition – National Technology Day 2024
   </strong><br />
-  Participated in a competitive coding event organized by the Department of
-  Information Technology, Central University of Kashmir, focusing on problem
+  Participated in a competitive coding event, focusing on problem
   solving, debugging, logical reasoning, time management, and critical thinking.
 </li>
 
