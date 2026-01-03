@@ -77,35 +77,66 @@ const certifications = [
   {
     title: "Artificial Intelligence Fundamentals",
     provider: "IBM SkillsBuild",
-    year: "2025",
-    link: "https://www.credly.com/",
-    tags: ["AI", "Machine Learning", "Deep Learning"],
+    year: "Dec 2025",
+    link: "https://www.credly.com/badges/a36fcbd9-3963-4a4a-b29b-19ff4792aaf1/public_url",
+    tags: [
+  "Artificial Intelligence",
+  "Machine Learning",
+  "Deep Learning",
+  "AI Ethics",
+  "Artificial Neural Networks",
+  "Computer Vision",
+  "Natural Language Processing",
+  "AI Applications",
+  "AI Capabilities",
+],
+
   },
   {
     title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
     provider: "Oracle",
-    year: "2025",
-    link: "https://catalog-education.oracle.com/",
-    tags: ["AI", "OCI", "Cloud"],
+    year: "Dec 2025",
+    link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=C982AECE9426EA178736DD1F01312EA6B7ECF089391F6FDDCF9CCBCC6CB1A243",
+    tags: [
+  "Artificial Intelligence",
+  "Machine Learning",
+  "Deep Learning",
+  "Sequence Models",
+  "Oracle Cloud Infrastructure",
+  "OCI",
+  "Cloud Computing"
+],
+
   },
   {
     title: "Prepare Data for ML APIs on Google Cloud",
     provider: "Google Cloud",
-    year: "2025",
-    link: "https://www.cloudskillsboost.google/",
-    tags: ["Python", "TensorFlow", "ML"],
+    year: "Dec 2025",
+    link: "https://www.credly.com/badges/0c570f0b-e9e3-4228-962c-c6b06ac28f8c/public_url",
+    tags: [
+  "Python",
+  "TensorFlow",
+  "Machine Learning",
+  "Google Cloud",
+  "Cloud Natural Language API",
+  "Google Cloud Speech API",
+  "Dataflow"
+],
+
   },
+  
+  {
+    title: "DSA in Modern Product Engineering",
+    provider: "Dec TechBairn",
+    year: "2025",
+    tags: ["DSA", "Algorithms", "Problem Solving"],
+  },
+
   {
     title: "Python for Artificial Intelligence (5-Day Workshop)",
     provider: "NIT Srinagar",
-    year: "2025",
+    year: "Nov 2025",
     tags: ["Python", "NumPy", "Pandas", "Scikit-Learn"],
-  },
-  {
-    title: "DSA in Modern Product Engineering",
-    provider: "TechBairn",
-    year: "2025",
-    tags: ["DSA", "Algorithms", "Problem Solving"],
   },
 ];
 
