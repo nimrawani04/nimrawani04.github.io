@@ -74,6 +74,21 @@ const Index = () => {
   ];
 
 const certifications = [
+
+  {
+    title: "Introduction to machine learning concepts",
+    provider: "Microsoft",
+    year: "Jan 2026",
+    link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/KC8WHGGB?sharingId=B856B6811014E40C",
+   tags: [
+  "Machine Learning",
+  "Linear Regression",
+  "Classification",
+  "Clustering",
+  "Deep Learning"
+]
+  },
+  
   {
     title: "Artificial Intelligence Fundamentals",
     provider: "IBM SkillsBuild",
@@ -90,8 +105,8 @@ const certifications = [
   "AI Applications",
   "AI Capabilities",
 ],
-
   },
+  
   {
     title: "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
     provider: "Oracle",
