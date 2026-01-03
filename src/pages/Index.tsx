@@ -240,45 +240,56 @@ const certifications = [
           </div>
         </section>
 
-        {/* About Section */}
-        <section id="about" className="py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                About <span className="text-gradient">Me</span>
-              </h2>
-              <Card className="p-8 md:p-12 bg-card/50 backdrop-blur-sm border-border/50">
-                <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                  Passionate and motivated Computer Science student eager to
-                  apply technical knowledge to real-world challenges. I'm
-                  passionate about{" "}
-                  <span className="text-primary font-semibold">
-                    Artificial Intelligence
-                  </span>
-                  ,{" "}
-                  <span className="text-primary font-semibold">
-                    Machine Learning
-                  </span>
-                  , and{" "}
-                  <span className="text-primary font-semibold">
-                    Full Stack Web Development
-                  </span>
-                  , constantly exploring innovative ways to build scalable and
-                  intelligent applications.
-                </p>
-                <p className="text-lg text-muted-foreground leading-relaxed">
-                  Committed to continuous learning, teamwork, and delivering
-                  high-quality, impactful work.
-                </p>
-              </Card>
-            </motion.div>
-          </div>
-        </section>
+       {/* About Section */}
+<section id="about" className="py-24 px-6">
+  <div className="max-w-5xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+    >
+      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+        About <span className="text-gradient">Me</span>
+      </h2>
+
+      <Card className="p-8 md:p-12 bg-card/50 backdrop-blur-sm border-border/50">
+        <p className="text-lg text-foreground/90 leading-relaxed mb-6">
+          I’m a Computer Science student with a strong focus on building
+          reliable, scalable, and user-centered digital solutions. I enjoy
+          applying technical knowledge to solve real-world problems through
+          clean code and structured development practices.
+        </p>
+
+        <p className="text-lg text-foreground/90 leading-relaxed mb-6">
+          My core interests lie in{" "}
+          <span className="text-primary font-semibold">
+            Artificial Intelligence
+          </span>
+          ,{" "}
+          <span className="text-primary font-semibold">
+            Machine Learning
+          </span>
+          , and{" "}
+          <span className="text-primary font-semibold">
+            Full Stack Web Development
+          </span>
+          . I am particularly interested in integrating AI and ML models into
+          web applications to create intelligent, data-driven, and efficient
+          systems.
+        </p>
+
+       <p className="text-lg text-muted-foreground leading-relaxed">
+  With a strong interest in mathematics and logical reasoning, I enjoy
+  understanding the principles behind algorithms and data-driven models.
+  I value continuous learning, collaboration, and building maintainable,
+  future-ready solutions.
+</p>
+
+      </Card>
+    </motion.div>
+  </div>
+</section>
 
         {/* Projects Section */}
         <section id="projects" className="py-24 px-6 bg-muted/20">
