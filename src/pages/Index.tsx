@@ -255,9 +255,11 @@ const certifications = [
 
       <Card className="p-8 md:p-12 bg-card/50 backdrop-blur-sm border-border/50">
         <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-          I’m a Computer Science student focused on building reliable,
-          scalable, and user-centered digital solutions through clean,
-          structured development practices.
+          I’m a <span className="text-primary font-semibold">Computer Science student</span>{" "}
+          focused on building <span className="text-primary font-semibold">reliable</span>,{" "}
+          <span className="text-primary font-semibold">scalable</span>, and{" "}
+          <span className="text-primary font-semibold">user-centered</span>{" "}
+          digital solutions through clean and structured development practices.
         </p>
 
         <p className="text-lg text-foreground/90 leading-relaxed mb-6">
@@ -273,14 +275,20 @@ const certifications = [
           <span className="text-primary font-semibold">
             Full Stack Web Development
           </span>
-          , with a focus on integrating intelligent systems into modern web
+          , with a focus on building intelligent and data-driven web
           applications.
         </p>
 
-        <p className="text-lg text-muted-foreground leading-relaxed">
-          I have a strong interest in mathematics and logical reasoning and
-          enjoy understanding the foundations behind algorithms and
-          data-driven models while continuously learning and collaborating.
+        <p className="text-lg text-foreground/90 leading-relaxed">
+          I have a strong interest in{" "}
+          <span className="text-primary font-semibold">mathematics</span> and{" "}
+          <span className="text-primary font-semibold">logical reasoning</span>,
+          which helps me understand algorithms and models more deeply. I value{" "}
+          <span className="text-primary font-semibold">continuous learning</span>,{" "}
+          <span className="text-primary font-semibold">collaboration</span>, and
+          building <span className="text-primary font-semibold">
+            future-ready solutions
+          </span>.
         </p>
       </Card>
     </motion.div>
