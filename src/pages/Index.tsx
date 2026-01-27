@@ -46,6 +46,14 @@ const Index = () => {
       link: "https://araaaz.vercel.app/",
     },
     {
+  title: "CUK Exam Scheduling System",
+  description:
+    "Team project for Central University of Kashmir focused on building a university-wide examination and academic portal. Contributed to the academic portal modules by developing student and teacher portals with role-based dashboards, enabling access to attendance, marks, notices, and exam-related information.",
+  tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
+  link: "https://ds-cuk.vercel.app/",
+},
+
+    {
       title: "Academic Portal",
       description:
         "Created a simple academic management portal for organizing and displaying student details, grades, and announcements with dynamic front-end interactions.",
@@ -74,6 +82,19 @@ const Index = () => {
   ];
 
 const certifications = [
+
+  {
+  title: "Introduction to Artificial Intelligence Concepts",
+  provider: "Microsoft",
+  year: "Jan 2026",
+  link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/WV44L35N?sharingId=B856B6811014E40C",
+  tags: [
+    "Artificial Intelligence",
+    "Generative AI",
+    "Responsible AI",
+    "Computer Vision"
+  ]
+},
 
   {
     title: "Introduction to Machine Learning Concepts",
