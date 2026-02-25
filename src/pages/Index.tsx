@@ -51,7 +51,7 @@ const Index = () => {
     "Collaboratively developed a secure examination management system with role-based access and real-time data handling. Focused on building structured data flows, authentication logic, and clean UI/UX design.",
   tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
   link: "https://secure-exam-flow.vercel.app/",
-}
+},
     {
   title: "CUK Exam Scheduling System",
   description:
