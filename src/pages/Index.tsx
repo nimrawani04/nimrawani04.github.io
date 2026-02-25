@@ -46,6 +46,13 @@ const Index = () => {
       link: "https://araaaz.vercel.app/",
     },
     {
+  title: "CUK Exam System",
+  description:
+    "Collaboratively developed a secure examination management system with role-based access and real-time data handling. Focused on building structured data flows, authentication logic, and clean UI/UX design.",
+  tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+  link: "https://secure-exam-flow.vercel.app/",
+}
+    {
   title: "CUK Exam Scheduling System",
   description:
     "Team project for Central University of Kashmir focused on building a university-wide examination and academic portal. Contributed to the academic portal modules by developing student and teacher portals with role-based dashboards, enabling access to attendance, marks, notices, and exam-related information.",
