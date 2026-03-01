@@ -53,7 +53,7 @@ const Index = () => {
   link: "https://secure-exam-flow.vercel.app/",
 },
     {
-  title: "CUK Exam Scheduling System",
+  title: "CUK Datesheet Management System",
   description:
     "Team project for Central University of Kashmir focused on building a university-wide examination and academic portal. Contributed to the academic portal modules by developing student and teacher portals with role-based dashboards, enabling access to attendance, marks, notices, and exam-related information.",
   tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
