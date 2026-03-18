@@ -61,6 +61,13 @@ const Index = () => {
 },
 
     {
+  title: "BIS AI — Product Safety Assistant",
+  description:
+    "Collaboratively developed an AI-powered product safety verification platform inspired by Bureau of Indian Standards (BIS). The system enables users to verify product authenticity, check compliance with Indian safety standards, and interact with an intelligent chatbot for instant guidance. Designed with multilingual support and an offline-first architecture to support low-connectivity regions, focusing on secure data handling, real-time validation, and a clean, accessible UI/UX.",
+  tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
+  link: "https://bis-ai.vercel.app/",
+},
+    {
       title: "Academic Portal",
       description:
         "Created a simple academic management portal for organizing and displaying student details, grades, and announcements with dynamic front-end interactions.",
