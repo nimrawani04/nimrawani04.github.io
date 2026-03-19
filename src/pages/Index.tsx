@@ -63,7 +63,7 @@ const Index = () => {
   {
   title: "BIS AI — Product Safety Assistant",
   description:
-    "Collaboratively developed an AI-powered product safety verification platform inspired by Bureau of Indian Standards (BIS). Enables users to verify product authenticity, check compliance with Indian standards, and interact with an AI chatbot for instant guidance, with multilingual support for wider accessibility.",
+    "Collaboratively developed an AI-powered product safety verification platform inspired by BIS. Enables users to verify product authenticity, check compliance with Indian standards, and interact with an AI chatbot for instant guidance, with multilingual support for wider accessibility.",
   tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
   link: "https://bis-ai.vercel.app/",
 },
@@ -579,6 +579,12 @@ const certifications = [
           </h3>
 
           <ul className="space-y-4 text-muted-foreground">
+
+            <li>
+  <strong>Standard-a-Thon Hackathon – FOSS Club, NIT Srinagar</strong><br />
+  Collaboratively developed BIS AI, an AI-powered assistant using a RAG pipeline to deliver source-cited answers from BIS data, with multilingual support, voice interaction, and offline accessibility.
+</li>
+            
             <li>
               <strong>Coding Challenge – Tech Summit 2025</strong><br />
               Participated in a competitive coding event focused on logical thinking,
