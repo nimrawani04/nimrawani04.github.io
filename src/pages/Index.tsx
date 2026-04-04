@@ -77,10 +77,10 @@ const Index = () => {
   },
 
 
- {
+{
   title: "Raasta – AI Platform for Kashmir (Team Project)",
   description:
-    "Collaboratively developed Raasta, a multi-domain AI platform tailored for Kashmir, focused on solving real-world challenges through accessible and intelligent systems. The platform is has four core domains, Smjho (document understanding), Zameen (crop intelligence), Taleem (education & career support), and Raah (guidance), delivering practical, user-centric solutions. Integrated voice and text-based navigation, and scraping pipelines to provide real-time, actionable information. Designed with a focus on scalability, inclusivity, and seamless user experience.", 
+    "Collaboratively developed Raasta, a multi-domain AI platform for Kashmir, structured across Smjho, Zameen, Taleem, and Raah. Integrated voice/text navigation and Firecrawler-powered scraping pipelines to deliver real-time, actionable information with a focus on accessibility and scalability.",
   tech: ["React", "TypeScript", "AI APIs", "Firecrawler", "Supabase", "PostgreSQL", "Vercel"],
   link: "https://cursor-hackathon-roan.vercel.app/",
 },
