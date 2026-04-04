@@ -78,7 +78,7 @@ const Index = () => {
 
 
  {
-  title: "Raasta – AI Platform for Kashmir",
+  title: "Raasta – AI Platform for Kashmir (Team Project)",
   description:
     "Collaboratively developed Raasta, a multi-domain AI platform tailored for Kashmir, focused on solving real-world challenges through accessible and intelligent systems. The platform is has four core domains, Smjho (document understanding), Zameen (crop intelligence), Taleem (education & career support), and Raah (guidance), delivering practical, user-centric solutions. Integrated voice and text-based navigation, and scraping pipelines to provide real-time, actionable information. Designed with a focus on scalability, inclusivity, and seamless user experience.", 
   tech: ["React", "TypeScript", "AI APIs", "Firecrawler", "Supabase", "PostgreSQL", "Vercel"],
@@ -609,10 +609,10 @@ const Index = () => {
                     </li>
 
                     <li>
-  <strong>2nd Position – Cursor Hackathon (v0 Track)</strong>
-  <br />
-  Built <strong>Raasta</strong>, an AI-powered platform designed for people in Kashmir, addressing real-world challenges across four core domains. Engineered features like voice/text-based navigation, intelligent web scraping pipelines, and real-time information access — delivering practical, user-centric solutions through rapid development and applied AI.
+  <strong>2nd Position – Cursor Hackathon (v0 Track)</strong><br />
+  Cursor Hackathon Kashmir, NIT Srinagar — Built Raasta, an AI-powered platform addressing real-world challenges through multi-domain solutions, featuring voice/text navigation, intelligent scraping, and real-time information systems.
 </li>
+
                     
                   </ul>
                 </Card>
