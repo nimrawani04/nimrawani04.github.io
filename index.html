@@ -2,40 +2,65 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nimra Wani | Portfolio</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <!-- SEO Meta Tags -->
     <meta
       name="description"
-      content="Portfolio of Nimra Wani - Computer Science student passionate about AI/ML, Full Stack Development, and innovative tech solutions."
+      content="Nimra Wani — Windows 95–inspired portfolio: full-stack and AI/ML projects, Central University of Kashmir."
     />
-    <meta name="author" content="Nimra Wani" />
     <meta
       name="keywords"
-      content="Nimra Wani, Computer Science, Full Stack Developer, AI, Machine Learning, Web Development, Portfolio"
+      content="Nimra Wani, Windows 95 portfolio, React, TypeScript, Supabase, full-stack developer, AI/ML, computer science, Kashmir"
     />
+    <meta name="author" content="Nimra Wani" />
+    <meta name="robots" content="index, follow" />
 
-    <meta
-      property="og:title"
-      content="Nimra Wani - Computer Science Student & Full Stack Developer"
-    />
+    <!-- Open Graph Meta Tags for Social Sharing -->
+    <meta property="og:title" content="Nimra Wani | Windows 95 Portfolio" />
     <meta
       property="og:description"
-      content="Portfolio of Nimra Wani - Computer Science student passionate about AI/ML, Full Stack Development, and innovative tech solutions."
+      content="Nimra Wani — full-stack &amp; AI/ML projects in a retro Windows 95 desktop experience."
     />
+    <meta property="og:image" content="/src/assets/95icon.png" />
+    <meta property="og:url" content="https://nimrawani04.github.io/wins95Portfolio/" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:image"
-      content="https://raw.githubusercontent.com/nimrawani04/nimrawani04.github.io/refs/heads/main/public/bgIMG.png"
-    />
-    <meta
-      name="google-site-verification"
-      content="oGOJ0z1wlskakHu98YcZhqSidKaPJ_ccEi6oRgJ9G2M"
-    />
-  </head>
 
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nimra Wani | Windows 95 Portfolio" />
+    <meta
+      name="twitter:description"
+      content="Nimra Wani — portfolio built with React: academic systems, e-commerce, AI assistants, and more."
+    />
+    <meta name="twitter:image" content="/src/assets/95icon.png" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="/src/assets/95icon.png" />
+    <link rel="apple-touch-icon" href="/src/assets/95icon.png" />
+
+    <!-- Preloading and Resource Hints -->
+    <link rel="preload" href="/src/assets/95icon.png" as="image" />
+    <link rel="preload" href="/src/main.jsx" as="script" />
+
+    <!-- Title -->
+    <title>Nimra Wani | Windows 95 Portfolio</title>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S0D8FVG7HD"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-S0D8FVG7HD');
+    </script>
+    
+  </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root" role="main" aria-label="Nimra Wani portfolio"></div>
+    <script type="module" src="/src/main.jsx" defer></script>
   </body>
 </html>
+
