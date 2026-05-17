@@ -36,53 +36,67 @@ const Index = () => {
     { icon: <Award className="w-5 h-5" />, label: "Awards", href: "#awards" },
     { icon: <Mail className="w-5 h-5" />, label: "Contact", href: "#contact" },
   ];
- const projects = [
-  {
-    title: "Academic Portal System – Central University of Kashmir",
-    description:
-      "Designed and developed a full-stack academic portal for students and faculty, featuring role-based authentication and personalized dashboards. Implemented core academic functionalities including attendance tracking, marks management, notices, and exam-related workflows with structured data handling and intuitive UI/UX.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-  },
+  const projects = [
+    {
+      title: "Academic Portal System – Central University of Kashmir",
+      description:
+        "Designed and developed a full-stack academic portal for students and faculty, featuring role-based authentication and personalized dashboards. Implemented core academic functionalities including attendance tracking, marks management, notices, and exam-related workflows with structured data handling and intuitive UI/UX.",
+      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+    },
 
-  {
-    title: "Araaz E-commerce Website",
-    description:
-      "Developed a fully responsive e-commerce website with automated contact handling using Web3Forms and deployed it on Vercel.",
-    tech: ["HTML", "CSS", "JavaScript", "Web3Forms", "Vercel"],
-    link: "https://araaaz.vercel.app/",
-  },
+    {
+      title: "Araaz E-commerce Website",
+      description:
+        "Developed a fully responsive e-commerce website with automated contact handling using Web3Forms and deployed it on Vercel.",
+      tech: ["HTML", "CSS", "JavaScript", "Web3Forms", "Vercel"],
+      link: "https://araaaz.vercel.app/",
+    },
 
-  {
-    title: "CUK Examination Management System (Team Project)",
-    description:
-      "Collaboratively developed a secure and scalable examination management system with role-based access control and real-time data handling. Contributed to authentication workflows, structured database design, and responsive UI to streamline exam scheduling, data management, and user interactions.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-    link: "https://secure-exam-flow.vercel.app/",
-  },
+    {
+      title: "2AI Conference Website – 2026 International Conference on Applied Artificial Intelligence",
+      description:
+        "Collaborated on the design and development of the official conference website, focusing on crafting a clean, modern UI/UX and implementing a responsive, user-friendly frontend. Contributed to structuring content for accessibility and seamless navigation, ensuring an engaging experience for global attendees and researchers.",
+      tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
+    },
 
-  {
-    title: "CUK Acadex (Team Project)",
-    description:
-      "Contributed to the development of a university-wide academic portal for Central University of Kashmir by building student and teacher portals with role-based dashboards. Implemented features enabling access to attendance, marks, notices, and exam-related information, focusing on structured data flow, usability, and responsive UI design.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-    link: "https://ds-cuk.vercel.app/",
-  },
+    {
+      title: "CUK Examination Management System (Team Project)",
+      description:
+        "Collaboratively developed a secure and scalable examination management system with role-based access control and real-time data handling. Contributed to authentication workflows, structured database design, and responsive UI to streamline exam scheduling, data management, and user interactions.",
+      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+      link: "https://secure-exam-flow.vercel.app/",
+    },
 
-  {
-    title: "BIS AI – Product Safety Assistant (Team Project)",
-    description:
-      "Built an AI-powered product verification platform inspired by BIS standards, enabling users to check product authenticity and compliance with Indian regulations. Integrated an intelligent chatbot with multilingual support to provide real-time guidance and improve accessibility. Designed scalable backend workflows and a responsive PWA interface.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
-    link: "https://bis-ai.vercel.app/",
-  },
+    {
+      title: "CUK Acadex (Team Project)",
+      description:
+        "Contributed to the development of a university-wide academic portal for Central University of Kashmir by building student and teacher portals with role-based dashboards. Implemented features enabling access to attendance, marks, notices, and exam-related information, focusing on structured data flow, usability, and responsive UI design.",
+      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+      link: "https://ds-cuk.vercel.app/",
+    },
 
-  {
-    title: "Smart House using Arduino",
-    description:
-      "Designed an IoT-based home automation prototype integrating multiple sensors for intelligent environmental control.",
-    tech: ["Arduino", "C++", "Infrared", "Ultrasonic Sensors"],
-  },
-];
+    {
+      title: "BIS AI – Product Safety Assistant (Team Project)",
+      description:
+        "Built an AI-powered product verification platform inspired by BIS standards, enabling users to check product authenticity and compliance with Indian regulations. Integrated an intelligent chatbot with multilingual support to provide real-time guidance and improve accessibility. Designed scalable backend workflows and a responsive PWA interface.",
+      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
+      link: "https://bis-ai.vercel.app/",
+    },
+
+    {
+      title: "Rasta AI – Smart Assistance Platform (Team Project)",
+      description:
+        "Developed an AI platform structured across four domains—document understanding, crop intelligence, youth services, and AI-guided support—enabling users to access simplified information, agricultural insights, career assistance, and decision support. Integrated voice/text interaction, multilingual support, and real-time updates with a focus on accessibility and practical usability.",
+      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+    },
+
+    {
+      title: "Smart House using Arduino",
+      description:
+        "Designed an IoT-based home automation prototype integrating multiple sensors for intelligent environmental control.",
+      tech: ["Arduino", "C++", "Infrared", "Ultrasonic Sensors"],
+    },
+  ];
   const certifications = [
     {
       title: "Introduction to Artificial Intelligence Concepts",
@@ -592,11 +606,29 @@ const Index = () => {
                     </li>
 
                     <li>
-                      <strong>First Rank – Open Build Challenge</strong>
+                      <strong>1st Position – Open Build Challenge</strong>
                       <br />
-                      Organized by FOSS NIT Srinagar in collaboration with FOSS
-                      United — Demonstrated strong problem-solving and
-                      collaborative development skills.
+                      FOSS NIT Srinagar in collaboration with FOSS United —
+                      Demonstrated strong problem-solving skills and collaborative development in a competitive build environment.
+                    </li>
+
+                    <li>
+                      <strong>1st Position – SynerTech 2026</strong>
+                      <br />
+                      Kashmir College of Engineering and Technology —
+                      Collaboratively developed a CRM-based Academic Management Portal with an AI-powered chatbot and Android application to streamline academic and administrative workflows through intelligent, real-time assistance.
+                    </li>
+
+                    <li>
+                      <strong>2nd Position – Cursor Kashmir Hackathon (Vercel v0 Track)</strong>
+                      <br />
+                      Built <em>Rasta AI</em>, an AI platform for document simplification, crop insights, youth services, and AI-guided assistance, with voice/text interaction and multilingual support.
+                    </li>
+
+                    <li>
+                      <strong>4th Rank – Portfolio BuildSprint 1.0</strong>
+                      <br />
+                      Girls Leading Tech — Demonstrated excellence in portfolio development under the EmpowerHer 2.0 initiative, highlighting technical proficiency, creativity, and continuous professional growth.
                     </li>
                   </ul>
                 </Card>
@@ -613,17 +645,13 @@ const Index = () => {
                         Standard-a-Thon Hackathon – FOSS Club, NIT Srinagar
                       </strong>
                       <br />
-                      Collaboratively developed BIS AI, an AI-powered assistant
-                      using a RAG pipeline to deliver source-cited answers from
-                      BIS data, with multilingual support, voice interaction,
-                      and offline accessibility.
+                      Collaboratively developed <em>BIS AI</em>, an AI-powered assistant leveraging a RAG pipeline to provide source-cited responses from BIS data, with multilingual support, voice interaction, and offline accessibility.
                     </li>
 
                     <li>
                       <strong>Coding Challenge – Tech Summit 2025</strong>
                       <br />
-                      Participated in a competitive coding event focused on
-                      logical thinking, problem-solving, and teamwork.
+                      Participated in a competitive coding event focused on problem-solving, logical reasoning, and teamwork.
                     </li>
 
                     <li>
@@ -631,15 +659,13 @@ const Index = () => {
                         Code Debugging Competition – Cyber Conclave 2025
                       </strong>
                       <br />
-                      Actively participated in debugging challenges involving C
-                      programming and analytical problem-solving.
+                      Solved debugging challenges in C, emphasizing analytical thinking and error resolution.
                     </li>
 
                     <li>
                       <strong>Treasure Hunt – Cyber Conclave 2025</strong>
                       <br />
-                      Participated in a team-based challenge emphasizing
-                      decision-making, time management, and critical thinking.
+                      Engaged in a team-based challenge requiring decision-making, time management, and critical thinking.
                     </li>
 
                     <li>
@@ -647,9 +673,7 @@ const Index = () => {
                         Coding Competition – National Technology Day 2024
                       </strong>
                       <br />
-                      Participated in a competitive coding event, focusing on
-                      problem solving, debugging, logical reasoning, time
-                      management, and critical thinking.
+                      Participated in a competitive coding event focused on problem-solving, debugging, and logical reasoning under time constraints.
                     </li>
                   </ul>
                 </Card>
