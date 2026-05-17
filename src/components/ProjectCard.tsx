@@ -1,4 +1,5 @@
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import { MagicBento } from "./MagicBento";
 import { Badge } from "./ui/badge";
 
@@ -46,7 +47,7 @@ export const ProjectCard = ({ title, description, tech, link, github, className 
                 rel="noopener noreferrer"
                 className="text-primary hover:text-primary-glow transition-colors flex items-center gap-1 text-sm"
               >
-                <Github className="w-4 h-4" />
+                <FaGithub className="w-4 h-4" />
                 Code
               </a>
             )}

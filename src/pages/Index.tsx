@@ -12,11 +12,10 @@ import {
   Code,
   Award,
   Mail,
-  Github,
-  Linkedin,
   ExternalLink,
   Download,
 } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Index = () => {
@@ -74,7 +73,6 @@ const Index = () => {
       tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
       link: "https://ds-cuk.vercel.app/",
     },
-
     {
       title: "BIS AI – Product Safety Assistant (Team Project)",
       description:
@@ -84,10 +82,11 @@ const Index = () => {
     },
 
     {
-      title: "Rasta AI – Smart Assistance Platform (Team Project)",
+      title: "Raasta – AI Platform for Kashmir (Team Project)",
       description:
-        "Developed an AI platform structured across four domains—document understanding, crop intelligence, youth services, and AI-guided support—enabling users to access simplified information, agricultural insights, career assistance, and decision support. Integrated voice/text interaction, multilingual support, and real-time updates with a focus on accessibility and practical usability.",
-      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+        "Collaboratively developed Raasta, a multi-domain AI platform for Kashmir, structured across Smjho, Zameen, Taleem, and Raah (document understanding, crop intelligence, education, and career guidance). Integrated voice/text interaction, multilingual navigation, and Firecrawler-powered scraping pipelines to deliver real-time, actionable information with a focus on accessibility and scalability.",
+      tech: ["React", "TypeScript", "AI APIs", "Firecrawler", "Supabase", "PostgreSQL", "Vercel"],
+      link: "https://cursor-hackathon-roan.vercel.app/",
     },
 
     {
@@ -245,7 +244,7 @@ const Index = () => {
                   rel="noopener noreferrer"
                 >
                   <Button variant="default" size="lg" className="gap-2">
-                    <Github className="w-5 h-5" />
+                    <FaGithub className="w-5 h-5" />
                     GitHub
                   </Button>
                 </a>
@@ -255,7 +254,7 @@ const Index = () => {
                   rel="noopener noreferrer"
                 >
                   <Button variant="outline" size="lg" className="gap-2">
-                    <Linkedin className="w-5 h-5" />
+                    <FaLinkedin className="w-5 h-5" />
                     LinkedIn
                   </Button>
                 </a>
@@ -630,6 +629,13 @@ const Index = () => {
                       <br />
                       Girls Leading Tech — Demonstrated excellence in portfolio development under the EmpowerHer 2.0 initiative, highlighting technical proficiency, creativity, and continuous professional growth.
                     </li>
+
+                    <li>
+  <strong>2nd Position – Cursor Hackathon (v0 Track)</strong><br />
+  Cursor Hackathon Kashmir, NIT Srinagar — Built Raasta, an AI-powered platform addressing real-world challenges through multi-domain solutions, featuring voice/text navigation, intelligent scraping, and real-time information systems.
+</li>
+
+                    
                   </ul>
                 </Card>
 
@@ -714,7 +720,7 @@ const Index = () => {
                     rel="noopener noreferrer"
                   >
                     <Button variant="outline" size="icon">
-                      <Github className="w-5 h-5" />
+                      <FaGithub className="w-5 h-5" />
                     </Button>
                   </a>
                   <a
@@ -723,7 +729,7 @@ const Index = () => {
                     rel="noopener noreferrer"
                   >
                     <Button variant="outline" size="icon">
-                      <Linkedin className="w-5 h-5" />
+                      <FaLinkedin className="w-5 h-5" />
                     </Button>
                   </a>
                 </div>
