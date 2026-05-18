@@ -115,7 +115,7 @@
   position: absolute;
   inset: 80px 24px 24px 24px;
   display: grid;
-  grid-template-columns: 290px 1fr 340px;
+  grid-template-columns: 295px 1fr 340px;
   gap: 20px;
   z-index: 6;
 }
@@ -193,8 +193,8 @@
 
 /* Labeled Ingredient Container */
 .kg-ingredient-jar {
-  width: 54px;
-  height: 64px;
+  width: 55px;
+  height: 65px;
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 10px;
@@ -353,15 +353,47 @@
   justify-content: center;
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 9;
+  cursor: grab;
 }
 
-.kg-placed-utensil.cooking {
-  animation: kg-shake 0.15s infinite alternate;
+.kg-placed-utensil:active {
+  cursor: grabbing;
 }
 
-@keyframes kg-shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  100% { transform: translate(-1px, -1px) rotate(1deg); }
+.kg-placed-utensil.floating-transfer {
+  position: fixed;
+  pointer-events: none;
+  z-index: 999;
+  transform: scale(0.85);
+  opacity: 0.9;
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.8));
+}
+
+.kg-placed-utensil.cooking-low {
+  animation: kg-shake-low 0.25s infinite alternate;
+}
+
+.kg-placed-utensil.cooking-medium {
+  animation: kg-shake-medium 0.15s infinite alternate;
+}
+
+.kg-placed-utensil.cooking-high {
+  animation: kg-shake-high 0.08s infinite alternate;
+}
+
+@keyframes kg-shake-low {
+  0% { transform: translate(0.5px, 0.5px) rotate(0deg); }
+  100% { transform: translate(-0.5px, -0.5px) rotate(0.5deg); }
+}
+
+@keyframes kg-shake-medium {
+  0% { transform: translate(1.5px, 1.5px) rotate(0deg); }
+  100% { transform: translate(-1.5px, -1.5px) rotate(1deg); }
+}
+
+@keyframes kg-shake-high {
+  0% { transform: translate(3px, 3px) rotate(-1deg); }
+  100% { transform: translate(-3px, -3px) rotate(1deg); }
 }
 
 .kg-utensil-graphic {
@@ -749,6 +781,11 @@
   overflow: hidden;
 }
 
+.kg-burner-slot.burner-highlight {
+  border-color: #10b981;
+  box-shadow: inset 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
 .kg-burner-ring {
   width: 95px;
   height: 95px;
@@ -791,6 +828,37 @@
 @keyframes kg-flame-flicker {
   0% { transform: scaleY(0.4) scaleX(0.8) rotate(-5deg); }
   100% { transform: scaleY(1.1) scaleX(1.2) rotate(5deg); }
+}
+
+/* Temperature Slider Console */
+.kg-heat-slider-container {
+  width: 100%;
+  background: rgba(6, 3, 10, 0.95);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  border-radius: 12px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.kg-heat-slider-title {
+  font-size: 7.5px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: #c084fc;
+  letter-spacing: 0.08em;
+  display: flex;
+  justify-content: space-between;
+}
+
+.kg-heat-slider-input {
+  width: 100%;
+  accent-color: #ef4444;
+  height: 4px;
+  border-radius: 9999px;
+  cursor: pointer;
 }
 
 /* Stove control knob */

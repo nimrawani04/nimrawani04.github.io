@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gamepad2, Volume2, VolumeX, Home, CheckCircle2, Star, ArrowRight, ExternalLink, HelpCircle } from "lucide-react";
+import { Gamepad2, Volume2, VolumeX, Home, CheckCircle2, Star, ArrowRight, ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import "@/css/CookingGame.css";
 
 // -------------------------------------------------------------
-// 1. DATA DEFINITIONS & SCHEMAS
+// 1. DATA DEFINITIONS & SCHEMAS (DATA-DRIVEN METHOD)
 // -------------------------------------------------------------
 
 interface Ingredient {
@@ -40,7 +40,6 @@ const INGREDIENTS: Ingredient[] = [
   { id: "css", name: "CSS Frosting", emoji: "🧁", category: "frontend", color: "#1572b6", soundType: "powder" },
   { id: "js", name: "JavaScript Sugar", emoji: "🍯", category: "frontend", color: "#f7df1e", soundType: "powder" },
   { id: "ts", name: "TypeScript Pepper", emoji: "🌶️", category: "frontend", color: "#3178c6", soundType: "spice" },
-  { id: "nextjs", name: "Next.js Yeast", emoji: "🍞", category: "frontend", color: "#ffffff", soundType: "powder" },
   { id: "tailwind", name: "Tailwind Seasoning", emoji: "🧂", category: "frontend", color: "#06b6d4", soundType: "spice" },
   // Backend Logic
   { id: "nodejs", name: "Node.js Spice", emoji: "🍂", category: "backend", color: "#339933", soundType: "spice" },
@@ -49,7 +48,7 @@ const INGREDIENTS: Ingredient[] = [
   { id: "ai", name: "AI Syrup", emoji: "🔮", category: "backend", color: "#8b5cf6", soundType: "sauce" },
   { id: "apis", name: "APIs Syrup", emoji: "🍯", category: "backend", color: "#f97316", soundType: "sauce" },
   // Databases
-  { id: "mongodb", name: "MongoDB Herbs", emoji: "🌿", category: "database", color: "#47a248", soundType: "spice" },
+  { id: "supabase", name: "Supabase Syrup", emoji: "⚡", category: "database", color: "#3ecf8e", soundType: "sauce" },
   { id: "postgres", name: "PostgreSQL Salt", emoji: "🧂", category: "database", color: "#4169e1", soundType: "spice" },
   { id: "sql", name: "SQL Sauce", emoji: "🍾", category: "database", color: "#00758f", soundType: "sauce" },
   { id: "firebase", name: "Firebase Syrup", emoji: "🍯", category: "database", color: "#ffca28", soundType: "sauce" },
@@ -58,219 +57,244 @@ const INGREDIENTS: Ingredient[] = [
   { id: "vercel", name: "Vercel Powder", emoji: "🧁", category: "tool", color: "#ffffff", soundType: "powder" },
   { id: "github", name: "GitHub Seeds", emoji: "🌱", category: "tool", color: "#181717", soundType: "spice" },
   { id: "figma", name: "Figma Glaze", emoji: "🎨", category: "tool", color: "#f24e1e", soundType: "sauce" },
-  { id: "framer", name: "Framer Motion Sparkles", emoji: "✨", category: "tool", color: "#ea580c", soundType: "spice" },
-  { id: "threejs", name: "Three.js Glitz", emoji: "🧪", category: "tool", color: "#049ef4", soundType: "sauce" },
+  { id: "arduino", name: "Arduino Chips", emoji: "🔌", category: "tool", color: "#00979d", soundType: "spice" },
+  { id: "web3forms", name: "Web3Forms Nectar", emoji: "✉️", category: "tool", color: "#6366f1", soundType: "sauce" },
+  { id: "firecrawler", name: "Firecrawler Oil", emoji: "🕷️", category: "tool", color: "#f43f5e", soundType: "oil" },
 ];
 
 const RECIPES: Recipe[] = [
   {
-    id: "bisai",
-    name: "BIS AI Product Safety Assistant",
-    dishName: "BIS Safety Soup 🍲",
-    emoji: "🍲",
-    description: "An intelligent, warm offline-ready PWA soup that automatically filters product safety.",
-    longDescription: "A mission-critical compliance system using retrieval-augmented generation (RAG) and vector indexes, built to assist offline inspectors verify safety parameters.",
-    ingredients: ["react", "ai", "apis", "figma", "docker"],
-    features: [
-      "Real-time RAG compliance vector index",
-      "Offline inspection progressive storage PWA",
-      "Compliance report audit builder"
-    ],
-    github: "https://github.com/nimrawani04/BIS-AI-Assistant",
-    demo: "https://bis-safety.vercel.app/",
-    screenshot: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=600&auto=format&fit=crop&q=80",
-    xpGain: 500,
-    instructions: [
-      "Scoop React Flour into Boiling Pot for base structure.",
-      "Drizzle AI Syrup into the mixture for compliance logic.",
-      "Pour APIs Syrup for secure endpoint data retrieval.",
-      "Glaze the setup using Figma Glaze mockups.",
-      "Containerize using Docker Oil for uniform environment."
-    ]
-  },
-  {
-    id: "raasta",
-    name: "Raasta AI Platform",
-    dishName: "Raasta Crop Ramen 🍜",
-    emoji: "🍜",
-    description: "A rich, comforting bowl of deep-learning crop analysis and AI-guided assistance.",
-    longDescription: "An advanced agricultural platform utilizing computer vision crop disease detection models, semantic chatbots, and custom crop analysis logs.",
-    ingredients: ["python", "ai", "react", "apis", "tailwind"],
-    features: [
-      "Image processing crop health engine",
-      "AI semantic chat bot guidance model",
-      "Multi-document offline summarizer pipeline"
-    ],
-    github: "https://github.com/nimrawani04/Raasta",
-    demo: "https://raasta-ai.vercel.app/",
-    screenshot: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80",
-    xpGain: 450,
-    instructions: [
-      "Add React Flour to lay high-fidelity visual noodles.",
-      "Simmer Python Beans for the rich deep learning crop broth.",
-      "Mix AI Syrup for semantic chat models.",
-      "Pour APIs Syrup to bind backend image arrays.",
-      "Season with Tailwind Seasoning for aesthetic styling."
-    ]
-  },
-  {
     id: "portal",
-    name: "Academic Portal System",
+    name: "Academic Portal System CUK",
     dishName: "CUK Portal Cake 🍰",
     emoji: "🍰",
-    description: "A decadent, multi-tiered security dashboard cake with sweet roles and automated credentials.",
-    longDescription: "The central operations hub for the Central University of Kashmir (CUK). Automates result publication, semester registrations, roll-sheet generations, and grading tables.",
-    ingredients: ["react", "ts", "postgres", "firebase", "figma"],
+    description: "Multi-tiered secure university panel built to automate semester registries and roll-sheets.",
+    longDescription: "A highly resilient and secure central portals architecture developed for student dashboards, roll generation, and administrative examined grades tracking.",
+    ingredients: ["react", "ts", "supabase", "postgres", "vercel"],
     features: [
-      "Student registration & grading matrix",
-      "Faculty examination generation board",
-      "Role-based secure portal guards"
+      "Role-based secure portal dashboard guards",
+      "Semester enrollment & result publishing loops",
+      "Faculty grading matrix tables manager"
     ],
     github: "https://github.com/nimrawani04/CUK-Portal",
     demo: "https://cuk-portal.vercel.app/",
     screenshot: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&auto=format&fit=crop&q=80",
-    xpGain: 400,
+    xpGain: 500,
     instructions: [
-      "Pour React Flour into the mixing bowl for portal frames.",
-      "Enforce safety by adding TypeScript Pepper.",
-      "Add PostgreSQL Salt for relational grade grids.",
-      "Stir Firebase Syrup to rise user session controls.",
-      "Decorate with sweet Figma Glaze assets."
+      "Pour React Flour into Mixing Bowl to mold student portals.",
+      "Shake TypeScript Pepper to secure type safety structures.",
+      "Drizzle Supabase Syrup for automated credentials handling.",
+      "Sprinkle PostgreSQL Salt for relational marks records.",
+      "Bake under Vercel Powder static cloud serving."
     ]
   },
   {
     id: "araaz",
-    name: "Araaz E-commerce",
+    name: "Araaz E-commerce Website",
     dishName: "Araaz Burger 🍔",
     emoji: "🍔",
-    description: "A fully stacked, juicy responsive digital hamburger with multi-layered role authentication.",
-    longDescription: "A high-performance full-stack e-commerce marketplace featuring robust state management, category filtering, a secure check-out workflow, and custom profile parameters.",
-    ingredients: ["react", "css", "tailwind", "sql", "vercel"],
+    description: "Fully responsive multi-category digital marketplace featuring Web3Forms notifications.",
+    longDescription: "A modern responsive full-stack shopping portal with active inventory listings and robust form submissions handling.",
+    ingredients: ["html", "css", "js", "web3forms", "vercel"],
     features: [
-      "Dynamic Shopping Cart & State Tracking",
-      "Robust Admin Product Inventory dashboard",
-      "Stripe secure check-out pipeline mockup"
+      "Multi-category product search filters",
+      "Web3Forms automated client contacts router",
+      "Rapid responsive mobile rendering layouts"
     ],
     github: "https://github.com/nimrawani04/Araaz-Ecommerce",
-    demo: "https://araaz-ecommerce.vercel.app/",
+    demo: "https://araaaz.vercel.app/",
     screenshot: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&auto=format&fit=crop&q=80",
+    xpGain: 400,
+    instructions: [
+      "Bake robust HTML Sugar buns for base markup.",
+      "Butter CSS Frosting patties for custom layouts.",
+      "Chop JavaScript Sugar pickles for UI controls.",
+      "Pour Web3Forms Nectar for automated feedback forms.",
+      "Toast on Vercel Powder static hosting."
+    ]
+  },
+  {
+    id: "twoai",
+    name: "2AI Conference Website",
+    dishName: "2AI Conference Coffee ☕",
+    emoji: "☕",
+    description: "The official academic summit website for Applied Artificial Intelligence (2AI 2026).",
+    longDescription: "A highly accessible global portal developed to host research paper submissions, speaker grids, schedule tables, and event highlights.",
+    ingredients: ["js", "ts", "css", "html"],
+    features: [
+      "Global researcher accessibility indexes",
+      "Schedule timesheets and paper categories board",
+      "Responsive speaker spotlight components"
+    ],
+    github: "https://github.com/nimrawani04",
+    demo: "https://araaaz.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&auto=format&fit=crop&q=80",
     xpGain: 350,
     instructions: [
-      "Toast buns made from React Flour.",
-      "Butter patties with CSS Frosting layouts.",
-      "Layer SQL Sauce for inventory database records.",
-      "Sprinkle Tailwind Seasoning for responsive layout sizing.",
-      "Plate using Vercel Powder for rapid cloud deployment."
+      "Brew HTML Sugar coffee grounds for page structure.",
+      "Pour CSS Frosting cream for layout spacing.",
+      "Blend JavaScript Sugar for speaker interactions.",
+      "Stir TypeScript Pepper for static data lists."
+    ]
+  },
+  {
+    id: "exam",
+    name: "CUK Examination Management System",
+    dishName: "CUK Exam Stew 🍲",
+    emoji: "🍲",
+    description: "A secure, role-based system streamlining university exam sheets and schedules.",
+    longDescription: "A scalable exam scheduling and roll-list automation system built with multi-user permissions, audit boards, and real-time database registers.",
+    ingredients: ["react", "ts", "supabase", "postgres", "vercel"],
+    features: [
+      "Faculty examination paper publisher panel",
+      "Student roll-sheet automatic generation",
+      "Relational exam log tables audit records"
+    ],
+    github: "https://github.com/nimrawani04/CUK-Portal",
+    demo: "https://secure-exam-flow.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=600&auto=format&fit=crop&q=80",
+    xpGain: 460,
+    instructions: [
+      "Boil React Flour as robust exam system soup.",
+      "Stir TypeScript Pepper to protect exam boundary rules.",
+      "Drizzle Supabase Syrup for authentication states.",
+      "Pour PostgreSQL Salt to secure time-tables archives.",
+      "Steam cook using Vercel Powder."
+    ]
+  },
+  {
+    id: "acadex",
+    name: "CUK Acadex Operations Portal",
+    dishName: "CUK Acadex Sushi 🍣",
+    emoji: "🍣",
+    description: "Collaborative campus administrative portal for faculty and student registry tracking.",
+    longDescription: "A university-wide system designed to unify roll calls, notifications, course grade records, and department schedules.",
+    ingredients: ["react", "ts", "supabase", "postgres", "vercel"],
+    features: [
+      "Student attendance live log tracking",
+      "Faculty department bulletin boards",
+      "Rapid responsive campus grids"
+    ],
+    github: "https://github.com/nimrawani04",
+    demo: "https://ds-cuk.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&auto=format&fit=crop&q=80",
+    xpGain: 420,
+    instructions: [
+      "Wrap React Flour rice rolls around data bases.",
+      "Slice TypeScript Pepper for safe student registries.",
+      "Pour Supabase Syrup for secure login parameters.",
+      "Simmer PostgreSQL Salt database metrics.",
+      "Pack static sushi in Vercel Powder static box."
+    ]
+  },
+  {
+    id: "bisai",
+    name: "BIS AI Compliance Assistant",
+    dishName: "BIS Safety Soup 🍲",
+    emoji: "🍲",
+    description: "An offline-ready PWA compliance tool built on Indian safety regulation data.",
+    longDescription: "An intelligent compliance system powered by vector indexing, RAG retrieval-augmented generation models, offline storage registers, and multilingual assistance.",
+    ingredients: ["react", "ts", "supabase", "postgres", "vercel", "ai"],
+    features: [
+      "Compliance regulation RAG search engine",
+      "Student inspect logs progressive PWA PouchDB",
+      "AI standards bilingual assistant"
+    ],
+    github: "https://github.com/nimrawani04/BIS-AI-Assistant",
+    demo: "https://bis-ai.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=600&auto=format&fit=crop&q=80",
+    xpGain: 480,
+    instructions: [
+      "Add React Flour base stew base.",
+      "Sprinkle TypeScript Pepper to define static rules.",
+      "Pour Supabase Syrup to handle audit logs.",
+      "Simmer PostgreSQL Salt relational tables.",
+      "Mix AI Syrup for semantic RAG vector query analysis.",
+      "Steam compile with Vercel Powder."
+    ]
+  },
+  {
+    id: "raasta",
+    name: "Raasta – AI Platform for Kashmir",
+    dishName: "Raasta Crop Ramen 🍜",
+    emoji: "🍜",
+    description: "Comforting agricultural deep learning crop diagnostic and educational assistant.",
+    longDescription: "A multi-domain intelligence platform hosting agricultural computer vision classifiers, semantic local translation systems, and career route roadmaps.",
+    ingredients: ["react", "ts", "supabase", "postgres", "vercel", "ai", "firecrawler"],
+    features: [
+      "Computer vision crop disease diagnostic",
+      "Firecrawler educational scraping pipelines",
+      "Semantic voice multilingual translations"
+    ],
+    github: "https://github.com/nimrawani04/Raasta",
+    demo: "https://cursor-hackathon-roan.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80",
+    xpGain: 490,
+    instructions: [
+      "Simmer React Flour wheat ramen noodles.",
+      "Mix AI Syrup for computer vision classification.",
+      "Drizzle Supabase Syrup for student portal data.",
+      "Pour PostgreSQL Salt database metrics.",
+      "Heat Firecrawler Oil to scrape resource lists.",
+      "Bake inside Vercel Powder static bowl."
     ]
   },
   {
     id: "smartattendance",
     name: "Smart Attendance System",
-    dishName: "Attendance Sushi 🍣",
-    emoji: "🍣",
-    description: "A delicate, secure roll of biometric logs, class tracking, and instant role alerts.",
-    longDescription: "A real-time administrative logs manager built to track student biometrics, schedule roll-calls, and trigger warning notifications to low-attendance students.",
-    ingredients: ["react", "ts", "mongodb", "nodejs", "express"],
+    dishName: "Smart Attendance Salad 🥗",
+    emoji: "🥗",
+    description: "An automated administrative system tracking biometrics, logs, and notification alerts.",
+    longDescription: "A high-performance student attendance tracker integrating ESP8266 RFID sensors, real-time logging hooks, and SMS reminders.",
+    ingredients: ["react", "ts", "nodejs", "express", "postgres"],
     features: [
-      "Facial biometric parsing log integration",
-      "Automatic PDF roll-sheet generator",
-      "Twilio SMS warning warning notification system"
+      "ESP8266 sensor biometric logging pipelines",
+      "Automated low attendance SMS warning hooks",
+      "Interactive analytics admin dashboard tables"
     ],
     github: "https://github.com/nimrawani04",
     demo: "https://cuk-portal.vercel.app/",
     screenshot: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=600&auto=format&fit=crop&q=80",
-    xpGain: 380,
+    xpGain: 430,
     instructions: [
-      "Use React Flour to bind the rice base structure.",
-      "Enforce student static records using TypeScript Pepper.",
-      "Wrap with MongoDB Herbs seaweed for flexible document storage.",
-      "Spice up the endpoint handlers with Node.js Spice.",
-      "Rise server endpoints using Express.js Yeast."
+      "Prepare React Flour base layers.",
+      "Dice TypeScript Pepper for static model arrays.",
+      "Pour PostgreSQL Salt for secure relational metrics.",
+      "Garnish with Node.js Spice.",
+      "Drizzle Express.js Yeast server sauce."
     ]
   },
   {
-    id: "aistudy",
-    name: "AI Study Assistant",
-    dishName: "AI Study Salad 🥗",
-    emoji: "🥗",
-    description: "A crisp, fresh salad containing semantic study guides, note cards, and document summarizers.",
-    longDescription: "An intelligent visual study companion that parses long lecture transcripts, generates interactive flashcards, and answers context-specific exam queries.",
-    ingredients: ["react", "ai", "framer", "vercel", "apis"],
-    features: [
-      "Smart transcript summarizer tool",
-      "Interactive SVG flashcard practice game",
-      "Vercel cloud static deployment pipeline"
-    ],
-    github: "https://github.com/nimrawani04",
-    demo: "https://raasta-ai.vercel.app/",
-    screenshot: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&auto=format&fit=crop&q=80",
-    xpGain: 420,
-    instructions: [
-      "Toss React Flour greens as the base study helper.",
-      "Pour AI Syrup dressing for parsing algorithms.",
-      "Shake Framer Motion Sparkles for beautiful micro-animations.",
-      "Garnish with APIs Syrup to connect study modules.",
-      "Plate in Vercel Powder bowl."
-    ]
-  },
-  {
-    id: "iothome",
-    name: "IoT Home System",
-    dishName: "IoT Pizza 🍕",
+    id: "arduino",
+    name: "IoT Smart House Automation",
+    dishName: "Smart IoT Pizza 🍕",
     emoji: "🍕",
-    description: "A highly connected, piping hot pizza monitoring sensor nodes and home appliances.",
-    longDescription: "An embedded gateway web panel displaying telemetry logs from ESP8266 nodes, with remote relays toggled directly from the web client interface.",
-    ingredients: ["python", "sql", "html", "css", "apis"],
+    description: "An embedded hardware gateway tracking environmental telemetry sensor nodes.",
+    longDescription: "An IoT hardware prototype combining ESP8266 nodes, infrared and ultrasonic relays, and an interactive telemetry analytics control console.",
+    ingredients: ["arduino", "html", "css"],
     features: [
-      "Real-time sensor telemetry logs dashboard",
-      "Remote appliance relay toggle switches",
-      "Database logs tracking utility system"
+      "ESP8266 telemetry node relays control",
+      "Ultrasonic proximity sensory warnings",
+      "Responsive analytics HTML gateway page"
     ],
     github: "https://github.com/nimrawani04",
     demo: "https://araaz-ecommerce.vercel.app/",
     screenshot: "https://images.unsplash.com/photo-1558002038-1055907df827?w=600&auto=format&fit=crop&q=80",
-    xpGain: 460,
+    xpGain: 370,
     instructions: [
-      "Roll out dough sweetened with HTML Sugar bases.",
-      "Spread CSS Frosting cheese for interface overlays.",
-      "Sprinkle Python Beans for hardware controller routines.",
-      "Drizzle SQL Sauce to record telemetry timeseries logs.",
-      "Connect nodes with APIs Syrup streams."
-    ]
-  },
-  {
-    id: "devops",
-    name: "DevOps Dashboard & Monitoring",
-    dishName: "DevOps Stew 🍲",
-    emoji: "🍲",
-    description: "A warm, robust stew tracking deployment latency, CPU logs, and pipeline containers.",
-    longDescription: "A central administration monitoring console detailing continuous integration metrics, server latency, and cluster node states.",
-    ingredients: ["ts", "docker", "postgres", "github", "vercel"],
-    features: [
-      "Live latency tracker graph arrays",
-      "Dynamic cluster pod health alerts",
-      "Automated continuous integration runners"
-    ],
-    github: "https://github.com/nimrawani04",
-    demo: "https://bis-safety.vercel.app/",
-    screenshot: "https://images.unsplash.com/photo-1618401471353-b98aedd07871?w=600&auto=format&fit=crop&q=80",
-    xpGain: 480,
-    instructions: [
-      "Heat Docker Oil in the stew pot to isolate servers.",
-      "Season with PostgreSQL Salt for metrics databases.",
-      "Stir TypeScript Pepper for static pipeline safety.",
-      "Drop GitHub Seeds to trigger webhook integrations.",
-      "Steam cook pipelines under Vercel Powder."
+      "Bake flat HTML Sugar crust sheets.",
+      "Spread CSS Frosting cheese layouts.",
+      "Sprinkle Arduino Chips embedded controller gates."
     ]
   }
 ];
 
 const UTENSILS = [
-  { id: "pot", name: "Boiling Pot", emoji: "🍲", mode: "boil" },
-  { id: "pan", name: "Frying Pan", emoji: "🍳", mode: "fry" },
+  { id: "pot", name: "Large Pot", emoji: "🍲", mode: "boil" },
   { id: "saucepan", name: "Saucepan", emoji: "🫕", mode: "simmer" },
-  { id: "mixer", name: "Mixer Bowl", emoji: "🥣", mode: "mix" },
-  { id: "skillet", name: "Skillet", emoji: "🥘", mode: "sear" }
+  { id: "pan", name: "Frying Pan", emoji: "🍳", mode: "fry" },
+  { id: "skillet", name: "Skillet", emoji: "🥘", mode: "sear" },
+  { id: "mixer", name: "Mixing Bowl", emoji: "🥣", mode: "mix" }
 ];
 
 // -------------------------------------------------------------
@@ -353,7 +377,6 @@ class KitchenAudio {
 
   public playSpice() {
     if (!this.ctx) return;
-    // Fast high pitch clicks simulating shaking spices
     const now = this.ctx.currentTime;
     for (let i = 0; i < 4; i++) {
       const osc = this.ctx.createOscillator();
@@ -371,7 +394,6 @@ class KitchenAudio {
 
   public playOil() {
     if (!this.ctx) return;
-    // Sizzling drops
     const now = this.ctx.currentTime;
     const bufferSize = this.ctx.sampleRate * 0.15;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
@@ -429,11 +451,10 @@ class KitchenAudio {
     });
   }
 
-  public startCookingLoop() {
+  public startCookingLoop(intensity: "low" | "medium" | "high") {
     if (!this.ctx) return;
     this.stopCookingLoop();
 
-    // Sizzling bubbling noise synth
     const bufferSize = this.ctx.sampleRate * 2;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -447,11 +468,16 @@ class KitchenAudio {
 
     const filter = this.ctx.createBiquadFilter();
     filter.type = "bandpass";
-    filter.frequency.setValueAtTime(2800, this.ctx.currentTime);
-    filter.Q.setValueAtTime(0.8, this.ctx.currentTime);
+    
+    // Low: slow deep bubble. High: aggressive sizzling
+    const freq = intensity === "low" ? 1800 : intensity === "medium" ? 2800 : 3800;
+    const volume = intensity === "low" ? 0.03 : intensity === "medium" ? 0.06 : 0.12;
+
+    filter.frequency.setValueAtTime(freq, this.ctx.currentTime);
+    filter.Q.setValueAtTime(intensity === "low" ? 1.5 : 0.8, this.ctx.currentTime);
 
     const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.05, this.ctx.currentTime);
+    gain.gain.setValueAtTime(volume, this.ctx.currentTime);
 
     noise.connect(filter);
     filter.connect(gain);
@@ -474,7 +500,7 @@ class KitchenAudio {
     if (!this.ctx) return;
     this.stopCozyMusic();
     const time = this.ctx.currentTime;
-    const notes = [146.83, 185.00, 220.00, 293.66]; // D3, F#3, A3, D4 pentatonic chord loop
+    const notes = [146.83, 185.00, 220.00, 293.66];
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
     osc.type = "triangle";
@@ -509,22 +535,28 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   const [musicOn, setMusicOn] = useState(false);
   const [toast, setToast] = useState("");
   
-  // Stove & Compilation
+  // Stove, Temperature & Compilation
+  const [isStovePlaced, setIsStovePlaced] = useState(false); // Cookware physically on stove
   const [knobRotated, setKnobRotated] = useState(false);
   const [stoveOn, setStoveOn] = useState(false);
+  const [heatLevel, setHeatLevel] = useState<"low" | "medium" | "high">("medium");
   const [cookProgress, setCookProgress] = useState(0);
 
-  // Drag System States
+  // Drag-and-Follow Jar Coordinates
   const [draggedIng, setDraggedIng] = useState<Ingredient | null>(null);
   const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
   const [isHoveringUtensil, setIsHoveringUtensil] = useState(false);
   const [isPouring, setIsPouring] = useState(false);
 
+  // Cookware Transfer Coordinate states (Move pot to stove)
+  const [isTransferringUtensil, setIsTransferringUtensil] = useState(false);
+  const [isHoveringStoveBurner, setIsHoveringStoveBurner] = useState(false);
+
   // Particle systems
   const [droplets, setDroplets] = useState<Array<{ id: number; color: string; left: number }>>([]);
   const [sparks, setSparks] = useState<Array<{ id: number; emoji: string; dur: string }>>([]);
 
-  // Utensil Contents Levels (Accumulative states)
+  // Cookware Accumulative Visual Layers
   const [hasPowder, setHasPowder] = useState(false);
   const [hasFluid, setHasFluid] = useState(false);
   const [hasSprinkles, setHasSprinkles] = useState(false);
@@ -545,7 +577,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }));
     setSparks(generatedSparks);
 
-    // Global cursor listener for drag-and-follow physics
+    // Global cursor listener
     const handleGlobalMouseMove = (e: MouseEvent) => {
       setMouseCoords({ x: e.clientX, y: e.clientY });
     };
@@ -557,7 +589,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
   const triggerToast = (msg: string) => {
     setToast(msg);
-    setTimeout(() => setToast(""), 2000);
+    setTimeout(() => setToast(""), 2200);
   };
 
   const playSFX = (type: "dial" | "clink" | "powder" | "sauce" | "spice" | "oil" | "crack" | "chime") => {
@@ -585,7 +617,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }
   };
 
-  // 1. CHOOSE DISH RECIPE FROM TODAY'S MENU
+  // 1. SELECT DYNAMIC PORTFOLIO RECIPE
   const handleSelectRecipe = (recipe: Recipe) => {
     playSFX("clink");
     setSelectedRecipe(recipe);
@@ -593,36 +625,42 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setCollectedIngredients([]);
     setActiveUtensil(null);
     setWrongSelectionsCount(0);
+    setIsStovePlaced(false);
     setKnobRotated(false);
     setStoveOn(false);
+    setHeatLevel("medium");
     setCookProgress(0);
-    // Reset visual utensil levels
+    // Reset layers
     setHasPowder(false);
     setHasFluid(false);
     setHasSprinkles(false);
     setHasAiGlow(false);
   };
 
-  // 2. CHOOSE COOKWARE UTENSIL
+  // 2. CHOOSE INITIAL COOKWARE UTENSIL
   const handleSelectUtensil = (utensilId: string) => {
+    if (isStovePlaced) return;
     playSFX("clink");
     setActiveUtensil(utensilId);
-    triggerToast(`Cookware set: ${UTENSILS.find(u => u.id === utensilId)?.name} placed on preparation table!`);
+    triggerToast(`${UTENSILS.find(u => u.id === utensilId)?.name} placed on preparation table!`);
   };
 
-  // 3. TACTILE DRAG SYSTEM INGREDIENT PICKUP
+  // 3. TACTILE JAR PICKUP
   const handlePickupIngredient = (ing: Ingredient) => {
     if (!selectedRecipe) return;
     if (!activeUtensil) {
-      triggerToast("⚠️ Place a cooking utensil from the bottom shelf first!");
+      triggerToast("⚠️ Place a cooking utensil from the rack shelf first!");
+      return;
+    }
+    if (isStovePlaced) {
+      triggerToast("⚠️ The cookware is already placed on the stove burner!");
       return;
     }
     playSFX("clink");
     setDraggedIng(ing);
-    triggerToast(`Holding ${ing.name}. Move to center counter to pour!`);
   };
 
-  // 4. MOUSE ENTER / LEAVE DETECTOR FOR PREPARATION COUNTER
+  // 4. MOUSE HOVER EVENTS FOR PREP WORKSPACE
   const handleCounterMouseEnter = () => {
     if (draggedIng) {
       setIsHoveringUtensil(true);
@@ -633,21 +671,24 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setIsHoveringUtensil(false);
   };
 
-  // 5. DROP/RELEASE TO POUR INGREDIENT VISUALLY
+  // 5. POUR RELEASE FOR DRAGGED INGREDIENTS
   const handlePourRelease = () => {
+    if (isTransferringUtensil) {
+      handleCompleteUtensilTransfer();
+      return;
+    }
+
     if (!draggedIng || !selectedRecipe) return;
 
     if (!isHoveringUtensil) {
-      // Released outside drop zone, put it back
       setDraggedIng(null);
       return;
     }
 
-    // Trigger pouring animation
+    // Trigger visual pouring droplets
     setIsPouring(true);
     playSFX(draggedIng.soundType);
 
-    // Populate visual pouring droplets
     const activeColor = draggedIng.color;
     const generatedDroplets = Array.from({ length: 15 }).map((_, i) => ({
       id: Date.now() + i,
@@ -656,16 +697,14 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }));
     setDroplets(generatedDroplets);
 
-    // Clear droplets after animation completes
     setTimeout(() => {
       setDroplets([]);
       setIsPouring(false);
       
-      // Complete selection verification
       const ingId = draggedIng.id;
       const isCorrect = selectedRecipe.ingredients.includes(ingId);
       
-      // Update visual cookware levels based on ingredient categories
+      // Update visual pot layers
       if (draggedIng.soundType === "powder") {
         setHasPowder(true);
       } else if (draggedIng.soundType === "sauce") {
@@ -678,7 +717,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
         setHasSprinkles(true);
       } else if (draggedIng.soundType === "oil") {
         setHasFluid(true);
-        setActiveFluidColor("#eab308"); // golden oil
+        setActiveFluidColor("#d97706");
       }
 
       if (collectedIngredients.includes(ingId)) {
@@ -690,7 +729,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
         } else {
           setWrongSelectionsCount(prev => prev + 1);
           playSFX("crack");
-          triggerToast(`⚠️ Warning! Wrong recipe component: added ${draggedIng.name}`);
+          triggerToast(`⚠️ Added incorrect tech: ${draggedIng.name}`);
         }
       }
 
@@ -699,12 +738,38 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }, 600);
   };
 
-  // 6. TURN STOVE KNOB
+  // 6. INGREDIENTS COMPLETE - LIFT/FLOAT COOKWARE TO MOVE TO STOVE
+  const handleStartUtensilTransfer = () => {
+    if (!activeUtensil || isStovePlaced) return;
+    playSFX("clink");
+    setIsTransferringUtensil(true);
+    triggerToast("Cookware floating! Move cursor to stove burner slot on the right to place it!");
+  };
+
+  const handleCompleteUtensilTransfer = () => {
+    if (!isHoveringStoveBurner) {
+      // Put it back
+      setIsTransferringUtensil(false);
+      return;
+    }
+    playSFX("clink");
+    setIsStovePlaced(true);
+    setIsTransferringUtensil(false);
+    setIsHoveringStoveBurner(false);
+    triggerToast("🍳 Cookware placed successfully on burner range! Ignition ready.");
+  };
+
+  // Check if all correct stack ingredients gathered
+  const checkIsReadyToCook = () => {
+    if (!selectedRecipe) return false;
+    return selectedRecipe.ingredients.every(ing => collectedIngredients.includes(ing));
+  };
+
+  // 7. IGNITE STOVE & TEMPERATURE SPEED CONTROLLER
   const handleIgniteStove = () => {
     if (!selectedRecipe || !activeUtensil) return;
-    const missing = selectedRecipe.ingredients.filter(ing => !collectedIngredients.includes(ing));
-    if (missing.length > 0) {
-      triggerToast("⚠️ Recipe unfinished! Add missing ingredients to the cookware first!");
+    if (!isStovePlaced) {
+      triggerToast("⚠️ Place the cookware physically on the stove burner first!");
       return;
     }
 
@@ -712,10 +777,13 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setKnobRotated(true);
     setStoveOn(true);
     if (audioEngineRef.current) {
-      audioEngineRef.current.startCookingLoop();
+      audioEngineRef.current.startCookingLoop(heatLevel);
     }
 
-    // Cook compilation ticks
+    // Progress bar tick rate depends on heat slider level
+    // High heat: 25ms tick. Medium: 60ms tick. Low: 120ms tick
+    const tickRate = heatLevel === "high" ? 30 : heatLevel === "medium" ? 70 : 130;
+
     const interval = setInterval(() => {
       setCookProgress(prev => {
         if (prev >= 100) {
@@ -725,10 +793,19 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
         }
         return prev + 4;
       });
-    }, 150);
+    }, tickRate);
   };
 
-  // 7. COMPILATION FINISHED
+  // Dynamically update loops when slider heat changes
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = parseInt(e.target.value);
+    const newHeat = val === 0 ? "low" : val === 1 ? "medium" : "high";
+    setHeatLevel(newHeat);
+    if (stoveOn && audioEngineRef.current) {
+      audioEngineRef.current.startCookingLoop(newHeat);
+    }
+  };
+
   const handleFinishCooking = () => {
     if (audioEngineRef.current) {
       audioEngineRef.current.stopCookingLoop();
@@ -742,7 +819,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setCookingState("showcase");
   };
 
-  // Calculate dynamics stars
+  // Dynamics star ratings
   const getDynamicStars = () => {
     const calculated = 5 - (wrongSelectionsCount * 0.5);
     return Math.max(1, calculated);
@@ -756,7 +833,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     <div className="kg-viewport" onMouseUp={handlePourRelease}>
       <div className="kg-vignette" />
 
-      {/* Falling Rain backdrop */}
+      {/* Falling Rain backdrop overlay */}
       <div className="kg-window-backdrop">
         <div className="kg-rain-overlay" />
         <div className="kg-rain-drops" />
@@ -770,7 +847,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           <span className="kg-wave-bar" style={{ "--dur": "0.5s" } as any} />
           <span className="kg-wave-bar" style={{ "--dur": "0.9s" } as any} />
         </div>
-        <span>{musicOn ? "Synthesizer loop: On 🔊" : "Synthesizer loop: Off 🔇"}</span>
+        <span>{musicOn ? "Cozy Synth loop: On 🔊" : "Cozy Synth loop: Off 🔇"}</span>
       </div>
 
       {/* -------------------------------------------------------------
@@ -800,7 +877,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           </div>
           <div className="kg-hud-title-text">
             <h3>NIMRA'S KITCHEN STUDIO</h3>
-            <span>GAME 1 — Full-Stack Recipe Compiler</span>
+            <span>GAME 1 — Authentic Stack Recipe Simulator</span>
           </div>
         </div>
 
@@ -812,7 +889,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       </div>
 
       {/* -------------------------------------------------------------
-       * DRAGGED JAR FOLLOWING CURSOR
+       * TACTILE FLOATING/DRAGGED JAR FOLLOWING CURSOR
        * ------------------------------------------------------------- */}
       {draggedIng && (
         <div 
@@ -824,9 +901,24 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           } as any}
         >
           <span className="text-3xl">{draggedIng.emoji}</span>
-          <span className="text-[7px] font-black text-slate-400 mt-1 uppercase tracking-widest text-center max-w-[90%] truncate">
+          <span className="text-[7.5px] font-black text-slate-400 mt-1 uppercase tracking-widest text-center max-w-[90%] truncate">
             {draggedIng.name}
           </span>
+        </div>
+      )}
+
+      {/* -------------------------------------------------------------
+       * TACTILE FLOATING/DRAGGED COOKWARE UTENSIL
+       * ------------------------------------------------------------- */}
+      {isTransferringUtensil && activeUtensil && (
+        <div 
+          className="kg-placed-utensil floating-transfer"
+          style={{
+            left: mouseCoords.x - 70,
+            top: mouseCoords.y - 65
+          }}
+        >
+          <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
         </div>
       )}
 
@@ -834,13 +926,13 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
        * SCREEN ROUTING
        * ------------------------------------------------------------- */}
 
-      {/* STATE A: SELECTION MENU BOARD */}
+      {/* STATE A: SELECTION MENU BOARD - TODAY'S MENU */}
       {cookingState === "menu" && (
         <div className="kg-menu-scene">
           <div className="kg-menu-board">
             <div className="kg-menu-header">
               <h2>TODAY'S MENU</h2>
-              <p>Select a gourmet project dish below to review detailed technical stacks and follow instructions in the kitchen.</p>
+              <p>These dishes are generated directly from my actual portfolio projects. Choose a recipe to begin compilation.</p>
             </div>
 
             <div className="kg-recipe-cards-grid">
@@ -874,8 +966,8 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           {/* COLUMN 1: SKILL INGREDIENTS CABINET */}
           <div className="kg-ingredients-cabinet">
             <div className="kg-cabinet-header">
-              <h4>Skill Ingredients</h4>
-              <p>Click an ingredient jar below to pick it up, then drag/drop it on the cookware counter</p>
+              <h4>Cabinet Ingredients</h4>
+              <p>Click a jar to hold it, then release over the cookware to pour. Add actual project stack components only.</p>
             </div>
 
             <div className="kg-shelves-container">
@@ -957,7 +1049,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
             </div>
           </div>
 
-          {/* COLUMN 2: CENTER COUNTER TABLE */}
+          {/* COLUMN 2: CENTER PREPARATION TABLE */}
           <div className="kg-cooking-island">
             <div 
               className="kg-island-main"
@@ -968,7 +1060,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               {/* Highlight drop zone when dragged element is active */}
               <div className={`kg-drop-zone-overlay ${draggedIng ? "active" : ""}`}>
                 <div className="kg-drop-zone-text">
-                  Release / Click to Pour Ingredient 🍳
+                  Release or Click to Pour Ingredient 🍳
                 </div>
               </div>
 
@@ -984,7 +1076,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                   <div className="kg-recipe-instructions">
                     Instructions:<br/>
                     {selectedRecipe.instructions.map((inst, idx) => (
-                      <div key={idx} className="mt-1">
+                      <div key={idx} className="mt-1 text-[7.5px] leading-tight">
                         {idx + 1}. {inst}
                       </div>
                     ))}
@@ -993,7 +1085,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
                 {/* Right Page */}
                 <div className="kg-page-right">
-                  <span className="kg-recipe-ingredients-title">Stack Ingredients Required:</span>
+                  <span className="kg-recipe-ingredients-title">Actual Project Stack Required:</span>
                   <div className="kg-ingredients-checklist">
                     {selectedRecipe.ingredients.map(ingId => {
                       const ingDetail = INGREDIENTS.find(i => i.id === ingId);
@@ -1017,38 +1109,26 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                 </div>
               </div>
 
-              {/* Wooden Table surface */}
+              {/* Wooden Table prep surface */}
               <div className="kg-countertop">
-                {activeUtensil ? (
-                  <div className={`kg-placed-utensil ${stoveOn ? "cooking" : ""}`}>
+                {activeUtensil && !isStovePlaced ? (
+                  <div 
+                    className={`kg-placed-utensil ${isTransferringUtensil ? "opacity-30" : ""}`}
+                    onClick={handleStartUtensilTransfer}
+                    title="Click to lift and drag to stove burner"
+                  >
                     <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
                     
                     {/* Visual Cookware level layers */}
                     <div className="kg-utensil-content-container">
-                      {/* White Flour Level */}
                       <div className={`kg-powder-layer ${hasPowder ? "visible" : ""}`} />
-                      
-                      {/* Colored syrup/liquid level */}
                       <div 
                         className={`kg-fluid-layer ${hasFluid ? "visible" : ""}`} 
                         style={{ "--fluid-color": activeFluidColor } as any}
                       />
-
-                      {/* Sprinkles on top */}
                       <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} />
-
-                      {/* Holographic AI Glow */}
                       <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} />
                     </div>
-
-                    {/* Steam rising particles */}
-                    {stoveOn && (
-                      <>
-                        <div className="kg-steam-cloud" style={{ animationDelay: "0s", left: "25px" }} />
-                        <div className="kg-steam-cloud" style={{ animationDelay: "0.6s", left: "55px" }} />
-                        <div className="kg-steam-cloud" style={{ animationDelay: "1.2s", left: "85px" }} />
-                      </>
-                    )}
 
                     {/* Active Droplet streams falling when pouring */}
                     {isPouring && droplets.map(d => (
@@ -1065,10 +1145,21 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                     <div className="kg-cooker-counter">
                       {UTENSILS.find(u => u.id === activeUtensil)?.name} ({collectedIngredients.length} added)
                     </div>
+
+                    {/* Show Transfer Ready tag */}
+                    {checkIsReadyToCook() && (
+                      <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-emerald-500 text-slate-950 font-black text-[7.5px] px-3 py-1 rounded-full uppercase tracking-widest shadow-[0_0_10px_rgba(16,185,129,0.4)] animate-bounce">
+                        READY! CLICK TO LIFT TO STOVE
+                      </div>
+                    )}
+                  </div>
+                ) : isStovePlaced ? (
+                  <div className="text-[8.5px] font-black uppercase tracking-widest text-emerald-400 bg-slate-950/80 p-5 rounded-xl border border-emerald-500/20 max-w-[80%] text-center">
+                    🍲 COOKWARE TRANSFERRED SUCCESSFULLY TO STOVE BURNER ON THE RIGHT!
                   </div>
                 ) : (
                   <div className="text-[9px] font-black uppercase tracking-widest text-slate-400 bg-slate-950/80 p-5 rounded-xl border border-dashed border-slate-700/60 max-w-[80%] text-center">
-                    🥣 SELECT A COOKING UTENSIL COOKWARE FROM THE BOTTOM SHELF TO BEGIN PREPARATION
+                    🥣 SELECT A COOKWARE UTENSIL FROM THE BOTTOM SHELF TO PLACE ON THE PREP TABLE
                   </div>
                 )}
               </div>
@@ -1081,7 +1172,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                 {UTENSILS.map(utensil => (
                   <div 
                     key={utensil.id}
-                    className={`kg-utensil-rack-slot ${activeUtensil === utensil.id ? "selected" : ""}`}
+                    className={`kg-utensil-rack-slot ${activeUtensil === utensil.id ? "selected" : ""} ${isStovePlaced ? "opacity-35 cursor-not-allowed" : ""}`}
                     onClick={() => handleSelectUtensil(utensil.id)}
                   >
                     <span className="kg-rack-icon">{utensil.emoji}</span>
@@ -1092,13 +1183,36 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
             </div>
           </div>
 
-          {/* COLUMN 3: STOVE BURNING SLOT & POWER DIALS */}
+          {/* COLUMN 3: STOVE RANGE & IGNITION SYSTEM */}
           <div className="kg-stove-range">
             <div className="kg-stove-burners">
-              {/* Burner 1: Active Cooking Slot */}
-              <div className={`kg-burner-slot ${stoveOn ? "active" : ""}`}>
+              {/* Active Burner Slot */}
+              <div 
+                className={`kg-burner-slot ${stoveOn ? "active" : ""} ${isTransferringUtensil ? "burner-highlight" : ""}`}
+                onMouseEnter={() => { if (isTransferringUtensil) setIsHoveringStoveBurner(true); }}
+                onMouseLeave={() => { setIsHoveringStoveBurner(false); }}
+                onClick={() => { if (isTransferringUtensil) handleCompleteUtensilTransfer(); }}
+              >
                 <div className="kg-burner-ring" />
                 
+                {/* Visual rendering of cooker on stove */}
+                {isStovePlaced && activeUtensil && (
+                  <div className={`kg-placed-utensil cooking-${stoveOn ? heatLevel : "none"}`}>
+                    <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
+                    
+                    {/* Visual Cookware level layers */}
+                    <div className="kg-utensil-content-container">
+                      <div className={`kg-powder-layer ${hasPowder ? "visible" : ""}`} />
+                      <div 
+                        className={`kg-fluid-layer ${hasFluid ? "visible" : ""}`} 
+                        style={{ "--fluid-color": activeFluidColor } as any}
+                      />
+                      <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} />
+                      <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} />
+                    </div>
+                  </div>
+                )}
+
                 {/* SVG burning fire flames */}
                 {stoveOn && (
                   <div className="kg-burner-flames">
@@ -1110,23 +1224,56 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                   </div>
                 )}
 
-                {/* Status Indicator text overlay */}
-                <div className="absolute top-4 font-black text-[8px] uppercase tracking-widest text-slate-500">
-                  {stoveOn ? "Burner Active 🔥" : "Burner Ready"}
+                {/* Steam rising particles */}
+                {stoveOn && (
+                  <>
+                    <div className="kg-steam-cloud" style={{ animationDelay: "0s", left: "25px" }} />
+                    <div className="kg-steam-cloud" style={{ animationDelay: "0.6s", left: "55px" }} />
+                    <div className="kg-steam-cloud" style={{ animationDelay: "1.2s", left: "85px" }} />
+                  </>
+                )}
+
+                <div className="absolute top-4 font-black text-[7.5px] uppercase tracking-widest text-slate-500">
+                  {isTransferringUtensil ? "PLACE HERE 🟢" : stoveOn ? `ACTIVE STOVE 🔥 (${heatLevel})` : "BURNER RANGE"}
                 </div>
               </div>
 
-              {/* Burner 2: Showroom Slot */}
+              {/* Showroom Burner Slot */}
               <div className="kg-burner-slot">
                 <div className="kg-burner-ring" />
-                <div className="absolute top-4 font-black text-[8px] uppercase tracking-widest text-slate-600">
+                <div className="absolute top-4 font-black text-[7.5px] uppercase tracking-widest text-slate-600">
                   Burner Off
                 </div>
               </div>
             </div>
 
-            {/* Power Knobs rack */}
+            {/* Power controls & slider */}
             <div className="kg-stove-controls-board">
+              
+              {/* Slider for Heat Level */}
+              {isStovePlaced && (
+                <div className="kg-heat-slider-container">
+                  <div className="kg-heat-slider-title">
+                    <span>Stove Heat Slider</span>
+                    <span className="text-red-400 font-bold">{heatLevel.toUpperCase()}</span>
+                  </div>
+                  <input 
+                    type="range"
+                    min="0"
+                    max="2"
+                    step="1"
+                    defaultValue="1"
+                    className="kg-heat-slider-input"
+                    onChange={handleSliderChange}
+                  />
+                  <div className="flex justify-between text-[6.5px] font-bold text-slate-500 uppercase tracking-widest mt-1">
+                    <span>Simmer (Low)</span>
+                    <span>Medium</span>
+                    <span>Boil (High)</span>
+                  </div>
+                </div>
+              )}
+
               <div className="kg-stove-knobs-rack">
                 
                 {/* Knob 1: Power Knob */}
@@ -1135,7 +1282,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                     className="kg-metallic-knob"
                     style={{ transform: knobRotated ? "rotate(90deg)" : "rotate(0deg)" }}
                     onClick={handleIgniteStove}
-                    title="Click to Turn/Ignite burner"
+                    title="Click to ignite burner"
                   >
                     <div className="kg-knob-indicator" />
                   </div>
@@ -1153,7 +1300,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                 </div>
               </div>
 
-              {/* Compilation progress bar */}
+              {/* Active Cooking progress bar */}
               {stoveOn && (
                 <div className="w-full bg-slate-950/80 p-2.5 rounded-xl border border-emerald-500/20 text-center">
                   <span className="text-[7.5px] font-black text-emerald-400 uppercase tracking-widest block mb-1">
