@@ -1105,8 +1105,8 @@
 
 .ec-reflex-gauge-critical {
   position: absolute;
-  left: 45%;
-  width: 10%;
+  left: 35%;
+  width: 30%;
   height: 100%;
   background: #ffeb3b;
   opacity: 0.25;
@@ -1114,8 +1114,8 @@
 
 .ec-reflex-gauge-perfect {
   position: absolute;
-  left: 48%;
-  width: 4%;
+  left: 40%;
+  width: 20%;
   height: 100%;
   background: #00e676;
   box-shadow: 0 0 15px #00e676;
@@ -1513,66 +1513,160 @@
   position: absolute;
   inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 6rem 2rem 2rem 2rem;
+  justify-content: flex-start;
+  padding: 6rem 2rem 3rem 2rem;
   box-sizing: border-box;
-  background: rgba(0,0,0,0.8);
+  background: radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 0.97) 0%, rgba(2, 6, 23, 0.99) 100%);
+  backdrop-filter: blur(12px);
   z-index: 60;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* Elegant arcade glass hidden scrollbars */
+.ec-progress-view::-webkit-scrollbar {
+  width: 6px;
+}
+.ec-progress-view::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+.ec-progress-view::-webkit-scrollbar-thumb {
+  background: rgba(198, 40, 40, 0.4);
+  border-radius: 3px;
+}
+.ec-progress-view::-webkit-scrollbar-thumb:hover {
+  background: rgba(198, 40, 40, 0.8);
 }
 
 .ec-report-notebook {
   width: 100%;
-  max-width: 540px;
-  background: #fdfaf2;
-  border: 8px solid #c62828;
-  border-radius: 16px;
-  box-shadow: 0 35px 70px rgba(0,0,0,0.9);
-  padding: 2.5rem;
+  max-width: 580px;
+  background: radial-gradient(circle at top left, #fffdf8 0%, #f7f1df 100%);
+  border: 10px double #b71c1c; /* prestigious school double outline border */
+  border-radius: 24px;
+  outline: 2px solid #d4af37; /* golden outer accent border */
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.85),
+              inset 0 0 60px rgba(181, 141, 61, 0.08),
+              0 0 40px rgba(198, 40, 40, 0.25);
+  padding: 3.2rem 2.8rem;
   box-sizing: border-box;
-  color: #2c0000;
+  color: #2c0b0b;
   position: relative;
-  overflow: hidden;
   font-family: 'Outfit', 'Inter', sans-serif;
-  animation: ecZoomFadeIn 0.4s ease-out;
+  animation: ecReportReveal 0.65s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  transform-origin: center;
 }
 
-/* University Transcript Glass style */
+@keyframes ecReportReveal {
+  0% { transform: scale(0.9) translateY(30px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Lined notebook paper authentic guidelines pattern */
+.ec-report-notebook::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+  background-size: 100% 28px;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+/* University Transcript Glass style override */
 .ec-report-notebook.univ-transcript-style {
   background: rgba(15, 23, 42, 0.95);
   border: 3px solid rgba(56, 189, 248, 0.3);
+  outline: none;
+  border-radius: 16px;
   color: #e0f2fe;
   box-shadow: 0 35px 70px rgba(2, 132, 199, 0.3);
+  padding: 2.5rem;
 }
-
-/* Red Notebook margin line */
-.ec-report-notebook::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 3rem;
-  width: 2px;
-  background: rgba(229, 57, 53, 0.4);
-}
-
-.ec-report-notebook.univ-transcript-style::before {
+.ec-report-notebook.univ-transcript-style::after {
   display: none;
 }
 
-/* DPS Header logo */
+/* Decorative separator lines between report card sections */
+.ec-report-divider {
+  height: 2px;
+  background: radial-gradient(circle, rgba(181, 141, 61, 0.3) 0%, rgba(181, 141, 61, 0.02) 100%);
+  margin: 2.2rem 0;
+  border: none;
+  position: relative;
+  z-index: 5;
+}
+
+/* Sparkles overlay */
+.ec-academic-sparkles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 15;
+}
+
+.ec-sparkle-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #fbbf24;
+  border-radius: 50%;
+  filter: blur(0.5px);
+  animation: ecSparkleFloat 4s infinite linear;
+  opacity: 0;
+}
+
+@keyframes ecSparkleFloat {
+  0% { transform: translateY(105%) scale(0.5); opacity: 0; }
+  20% { opacity: 0.8; }
+  80% { opacity: 0.8; }
+  100% { transform: translateY(-10%) scale(1.2); opacity: 0; }
+}
+
+/* DPS Header logo and crest */
 .ec-report-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  text-align: center;
+  gap: 0.8rem;
   margin-bottom: 2rem;
-  border-bottom: 2px solid #b71c1c;
-  padding-bottom: 1rem;
+  border-bottom: 2px double rgba(198, 40, 40, 0.25);
+  padding-bottom: 1.5rem;
   position: relative;
+  z-index: 5;
 }
 
 .univ-transcript-style .ec-report-header {
-  border-bottom-color: rgba(56, 189, 248, 0.3);
+  flex-direction: row;
+  align-items: center;
+  text-align: left;
+  border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+  padding-bottom: 1rem;
+}
+
+.ec-report-logo-crest {
+  width: 72px;
+  height: 72px;
+  background: radial-gradient(circle, #d32f2f 0%, #7f0000 100%);
+  border: 3px solid #d4af37; /* gold border */
+  border-radius: 50%;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  box-shadow: 0 10px 25px rgba(198, 40, 40, 0.35), 0 0 15px rgba(212, 175, 55, 0.3);
+  animation: ecCrestGlow 3s infinite alternate ease-in-out;
+}
+
+@keyframes ecCrestGlow {
+  0% { box-shadow: 0 6px 15px rgba(198, 40, 40, 0.3), 0 0 5px rgba(212, 175, 55, 0.1); }
+  100% { box-shadow: 0 12px 30px rgba(198, 40, 40, 0.5), 0 0 20px rgba(212, 175, 55, 0.45); }
 }
 
 .ec-report-dps-crest {
@@ -1594,19 +1688,27 @@
 }
 
 .ec-report-institution-info h3 {
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 950;
-  margin: 0;
-  letter-spacing: 0.1em;
+  color: #7f0000;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  margin: 0;
+  text-shadow: 1px 1px 0px rgba(255,255,255,0.8);
+}
+
+.univ-transcript-style .ec-report-institution-info h3 {
+  font-size: 1rem;
+  color: #e0f2fe;
+  text-shadow: none;
 }
 
 .ec-report-institution-info p {
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 2px 0 0 0;
-  color: #7f0000;
-  letter-spacing: 0.05em;
+  color: #b58d3d; /* Elegant Gold */
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
@@ -1622,6 +1724,8 @@
   font-size: 0.72rem;
   border-bottom: 1px dashed rgba(0,0,0,0.15);
   padding-bottom: 1rem;
+  position: relative;
+  z-index: 5;
 }
 
 .univ-transcript-style .ec-report-student-meta {
@@ -1632,12 +1736,146 @@
   font-weight: 900;
 }
 
-/* DPS Grade table */
+/* Immersive Visual Activity Row Cards (No Spreadsheet Tables!) */
+.ec-report-row-card {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(198, 40, 40, 0.12);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.ec-report-row-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 8px 20px rgba(181, 141, 61, 0.12);
+  border-color: rgba(181, 141, 61, 0.4);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.ec-report-row-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ec-row-title-container {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.ec-row-icon-bubble {
+  width: 32px;
+  height: 32px;
+  background: rgba(198, 40, 40, 0.08);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.ec-row-subject-name {
+  font-size: 0.82rem;
+  font-weight: 850;
+  color: #1e293b;
+  letter-spacing: 0.02em;
+}
+
+.ec-row-rating-badge {
+  font-size: 0.62rem;
+  font-weight: 900;
+  padding: 0.25rem 0.6rem;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* Rating states */
+.badge-rating-excellent {
+  background: rgba(181, 141, 61, 0.12);
+  color: #a17c2f;
+  border: 1px solid rgba(181, 141, 61, 0.3);
+}
+.badge-rating-outstanding {
+  background: rgba(22, 163, 74, 0.1);
+  color: #16a34a;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+.badge-rating-verygood {
+  background: rgba(2, 132, 199, 0.1);
+  color: #0284c7;
+  border: 1px solid rgba(2, 132, 199, 0.2);
+}
+.badge-rating-good {
+  background: rgba(234, 179, 8, 0.1);
+  color: #ca8a04;
+  border: 1px solid rgba(234, 179, 8, 0.2);
+}
+.badge-rating-needsimprovement {
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.15);
+}
+.badge-rating-pending {
+  background: rgba(148, 163, 184, 0.1);
+  color: #64748b;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.ec-report-row-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  color: #475569;
+  border-top: 1px dashed rgba(0, 0, 0, 0.06);
+  padding-top: 0.6rem;
+}
+
+.ec-row-stat-group {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.ec-row-stat-xp {
+  background: #fef3c7;
+  color: #d97706;
+  padding: 0.15rem 0.45rem;
+  border-radius: 4px;
+  font-weight: 800;
+  font-size: 0.62rem;
+  border: 1px solid #fde68a;
+}
+
+.ec-row-stars-glow {
+  color: #fbbf24;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 4px rgba(251, 191, 36, 0.4);
+}
+
+/* University GPA & Grades Table (Retained for neat technical transcript layout) */
 .ec-report-grades-table {
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 2rem;
   font-size: 0.75rem;
+  position: relative;
+  z-index: 5;
 }
 
 .ec-report-grades-table th {
@@ -1673,6 +1911,8 @@
 /* Badges Showcase in Report card */
 .ec-report-badges-showcase {
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 5;
 }
 
 .ec-report-section-title {
@@ -1698,8 +1938,8 @@
 }
 
 .ec-report-badge-token {
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.15);
+  background: rgba(181, 141, 61, 0.08);
+  border: 1px solid rgba(181, 141, 61, 0.35);
   padding: 0.35rem 0.8rem;
   border-radius: 6px;
   display: flex;
@@ -1707,6 +1947,8 @@
   gap: 0.4rem;
   font-size: 0.65rem;
   font-weight: 800;
+  color: #a17c2f;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.04);
 }
 
 .univ-transcript-style .ec-report-badge-token {
@@ -1714,32 +1956,235 @@
   border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* Golden Seal Stamp */
-.ec-report-golden-seal {
-  position: absolute;
-  bottom: 2rem;
-  right: 2rem;
-  width: 75px;
-  height: 75px;
-  border: 2px dashed #b58d3d;
+/* Official Gold Seal stamp */
+.ec-report-embossed-seal-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+  border-top: 1px dashed rgba(0,0,0,0.12);
+  padding-top: 1.5rem;
+  position: relative;
+  z-index: 5;
+}
+
+.ec-principal-signature-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  position: relative;
+}
+
+.ec-principal-sig-line {
+  font-family: 'Great Vibes', 'Georgia', cursive;
+  font-size: 1.6rem;
+  color: #1e3b8b; /* deep blue ink signature */
+  font-weight: bold;
+  letter-spacing: 0.05em;
+  padding-bottom: 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  line-height: 1;
+}
+
+.ec-principal-label {
+  font-size: 0.58rem;
+  font-weight: 850;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ec-official-dps-stamp {
+  width: 80px;
+  height: 80px;
+  border: 3px double #b58d3d;
   border-radius: 50%;
+  color: #b58d3d;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transform: rotate(-12deg);
-  font-size: 0.42rem;
+  font-family: monospace;
   font-weight: 950;
-  color: #b58d3d;
-  background: rgba(255, 215, 0, 0.04);
+  font-size: 0.45rem;
+  transform: rotate(-15deg);
+  background: rgba(212, 175, 55, 0.03);
+  box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.1);
+  animation: ecStampPulse 4s infinite alternate;
 }
 
-.ec-report-golden-seal-icon {
-  font-size: 1.4rem;
+@keyframes ecStampPulse {
+  0% { transform: rotate(-15deg) scale(1); }
+  100% { transform: rotate(-12deg) scale(1.02); }
+}
+
+.ec-report-stamp-crest {
+  font-size: 1.1rem;
   margin-bottom: 2px;
 }
 
-/* Close action */
+/* Motivational Quote at bottom of certificate card */
+.ec-report-academic-quote-box {
+  margin-top: 1.8rem;
+  padding: 0.8rem 1.2rem;
+  background: rgba(181, 141, 61, 0.04);
+  border-left: 3px solid #b58d3d;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  font-size: 0.68rem;
+  color: #5c4d32;
+  line-height: 1.4;
+  text-align: center;
+  position: relative;
+  z-index: 5;
+}
+
+/* Floating Cinematic Top Navigation Bar */
+.ec-floating-nav-container {
+  position: fixed;
+  top: 1.8rem;
+  left: 2rem;
+  z-index: 999;
+  pointer-events: auto;
+  animation: ecFloatingBtnFade 0.65s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes ecFloatingBtnFade {
+  0% { transform: translateX(-20px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+.ec-cinematic-back-btn {
+  padding: 0.72rem 1.6rem;
+  background: rgba(198, 40, 40, 0.9);
+  border: 2px solid #ff8a80;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 25px rgba(198, 40, 40, 0.55), 
+              0 0 15px rgba(255, 138, 128, 0.35);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  backdrop-filter: blur(8px);
+}
+
+.ec-cinematic-back-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  background: #c62828;
+  border-color: #ffffff;
+  box-shadow: 0 12px 30px rgba(198, 40, 40, 0.75), 
+              0 0 25px rgba(255, 138, 128, 0.55);
+}
+
+.ec-cinematic-back-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Category Evaluation Sections */
+.ec-report-category-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  z-index: 5;
+  margin-bottom: 0.5rem;
+}
+
+.ec-category-header {
+  font-size: 0.7rem;
+  font-weight: 950;
+  color: #7f0000;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px dashed rgba(181, 141, 61, 0.3);
+  padding-bottom: 0.4rem;
+}
+
+/* Attendance & Participation Custom Card */
+.ec-attendance-matrix-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(181, 141, 61, 0.15);
+  border-radius: 14px;
+  padding: 1.4rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  position: relative;
+  z-index: 5;
+}
+
+.ec-attendance-progress-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ec-attendance-progress-labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.ec-attendance-progress-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.ec-attendance-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #b58d3d 0%, #d4af37 100%);
+  border-radius: 999px;
+  transition: width 0.8s ease-in-out;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+}
+
+.ec-attendance-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+  font-size: 0.68rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  padding-top: 0.8rem;
+}
+
+.ec-attendance-detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.ec-attendance-detail-item span:first-child {
+  font-weight: 650;
+  color: #64748b;
+  text-transform: uppercase;
+  font-size: 0.52rem;
+  letter-spacing: 0.05em;
+}
+
+.ec-attendance-detail-item strong {
+  font-weight: 850;
+  color: #2c0b0b;
+}
+
+/* Close action standard buttons (e.g. for CUK Transcript / backup fallback) */
 .ec-report-close-btn {
   width: 100%;
   padding: 0.8rem 0;
@@ -1905,13 +2350,277 @@
     font-size: 1.1rem;
   }
   .ec-report-notebook {
-    padding: 1.5rem;
+    padding: 2.2rem 1.4rem;
+    border-width: 6px;
+    outline: none;
   }
   .ec-report-student-meta {
     grid-template-columns: 1fr;
     gap: 0.4rem;
   }
-  .ec-report-golden-seal {
-    display: none;
+  .ec-report-embossed-seal-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: center;
+  }
+  .ec-official-dps-stamp {
+    transform: rotate(0deg);
+    animation: none;
   }
 }
+
+/* Incorrect Flash Warning Banner */
+.ec-incorrect-flash-banner {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(220, 38, 38, 0.95);
+  border: 2px solid #ef4444;
+  color: #fff;
+  padding: 0.65rem 1.6rem;
+  border-radius: 8px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  z-index: 35;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 10px 30px rgba(220, 38, 38, 0.5), 0 0 15px rgba(239, 68, 68, 0.3);
+  animation: ecFlashShake 0.4s ease-in-out;
+  pointer-events: none;
+}
+
+@keyframes ecFlashShake {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  20%, 60% { transform: translateX(-52%) rotate(-1deg); }
+  40%, 80% { transform: translateX(-48%) rotate(1deg); }
+}
+
+/* Custom Verification/Submission Buttons for Art Room */
+.ec-art-easel-submit-btn {
+  margin-top: 1.5rem;
+  padding: 0.65rem 1.8rem;
+  background: linear-gradient(135deg, rgba(var(--theme-primary-rgb), 0.4), rgba(var(--theme-primary-rgb), 0.8));
+  border: 1px solid var(--theme-accent);
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 850;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.ec-art-easel-submit-btn:hover {
+  background: var(--theme-accent);
+  color: #000;
+  box-shadow: var(--theme-glow);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================
+   🏀 BASKETBALL COURT CHALLENGE STYLES
+   ========================================================== */
+.ec-basketball-court {
+  width: 100%;
+  max-width: 330px;
+  background: radial-gradient(circle at 50% 120%, #1e1b4b 0%, #030712 100%);
+  border: 1px solid rgba(244, 63, 94, 0.25);
+  border-radius: 16px;
+  padding: 1.2rem;
+  box-sizing: border-box;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+}
+
+.ec-basketball-court::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: repeating-linear-gradient(90deg, rgba(251,146,60,0.03) 0px, rgba(251,146,60,0.03) 20px, transparent 20px, transparent 40px);
+  border-top: 2px solid rgba(251,146,60,0.15);
+  pointer-events: none;
+}
+
+.ec-stadium-scoreboard {
+  background: #020617;
+  border: 2px solid #f43f5e;
+  border-radius: 8px;
+  padding: 0.35rem 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: monospace;
+  box-shadow: 0 0 15px rgba(244, 63, 94, 0.3);
+  margin-bottom: 1rem;
+}
+
+.ec-scoreboard-label {
+  color: #94a3b8;
+  font-size: 0.52rem;
+  letter-spacing: 0.05em;
+}
+
+.ec-scoreboard-digit {
+  color: #f43f5e;
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-shadow: 0 0 5px #f43f5e;
+}
+
+.ec-hoop-container {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 1.2rem;
+}
+
+.ec-hoop-backboard {
+  width: 100px;
+  height: 70px;
+  background: rgba(255,255,255,0.05);
+  border: 3px solid rgba(255,255,255,0.3);
+  border-radius: 4px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.05);
+}
+
+.ec-hoop-inner-square {
+  width: 36px;
+  height: 28px;
+  border: 2px solid rgba(255,255,255,0.4);
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ec-hoop-ring {
+  width: 32px;
+  height: 8px;
+  background: #f97316;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px #f97316;
+  z-index: 5;
+}
+
+.ec-hoop-net {
+  width: 26px;
+  height: 24px;
+  border-left: 2px dashed rgba(255,255,255,0.4);
+  border-right: 2px dashed rgba(255,255,255,0.4);
+  border-bottom: 2px dashed rgba(255,255,255,0.4);
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0 0 8px 8px;
+  background: repeating-linear-gradient(45deg, transparent, transparent 4px, rgba(255,255,255,0.1) 4px, rgba(255,255,255,0.1) 8px);
+  opacity: 0.7;
+}
+
+.ec-audience-lights {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+  opacity: 0.15;
+}
+
+.ec-audience-light {
+  width: 4px;
+  height: 4px;
+  background: #fff;
+  border-radius: 50%;
+  filter: blur(1px);
+  animation: glowBlink 2s infinite alternate;
+}
+
+@keyframes glowBlink { 0% { opacity: 0.2; } 100% { opacity: 1; } }
+
+.ec-shoot-btn {
+  padding: 0.65rem 2rem;
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+  border: 1px solid #fda4af;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(244,63,94,0.4);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.ec-shoot-btn:hover:not(:disabled) {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 0 25px rgba(244,63,94,0.6);
+}
+
+.ec-shoot-btn:disabled {
+  background: #475569;
+  border-color: #64748b;
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.5;
+}
+
+/* ==========================================================
+   ⚽ PLAYGROUND TARGET PULSING & SNAP ANIMATIONS
+   ========================================================== */
+.ec-rhythm-target-circle {
+  animation: targetPulse 1.2s infinite ease-in-out;
+  transition: all 0.2s ease;
+}
+
+.ec-rhythm-target-circle.active-glow {
+  box-shadow: 0 0 25px #00e676;
+  border-color: #00e676;
+  transform: scale(1.15);
+}
+
+@keyframes targetPulse {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(var(--theme-primary-rgb), 0.2); }
+  50% { transform: scale(1.08); box-shadow: 0 0 20px rgba(var(--theme-accent-rgb), 0.5); }
+}
+
+.ec-ball-snapped {
+  animation: ballSnapAnim 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes ballSnapAnim {
+  0% { transform: scale(0.6); opacity: 0.5; }
+  100% { left: 50% !important; transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 20px #00e676; }
+}
+
+.ec-ball-missed-fade {
+  animation: ballMissAnim 0.4s ease-out forwards;
+}
+
+@keyframes ballMissAnim {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(40px) scale(0.7) rotate(180deg); opacity: 0; }
+}
+
+
