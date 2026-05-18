@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { DecryptedText } from "@/components/DecryptedText";
 import { Dock } from "@/components/Dock";
 import { LetterGlitch } from "@/components/LetterGlitch";
@@ -5,6 +6,7 @@ import { ProjectCard } from "@/components/ProjectCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
+import CookingGame from "@/components/CookingGame";
 import {
   Home,
   User,
@@ -14,11 +16,13 @@ import {
   Mail,
   ExternalLink,
   Download,
+  Gamepad2,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Index = () => {
+  const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen"));
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
     { icon: <User className="w-5 h-5" />, label: "About", href: "#about" },
@@ -34,6 +38,11 @@ const Index = () => {
     },
     { icon: <Award className="w-5 h-5" />, label: "Awards", href: "#awards" },
     { icon: <Mail className="w-5 h-5" />, label: "Contact", href: "#contact" },
+    {
+      icon: <Gamepad2 className="w-5 h-5" />,
+      label: "Kitchen",
+      onClick: () => setShowGame(true),
+    },
   ];
   const projects = [
     {
@@ -192,6 +201,10 @@ const Index = () => {
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
+  if (showGame) {
+    return <CookingGame onBack={() => setShowGame(false)} />;
+  }
+
   return (
     <div className="relative min-h-screen">
       <LetterGlitch
