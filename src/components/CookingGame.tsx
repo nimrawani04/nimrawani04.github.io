@@ -273,7 +273,7 @@ const UTENSILS = [
 ];
 
 // -------------------------------------------------------------
-// 2. SYNTHESIZED WEB AUDIO ENGINE
+// 2. SYNTHESIZED WEB AUDIO ENGINE (LO-FI CAFE ATMOSPHERE)
 // -------------------------------------------------------------
 
 class KitchenAudio {
@@ -282,6 +282,7 @@ class KitchenAudio {
   private loopOsc: OscillatorNode | null = null;
   private ventNode: OscillatorNode | null = null;
   private ambientCrackNode: AudioScheduledSourceNode | null = null;
+  private cozyTimer: any = null;
 
   public init() {
     if (this.ctx) return;
@@ -528,25 +529,78 @@ class KitchenAudio {
   public startCozyMusic() {
     if (!this.ctx) return;
     this.stopCozyMusic();
-    const time = this.ctx.currentTime;
-    const notes = [146.83, 185.00, 220.00, 293.66];
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.type = "triangle";
-    osc.frequency.setValueAtTime(notes[0], time);
-    gain.gain.setValueAtTime(0.015, time);
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    osc.start();
-    this.loopOsc = osc;
+
+    const progression = [
+      [130.81, 164.81, 196.00, 246.94, 293.66], // Cmaj9
+      [110.00, 138.61, 164.81, 207.65, 246.94], // Am9
+      [87.31, 110.00, 130.81, 164.81, 196.00],  // Fmaj9
+      [98.00, 123.47, 146.83, 185.00, 220.00]   // G13
+    ];
+
+    let chordIdx = 0;
+
+    const playNextChord = () => {
+      if (!this.ctx) return;
+      const now = this.ctx.currentTime;
+      const chord = progression[chordIdx];
+      
+      // Play arpeggiated soft triangle waves
+      chord.forEach((freq, noteIdx) => {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, now + noteIdx * 0.08);
+        
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(650, now);
+
+        gain.gain.setValueAtTime(0, now + noteIdx * 0.08);
+        gain.gain.linearRampToValueAtTime(0.015, now + noteIdx * 0.08 + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + noteIdx * 0.08 + 3.5);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(this.ctx.destination);
+
+        osc.start(now + noteIdx * 0.08);
+        osc.stop(now + noteIdx * 0.08 + 3.8);
+      });
+
+      // Play soft high piano note bells
+      if (Math.random() > 0.3) {
+        const melodyNotes = [523.25, 587.33, 659.25, 783.99, 880.00];
+        const randomNote = melodyNotes[Math.floor(Math.random() * melodyNotes.length)];
+        const oscMelody = this.ctx.createOscillator();
+        const gainMelody = this.ctx.createGain();
+        
+        oscMelody.type = "sine";
+        oscMelody.frequency.setValueAtTime(randomNote, now + 1.2);
+        
+        gainMelody.gain.setValueAtTime(0, now + 1.2);
+        gainMelody.gain.linearRampToValueAtTime(0.008, now + 1.4);
+        gainMelody.gain.exponentialRampToValueAtTime(0.0001, now + 2.5);
+        
+        oscMelody.connect(gainMelody);
+        gainMelody.connect(this.ctx.destination);
+        
+        oscMelody.start(now + 1.2);
+        oscMelody.stop(now + 2.6);
+      }
+
+      chordIdx = (chordIdx + 1) % progression.length;
+      this.cozyTimer = setTimeout(playNextChord, 4200);
+    };
+
+    playNextChord();
   }
 
   public stopCozyMusic() {
-    if (this.loopOsc) {
-      try {
-        this.loopOsc.stop();
-      } catch (e) {}
-      this.loopOsc = null;
+    if (this.cozyTimer) {
+      clearTimeout(this.cozyTimer);
+      this.cozyTimer = null;
     }
   }
 }
@@ -883,8 +937,102 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     return Math.max(1, calculated);
   };
 
-  const getUtensilEmoji = () => {
-    return UTENSILS.find(u => u.id === activeUtensil)?.emoji || "🍳";
+  // Custom empty metallic utensil SVG drawer (starts completely empty, reflect lights naturally)
+  const renderUtensilSVG = (utensilId: string, styleMode: "rack" | "island" | "stove") => {
+    const isLarge = styleMode !== "rack";
+    const size = isLarge ? 110 : 44;
+    
+    if (utensilId === "pot") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100" className="kg-utensil-svg">
+          <defs>
+            <linearGradient id="silverGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#94a3b8" />
+              <stop offset="50%" stopColor="#e2e8f0" />
+              <stop offset="100%" stopColor="#475569" />
+            </linearGradient>
+            <linearGradient id="rimGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#cbd5e1" />
+              <stop offset="100%" stopColor="#64748b" />
+            </linearGradient>
+          </defs>
+          <rect x="5" y="42" width="12" height="6" rx="3" fill="#334155" />
+          <rect x="83" y="42" width="12" height="6" rx="3" fill="#334155" />
+          <path d="M15,35 L85,35 C85,35 83,75 50,75 C17,75 15,35 15,35 Z" fill="url(#silverGrad)" stroke="#334155" strokeWidth="2" />
+          <path d="M48,37 L52,37 C52,37 51,73 50,73 C49,73 48,37 48,37 Z" fill="#ffffff" opacity="0.4" />
+          <ellipse cx="50" cy="35" rx="35" ry="6" fill="url(#rimGrad)" stroke="#334155" strokeWidth="1.5" />
+          <ellipse cx="50" cy="35" rx="33" ry="5.5" fill="#1e293b" />
+        </svg>
+      );
+    }
+    if (utensilId === "saucepan") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100" className="kg-utensil-svg">
+          <defs>
+            <linearGradient id="copperGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#c2410c" />
+              <stop offset="50%" stopColor="#ea580c" />
+              <stop offset="100%" stopColor="#7c2d12" />
+            </linearGradient>
+          </defs>
+          <path d="M10,42 L42,42 L42,48 L10,48 Z" fill="#1e293b" stroke="#0f172a" strokeWidth="1" transform="rotate(-15 40 45)" />
+          <path d="M35,38 L85,38 C85,38 83,70 60,70 C37,70 35,38 35,38 Z" fill="url(#copperGrad)" stroke="#7c2d12" strokeWidth="2" />
+          <ellipse cx="60" cy="38" rx="25" ry="5" fill="#fdba74" stroke="#7c2d12" strokeWidth="1.5" />
+          <ellipse cx="60" cy="38" rx="23" ry="4.5" fill="#2d130b" />
+        </svg>
+      );
+    }
+    if (utensilId === "pan") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100" className="kg-utensil-svg">
+          <defs>
+            <linearGradient id="panGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#334155" />
+              <stop offset="50%" stopColor="#475569" />
+              <stop offset="100%" stopColor="#1e293b" />
+            </linearGradient>
+          </defs>
+          <path d="M5,42 L45,42 L45,47 L5,47 Z" fill="#0f172a" stroke="#000" strokeWidth="1.5" />
+          <path d="M38,40 L88,40 C88,40 85,58 63,58 C41,58 38,40 38,40 Z" fill="url(#panGrad)" stroke="#1e293b" strokeWidth="2" />
+          <ellipse cx="63" cy="40" rx="25" ry="4.5" fill="#64748b" stroke="#1e293b" strokeWidth="1.5" />
+          <ellipse cx="63" cy="40" rx="23" ry="4" fill="#0f172a" />
+        </svg>
+      );
+    }
+    if (utensilId === "skillet") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100" className="kg-utensil-svg">
+          <defs>
+            <linearGradient id="skilletGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#1e293b" />
+              <stop offset="50%" stopColor="#334155" />
+              <stop offset="100%" stopColor="#0f172a" />
+            </linearGradient>
+          </defs>
+          <rect x="5" y="41" width="22" height="8" rx="4" fill="none" stroke="#0f172a" strokeWidth="3" />
+          <path d="M22,38 L82,38 C82,38 80,68 52,68 C24,68 22,38 22,38 Z" fill="url(#skilletGrad)" stroke="#0f172a" strokeWidth="2" />
+          <ellipse cx="52" cy="38" rx="30" ry="5.5" fill="#334155" stroke="#0f172a" strokeWidth="1.5" />
+          <ellipse cx="52" cy="38" rx="28" ry="5" fill="#020617" />
+        </svg>
+      );
+    }
+    if (utensilId === "mixer") {
+      return (
+        <svg width={size} height={size} viewBox="0 0 100 100" className="kg-utensil-svg">
+          <defs>
+            <linearGradient id="bowlGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#b91c1c" />
+              <stop offset="50%" stopColor="#ef4444" />
+              <stop offset="100%" stopColor="#7f1d1d" />
+            </linearGradient>
+          </defs>
+          <path d="M18,34 L82,34 C82,34 78,72 50,72 C22,72 18,34 18,34 Z" fill="url(#bowlGrad)" stroke="#7f1d1d" strokeWidth="2" />
+          <ellipse cx="50" cy="34" rx="32" ry="5.5" fill="#fca5a5" stroke="#7f1d1d" strokeWidth="1.5" />
+          <ellipse cx="50" cy="34" rx="30" ry="5" fill="#fee2e2" />
+        </svg>
+      );
+    }
+    return null;
   };
 
   return (
@@ -905,7 +1053,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           <span className="kg-wave-bar" style={{ "--dur": "0.5s" } as any} />
           <span className="kg-wave-bar" style={{ "--dur": "0.9s" } as any} />
         </div>
-        <span>{musicOn ? "Cozy Synth loop: On 🔊" : "Cozy Synth loop: Off 🔇"}</span>
+        <span>{musicOn ? "Cozy Cafe Lofi Chord Loop: On 🔊" : "Cozy Cafe Lofi Chord Loop: Off 🔇"}</span>
       </div>
 
       {/* -------------------------------------------------------------
@@ -997,13 +1145,15 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
        * ------------------------------------------------------------- */}
       {isTransferringUtensil && activeUtensil && (
         <div 
-          className="kg-placed-utensil floating-transfer"
+          className="kg-placed-utensil floating-transfer animate-pulse"
           style={{
             left: mouseCoords.x - 70,
             top: mouseCoords.y - 65
           }}
         >
-          <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
+          <div className="kg-utensil-svg-container">
+            {renderUtensilSVG(activeUtensil, "island")}
+          </div>
         </div>
       )}
 
@@ -1202,7 +1352,9 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                     onClick={handleStartUtensilTransfer}
                     title="Click to lift and drag to stove burner"
                   >
-                    <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
+                    <div className="kg-utensil-svg-container">
+                      {renderUtensilSVG(activeUtensil, "island")}
+                    </div>
                     
                     {/* Visual Cookware level layers */}
                     <div className="kg-utensil-content-container">
@@ -1260,7 +1412,9 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                     className={`kg-utensil-rack-slot ${activeUtensil === utensil.id ? "selected" : ""} ${isStovePlaced ? "opacity-35 cursor-not-allowed" : ""}`}
                     onClick={() => handleSelectUtensil(utensil.id)}
                   >
-                    <span className="kg-rack-icon">{utensil.emoji}</span>
+                    <div className="kg-rack-svg-container">
+                      {renderUtensilSVG(utensil.id, "rack")}
+                    </div>
                     <span className="kg-rack-label">{utensil.name}</span>
                   </div>
                 ))}
@@ -1283,7 +1437,9 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                 {/* Visual rendering of cooker on stove */}
                 {isStovePlaced && activeUtensil && (
                   <div className={`kg-placed-utensil cooking-${stoveOn ? heatLevel : "none"}`}>
-                    <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
+                    <div className="kg-utensil-svg-container">
+                      {renderUtensilSVG(activeUtensil, "stove")}
+                    </div>
                     
                     {/* Visual Cookware level layers */}
                     <div className="kg-utensil-content-container">
