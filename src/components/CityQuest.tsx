@@ -219,7 +219,7 @@ const CHECKPOINTS: Checkpoint[] = [
     desc: "Mentored global student contributors in frontend development, pull request reviews, and cooperative modular web design.",
     details: {
       Program: "Social Winter of Code (SWOC)",
-      Impact: "Reviewed 50+ PRs",
+      Impact: "Reviewed 20+ PRs",
       Topics: "React, TypeScript, CSS Best Practices"
     }
   },

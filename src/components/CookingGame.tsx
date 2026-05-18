@@ -279,9 +279,10 @@ const UTENSILS = [
 class KitchenAudio {
   private ctx: AudioContext | null = null;
   private sizzleNode: AudioScheduledSourceNode | null = null;
-  private loopOsc: OscillatorNode | null = null;
   private ventNode: OscillatorNode | null = null;
   private ambientCrackNode: AudioScheduledSourceNode | null = null;
+  private rainNode: AudioScheduledSourceNode | null = null;
+  private lofiBeatTimer: any = null;
   private cozyTimer: any = null;
 
   public init() {
@@ -297,51 +298,22 @@ class KitchenAudio {
     if (!this.ctx) return;
     this.stopAmbientLoop();
 
-    // 1. Ventilation Hum (low frequency drone)
+    // Incredibly soft, subconscious grounding sine hum to avoid any buzz or drone noise
     const vent = this.ctx.createOscillator();
     const ventGain = this.ctx.createGain();
     vent.type = "sine";
-    vent.frequency.setValueAtTime(65, this.ctx.currentTime);
-    ventGain.gain.setValueAtTime(0.012, this.ctx.currentTime);
+    vent.frequency.setValueAtTime(60, this.ctx.currentTime);
+    ventGain.gain.setValueAtTime(0.0002, this.ctx.currentTime); // Reduced dramatically to be virtually silent and cozy
     vent.connect(ventGain);
     ventGain.connect(this.ctx.destination);
     vent.start();
     this.ventNode = vent;
-
-    // 2. Stove Crackling simulation (filtered noise impulses)
-    const bufferSize = this.ctx.sampleRate * 2;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-    const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
-    noise.loop = true;
-
-    const filter = this.ctx.createBiquadFilter();
-    filter.type = "bandpass";
-    filter.frequency.setValueAtTime(3200, this.ctx.currentTime);
-    filter.Q.setValueAtTime(1.5, this.ctx.currentTime);
-
-    const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.003, this.ctx.currentTime);
-
-    noise.connect(filter);
-    filter.connect(gain);
-    gain.connect(this.ctx.destination);
-    noise.start();
-    this.ambientCrackNode = noise;
   }
 
   public stopAmbientLoop() {
     if (this.ventNode) {
       try { this.ventNode.stop(); } catch (e) {}
       this.ventNode = null;
-    }
-    if (this.ambientCrackNode) {
-      try { this.ambientCrackNode.stop(); } catch (e) {}
-      this.ambientCrackNode = null;
     }
   }
 
@@ -352,7 +324,7 @@ class KitchenAudio {
     osc.type = "triangle";
     osc.frequency.setValueAtTime(140, this.ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.15);
-    gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
     osc.connect(gain);
     gain.connect(this.ctx.destination);
@@ -364,12 +336,20 @@ class KitchenAudio {
     if (!this.ctx) return;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
     osc.type = "sine";
-    osc.frequency.setValueAtTime(950, this.ctx.currentTime);
-    osc.frequency.setValueAtTime(1300, this.ctx.currentTime + 0.02);
-    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+    osc.frequency.setValueAtTime(880, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.05);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(800, this.ctx.currentTime); // Soften the clink
+
+    gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.2);
-    osc.connect(gain);
+
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
     osc.stop(this.ctx.currentTime + 0.2);
@@ -379,12 +359,20 @@ class KitchenAudio {
     if (!this.ctx) return;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
     osc.type = "sine";
-    osc.frequency.setValueAtTime(180, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.35);
-    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+    osc.frequency.setValueAtTime(160, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(70, this.ctx.currentTime + 0.35);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(300, this.ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.35);
-    osc.connect(gain);
+
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
     osc.stop(this.ctx.currentTime + 0.35);
@@ -394,12 +382,20 @@ class KitchenAudio {
     if (!this.ctx) return;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
+    const filter = this.ctx.createBiquadFilter();
+
     osc.type = "sine";
-    osc.frequency.setValueAtTime(350, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 0.25);
-    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+    osc.frequency.setValueAtTime(280, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(450, this.ctx.currentTime + 0.25);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(500, this.ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
-    osc.connect(gain);
+
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
     osc.stop(this.ctx.currentTime + 0.25);
@@ -408,17 +404,25 @@ class KitchenAudio {
   public playSpice() {
     if (!this.ctx) return;
     const now = this.ctx.currentTime;
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(1200 + i * 200, now + i * 0.05);
-      gain.gain.setValueAtTime(0.05, now + i * 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.05 + 0.04);
-      osc.connect(gain);
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(800 + i * 150, now + i * 0.05);
+
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(800, now + i * 0.05);
+
+      gain.gain.setValueAtTime(0.02, now + i * 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.05 + 0.05);
+
+      osc.connect(filter);
+      filter.connect(gain);
       gain.connect(this.ctx.destination);
       osc.start(now + i * 0.05);
-      osc.stop(now + i * 0.05 + 0.04);
+      osc.stop(now + i * 0.05 + 0.05);
     }
   }
 
@@ -435,10 +439,10 @@ class KitchenAudio {
     noise.buffer = buffer;
     const filter = this.ctx.createBiquadFilter();
     filter.type = "bandpass";
-    filter.frequency.setValueAtTime(3500, now);
-    filter.Q.setValueAtTime(2.0, now);
+    filter.frequency.setValueAtTime(2500, now);
+    filter.Q.setValueAtTime(1.5, now);
     const gain = this.ctx.createGain();
-    gain.gain.setValueAtTime(0.08, now);
+    gain.gain.setValueAtTime(0.04, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
     noise.connect(filter);
     filter.connect(gain);
@@ -451,12 +455,20 @@ class KitchenAudio {
     if (!this.ctx) return;
     const osc = this.ctx.createOscillator();
     const gain = this.ctx.createGain();
-    osc.type = "sawtooth";
-    osc.frequency.setValueAtTime(90, this.ctx.currentTime);
-    osc.frequency.linearRampToValueAtTime(200, this.ctx.currentTime + 0.25);
-    gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+    const filter = this.ctx.createBiquadFilter();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(110, this.ctx.currentTime);
+    osc.frequency.linearRampToValueAtTime(180, this.ctx.currentTime + 0.25);
+
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(250, this.ctx.currentTime);
+
+    gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
-    osc.connect(gain);
+
+    osc.connect(filter);
+    filter.connect(gain);
     gain.connect(this.ctx.destination);
     osc.start();
     osc.stop(this.ctx.currentTime + 0.25);
@@ -465,19 +477,27 @@ class KitchenAudio {
   public playChime() {
     if (!this.ctx) return;
     const time = this.ctx.currentTime;
-    const frequencies = [523.25, 659.25, 783.99, 1046.50, 1318.51];
+    const frequencies = [392.00, 523.25, 659.25, 783.99, 1046.50]; // Lowered octave for warmth
     frequencies.forEach((f, idx) => {
       if (!this.ctx) return;
       const osc = this.ctx.createOscillator();
       const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
       osc.type = "sine";
-      osc.frequency.setValueAtTime(f, time + idx * 0.1);
-      gain.gain.setValueAtTime(0.05, time + idx * 0.1);
-      gain.gain.exponentialRampToValueAtTime(0.001, time + idx * 0.1 + 0.4);
-      osc.connect(gain);
+      osc.frequency.setValueAtTime(f, time + idx * 0.12);
+
+      filter.type = "lowpass";
+      filter.frequency.setValueAtTime(700, time + idx * 0.12);
+
+      gain.gain.setValueAtTime(0.03, time + idx * 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + idx * 0.12 + 0.6);
+
+      osc.connect(filter);
+      filter.connect(gain);
       gain.connect(this.ctx.destination);
-      osc.start(time + idx * 0.1);
-      osc.stop(time + idx * 0.1 + 0.4);
+      osc.start(time + idx * 0.12);
+      osc.stop(time + idx * 0.12 + 0.6);
     });
   }
 
@@ -499,12 +519,11 @@ class KitchenAudio {
     const filter = this.ctx.createBiquadFilter();
     filter.type = "bandpass";
     
-    // Low: slow deep bubble. High: aggressive sizzling
-    const freq = intensity === "low" ? 1800 : intensity === "medium" ? 2800 : 3800;
-    const volume = intensity === "low" ? 0.03 : intensity === "medium" ? 0.06 : 0.12;
+    const freq = intensity === "low" ? 1500 : intensity === "medium" ? 2200 : 3000;
+    const volume = intensity === "low" ? 0.02 : intensity === "medium" ? 0.04 : 0.08;
 
     filter.frequency.setValueAtTime(freq, this.ctx.currentTime);
-    filter.Q.setValueAtTime(intensity === "low" ? 1.5 : 0.8, this.ctx.currentTime);
+    filter.Q.setValueAtTime(intensity === "low" ? 1.8 : 1.2, this.ctx.currentTime);
 
     const gain = this.ctx.createGain();
     gain.gain.setValueAtTime(volume, this.ctx.currentTime);
@@ -530,71 +549,103 @@ class KitchenAudio {
     if (!this.ctx) return;
     this.stopCozyMusic();
 
+    let currentStep = 0;
+
+    // Beautiful, calm, lighthearted chord progression (maj9, add9, sus4 - very sweet and cozy)
+    // 8-step sequence, played slowly (every 1800ms) for a extremely calm and peaceful vibe
     const progression = [
-      [130.81, 164.81, 196.00, 246.94, 293.66], // Cmaj9
-      [110.00, 138.61, 164.81, 207.65, 246.94], // Am9
-      [87.31, 110.00, 130.81, 164.81, 196.00],  // Fmaj9
-      [98.00, 123.47, 146.83, 185.00, 220.00]   // G13
+      // Step 0: Cmaj9 chord (C3 bass, E4 + G4 + B4 + D5 arpeggio)
+      { bass: 130.81, treble: [329.63, 392.00, 493.88, 587.33] },
+      // Step 1: E5 soft melody
+      { bass: null, treble: [659.25] },
+      
+      // Step 2: Am9 chord (A2 bass, C4 + E4 + G4 + B4 arpeggio)
+      { bass: 110.00, treble: [261.63, 329.63, 392.00, 493.88] },
+      // Step 3: C5 soft melody
+      { bass: null, treble: [523.25] },
+      
+      // Step 4: Fmaj9 chord (F2 bass, A3 + C4 + E4 + G4 arpeggio)
+      { bass: 87.31, treble: [220.00, 261.63, 329.63, 392.00] },
+      // Step 5: A4 soft melody
+      { bass: null, treble: [440.00] },
+      
+      // Step 6: G11/Gsus4 chord (G2 bass, B3 + D4 + F4 + A4 arpeggio)
+      { bass: 98.00, treble: [246.94, 293.66, 349.23, 440.00] },
+      // Step 7: B4 soft melody
+      { bass: null, treble: [493.88] }
     ];
 
-    let chordIdx = 0;
-
-    const playNextChord = () => {
+    const playStep = () => {
       if (!this.ctx) return;
-      const now = this.ctx.currentTime;
-      const chord = progression[chordIdx];
       
-      // Play arpeggiated soft triangle waves
-      chord.forEach((freq, noteIdx) => {
-        if (!this.ctx) return;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        const filter = this.ctx.createBiquadFilter();
-
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(freq, now + noteIdx * 0.08);
-        
-        filter.type = "lowpass";
-        filter.frequency.setValueAtTime(650, now);
-
-        gain.gain.setValueAtTime(0, now + noteIdx * 0.08);
-        gain.gain.linearRampToValueAtTime(0.015, now + noteIdx * 0.08 + 0.5);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + noteIdx * 0.08 + 3.5);
-
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start(now + noteIdx * 0.08);
-        osc.stop(now + noteIdx * 0.08 + 3.8);
-      });
-
-      // Play soft high piano note bells
-      if (Math.random() > 0.3) {
-        const melodyNotes = [523.25, 587.33, 659.25, 783.99, 880.00];
-        const randomNote = melodyNotes[Math.floor(Math.random() * melodyNotes.length)];
-        const oscMelody = this.ctx.createOscillator();
-        const gainMelody = this.ctx.createGain();
-        
-        oscMelody.type = "sine";
-        oscMelody.frequency.setValueAtTime(randomNote, now + 1.2);
-        
-        gainMelody.gain.setValueAtTime(0, now + 1.2);
-        gainMelody.gain.linearRampToValueAtTime(0.008, now + 1.4);
-        gainMelody.gain.exponentialRampToValueAtTime(0.0001, now + 2.5);
-        
-        oscMelody.connect(gainMelody);
-        gainMelody.connect(this.ctx.destination);
-        
-        oscMelody.start(now + 1.2);
-        oscMelody.stop(now + 2.6);
+      if (this.ctx.state === "suspended") {
+        this.ctx.resume();
       }
 
-      chordIdx = (chordIdx + 1) % progression.length;
-      this.cozyTimer = setTimeout(playNextChord, 4200);
+      const now = this.ctx.currentTime;
+      const current = progression[currentStep];
+
+      // 1. Play warm acoustic marimba bass note with a very low-pass filter
+      if (current.bass !== null) {
+        const bassOsc = this.ctx.createOscillator();
+        const bassGain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+
+        bassOsc.type = "triangle";
+        bassOsc.frequency.setValueAtTime(current.bass, now);
+
+        filter.type = "lowpass";
+        filter.frequency.setValueAtTime(120, now); // Warm, pillowy bass tone
+
+        bassGain.gain.setValueAtTime(0.016, now);
+        bassGain.gain.exponentialRampToValueAtTime(0.0001, now + 2.2);
+
+        bassOsc.connect(filter);
+        filter.connect(bassGain);
+        bassGain.connect(this.ctx.destination);
+        
+        bassOsc.start(now);
+        bassOsc.stop(now + 2.4);
+      }
+
+      // 2. Play cute, pure crystal music box chimes with a lowpass filter
+      if (current.treble && current.treble.length > 0) {
+        current.treble.forEach((freq, idx) => {
+          if (!this.ctx) return;
+          const chimeOsc = this.ctx.createOscillator();
+          const chimeGain = this.ctx.createGain();
+          const filter = this.ctx.createBiquadFilter();
+
+          chimeOsc.type = "sine"; // Pure sine wave for sweet, round music-box tones
+
+          // Strumming delay for chords
+          const noteDelay = current.bass !== null ? idx * 0.08 : 0;
+          const noteTime = now + noteDelay;
+
+          chimeOsc.frequency.setValueAtTime(freq, noteTime);
+
+          filter.type = "lowpass";
+          filter.frequency.setValueAtTime(650, noteTime); // Filters out any metallic high whistle, keeping it very warm and round
+
+          // Beautifully subtle volume levels for a peaceful cozy vibe
+          const volume = current.bass !== null ? 0.0025 : 0.0035;
+          chimeGain.gain.setValueAtTime(volume, noteTime);
+          chimeGain.gain.exponentialRampToValueAtTime(0.0001, noteTime + 2.2);
+
+          chimeOsc.connect(filter);
+          filter.connect(chimeGain);
+          chimeGain.connect(this.ctx.destination);
+
+          chimeOsc.start(noteTime);
+          chimeOsc.stop(noteTime + 2.5);
+        });
+      }
+
+      currentStep = (currentStep + 1) % progression.length;
+      this.cozyTimer = setTimeout(playStep, 1800); // 1.8 seconds per step - incredibly relaxed, calm, and subtle pacing
     };
 
-    playNextChord();
+    playStep();
   }
 
   public stopCozyMusic() {
@@ -637,7 +688,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   const [isHoveringStoveBurner, setIsHoveringStoveBurner] = useState(false);
 
   // Particle systems
-  const [droplets, setDroplets] = useState<Array<{ id: number; color: string; left: number }>>([]);
+  const [droplets, setDroplets] = useState<Array<{ id: number; color: string; startX?: number; left?: number }>>([]);
   const [sparks, setSparks] = useState<Array<{ id: number; emoji: string; dur: string }>>([]);
 
   // Cookware Accumulative Visual Layers
@@ -649,6 +700,25 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
   const audioEngineRef = useRef<KitchenAudio | null>(null);
   const counterRef = useRef<HTMLDivElement>(null);
+
+  const getContentsStyle = () => {
+    if (activeUtensil === "pot") {
+      return { width: "66px", height: "14px", bottom: "34px", borderRadius: "50%" };
+    }
+    if (activeUtensil === "saucepan") {
+      return { width: "46px", height: "10px", bottom: "34px", borderRadius: "50%", transform: "translateX(10px)" };
+    }
+    if (activeUtensil === "pan") {
+      return { width: "46px", height: "9px", bottom: "40px", borderRadius: "50%", transform: "translateX(13px)" };
+    }
+    if (activeUtensil === "skillet") {
+      return { width: "56px", height: "12px", bottom: "38px", borderRadius: "50%", transform: "translateX(2px)" };
+    }
+    if (activeUtensil === "mixer") {
+      return { width: "60px", height: "12px", bottom: "36px", borderRadius: "50%" };
+    }
+    return { width: "65px", height: "14px", bottom: "34px" };
+  };
 
   // 1. Initialize sparkles & soundscapes
   useEffect(() => {
@@ -798,10 +868,10 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     playSFX(draggedIng.soundType);
 
     const activeColor = draggedIng.color;
-    const generatedDroplets = Array.from({ length: 15 }).map((_, i) => ({
+    const generatedDroplets = Array.from({ length: 18 }).map((_, i) => ({
       id: Date.now() + i,
       color: activeColor,
-      left: 30 + Math.random() * 40
+      startX: (Math.random() - 0.5) * 60
     }));
     setDroplets(generatedDroplets);
 
@@ -1053,7 +1123,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           <span className="kg-wave-bar" style={{ "--dur": "0.5s" } as any} />
           <span className="kg-wave-bar" style={{ "--dur": "0.9s" } as any} />
         </div>
-        <span>{musicOn ? "Cozy Cafe Lofi Chord Loop: On 🔊" : "Cozy Cafe Lofi Chord Loop: Off 🔇"}</span>
+        <span>{musicOn ? "🌸 Cozy Cottage Melodies: On 🔊" : "🌸 Cozy Cottage Melodies: Off 🔇"}</span>
       </div>
 
       {/* -------------------------------------------------------------
@@ -1358,13 +1428,13 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                     
                     {/* Visual Cookware level layers */}
                     <div className="kg-utensil-content-container">
-                      <div className={`kg-powder-layer ${hasPowder ? "visible" : ""}`} />
+                      <div className={`kg-powder-layer ${hasPowder ? "visible" : ""}`} style={getContentsStyle()} />
                       <div 
                         className={`kg-fluid-layer ${hasFluid ? "visible" : ""}`} 
-                        style={{ "--fluid-color": activeFluidColor } as any}
+                        style={{ ...getContentsStyle(), "--fluid-color": activeFluidColor } as any}
                       />
-                      <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} />
-                      <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} />
+                      <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} style={getContentsStyle()} />
+                      <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} style={{ ...getContentsStyle(), borderRadius: "50%" }} />
                     </div>
 
                     {/* Active Droplet streams falling when pouring */}
@@ -1373,7 +1443,8 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                         key={d.id} 
                         className="kg-pour-droplet"
                         style={{
-                          left: `${d.left}%`,
+                          left: `50%`,
+                          "--start-x": `${(d as any).startX}px`,
                           "--d-color": d.color
                         } as any}
                       />
@@ -1443,13 +1514,13 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                     
                     {/* Visual Cookware level layers */}
                     <div className="kg-utensil-content-container">
-                      <div className={`kg-powder-layer ${hasPowder ? "visible" : ""}`} />
+                      <div className={`kg-powder-layer ${hasPowder ? "visible" : ""}`} style={getContentsStyle()} />
                       <div 
                         className={`kg-fluid-layer ${hasFluid ? "visible" : ""}`} 
-                        style={{ "--fluid-color": activeFluidColor } as any}
+                        style={{ ...getContentsStyle(), "--fluid-color": activeFluidColor } as any}
                       />
-                      <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} />
-                      <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} />
+                      <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} style={getContentsStyle()} />
+                      <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} style={{ ...getContentsStyle(), borderRadius: "50%" }} />
                     </div>
                   </div>
                 )}

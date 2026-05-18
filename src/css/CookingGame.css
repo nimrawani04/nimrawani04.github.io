@@ -632,23 +632,27 @@
 
 .kg-pour-droplet {
   position: absolute;
-  width: 4px;
+  width: 4.5px;
   height: 8px;
   border-radius: 50%;
   background: var(--d-color, #10b981);
   pointer-events: none;
   z-index: 45;
-  animation: kg-droplet-fall 0.5s ease-in forwards;
+  animation: kg-droplet-fall 0.62s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 @keyframes kg-droplet-fall {
   0% {
-    transform: translateY(-80px) scale(1.2);
-    opacity: 0.8;
+    transform: translateY(-80px) translateX(var(--start-x, 0px)) scale(1.2);
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateY(-35px) translateX(calc(var(--start-x, 0px) * 0.4)) scale(0.85);
   }
   100% {
-    transform: translateY(0) scale(0.2);
-    opacity: 0.1;
+    transform: translateY(0) translateX(0px) scale(0.4);
+    opacity: 0.95;
   }
 }
 

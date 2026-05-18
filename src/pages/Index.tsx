@@ -10,6 +10,7 @@ import CookingGame from "@/components/CookingGame";
 import CityQuest from "@/components/CityQuest";
 import BugDungeon from "@/components/BugDungeon";
 import MemoryLab from "@/components/MemoryLab";
+import EducationCampus from "@/components/EducationCampus";
 import {
   Home,
   User,
@@ -30,6 +31,7 @@ const Index = () => {
   const [showCityQuest, setShowCityQuest] = useState(() => new URLSearchParams(window.location.search).has("city") || new URLSearchParams(window.location.search).has("cityquest"));
   const [showBugDungeon, setShowBugDungeon] = useState(() => new URLSearchParams(window.location.search).has("dungeon") || new URLSearchParams(window.location.search).has("bugdungeon"));
   const [showMemoryLab, setShowMemoryLab] = useState(() => new URLSearchParams(window.location.search).has("memory") || new URLSearchParams(window.location.search).has("memorylab"));
+  const [showEducationCampus, setShowEducationCampus] = useState(() => new URLSearchParams(window.location.search).has("education") || new URLSearchParams(window.location.search).has("campus"));
   const [showArcadeHub, setShowArcadeHub] = useState(false);
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
@@ -209,6 +211,9 @@ const Index = () => {
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
+  if (showEducationCampus) {
+    return <EducationCampus onBack={() => setShowEducationCampus(false)} />;
+  }
   if (showMemoryLab) {
     return <MemoryLab onBack={() => setShowMemoryLab(false)} />;
   }
@@ -802,7 +807,7 @@ const Index = () => {
             </div>
 
             {/* Selector Grid */}
-            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 w-full max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-5 w-full max-w-6xl mx-auto">
               
               {/* Game 1: Cooking Kitchen */}
               <div 
@@ -904,6 +909,32 @@ const Index = () => {
                 <div className="mt-6">
                   <button className="w-full py-2 px-3 bg-violet-500 hover:bg-violet-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(139,92,246,0.2)]">
                     ENTER LAB 🧠
+                  </button>
+                </div>
+              </div>
+
+              {/* Game 5: Education Campus */}
+              <div 
+                onClick={() => { setShowEducationCampus(true); setShowArcadeHub(false); }}
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-green-950/40 to-slate-900/90 border border-green-500/10 hover:border-green-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(34,197,94,0.15)] cursor-pointer"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl" role="img" aria-label="Graduation Cap">🎓</span>
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full border border-green-500/20">
+                      Campus Explorer
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-slate-100 group-hover:text-green-400 transition-colors">
+                    Education Campus
+                  </h3>
+                  <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
+                    Walk through an interactive academic world — from DPS Srinagar classrooms, CUK engineering labs, AI research stations, to leadership gardens. Experience how knowledge, curiosity, and ambition evolved!
+                  </p>
+                </div>
+                <div className="mt-6">
+                  <button className="w-full py-2 px-3 bg-green-500 hover:bg-green-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(34,197,94,0.2)]">
+                    ENTER CAMPUS 🎓
                   </button>
                 </div>
               </div>
