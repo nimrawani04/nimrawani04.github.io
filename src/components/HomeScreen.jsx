@@ -64,7 +64,7 @@ export default function HomeScreen({ onStart, onAbout, character, onCharacterCha
               <div className="manual-pdf-icon" />
             </div>
             <p style={{ textAlign: 'center' }}>Download my resume (PDF)</p>
-            <a href="/resume.pdf" download className="download-btn">DOWNLOAD ⬇</a>
+            <a href="/nimra-wani-resume.pdf" download className="download-btn">DOWNLOAD ⬇</a>
           </div>
 
           {/* Card 3: GET HELP */}

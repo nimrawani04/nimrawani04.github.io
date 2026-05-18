@@ -209,7 +209,7 @@ const Index = () => {
   ];
 
   const handleClick = () => {
-    window.open("/Resume.pdf");
+    window.open("/nimra-wani-resume.pdf");
   };
   if (showEducationCampus) {
     return <EducationCampus onBack={() => setShowEducationCampus(false)} />;
