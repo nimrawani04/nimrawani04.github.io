@@ -31,23 +31,23 @@ import {
   toggleBgMusic,
 } from "../utils/kitchenSounds";
 
-const SKILL_META: Record<string, { icon: string; cap: string; label: string }> = {
-  HTML: { icon: "HTML", cap: "#e9652d", label: "#fff0dc" },
-  CSS: { icon: "CSS", cap: "#347fd2", label: "#e8f4ff" },
-  JavaScript: { icon: "JS", cap: "#e6aa26", label: "#fff7d6" },
-  TypeScript: { icon: "TS", cap: "#6f5ad7", label: "#eeeaff" },
-  React: { icon: "R", cap: "#61b86a", label: "#edfff0" },
-  Supabase: { icon: "SB", cap: "#b36b2c", label: "#fff2e6" },
-  PostgreSQL: { icon: "PG", cap: "#20a899", label: "#e8fffb" },
-  Vercel: { icon: "V", cap: "#f29b23", label: "#fff2dd" },
-  Web3Forms: { icon: "W3", cap: "#cc6f3e", label: "#fff0e9" },
-  PWA: { icon: "PWA", cap: "#8367cf", label: "#f3eeff" },
-  "AI APIs": { icon: "AI", cap: "#7fb13d", label: "#f4ffe6" },
-  Firecrawler: { icon: "FC", cap: "#ef6d7b", label: "#fff0f2" },
-  Arduino: { icon: "ARD", cap: "#159aa0", label: "#e8fffe" },
-  "C++": { icon: "C++", cap: "#4471bf", label: "#eef4ff" },
-  "Infrared Sensors": { icon: "IR", cap: "#ef6d7b", label: "#fff0f3" },
-  "Ultrasonic Sensors": { icon: "US", cap: "#6db447", label: "#f1ffe9" },
+const SKILL_META: Record<string, { icon: string; cap: string; label: string; ingredient: string }> = {
+  HTML: { icon: "HTML", cap: "#e9652d", label: "#fff0dc", ingredient: "HTML Flour" },
+  CSS: { icon: "CSS", cap: "#347fd2", label: "#e8f4ff", ingredient: "CSS Frosting" },
+  JavaScript: { icon: "JS", cap: "#e6aa26", label: "#fff7d6", ingredient: "JS Sugar" },
+  TypeScript: { icon: "TS", cap: "#6f5ad7", label: "#eeeaff", ingredient: "TypeScript Pepper" },
+  React: { icon: "R", cap: "#61b86a", label: "#edfff0", ingredient: "React Flour" },
+  Supabase: { icon: "SB", cap: "#b36b2c", label: "#fff2e6", ingredient: "Supabase Syrup" },
+  PostgreSQL: { icon: "PG", cap: "#20a899", label: "#e8fffb", ingredient: "SQL Sauce" },
+  Vercel: { icon: "V", cap: "#f29b23", label: "#fff2dd", ingredient: "Vercel Yeast" },
+  Web3Forms: { icon: "W3", cap: "#cc6f3e", label: "#fff0e9", ingredient: "Web3 Spice" },
+  PWA: { icon: "PWA", cap: "#8367cf", label: "#f3eeff", ingredient: "PWA Salt" },
+  "AI APIs": { icon: "AI", cap: "#7fb13d", label: "#f4ffe6", ingredient: "AI Honey" },
+  Firecrawler: { icon: "FC", cap: "#ef6d7b", label: "#fff0f2", ingredient: "Firecrawler Oil" },
+  Arduino: { icon: "ARD", cap: "#159aa0", label: "#e8fffe", ingredient: "Arduino Yeast" },
+  "C++": { icon: "C++", cap: "#4471bf", label: "#eef4ff", ingredient: "C++ Broth" },
+  "Infrared Sensors": { icon: "IR", cap: "#ef6d7b", label: "#fff0f3", ingredient: "Sensor Garlic" },
+  "Ultrasonic Sensors": { icon: "US", cap: "#6db447", label: "#f1ffe9", ingredient: "Sensor Garlic" },
 };
 
 const ico = (skill: string) => SKILL_META[skill]?.icon || skill.slice(0, 2).toUpperCase();
@@ -114,7 +114,7 @@ interface Recipe {
 const RECIPES: Recipe[] = [
   {
     id: "araaz",
-    name: "Araaz E-commerce",
+    name: "Araaz E-commerce Burger",
     type: "Solo Project",
     xp: 120,
     desc: "Fully responsive e-commerce website with automated contact handling and modern UI/UX.",
@@ -124,7 +124,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "academic-portal",
-    name: "Academic Portal - CUK",
+    name: "Academic Portal Ramen",
     type: "Team Project",
     xp: 250,
     desc: "Full-stack academic portal with role-based auth, dashboards, attendance, marks, notices, and exams.",
@@ -133,7 +133,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "bis-ai",
-    name: "BIS AI - Safety Assistant",
+    name: "BIS AI Safety Salad",
     type: "Team Project",
     xp: 280,
     desc: "AI-powered product verification with RAG pipeline, multilingual support, and offline PWA.",
@@ -143,7 +143,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "rasta-ai",
-    name: "Rasta AI - Smart Platform",
+    name: "Rasta AI Smart Ramen",
     type: "Team Project",
     xp: 350,
     desc: "Multi-domain AI platform with voice/text interaction, document understanding, and crop intelligence.",
@@ -153,7 +153,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "2ai-conf",
-    name: "2AI Conference Website",
+    name: "2AI Conference Cupcake",
     type: "Collaborative",
     xp: 180,
     desc: "Official website for the 2026 International Conference on Applied AI.",
@@ -163,7 +163,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "exam-system",
-    name: "CUK Exam System",
+    name: "CUK Exam System Pasta",
     type: "Team Project",
     xp: 300,
     desc: "Secure examination management with role-based access and real-time data handling.",
@@ -173,7 +173,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "acadex",
-    name: "CUK Acadex",
+    name: "CUK Acadex Stew",
     type: "Team Project",
     xp: 240,
     desc: "A university-wide academic portal with role-based dashboards for students and teachers. Features attendance, marks, notices, and exam information.",
@@ -183,7 +183,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "smart-house",
-    name: "Smart House - Arduino",
+    name: "Smart House IoT Cake",
     type: "Solo Project",
     xp: 200,
     desc: "IoT-based home automation prototype with multiple sensors.",
@@ -624,7 +624,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                         <span className="cg-jar-cap" style={{ width: "2.4rem", height: "0.45rem", border: "1px solid rgba(83, 40, 18, 0.5)" }} aria-hidden="true" />
                         <span className="cg-jar-glass" style={{ width: "2.2rem", minHeight: "2.9rem", padding: "0.25rem 0.1rem 0.15rem", border: "1px solid rgba(99, 58, 33, 0.4)" }}>
                           <span className="cg-jar-label" style={{ minWidth: "1.3rem", maxHeight: "0.75rem", fontSize: "0.48rem", padding: "1px" }}>{meta.icon}</span>
-                          <span className="cg-jar-name" style={{ fontSize: "0.48rem", marginTop: "0.1rem" }}>{skill}</span>
+                          <span className="cg-jar-name" style={{ fontSize: "0.48rem", marginTop: "0.1rem" }}>{SKILL_META[skill]?.ingredient || skill}</span>
                           <span className="cg-jar-amt" style={{ fontSize: "0.45rem", marginTop: "0.05rem" }}>{needed ? `${cupsNeeded(skill)} cup` : "pantry"}</span>
                         </span>
                       </button>
@@ -782,7 +782,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                           <li key={skill} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: "0.65rem", color: full ? "#6ebc59" : current > 0 ? "#ffd65c" : "#fff", opacity: full ? "0.85" : "1", borderBottom: "1px solid rgba(255,255,255,0.06)", paddingBottom: "1px" }}>
                             <span style={{ display: "inline-flex", alignItems: "center", gap: "3px" }}>
                               <span>{ico(skill)}</span>
-                              <span>{skill}</span>
+                              <span>{SKILL_META[skill]?.ingredient || skill}</span>
                             </span>
                             <strong>{current} / {amount} cup</strong>
                           </li>
@@ -847,7 +847,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
             <div className="cg-dish-tags">
               {Object.keys(recipe.ingredients).map((tag) => (
                 <span key={tag}>
-                  {ico(tag)} {tag}
+                  {ico(tag)} {SKILL_META[tag]?.ingredient || tag}
                 </span>
               ))}
             </div>
