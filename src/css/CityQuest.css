@@ -1,0 +1,674 @@
+/* City Quest Game Stylesheet */
+
+:root {
+  --neon-gold: #ffb703;
+  --neon-gold-glow: rgba(255, 183, 3, 0.4);
+  --neon-cyan: #06b6d4;
+  --neon-cyan-glow: rgba(6, 182, 212, 0.4);
+  --neon-purple: #ec4899;
+  --neon-purple-glow: rgba(236, 72, 153, 0.4);
+  --glass-bg: rgba(15, 23, 42, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+}
+
+/* Base Viewport Constraint (16:9 Screen Lock) */
+.cq-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #090d16;
+  font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
+  color: #f8fafc;
+  overflow: hidden;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Metro Station Transition Screen */
+.cq-metro-gate {
+  position: absolute;
+  inset: 0;
+  background: #020617;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.cq-metro-elevator-left,
+.cq-metro-elevator-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 4px solid #334155;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8);
+  transition: transform 1.2s cubic-bezier(0.85, 0, 0.15, 1);
+}
+
+.cq-metro-elevator-left {
+  left: 0;
+  border-right: 2px solid #06b6d4;
+  transform: translateX(0);
+}
+
+.cq-metro-elevator-right {
+  right: 0;
+  border-left: 2px solid #06b6d4;
+  transform: translateX(0);
+}
+
+.cq-metro-elevator-left.open {
+  transform: translateX(-100%);
+}
+
+.cq-metro-elevator-right.open {
+  transform: translateX(100%);
+}
+
+.cq-metro-hud {
+  z-index: 110;
+  text-align: center;
+  animation: pulseNeon 2s infinite ease-in-out;
+}
+
+.cq-metro-hud h2 {
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  color: #06b6d4;
+  text-shadow: 0 0 10px var(--neon-cyan-glow);
+  margin-bottom: 20px;
+}
+
+/* Vehicle Garage Screen */
+.cq-garage {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, #111827 0%, #030712 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.5rem;
+  z-index: 10;
+}
+
+.cq-garage-header {
+  text-align: center;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+
+.cq-garage-header h1 {
+  font-size: 1.8rem;
+  color: #f1f5f9;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 5px;
+}
+
+.cq-garage-header p {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  letter-spacing: 1px;
+}
+
+.cq-garage-showroom {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  min-height: 0; /* allows shrinking */
+}
+
+/* Showroom Display Platform */
+.cq-platform-container {
+  flex: 1.2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.cq-platform-ring {
+  width: 250px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid #06b6d4;
+  box-shadow: 0 0 25px var(--neon-cyan-glow), inset 0 0 20px var(--neon-cyan-glow);
+  position: relative;
+  transform: perspective(600px) rotateX(60deg);
+  animation: platformRotate 10s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(6, 182, 212, 0.05);
+}
+
+.cq-platform-ring::before {
+  content: '';
+  position: absolute;
+  inset: -15px;
+  border-radius: 50%;
+  border: 2px dashed rgba(6, 182, 212, 0.4);
+}
+
+.cq-vehicle-avatar-wrapper {
+  position: absolute;
+  bottom: 80px;
+  width: 140px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cq-vehicle-avatar {
+  font-size: 5rem;
+  filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
+  transform-origin: center bottom;
+  animation: vehicleFloat 2.5s ease-in-out infinite;
+}
+
+/* Garage Selection Sidebar */
+.cq-garage-sidebar {
+  flex: 1;
+  background: var(--glass-bg);
+  border: 2px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  box-sizing: border-box;
+  backdrop-filter: blur(8px);
+}
+
+.cq-vehicle-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  max-height: 160px;
+  padding-right: 5px;
+}
+
+.cq-vehicle-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.cq-vehicle-menu-item:hover {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.cq-vehicle-menu-item.active {
+  background: rgba(6, 182, 212, 0.15);
+  border-color: #06b6d4;
+  box-shadow: 0 0 10px var(--neon-cyan-glow);
+}
+
+.cq-vehicle-menu-item .emoji {
+  font-size: 1.5rem;
+}
+
+.cq-vehicle-menu-item .label {
+  font-size: 0.55rem;
+  font-weight: bold;
+}
+
+.cq-specs-box {
+  margin-top: 15px;
+  border-top: 1px dashed rgba(255,255,255,0.1);
+  padding-top: 10px;
+}
+
+.cq-spec-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.5rem;
+}
+
+.cq-spec-label {
+  color: #94a3b8;
+  width: 70px;
+}
+
+.cq-spec-bar-outer {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-left: 10px;
+}
+
+.cq-spec-bar-inner {
+  height: 100%;
+  background: #06b6d4;
+  border-radius: 4px;
+  box-shadow: 0 0 5px var(--neon-cyan-glow);
+  transition: width 0.4s ease;
+}
+
+/* Garage Launch Button */
+.cq-launch-panel {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.cq-btn-launch {
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #090d16;
+  background: #06b6d4;
+  border: none;
+  padding: 0.8rem 2.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 0 20px var(--neon-cyan-glow);
+  transition: all 0.2s ease;
+}
+
+.cq-btn-launch:hover {
+  background: #22d3ee;
+  box-shadow: 0 0 30px #22d3ee;
+  transform: scale(1.05);
+}
+
+.cq-btn-launch:active {
+  transform: scale(0.98);
+}
+
+/* Main Drive Exploration View */
+.cq-drive-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cq-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #050508;
+  display: block;
+}
+
+/* HUD elements Overlay */
+.cq-hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.cq-hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.cq-btn-exit {
+  pointer-events: auto;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  padding: 6px 12px;
+  font-family: inherit;
+  font-size: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cq-btn-exit:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+}
+
+.cq-dashboard {
+  background: var(--glass-bg);
+  border: 1.5px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 0.5rem 0.8rem;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  font-size: 0.5rem;
+  color: #cbd5e1;
+  pointer-events: auto;
+  backdrop-filter: blur(6px);
+}
+
+.cq-dashboard-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.cq-dashboard-stat span {
+  font-weight: bold;
+}
+
+.cq-dashboard-stat strong {
+  font-size: 0.65rem;
+  color: #38bdf8;
+}
+
+/* Minimap Box */
+.cq-minimap-wrapper {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 120px;
+  height: 120px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 2px solid #06b6d4;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.3);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.cq-minimap-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Bottom Control bar & Help Overlay */
+.cq-hud-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+  margin-top: auto;
+}
+
+.cq-help-sign {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 0.42rem;
+  color: #94a3b8;
+  max-width: 250px;
+  line-height: 1.4;
+  pointer-events: auto;
+}
+
+.cq-help-sign strong {
+  color: #ffb703;
+}
+
+/* Active Checkpoint Detail Overlay */
+.cq-checkpoint-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.8);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.cq-card {
+  width: 100%;
+  max-width: 460px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 3px solid var(--border-color, #ffb703);
+  box-shadow: 0 0 35px var(--glow-color, rgba(255, 183, 3, 0.4));
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  position: relative;
+  box-sizing: border-box;
+  animation: cardEntry 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  backdrop-filter: blur(12px);
+}
+
+.cq-card-badge {
+  align-self: center;
+  background: var(--bg-badge, #ffb703);
+  color: #090d16;
+  font-size: 0.45rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 99px;
+  text-transform: uppercase;
+}
+
+.cq-card-title {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+  line-height: 1.4;
+  margin-top: 5px;
+}
+
+.cq-card-subtitle {
+  text-align: center;
+  font-size: 0.55rem;
+  color: var(--theme-color, #ffb703);
+  margin-top: -5px;
+}
+
+.cq-card-desc {
+  font-size: 0.58rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 0.6rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+/* Certifications specs list inside card */
+.cq-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cq-detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.52rem;
+  color: #94a3b8;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding-bottom: 3px;
+}
+
+.cq-detail-row strong {
+  color: #f1f5f9;
+}
+
+.cq-card-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+.cq-card-btn {
+  font-family: inherit;
+  font-size: 0.52rem;
+  padding: 8px 16px;
+  border-radius: 99px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.cq-card-btn.primary {
+  background: var(--theme-color, #ffb703);
+  color: #090d16;
+  border: none;
+}
+
+.cq-card-btn.primary:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 10px var(--glow-color, rgba(255, 183, 3, 0.4));
+}
+
+.cq-card-btn.secondary {
+  background: transparent;
+  color: #cbd5e1;
+  border: 1.5px solid rgba(255,255,255,0.2);
+}
+
+.cq-card-btn.secondary:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: #fff;
+  color: #fff;
+}
+
+/* Mobile Virtual Joystick Controller */
+.cq-mobile-joystick {
+  width: 110px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 2px dashed rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  margin-bottom: 10px;
+}
+
+.cq-joystick-knob {
+  width: 45px;
+  height: 45px;
+  background: radial-gradient(circle, #38bdf8 0%, #0284c7 100%);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(56, 189, 248, 0.5);
+  cursor: grab;
+  position: absolute;
+  transition: transform 0.05s ease;
+}
+
+.cq-joystick-knob:active {
+  cursor: grabbing;
+}
+
+/* Animations */
+@keyframes pulseNeon {
+  0%, 100% { opacity: 0.9; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes platformRotate {
+  0% { transform: perspective(600px) rotateX(60deg) rotateZ(0deg); }
+  100% { transform: perspective(600px) rotateX(60deg) rotateZ(360deg); }
+}
+
+@keyframes vehicleFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes cardEntry {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* CSS Confetti / Sparkle Elements */
+.cq-confetti {
+  position: absolute;
+  width: 6px;
+  height: 12px;
+  background: #ff0;
+  opacity: 0.8;
+  z-index: 60;
+  pointer-events: none;
+  animation: confettiFall 2.2s linear forwards;
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translateY(-5vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Media Queries for responsive garage */
+@media (max-width: 768px) {
+  .cq-garage-showroom {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .cq-platform-container {
+    flex: 1;
+  }
+  .cq-garage-sidebar {
+    width: 100%;
+    flex: 1.2;
+    padding: 0.8rem;
+  }
+  .cq-vehicle-menu {
+    max-height: 100px;
+  }
+  .cq-platform-ring {
+    width: 180px;
+    height: 45px;
+  }
+  .cq-vehicle-avatar {
+    font-size: 3.8rem;
+  }
+  .cq-card {
+    padding: 1rem;
+    gap: 10px;
+  }
+}

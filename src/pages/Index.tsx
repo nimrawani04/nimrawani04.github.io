@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import CookingGame from "@/components/CookingGame";
+import CityQuest from "@/components/CityQuest";
 import {
   Home,
   User,
@@ -17,12 +18,15 @@ import {
   ExternalLink,
   Download,
   Gamepad2,
+  Car,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Index = () => {
   const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen"));
+  const [showCityQuest, setShowCityQuest] = useState(() => new URLSearchParams(window.location.search).has("city") || new URLSearchParams(window.location.search).has("cityquest"));
+  const [showArcadeHub, setShowArcadeHub] = useState(false);
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
     { icon: <User className="w-5 h-5" />, label: "About", href: "#about" },
@@ -40,8 +44,8 @@ const Index = () => {
     { icon: <Mail className="w-5 h-5" />, label: "Contact", href: "#contact" },
     {
       icon: <Gamepad2 className="w-5 h-5" />,
-      label: "Kitchen",
-      onClick: () => setShowGame(true),
+      label: "Arcade",
+      onClick: () => setShowArcadeHub(true),
     },
   ];
   const projects = [
@@ -201,6 +205,9 @@ const Index = () => {
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
+  if (showCityQuest) {
+    return <CityQuest onBack={() => setShowCityQuest(false)} />;
+  }
   if (showGame) {
     return <CookingGame onBack={() => setShowGame(false)} />;
   }
@@ -483,111 +490,111 @@ const Index = () => {
         </section>
 
         {/* Experience Section */}
-       <section id="experience" className="py-24 px-6 bg-muted/20">
-  <div className="max-w-5xl mx-auto">
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-    >
-      <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-        Experience
-      </h2>
+        <section id="experience" className="py-24 px-6 bg-muted/20">
+          <div className="max-w-5xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
+                Experience
+              </h2>
 
-      <div className="space-y-8">
+              <div className="space-y-8">
 
-        {/* Experience 1 */}
-        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-          <h3 className="text-2xl font-bold mb-1">Campus Lead</h3>
-          <p className="text-primary font-semibold">
-            Open Source Global Connect · Remote
-          </p>
-          <p className="text-muted-foreground text-sm mb-4">
-            Dec 2025 – Present
-          </p>
+                {/* Experience 1 */}
+                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+                  <h3 className="text-2xl font-bold mb-1">Campus Lead</h3>
+                  <p className="text-primary font-semibold">
+                    Open Source Global Connect · Remote
+                  </p>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Dec 2025 – Present
+                  </p>
 
-          <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-            <li>
-              Led and coordinated open-source awareness initiatives, organizing technical sessions and student engagement activities.
-            </li>
-            <li>
-              Mentored students in open-source contributions and promoted collaborative development practices.
-            </li>
-            <li>
-              Acted as a bridge between students and the global open-source community.
-            </li>
-          </ul>
+                  <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+                    <li>
+                      Led and coordinated open-source awareness initiatives, organizing technical sessions and student engagement activities.
+                    </li>
+                    <li>
+                      Mentored students in open-source contributions and promoted collaborative development practices.
+                    </li>
+                    <li>
+                      Acted as a bridge between students and the global open-source community.
+                    </li>
+                  </ul>
 
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Badge variant="secondary">Leadership</Badge>
-            <Badge variant="secondary">Open Source</Badge>
-            <Badge variant="secondary">Community Building</Badge>
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    <Badge variant="secondary">Leadership</Badge>
+                    <Badge variant="secondary">Open Source</Badge>
+                    <Badge variant="secondary">Community Building</Badge>
+                  </div>
+                </Card>
+
+                {/* Experience 2 */}
+                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+                  <h3 className="text-2xl font-bold mb-1">Student Intern</h3>
+                  <p className="text-primary font-semibold">
+                    National Institute of Technology Srinagar · Hybrid
+                  </p>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Dec 2025 – Feb 2026
+                  </p>
+
+                  <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+                    <li>
+                      Gained hands-on experience in applied computer science through coding exercises and problem-solving tasks.
+                    </li>
+                    <li>
+                      Participated in technical discussions and academic mentorship under faculty guidance.
+                    </li>
+                    <li>
+                      Strengthened foundations in programming, algorithms, and teamwork.
+                    </li>
+                  </ul>
+
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    <Badge variant="secondary">Internship</Badge>
+                    <Badge variant="secondary">Problem Solving</Badge>
+                    <Badge variant="secondary">Programming</Badge>
+                  </div>
+                </Card>
+
+                {/* Experience 3 */}
+                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
+                  <h3 className="text-2xl font-bold mb-1">Mentor</h3>
+                  <p className="text-primary font-semibold">
+                    Social Winter of Code (SWOC) · Remote
+                  </p>
+                  <p className="text-muted-foreground text-sm mb-4">
+                    Jan 2026 – Mar 2026
+                  </p>
+
+                  <ul className="list-disc pl-5 text-muted-foreground space-y-2">
+                    <li>
+                      Mentored contributors in front-end web development through structured, project-based learning.
+                    </li>
+                    <li>
+                      Guided participants in open-source collaboration, code practices, and project contributions.
+                    </li>
+                    <li>
+                      Supported learners in building real-world projects and improving development workflows.
+                    </li>
+                  </ul>
+
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    <Badge variant="secondary">Mentorship</Badge>
+                    <Badge variant="secondary">Frontend Development</Badge>
+                    <Badge variant="secondary">Open Source</Badge>
+                  </div>
+                </Card>
+
+              </div>
+            </motion.div>
           </div>
-        </Card>
-
-        {/* Experience 2 */}
-        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-          <h3 className="text-2xl font-bold mb-1">Student Intern</h3>
-          <p className="text-primary font-semibold">
-            National Institute of Technology Srinagar · Hybrid
-          </p>
-          <p className="text-muted-foreground text-sm mb-4">
-            Dec 2025 – Feb 2026
-          </p>
-
-          <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-            <li>
-              Gained hands-on experience in applied computer science through coding exercises and problem-solving tasks.
-            </li>
-            <li>
-              Participated in technical discussions and academic mentorship under faculty guidance.
-            </li>
-            <li>
-              Strengthened foundations in programming, algorithms, and teamwork.
-            </li>
-          </ul>
-
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Badge variant="secondary">Internship</Badge>
-            <Badge variant="secondary">Problem Solving</Badge>
-            <Badge variant="secondary">Programming</Badge>
-          </div>
-        </Card>
-
-        {/* Experience 3 */}
-        <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-          <h3 className="text-2xl font-bold mb-1">Mentor</h3>
-          <p className="text-primary font-semibold">
-            Social Winter of Code (SWOC) · Remote
-          </p>
-          <p className="text-muted-foreground text-sm mb-4">
-            Jan 2026 – Mar 2026
-          </p>
-
-          <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-            <li>
-              Mentored contributors in front-end web development through structured, project-based learning.
-            </li>
-            <li>
-              Guided participants in open-source collaboration, code practices, and project contributions.
-            </li>
-            <li>
-              Supported learners in building real-world projects and improving development workflows.
-            </li>
-          </ul>
-
-          <div className="flex flex-wrap gap-2 mt-4">
-            <Badge variant="secondary">Mentorship</Badge>
-            <Badge variant="secondary">Frontend Development</Badge>
-            <Badge variant="secondary">Open Source</Badge>
-          </div>
-        </Card>
-
-      </div>
-    </motion.div>
-  </div>
-</section>
+        </section>
         {/* Awards & Recognitions Section */}
         <section id="awards" className="py-24 px-6">
           <div className="max-w-5xl mx-auto">
@@ -643,12 +650,8 @@ const Index = () => {
                       Girls Leading Tech — Demonstrated excellence in portfolio development under the EmpowerHer 2.0 initiative, highlighting technical proficiency, creativity, and continuous professional growth.
                     </li>
 
-                    <li>
-  <strong>2nd Position – Cursor Hackathon (v0 Track)</strong><br />
-  Cursor Hackathon Kashmir, NIT Srinagar — Built Raasta, an AI-powered platform addressing real-world challenges through multi-domain solutions, featuring voice/text navigation, intelligent scraping, and real-time information systems.
-</li>
 
-                    
+
                   </ul>
                 </Card>
 
@@ -761,6 +764,92 @@ const Index = () => {
           </div>
         </footer>
       </div>
+
+      {showArcadeHub && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto">
+          <motion.div 
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="relative w-full max-w-4xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left"
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setShowArcadeHub(false)} 
+              className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-all border border-slate-700"
+              title="Close Arcade"
+            >
+              ✕
+            </button>
+
+            {/* Header */}
+            <div className="text-center mb-8">
+              <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
+                NIMRA'S ARCADE
+              </h2>
+              <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">
+                Step into an interactive portfolio sandbox! Choose your game mode to explore my skills, certifications, and career journey.
+              </p>
+            </div>
+
+            {/* Selector Grid */}
+            <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+              
+              {/* Game 1: Cooking Kitchen */}
+              <div 
+                onClick={() => { setShowGame(true); setShowArcadeHub(false); }}
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-emerald-950/40 to-slate-900/90 border border-emerald-500/10 hover:border-emerald-500/40 rounded-xl p-6 md:p-8 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] cursor-pointer"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-4xl" role="img" aria-label="Cooking Pot">🍳</span>
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                      Cottage-Core Game
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
+                    Kitchen Portfolio
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-3 leading-relaxed">
+                    Step into Chef Nimra's cozy cottage-core kitchen. Gather skill ingredients (HTML, React, AI) from the jars and "cook" them in a bubbling stove pot to unlock project recipes, earn Chef XP, and level up!
+                  </p>
+                </div>
+                <div className="mt-8">
+                  <button className="w-full py-2.5 px-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(16,185,129,0.2)]">
+                    ENTER KITCHEN 🍳
+                  </button>
+                </div>
+              </div>
+
+              {/* Game 2: City Quest */}
+              <div 
+                onClick={() => { setShowCityQuest(true); setShowArcadeHub(false); }}
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-cyan-950/40 to-slate-900/90 border border-cyan-500/10 hover:border-cyan-500/40 rounded-xl p-6 md:p-8 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] cursor-pointer"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-4xl" role="img" aria-label="Sports Car">🏎️</span>
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
+                      2.5D Driving Game
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-100 group-hover:text-cyan-400 transition-colors">
+                    City Quest
+                  </h3>
+                  <p className="text-xs text-slate-400 mt-3 leading-relaxed">
+                    Select a ride from the showroom garage (Phantom GTR, cyberCycle, Hover Pod) and explore a glowing neon sandbox city. Drive to discover achievements, certifications, events, and milestones with dynamic synthesized audio and fireworks!
+                  </p>
+                </div>
+                <div className="mt-8">
+                  <button className="w-full py-2.5 px-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-lg transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(6,182,212,0.2)]">
+                    DRIVE IN CITY 🏎️
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       <Dock items={dockItems} />
     </div>

@@ -1,57 +1,74 @@
-# Nimra Wani | Game Portfolio 🎮
+# Nimra Wani | Portfolio Website 🌐
 
-An immersive, RPG-style gamified portfolio experience showcasing full-stack and AI/ML projects. Built with a focus on interactive storytelling and modern web aesthetics.
+A clean, responsive, and highly interactive dual-mode portfolio website showcasing computer science foundations, full-stack engineering, and AI/ML projects. 
 
 **Live Demo:** [https://nimrawani.vercel.app/](https://nimrawani.vercel.app/)
 
-![Nimra Wani Game Portfolio](public/world_map_bg.png)
+---
 
-## 🌟 Overview
+## 🌟 Visual Modes
 
-This portfolio transforms the traditional resume into an interactive quest. Users explore a vibrant pixel-art world to discover projects, achievements, and educational background. The experience is designed to be engaging, rewarding, and visually stunning.
+This portfolio offers three distinct interactive experiences for visitors:
+* **Classic Professional View:** A sleek, glassmorphic dark-themed developer hub featuring floating Dock navigation and smooth micro-animations.
+* **Interactive Kitchen Portfolio (`?kitchen`):** An immersive cottage-core mini-game where visitors can explore projects, skills, and achievements by "cooking" recipes with specific tech stack ingredients!
+* **City Quest Driving Game (`?cityquest`):** A stylized 2.5D open-world arcade driving game where you customize a vehicle (sports car, lightcycle, scooter, hoverpod) in a showroom garage and drive around a neon city to explore achievements, certifications, events, and milestones!
 
-## ✨ Key Features
+---
 
-### 🗺️ Gamified Navigation
-- **World Map:** A non-linear exploration hub where you can travel to different "zones" like Projects, Experience, and Education.
-- **Landing Hub:** A cinematic entry point that sets the stage for the adventure.
+## 📚 Portfolio Sections
 
-### 📜 Quest Board (Projects)
-- **Horizontal Carousel:** A smooth, interactive carousel displaying projects as "Quests".
-- **Detailed Insights:** Each project page features in-depth descriptions, tech stacks, and direct links to live demos and repositories.
+### 1. 🏠 Home
+A modern typography landing screen powered by dynamic matrix canvas visual effects.
 
-### 📈 Progression System
-- **XP & Leveling:** Earn Experience Points (XP) by exploring the world and viewing projects.
-- **Coins:** Collect coins as rewards for your curiosity.
-- **Achievements:** Unlock special badges (e.g., "Master Explorer", "Viewed All Projects") that track your progress.
+### 2. 👤 About Me
+An introduction to my background as a Computer Science student focused on building scalable, reliable, and user-centered digital solutions.
 
-### 👤 Character System
-- **Character Customization:** Choose your avatar sprite to represent you in the world.
-- **Persistent State:** Your progress, selected character, and unlocked achievements are saved locally.
+### 3. 🛠️ Featured Projects
+Showcases select software engineering achievements, including:
+* **Academic Portal System (CUK):** A full-stack academic dashboard with role-based auth.
+* **BIS AI – Product Safety Assistant:** AI-powered verification assistant utilizing a RAG pipeline and offline PWA.
+* **Raasta – AI Platform:** Multi-domain crop intelligence, document Simplifier, and AI-guided assistant.
+* **Araaz E-commerce:** A fully responsive e-commerce application.
+* **CUK Exam System & Acadex:** Student and faculty dashboards for managing university operations.
+* **Smart House:** IoT home automation prototype using Arduino sensors.
 
-### 🎧 Immersive Atmosphere
-- **SFX & Music:** Dynamic sound effects and background music (togglable) to enhance the game-like feel.
-- **Micro-animations:** Built with Framer Motion for smooth transitions and interactive feedback.
-- **Responsive Layout:** Optimized for a seamless experience across desktop, tablet, and mobile devices.
+### 4. 🏆 Experience
+* **Campus Lead** @ Open Source Global Connect (Leadership & Community)
+* **Student Intern** @ National Institute of Technology Srinagar (Hybrid Research)
+* **Mentor** @ Social Winter of Code (SWOC) (Frontend Guidance)
 
-## 🛠️ Tech Stack
+### 5. 📜 Certifications & Credentials
+Professional certifications from Microsoft, IBM, Oracle, and Google Cloud covering:
+* Artificial Intelligence Foundations
+* Machine Learning & Deep Learning Concepts
+* Data preparation for Machine Learning APIs
 
-- **Framework:** [React](https://reactjs.org/) (Vite)
-- **Animations:** [Framer Motion](https://www.framer.com/motion/)
-- **Styling:** Vanilla CSS (Custom modern design system)
-- **Icons:** [React Icons](https://react-icons.github.io/react-icons/)
-- **State Management:** React Hooks & Local Storage
+### 6. 🎓 Education
+* **B.Tech in Computer Engineering** – Central University of Kashmir (2023 – 2027)
+* **Senior Secondary Education** – Delhi Public School, Srinagar (2009 – 2023)
+
+### 7. 🥇 Awards & Recognitions
+* **1st Position** – Logo Designing Competition (Cyber Conclave)
+* **1st Position** – Open Build Challenge (FOSS NIT Srinagar & FOSS United)
+* **1st Position** – SynerTech (Kashmir College of Engineering & Technology)
+* **2nd Position** – Cursor Kashmir Hackathon (v0 Track)
+* **4th Rank** – Portfolio BuildSprint 1.0 (Girls Leading Tech)
+
+### 8. ✉️ Contact
+Quick links to connect via email, GitHub, or LinkedIn.
+
+---
 
 ## 🚀 Getting Started
 
-To run this project locally, follow these steps:
+To run this portfolio locally:
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/nimrawani04/nimrawani04.github.io.git
    ```
 
-2. **Navigate to the project directory:**
+2. **Navigate to the directory:**
    ```bash
    cd nimrawani04.github.io
    ```
@@ -61,27 +78,13 @@ To run this project locally, follow these steps:
    npm install
    ```
 
-4. **Start the development server:**
+4. **Run in development mode:**
    ```bash
    npm run dev
    ```
 
-5. **Open in browser:**
-   Navigate to `http://localhost:5173`
-
-## 📁 Project Structure
-
-```
-├── public/          # Static assets (images, sprites, sounds)
-├── src/
-│   ├── components/  # Modular UI components (WorldScreen, ProjectScreen, etc.)
-│   ├── css/         # Modular CSS files
-│   ├── data.js      # Project and achievement data
-│   ├── utils/       # Helper functions (audio, storage)
-│   ├── App.jsx      # Main application logic and routing
-│   └── main.jsx     # Entry point
-└── index.html       # HTML template and SEO meta tags
-```
+5. **Open in your browser:**
+   Open [http://localhost:5173](http://localhost:5173). Click the **"Kitchen"** icon in the floating dock or add `?kitchen` to the URL to test the cooking game!
 
 ---
 
