@@ -1,946 +1,1269 @@
-/* ==========================================================================
-   NIMRA'S KITCHEN — PREMIUM GAME 1 CUSTOM STYLES
-   ========================================================================== */
+/* -------------------------------------------------------------
+ * PREMIUM 2.5D KITCHEN PORTFOLIO - STYLESHEET
+ * ------------------------------------------------------------- */
 
-/* 1. Main Viewport & Base Layout */
-.ck-viewport {
+/* Main Viewport Container */
+.kg-viewport {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at 50% 30%, #150d2e 0%, #080314 100%);
-  color: #e2e8f0;
   overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #1e112d 0%, #0c0614 100%);
   font-family: 'Outfit', sans-serif;
-  user-select: none;
+  color: #e2e8f0;
   z-index: 40;
+  user-select: none;
 }
 
-.ck-vignette {
+/* Atmospheric Night Vignette */
+.kg-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(5, 2, 12, 0.9) 100%);
+  background: radial-gradient(circle, transparent 20%, rgba(5, 2, 10, 0.85) 100%);
   pointer-events: none;
-  z-index: 3;
+  z-index: 5;
 }
 
-/* 2. Rainy City Window Backdrop */
-.ck-window-backdrop {
+/* Rainy Windowpane background */
+.kg-window-backdrop {
   position: absolute;
   top: 10%;
-  right: 8%;
+  right: 15%;
   width: 320px;
-  height: 240px;
+  height: 200px;
+  background: #090310;
+  border: 4px solid #1f152d;
   border-radius: 12px;
-  border: 4px solid #1a103c;
-  background: linear-gradient(to bottom, #09031c, #1a0b36);
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.15);
   overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 40px rgba(139, 92, 246, 0.1);
   z-index: 1;
 }
 
-.ck-city-lights {
+.kg-rain-overlay {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(239, 68, 68, 0.3) 2px, transparent 2px),
-                    radial-gradient(circle, rgba(6, 182, 212, 0.3) 3px, transparent 3px),
-                    radial-gradient(circle, rgba(245, 158, 11, 0.25) 2px, transparent 2px);
-  background-size: 40px 40px, 60px 60px, 80px 80px;
-  filter: blur(4px);
-  opacity: 0.75;
+  background: linear-gradient(transparent, rgba(16, 10, 28, 0.4));
 }
 
-.ck-rain-overlay {
+.kg-rain-drops {
   position: absolute;
   inset: 0;
-  background: rgba(13, 7, 34, 0.4);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' width='100' height='100'%3E%3Cpath d='M10 0 L10 20 M30 10 L30 30 M50 5 L50 25 M70 15 L70 35 M90 0 L90 20' stroke='rgba(139, 92, 246, 0.15)' stroke-width='1'/%3E%3C/svg%3E") repeat;
+  animation: kg-rain-fall 0.8s linear infinite;
+  opacity: 0.7;
 }
 
-.ck-rain-drops {
-  position: absolute;
+@keyframes kg-rain-fall {
+  0% { transform: translateY(-100px); }
+  100% { transform: translateY(100px); }
+}
+
+/* Cinematic Elevator Transition Gates */
+.kg-transition-gate {
+  position: fixed;
   inset: 0;
-  background: repeat-y;
-  background-image: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
-  background-size: 2px 80px;
-  animation: ck-rain-fall 1.5s linear infinite;
-}
-
-@keyframes ck-rain-fall {
-  0% { background-position: 0 0; }
-  100% { background-position: 10px 500px; }
-}
-
-/* 3. Hanging Pendant & Countertop Lighting */
-.ck-pendant-light {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 120px;
-  background: linear-gradient(to bottom, #2b1856, #a78bfa);
-  z-index: 5;
-}
-
-.ck-light-shade {
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 48px;
-  height: 24px;
-  background: linear-gradient(135deg, #3b1f7a, #1a0b36);
-  border-radius: 24px 24px 0 0;
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
-.ck-light-glow {
-  position: absolute;
-  bottom: -320px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 450px;
-  height: 320px;
-  background: radial-gradient(ellipse at top, rgba(253, 186, 116, 0.22) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
-  pointer-events: none;
-  z-index: 4;
-}
-
-/* 4. Active Preparation Countertop */
-.ck-countertop {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 40%;
-  background: linear-gradient(to bottom, #110926 0%, #06020f 100%);
-  border-top: 4px solid #23144c;
-  box-shadow: inset 0 20px 40px rgba(139, 92, 246, 0.05), 0 -10px 30px rgba(0, 0, 0, 0.5);
-  z-index: 10;
-}
-
-.ck-marble-gloss {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(125deg, transparent 40%, rgba(255, 255, 255, 0.02) 48%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.02) 52%, transparent 60%);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
   pointer-events: none;
 }
 
-/* 5. Utensil Hanging Rack & Selection */
-.ck-utensil-rack {
-  position: absolute;
-  top: 15%;
-  left: 8%;
-  display: flex;
-  gap: 16px;
-  background: rgba(13, 7, 32, 0.65);
-  border: 1px solid rgba(139, 92, 246, 0.15);
-  padding: 12px 18px;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(8px);
-  z-index: 8;
-}
-
-.ck-rack-bar {
-  position: absolute;
-  top: -8px;
-  left: 10%;
-  right: 10%;
-  height: 4px;
-  background: #3c2475;
-  border-radius: 2px;
-}
-
-.ck-rack-hook {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.ck-rack-hook:hover {
-  transform: translateY(2px);
-  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.6));
-}
-
-.ck-rack-tool {
-  font-size: 2.2rem;
-}
-
-.ck-rack-label {
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: #a78bfa;
-  font-weight: 700;
-}
-
-/* 6. Realistic Storage Shelves */
-.ck-storage-shelves {
-  position: absolute;
-  top: 10%;
-  left: 45%;
-  right: 8%;
-  display: grid;
-  grid-template-rows: repeat(2, 1fr);
-  gap: 20px;
-  z-index: 5;
-}
-
-.ck-shelf-level {
-  position: relative;
-  background: rgba(15, 9, 36, 0.55);
-  border-bottom: 5px solid #2d195c;
-  border-radius: 4px;
-  padding: 14px 16px 4px 16px;
-  display: flex;
-  justify-content: space-around;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-}
-
-.ck-shelf-wood {
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  right: 0;
-  height: 5px;
-  background: linear-gradient(to right, #44208a, #200f45);
-  border-radius: 0 0 4px 4px;
-}
-
-/* 7. Labeled Technology Jars & Ingredients */
-.ck-jar-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: grab;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  position: relative;
-}
-
-.ck-jar-container:active {
-  cursor: grabbing;
-}
-
-.ck-jar-container:hover {
-  transform: scale(1.1) translateY(-4px);
-  filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.4));
-}
-
-.ck-jar-icon {
-  font-size: 2.2rem;
-  transition: transform 0.15s ease;
-}
-
-.ck-jar-container:hover .ck-jar-icon {
-  animation: ck-jar-jiggle 0.4s ease infinite alternate;
-}
-
-@keyframes ck-jar-jiggle {
-  0% { transform: rotate(-5deg); }
-  100% { transform: rotate(5deg); }
-}
-
-.ck-jar-badge {
-  font-size: 8px;
-  background: rgba(167, 139, 250, 0.15);
-  border: 1px solid rgba(167, 139, 250, 0.3);
-  color: #c084fc;
-  font-weight: 700;
-  padding: 1px 4px;
-  border-radius: 4px;
-  margin-top: 4px;
-  white-space: nowrap;
-}
-
-/* 8. Active Cooking Stove Burner */
-.ck-stove-station {
-  position: absolute;
-  top: -60px;
-  left: 10%;
-  width: 240px;
-  height: 180px;
-  background: #190e38;
-  border: 2px solid #2c1a59;
-  border-radius: 16px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+.kg-gate-half {
+  flex: 1;
+  background: #0d0617;
+  border: 1px solid rgba(16, 185, 129, 0.04);
+  transition: transform 1.6s cubic-bezier(0.85, 0, 0.15, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 12;
-}
-
-.ck-stove-grates {
-  position: absolute;
-  inset: 12px;
-  border: 3px dashed #35216b;
-  border-radius: 12px;
-}
-
-.ck-burner-ring {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  border: 4px solid #231649;
   position: relative;
-  transition: all 0.3s ease;
-}
-
-.ck-burner-ring.ignited {
-  border-color: #f97316;
-  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4), inset 0 0 15px rgba(249, 115, 22, 0.4);
-}
-
-.ck-stove-flames {
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  border: 3px dotted #f97316;
-  opacity: 0;
-  animation: ck-pulse-flames 0.8s ease infinite alternate;
-}
-
-.ck-burner-ring.ignited .ck-stove-flames {
-  opacity: 1;
-}
-
-@keyframes ck-pulse-flames {
-  0% { transform: scale(0.98); filter: drop-shadow(0 0 2px #f97316); }
-  100% { transform: scale(1.05); filter: drop-shadow(0 0 6px #ef4444); }
-}
-
-/* Interactive Knob */
-.ck-stove-knob-wrapper {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.ck-stove-knob {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #4c2d9a, #1f0f47);
-  border: 2px solid #633bbd;
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.ck-knob-pointer {
-  position: absolute;
-  top: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 8px;
-  background: #f97316;
-  border-radius: 1px;
-}
-
-.ck-knob-label {
-  font-size: 8px;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #6d28d9;
-}
-
-.ck-knob-label.active {
-  color: #f97316;
-  animation: pulse 1s infinite alternate;
-}
-
-/* 9. Steam and Bubble Particle FX */
-.ck-active-utensil {
-  position: absolute;
-  top: -95px;
-  left: calc(10% + 70px);
-  font-size: 6rem;
-  filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6));
-  z-index: 15;
-  animation: ck-pot-hum 4s ease-in-out infinite;
-}
-
-@keyframes ck-pot-hum {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-4px); }
-}
-
-.ck-steam-container {
-  position: absolute;
-  top: -140px;
-  left: calc(10% + 95px);
-  width: 60px;
-  height: 70px;
-  pointer-events: none;
-  z-index: 18;
-}
-
-.ck-steam-waft {
-  position: absolute;
-  bottom: 0;
-  width: 14px;
-  height: 35px;
-  background: radial-gradient(circle, rgba(226, 232, 240, 0.15) 0%, transparent 75%);
-  border-radius: 50%;
-  animation: ck-steam-rise 2.5s ease-out infinite;
-  filter: blur(3px);
-}
-
-@keyframes ck-steam-rise {
-  0% { transform: translateY(0) scale(0.6); opacity: 0; }
-  20% { opacity: 0.8; }
-  100% { transform: translateY(-60px) translateX(var(--tx, 10px)) scale(1.6); opacity: 0; }
-}
-
-.ck-bubbles-container {
-  position: absolute;
-  top: -85px;
-  left: calc(10% + 90px);
-  width: 70px;
-  height: 30px;
-  pointer-events: none;
-  z-index: 17;
   overflow: hidden;
 }
 
-.ck-boiling-bubble {
-  position: absolute;
-  bottom: 0;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(249, 115, 22, 0.4);
-  border: 1px solid rgba(254, 215, 170, 0.6);
-  animation: ck-bubble-pop 1s ease-out infinite;
+.kg-gate-top {
+  transform: translateY(0);
+  border-bottom: 2px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 10px 40px rgba(16, 185, 129, 0.15);
 }
 
-@keyframes ck-bubble-pop {
-  0% { transform: translateY(0) scale(0.5); opacity: 0.8; }
-  80% { opacity: 1; }
-  100% { transform: translateY(-20px) scale(1.5); opacity: 0; }
+.kg-gate-bottom {
+  transform: translateY(0);
+  border-top: 2px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 -10px 40px rgba(16, 185, 129, 0.15);
 }
 
-/* 10. Physical Menu Book & Orders Board */
-.ck-orders-board {
-  position: absolute;
-  top: 15%;
-  left: 28%;
-  width: 190px;
-  background: #110a26;
-  border: 2px solid #2c1a59;
-  border-radius: 12px;
-  padding: 10px 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-  z-index: 6;
+.kg-gate-half.open.kg-gate-top {
+  transform: translateY(-100%);
 }
 
-.ck-board-header {
-  font-size: 10px;
+.kg-gate-half.open.kg-gate-bottom {
+  transform: translateY(100%);
+}
+
+.kg-gate-label {
+  font-family: 'Outfit', sans-serif;
+  color: #10b981;
+  font-size: 2.2rem;
+  font-weight: 900;
+  letter-spacing: 0.4em;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
   text-transform: uppercase;
-  color: #a78bfa;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  border-bottom: 1px solid rgba(167, 139, 250, 0.2);
-  padding-bottom: 4px;
-  margin-bottom: 6px;
-  text-align: center;
 }
 
-.ck-menu-card {
-  background: rgba(30, 20, 60, 0.55);
-  border: 1px solid rgba(167, 139, 250, 0.1);
-  padding: 8px;
-  border-radius: 8px;
-  margin-bottom: 6px;
-  cursor: pointer;
-  transition: all 0.2s ease;
+/* Sound Waves pill */
+.kg-soundscape-pill {
+  position: absolute;
+  top: 100px;
+  left: 24px;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.ck-menu-card:hover {
-  background: rgba(139, 92, 246, 0.15);
-  border-color: #a78bfa;
-  transform: translateX(4px);
-}
-
-.ck-menu-card.active {
-  background: rgba(139, 92, 246, 0.25);
-  border-color: #c084fc;
-  box-shadow: 0 0 10px rgba(167, 139, 250, 0.25);
-}
-
-.ck-menu-card-icon {
-  font-size: 1.5rem;
-}
-
-.ck-menu-card-details {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.ck-menu-card-title {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 9999px;
+  padding: 6px 12px;
   font-size: 10px;
-  font-weight: 700;
-  color: #f1f5f9;
-}
-
-.ck-menu-card-xp {
-  font-size: 7px;
-  color: #a78bfa;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 700;
+  color: #10b981;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 8;
 }
 
-/* 11. Immersive Recipe Cookbook UI */
-.ck-recipe-book-panel {
-  position: absolute;
-  top: 15%;
-  left: 12%;
-  width: 440px;
-  background: #fdfaf2; /* Elegant real paper look */
-  border: 6px solid #4a2c11; /* Wood bound cover */
-  border-radius: 8px;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.06);
-  padding: 20px 24px;
-  color: #2b1f16; /* Pen handwriting shade */
-  font-family: 'Outfit', sans-serif;
-  z-index: 30;
-  text-align: left;
+.kg-sound-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 10px;
 }
 
-.ck-book-pin {
+.kg-wave-bar {
+  width: 2px;
+  height: 100%;
+  background: #10b981;
+  border-radius: 9999px;
+  animation: kg-wave-bounce var(--dur) ease-in-out infinite alternate;
+}
+
+@keyframes kg-wave-bounce {
+  0% { height: 20%; }
+  100% { height: 100%; }
+}
+
+/* -------------------------------------------------------------
+ * 2.5D KITCHEN WORKSPACE STRUCTURE
+ * ------------------------------------------------------------- */
+.kg-workspace {
   position: absolute;
-  top: -8px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 12px;
-  background: #8b5a2b;
+  inset: 80px 24px 24px 24px;
+  display: grid;
+  grid-template-columns: 280px 1fr 340px;
+  gap: 20px;
+  z-index: 6;
+}
+
+/* Left Section: Skill Ingredients Cabinet */
+.kg-ingredients-cabinet {
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 20px rgba(139, 92, 246, 0.05);
+  overflow: hidden;
+}
+
+.kg-cabinet-header {
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  padding-bottom: 10px;
+  margin-bottom: 12px;
+}
+
+.kg-cabinet-header h4 {
+  font-size: 14px;
+  font-weight: 800;
+  color: #a78bfa;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.kg-cabinet-header p {
+  font-size: 9px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.kg-shelves-container {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Custom Scrollbar for Cabinet */
+.kg-shelves-container::-webkit-scrollbar {
+  width: 4px;
+}
+.kg-shelves-container::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.1);
+}
+.kg-shelves-container::-webkit-scrollbar-thumb {
+  background: rgba(139, 92, 246, 0.25);
   border-radius: 4px;
 }
 
-.ck-recipe-tag {
+.kg-shelf-row {
+  margin-bottom: 16px;
+}
+
+.kg-shelf-title {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.kg-shelf-wood {
+  background: linear-gradient(180deg, #321c47 0%, #1a0e28 100%);
+  border-bottom: 3px solid #0f0717;
+  border-radius: 6px;
+  padding: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  box-shadow: inset 0 2px 5px rgba(255,255,255,0.05), 0 4px 10px rgba(0,0,0,0.4);
+}
+
+/* Labeled Ingredient Container */
+.kg-ingredient-jar {
+  width: 50px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.kg-ingredient-jar:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--jar-glow, #10b981);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4), 0 0 12px rgba(16, 185, 129, 0.2);
+}
+
+.kg-jar-icon {
+  font-size: 20px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  transition: transform 0.2s;
+}
+
+.kg-ingredient-jar:hover .kg-jar-icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+.kg-jar-label {
+  font-size: 7px;
+  font-weight: 700;
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 4px;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Particle explosion on ingredient add */
+.kg-particle-puff {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--p-color, #10b981);
+  pointer-events: none;
+  z-index: 50;
+  animation: kg-puff-burst 0.7s ease-out forwards;
+}
+
+@keyframes kg-puff-burst {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------
+ * 3. Center Section: Island Prep Counter
+ * ------------------------------------------------------------- */
+.kg-cooking-island {
+  display: grid;
+  grid-template-rows: 1fr 120px;
+  gap: 16px;
+}
+
+/* Top Island Workspace container */
+.kg-island-main {
+  background: rgba(15, 8, 25, 0.5);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 24px;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+
+/* The physical wooden tabletop counter */
+.kg-countertop {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(180deg, #422617 0%, #29160d 100%);
+  border-top: 6px solid #5a3521;
+  border-bottom: 12px solid #1a0e08;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6), inset 0 2px 4px rgba(255,255,255,0.1);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 20px;
+}
+
+/* Placed Active Cookware Utensil */
+.kg-placed-utensil {
+  width: 130px;
+  height: 120px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.kg-utensil-graphic {
+  font-size: 80px;
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.5));
+  animation: kg-sway 3s ease-in-out infinite alternate;
+}
+
+@keyframes kg-sway {
+  0% { transform: rotate(-2deg) translateY(0); }
+  100% { transform: rotate(2deg) translateY(-2px); }
+}
+
+/* Dynamic steam particle from cooker */
+.kg-steam-cloud {
+  position: absolute;
+  top: -20px;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  filter: blur(8px);
+  animation: kg-steam-rise 2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes kg-steam-rise {
+  0% {
+    transform: translateY(0) scale(0.6);
+    opacity: 0.1;
+  }
+  50% {
+    transform: translateY(-40px) scale(1.3);
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateY(-90px) scale(2);
+    opacity: 0;
+  }
+}
+
+/* Spills / Splashes inside utensil */
+.kg-liquid-splash {
+  position: absolute;
+  top: 30px;
+  width: 60px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--splash-color, rgba(16, 185, 129, 0.4));
+  box-shadow: 0 0 10px var(--splash-color, rgba(16,185,129,0.4));
+  animation: kg-liquid-bubble 0.4s ease-in-out infinite alternate;
+}
+
+@keyframes kg-liquid-bubble {
+  0% { transform: scaleY(0.9); }
+  100% { transform: scaleY(1.1); }
+}
+
+/* Ingredient count overlay on top of active cooker */
+.kg-cooker-counter {
+  position: absolute;
+  top: -45px;
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 6px;
+  padding: 4px 8px;
   font-size: 8px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #b45309;
-  background: rgba(180, 83, 9, 0.1);
-  padding: 2px 6px;
+  color: #10b981;
+  letter-spacing: 0.1em;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* -------------------------------------------------------------
+ * Leather Cookbook Recipe Book
+ * ------------------------------------------------------------- */
+.kg-leather-cookbook {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+  right: 20px;
+  height: 230px;
+  background: linear-gradient(135deg, #2b1810 0%, #1f0f09 100%);
+  border: 3px solid #4a2d1f;
+  border-radius: 12px;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.6), inset 0 0 20px rgba(255,255,255,0.03);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 16px;
+  gap: 16px;
+  z-index: 10;
+}
+
+/* Spine seam */
+.kg-cookbook-spine {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  background: linear-gradient(90deg, #180905 0%, #30170e 50%, #180905 100%);
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+}
+
+.kg-page-left, .kg-page-right {
+  background: #fbf6eb;
   border-radius: 4px;
-  display: inline-block;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.15);
+  padding: 14px;
+  overflow-y: auto;
+  color: #292524;
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Scrollbar for book pages */
+.kg-page-left::-webkit-scrollbar, .kg-page-right::-webkit-scrollbar {
+  width: 2px;
+}
+.kg-page-left::-webkit-scrollbar-thumb, .kg-page-right::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.1);
+}
+
+.kg-recipe-title {
+  font-size: 14px;
+  font-weight: 900;
+  color: #451a03;
+  border-bottom: 2px dashed rgba(69, 26, 3, 0.2);
+  padding-bottom: 4px;
   margin-bottom: 6px;
 }
 
-.ck-recipe-title {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #1e1105;
-  margin-bottom: 4px;
-  letter-spacing: -0.01em;
-}
-
-.ck-recipe-desc {
-  font-size: 10px;
+.kg-recipe-desc {
+  font-size: 9px;
   line-height: 1.4;
-  color: #574130;
-  margin-bottom: 12px;
-  font-style: italic;
+  color: #78716c;
 }
 
-.ck-recipe-ingredients-box {
-  background: rgba(74, 44, 17, 0.04);
-  border: 1px dashed rgba(74, 44, 17, 0.2);
-  border-radius: 6px;
-  padding: 8px 12px;
-  margin-bottom: 12px;
-}
-
-.ck-recipe-ingredients-title {
-  font-size: 9px;
-  text-transform: uppercase;
-  font-weight: 800;
-  color: #78350f;
-  margin-bottom: 4px;
-}
-
-.ck-recipe-ingredients-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.ck-recipe-ing-tag {
-  font-size: 9px;
-  background: #ffffff;
-  border: 1px solid rgba(74, 44, 17, 0.15);
-  color: #4a2c11;
-  padding: 2px 6px;
+.kg-recipe-instructions {
+  margin-top: 10px;
+  font-size: 8px;
+  font-weight: 700;
+  background: rgba(69, 26, 3, 0.05);
+  padding: 6px;
   border-radius: 4px;
-  font-weight: 600;
+  color: #78350f;
+}
+
+.kg-recipe-ingredients-title {
+  font-size: 10px;
+  font-weight: 800;
+  color: #451a03;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.kg-ingredient-checklist-item {
   display: flex;
   align-items: center;
-  gap: 3px;
-}
-
-.ck-recipe-ing-tag.checked {
-  background: #dcfce7;
-  border-color: #86efac;
-  color: #166534;
-}
-
-.ck-recipe-instructions {
+  gap: 6px;
   font-size: 9px;
-  line-height: 1.4;
-  color: #3b2818;
+  font-weight: 600;
+  color: #44403c;
+  margin-bottom: 5px;
 }
 
-.ck-recipe-ins-step {
-  margin-bottom: 6px;
+.kg-ingredient-checklist-item.checked {
+  text-decoration: line-through;
+  color: #10b981;
 }
 
-.ck-recipe-instructions-title {
+.kg-checkbox-circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #78716c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 6px;
+}
+
+.kg-ingredient-checklist-item.checked .kg-checkbox-circle {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+}
+
+/* -------------------------------------------------------------
+ * Bottom Shelf: Utensil Selector
+ * ------------------------------------------------------------- */
+.kg-utensil-shelf {
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 16px;
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+}
+
+.kg-utensil-shelf-title {
   font-size: 9px;
-  text-transform: uppercase;
   font-weight: 800;
-  color: #78350f;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #a78bfa;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.kg-utensil-rack {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.kg-utensil-rack-slot {
+  width: 55px;
+  height: 55px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.kg-utensil-rack-slot:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.06);
+  border-color: #10b981;
+}
+
+.kg-utensil-rack-slot.selected {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: #10b981;
+  box-shadow: 0 0 10px rgba(16,185,129,0.2);
+}
+
+.kg-rack-icon {
+  font-size: 24px;
+}
+
+.kg-rack-label {
+  font-size: 7px;
+  font-weight: 700;
+  color: #64748b;
+  margin-top: 3px;
+}
+
+.kg-utensil-rack-slot.selected .kg-rack-label {
+  color: #10b981;
+}
+
+/* -------------------------------------------------------------
+ * 4. Right Section: Active Stove Range
+ * ------------------------------------------------------------- */
+.kg-stove-range {
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.kg-stove-burners {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.kg-burner-slot {
+  flex: 1;
+  background: radial-gradient(circle, #1a0e2d 0%, #0d0617 100%);
+  border: 2px solid #231238;
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+
+.kg-burner-ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px dashed #2d1847;
+  position: absolute;
+  transition: all 0.3s;
+}
+
+.kg-burner-slot.active .kg-burner-ring {
+  border-color: #f97316;
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.5), inset 0 0 15px rgba(249,115,22,0.3);
+  animation: kg-spin 20s linear infinite;
+}
+
+@keyframes kg-spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Heat flames SVG */
+.kg-burner-flames {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  bottom: 10px;
+  display: flex;
+  justify-content: space-around;
+  pointer-events: none;
+}
+
+.kg-flame-tongue {
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to top, #ef4444, #f97316, #eab308, transparent);
+  border-radius: 9999px;
+  animation: kg-flame-flicker var(--d) ease-in-out infinite alternate;
+  transform-origin: bottom center;
+}
+
+@keyframes kg-flame-flicker {
+  0% { transform: scaleY(0.4) scaleX(0.8) rotate(-5deg); }
+  100% { transform: scaleY(1.1) scaleX(1.2) rotate(5deg); }
+}
+
+/* Stove control knob */
+.kg-stove-controls-board {
+  border-top: 1px solid rgba(139, 92, 246, 0.15);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.kg-stove-knobs-rack {
+  display: flex;
+  gap: 16px;
+}
+
+.kg-metallic-knob-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.kg-metallic-knob {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #475569 0%, #1e293b 100%);
+  border: 2px solid #0f172a;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.2);
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.kg-knob-indicator {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 12px;
+  background: #10b981;
+  border-radius: 9999px;
+  box-shadow: 0 0 5px #10b981;
+}
+
+.kg-knob-label {
+  font-size: 7px;
+  font-weight: 800;
+  color: #64748b;
+  text-transform: uppercase;
+}
+
+.kg-knob-label.active {
+  color: #10b981;
+  text-shadow: 0 0 5px rgba(16,185,129,0.3);
+}
+
+/* -------------------------------------------------------------
+ * 5. PLATING / FINISH REVEAL SCENE
+ * ------------------------------------------------------------- */
+.kg-plating-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 40%, #1a0f30 0%, #06020c 100%);
+  z-index: 15;
+}
+
+.kg-gourmet-reveal-card {
+  text-align: center;
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 440px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7), 0 0 40px rgba(16,185,129,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.kg-gold-sparkle {
+  position: absolute;
+  font-size: 20px;
+  animation: kg-sparkle-float var(--dur) ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+@keyframes kg-sparkle-float {
+  0% { transform: translateY(0) scale(0.8) rotate(0deg); opacity: 0.3; }
+  100% { transform: translateY(-15px) scale(1.2) rotate(15deg); opacity: 0.9; }
+}
+
+.kg-plated-dish-display {
+  font-size: 100px;
+  margin: 10px 0;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+  animation: kg-float 4s ease-in-out infinite alternate;
+}
+
+@keyframes kg-float {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-10px) scale(1.03); }
+}
+
+.kg-stars-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.kg-star-item {
+  font-size: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+}
+
+.kg-star-item.active {
+  color: #fbbf24;
+  animation: kg-pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.kg-star-item.cracked {
+  color: #475569;
+  transform: rotate(-10deg) scale(0.9);
+}
+
+@keyframes kg-pop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.kg-plated-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #10b981;
+  text-shadow: 0 0 10px rgba(16,185,129,0.3);
   margin-bottom: 4px;
 }
 
-/* 12. Cinematic HUD Header Controls */
-.ck-hud-header {
+.kg-plated-desc {
+  font-size: 10px;
+  color: #94a3b8;
+  line-height: 1.4;
+  margin-bottom: 20px;
+}
+
+.kg-explore-dish-btn {
+  background: #10b981;
+  color: #0c0614;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 12px 24px;
+  border-radius: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.25s;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+}
+
+.kg-explore-dish-btn:hover {
+  transform: translateY(-2px);
+  background: #34d399;
+  box-shadow: 0 8px 24px rgba(52, 211, 153, 0.4);
+}
+
+/* -------------------------------------------------------------
+ * 6. PROJECT SHOWCASE HUD
+ * ------------------------------------------------------------- */
+.kg-showcase-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #1e112d 0%, #06020c 100%);
+  z-index: 20;
+}
+
+.kg-showcase-board {
+  width: 90%;
+  max-width: 800px;
+  height: 80%;
+  max-height: 480px;
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 24px;
+  gap: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kg-showcase-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kg-showcase-dish-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  border-radius: 9999px;
+  padding: 4px 10px;
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #10b981;
+  width: fit-content;
+  margin-bottom: 12px;
+}
+
+.kg-showcase-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: #f8fafc;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+
+.kg-showcase-desc {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 16px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.kg-showcase-desc::-webkit-scrollbar {
+  width: 2px;
+}
+.kg-showcase-desc::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+
+.kg-showcase-features-list {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+.kg-feature-pill {
+  font-size: 9px;
+  font-weight: 600;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.kg-feature-pill:last-child {
+  margin-bottom: 0;
+}
+
+.kg-showcase-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kg-showcase-screenshot-container {
+  flex: 1;
+  background: #090412;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  margin-bottom: 16px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kg-showcase-screenshot-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.kg-xp-gain-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(139, 92, 246, 0.9);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 8px;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 4px 10px rgba(139, 92, 246, 0.4);
+  animation: kg-float 2s ease-in-out infinite alternate;
+}
+
+.kg-showcase-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.kg-showcase-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.kg-showcase-btn.primary {
+  background: #10b981;
+  color: #0c0614;
+}
+
+.kg-showcase-btn.primary:hover {
+  background: #34d399;
+  transform: translateY(-2px);
+}
+
+.kg-showcase-btn.secondary {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #e2e8f0;
+}
+
+.kg-showcase-btn.secondary:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-2px);
+}
+
+.kg-showcase-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+  transition: all 0.2s;
+}
+
+.kg-showcase-close-btn:hover {
+  background: rgba(255,255,255,0.1);
+  color: white;
+  transform: rotate(90deg);
+}
+
+/* -------------------------------------------------------------
+ * 7. SELECTION MENU SCREEN (TABLE COUNTER)
+ * ------------------------------------------------------------- */
+.kg-menu-scene {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 30%, #1b0e2d 0%, #06020c 100%);
+  z-index: 12;
+}
+
+.kg-menu-board {
+  width: 90%;
+  max-width: 840px;
+  text-align: center;
+}
+
+.kg-menu-header {
+  margin-bottom: 24px;
+}
+
+.kg-menu-header h2 {
+  font-size: 28px;
+  font-weight: 900;
+  color: #10b981;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 20px rgba(16,185,129,0.3);
+}
+
+.kg-menu-header p {
+  font-size: 11px;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.kg-recipe-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.kg-recipe-card {
+  background: rgba(15, 8, 25, 0.85);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 280px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.kg-recipe-card:hover {
+  transform: translateY(-8px);
+  border-color: #10b981;
+  box-shadow: 0 12px 30px rgba(16, 185, 129, 0.15), 0 0 20px rgba(16, 185, 129, 0.1);
+}
+
+.kg-card-thumbnail-container {
+  width: 100%;
+  height: 100px;
+  background: #090310;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.8);
+}
+
+.kg-card-thumbnail-display {
+  font-size: 54px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+}
+
+.kg-recipe-card:hover .kg-card-thumbnail-display {
+  animation: kg-float 2s ease-in-out infinite alternate;
+}
+
+.kg-recipe-card h3 {
+  font-size: 12px;
+  font-weight: 800;
+  color: #f8fafc;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+
+.kg-recipe-card p {
+  font-size: 9px;
+  color: #64748b;
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.kg-card-select-btn {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  font-size: 8px;
+  font-weight: 800;
+  padding: 8px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+}
+
+.kg-recipe-card:hover .kg-card-select-btn {
+  background: #10b981;
+  color: #0c0614;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+/* -------------------------------------------------------------
+ * 8. HUD top and bottom bars
+ * ------------------------------------------------------------- */
+.kg-hud-header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: 70px;
-  background: linear-gradient(to bottom, rgba(13, 7, 34, 0.9) 0%, transparent 100%);
-  padding: 0 24px;
+  height: 60px;
+  background: linear-gradient(to bottom, #090310 0%, transparent 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 25;
+  padding: 0 24px;
+  z-index: 10;
 }
 
-.ck-hud-title {
+.kg-hud-title {
   display: flex;
   align-items: center;
   gap: 12px;
-  text-align: left;
 }
 
-.ck-hud-logo {
+.kg-hud-logo {
   width: 32px;
   height: 32px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
   border-radius: 50%;
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px solid rgba(167, 139, 250, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #c084fc;
-}
-
-.ck-hud-title-text h3 {
-  font-size: 14px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: #f1f5f9;
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.ck-hud-title-text span {
-  font-size: 9px;
-  color: #a78bfa;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-.ck-hud-controls {
-  display: flex;
-  gap: 12px;
-}
-
-.ck-control-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(13, 7, 34, 0.8);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  color: #a78bfa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.ck-control-btn:hover {
-  background: rgba(139, 92, 246, 0.25);
-  border-color: #c084fc;
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
-/* 13. Dynamic Subtitles Screen Overlay */
-.ck-dialogue-box {
-  position: absolute;
-  bottom: 4%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  max-width: 650px;
-  background: rgba(9, 4, 24, 0.88);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  border-radius: 12px;
-  padding: 12px 20px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(139,92,246,0.05);
-  backdrop-filter: blur(8px);
-  z-index: 20;
-  text-align: left;
-}
-
-.ck-dialogue-blink {
-  width: 6px;
-  height: 6px;
-  background: #f97316;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 8px;
-  animation: ck-pulse-orange 1s infinite alternate;
-}
-
-@keyframes ck-pulse-orange {
-  0% { transform: scale(0.8); opacity: 0.5; }
-  100% { transform: scale(1.3); opacity: 1; }
-}
-
-.ck-dialogue-text {
-  font-size: 10px;
-  color: #cbd5e1;
-  line-height: 1.4;
-  margin: 0;
-  display: inline;
-}
-
-/* 14. Retro-Futuristic Project Reveal Panel */
-.ck-reveal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(5, 2, 14, 0.95);
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.ck-reveal-card {
-  width: 100%;
-  max-width: 760px;
-  background: #0d061c;
-  border: 1px solid rgba(139, 92, 246, 0.25);
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 50px rgba(139, 92, 246, 0.1);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-
-.ck-reveal-header {
-  background: linear-gradient(to bottom, #160e32, #0d061c);
-  padding: 20px 24px;
-  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ck-reveal-header h2 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  background: linear-gradient(to right, #c084fc, #818cf8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin: 0;
-}
-
-.ck-reveal-stars {
-  display: flex;
-  gap: 4px;
-}
-
-.ck-star-gold {
-  color: #f59e0b;
-  font-size: 1.2rem;
-}
-
-.ck-star-gray {
-  color: #4b5563;
-  font-size: 1.2rem;
-}
-
-.ck-reveal-body {
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: 24px;
-  overflow-y: auto;
-  max-height: 480px;
-}
-
-.ck-reveal-desc-box h4 {
-  font-size: 12px;
-  text-transform: uppercase;
-  color: #a78bfa;
-  font-weight: 800;
-  margin-bottom: 8px;
-}
-
-.ck-reveal-desc-box p {
-  font-size: 11px;
-  color: #94a3b8;
-  line-height: 1.6;
-  margin-bottom: 16px;
-}
-
-.ck-reveal-spec-box {
-  background: rgba(15, 9, 36, 0.7);
-  border: 1px solid rgba(139, 92, 246, 0.15);
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.ck-reveal-spec-item h5 {
-  font-size: 9px;
-  text-transform: uppercase;
-  color: #64748b;
-  font-weight: 700;
-  margin-bottom: 4px;
-}
-
-.ck-reveal-spec-item p {
-  font-size: 11px;
-  color: #cbd5e1;
-  margin: 0;
-}
-
-.ck-spec-tag-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.ck-spec-tag {
-  font-size: 9px;
-  background: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
-  color: #c084fc;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 600;
-}
-
-.ck-reveal-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.ck-action-btn-primary {
-  flex: 1;
-  padding: 10px;
-  background: #7c3aed;
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid rgba(167, 139, 250, 0.25);
-  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.ck-action-btn-primary:hover {
-  background: #8b5cf6;
-  transform: translateY(-1px);
-}
-
-.ck-action-btn-secondary {
-  flex: 1;
-  padding: 10px;
-  background: rgba(15, 9, 36, 0.8);
-  color: #cbd5e1;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 8px;
-  text-align: center;
-  border: 1px solid rgba(139, 92, 246, 0.15);
-  transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-}
-
-.ck-action-btn-secondary:hover {
-  background: rgba(139, 92, 246, 0.1);
-  color: #ffffff;
-}
-
-.ck-reveal-footer {
-  background: #080314;
-  padding: 14px 24px;
-  border-top: 1px solid rgba(139, 92, 246, 0.1);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ck-reveal-xp-badge {
-  font-size: 10px;
-  text-transform: uppercase;
-  font-weight: 800;
   color: #10b981;
+  box-shadow: 0 0 10px rgba(16,185,129,0.2);
+}
+
+.kg-hud-title-text h3 {
+  font-size: 15px;
+  font-weight: 900;
+  color: #f8fafc;
+  letter-spacing: 0.05em;
+}
+
+.kg-hud-title-text span {
+  font-size: 8px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.kg-hud-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.kg-control-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: rgba(15, 8, 25, 0.8);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #94a3b8;
   display: flex;
   align-items: center;
-  gap: 4px;
-}
-
-.ck-reveal-close {
-  padding: 6px 16px;
-  background: #ef4444;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  border-radius: 6px;
+  justify-content: center;
+  transition: all 0.2s;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
 
-.ck-reveal-close:hover {
-  background: #dc2626;
+.kg-control-btn:hover {
+  background: rgba(15, 8, 25, 0.95);
+  border-color: #10b981;
+  color: #10b981;
+  transform: translateY(-2px);
 }

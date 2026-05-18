@@ -26,7 +26,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Index = () => {
-  const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen") || new URLSearchParams(window.location.search).has("cooking"));
+  const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen") || new URLSearchParams(window.location.search).has("kitchengame"));
   const [showCityQuest, setShowCityQuest] = useState(() => new URLSearchParams(window.location.search).has("city") || new URLSearchParams(window.location.search).has("cityquest"));
   const [showBugDungeon, setShowBugDungeon] = useState(() => new URLSearchParams(window.location.search).has("dungeon") || new URLSearchParams(window.location.search).has("bugdungeon"));
   const [showMemoryLab, setShowMemoryLab] = useState(() => new URLSearchParams(window.location.search).has("memory") || new URLSearchParams(window.location.search).has("memorylab"));
@@ -813,14 +813,14 @@ const Index = () => {
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-3xl" role="img" aria-label="Cooking Pot">🍳</span>
                     <span className="text-[8px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                      Project Simulator
+                      Interactive Cooker
                     </span>
                   </div>
                   <h3 className="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
-                    Kitchen Portfolio
+                    Nimra's Kitchen
                   </h3>
                   <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
-                    Enter a realistic, atmospheric kitchen. Select gourmet recipes representing featured projects, drop technical ingredients (React, Python, SQL) from glass jars into pans, and turn stove dial to cook and unlock complete showcases!
+                    Enter a beautiful 2.5D active kitchen setup! Select cookware, pick from 22 tech stack ingredients (React Flour, SQL Sauce, Tailwind Seasoning), ignite burners, turn control knobs, and compile recipes to plate delicious project showcases.
                   </p>
                 </div>
                 <div className="mt-6">

@@ -10,7 +10,7 @@ A clean, responsive, and highly interactive dual-mode portfolio website showcasi
 
 This portfolio offers five distinct interactive experiences for visitors:
 * **Classic Professional View:** A sleek, glassmorphic dark-themed developer hub featuring floating Dock navigation and smooth micro-animations.
-* **Interactive Kitchen Portfolio (`?kitchen` or `?cooking`):** An immersive cinematic cooking simulator game where visitors explore projects by select-cooking developer recipes, dropping tech ingredients (React, SQL, Python) from jars into utensils, and turning the burner dial to plate dishes and unlock full showcases!
+* **Nimra's Kitchen Cooking Game (`?kitchen` or `?kitchengame`):** An immersive 2.5D active kitchen simulator featuring 22 tech stack ingredients (React Flour, SQL Sauce, Tailwind Seasoning), cooking utensil shelves, glowing stove burner flame overlays, and rotating physical control knobs where visitors compile and plate featured gourmet recipes to showcase projects!
 * **City Quest Driving Game (`?cityquest`):** A stylized 2.5D open-world arcade driving game where you customize a vehicle (sports car, lightcycle, scooter, hoverpod) in a showroom garage and drive around a neon city to explore achievements, certifications, events, and milestones!
 * **Bug Dungeon Debugging Game (`?bugdungeon`):** An atmospheric 2D retro-futuristic mechanical underground dungeon where you solve interactive coding logic challenges (CPU infinite loops, API timeouts, CSS overlaps, Git conflicts) to unlock real development stories, logs, and lessons learned!
 * **Memory Lab Cinematic Narrative (`?memory` or `?memorylab`):** A deeply immersive, dream-like floating memory archive where visitors walk through chronological chapters of Nimra's development journey, clicking floating coffee cups, textbooks, lamps, and holograms to unlock nostalgic subtitles and programmatic audio soundscapes!
@@ -19,7 +19,12 @@ This portfolio offers five distinct interactive experiences for visitors:
 
 ### 🍳 GAME 1 — NIMRA’S KITCHEN
 
-Nimra’s Kitchen acts as the project showcase section of the portfolio. Instead of presenting projects through traditional cards or list layouts, the entire experience transforms project building into an interactive realistic stylized cooking simulation game. The game opens inside a believable, creative workspace where warm hanging pendant lights cast glowing spotlights onto reflective countertops, while rain slides down large windows overlooking distant city lights. At the center of the room is the preparation counter containing a handwritten recipe cookbook, utensils rack (Pot, Pan, Bowl), labeled technology jars on wooden shelves (React Flour, Next.js Essence, SQL Salt, Python Broth), and a physical burner stove with interactive turning knobs. Visitors choose a developer dish (AI Safety Curry, Portal Vegetable Soup), place their utensil of choice, pour the required technical ingredients according to the checklist, ignite the stove burner to trigger real-time steam columns and boiling bubbling sounds, and plate the final dish to unlock gorgeous production project showcases!
+Nimra’s Kitchen represents projects, technical stacks, creativity, and the complete process of building applications. Instead of displaying projects as traditional portfolio cards, this game transforms every project into a playable cooking experience where the user learns about technologies, features, and development processes by physically preparing dishes inside an interactive kitchen environment.
+
+* **22 Labeled Stack Ingredients:** Hover and gather React Flour, TypeScript Pepper, SQL Sauce, Tailwind Seasoning, AI Syrup, Vercel Powder, and more from cabinet shelves.
+* **4 Signature Gourmet Project Recipes:** Mix ingredients and follow custom recipes to compile and bake the *Araaz E-commerce Burger*, the *Raasta AI Crop Ramen*, the *Portal Dashboard Cake*, and the *BIS AI Product Safety Soup*.
+* **Tactile Cooking Interactions:** Place cookware utensils (boiling pots, frying pans, saucepans, mixers, skillets) on the stove, ignite SVG flames by turning the metallic dial knobs, watch steam clouds rise, and listen to synthesized boiling and frying sounds!
+* **Showcase Dashboard:** Plate the dish perfectly to earn a 5-star rating, gain Chef XP, and unlock the project details, live links, and repository source.
 
 ---
 

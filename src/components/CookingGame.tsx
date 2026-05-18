@@ -1,708 +1,1027 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaGithub, FaExternalLinkAlt, FaVolumeUp, FaVolumeMute, FaArrowLeft, FaAward } from "react-icons/fa";
-import "../css/CookingGame.css";
+import { Gamepad2, Volume2, VolumeX, Home, CheckCircle2, Star, ArrowRight, ExternalLink } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import "@/css/CookingGame.css";
 
-// 1. Audio Synthesizer using Web Audio API
-let audioCtx: AudioContext | null = null;
-let ambientSizzleNode: AudioWorkletNode | ScriptProcessorNode | null = null;
+// -------------------------------------------------------------
+// 1. DATA DEFINITIONS
+// -------------------------------------------------------------
 
-const initAudio = () => {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+interface Ingredient {
+  id: string;
+  name: string;
+  emoji: string;
+  category: "frontend" | "backend" | "database" | "tool";
+  color: string;
+}
+
+interface Recipe {
+  id: string;
+  name: string;
+  dishName: string;
+  emoji: string;
+  description: string;
+  longDescription: string;
+  ingredients: string[];
+  features: string[];
+  github: string;
+  demo: string;
+  screenshot: string;
+  xpGain: number;
+}
+
+const INGREDIENTS: Ingredient[] = [
+  // Frontend
+  { id: "react", name: "React Flour", emoji: "🌾", category: "frontend", color: "#61dafb" },
+  { id: "html", name: "HTML Sugar", emoji: "🍬", category: "frontend", color: "#e34f26" },
+  { id: "css", name: "CSS Frosting", emoji: "🧁", category: "frontend", color: "#1572b6" },
+  { id: "js", name: "JavaScript Sugar", emoji: "🍯", category: "frontend", color: "#f7df1e" },
+  { id: "ts", name: "TypeScript Pepper", emoji: "🌶️", category: "frontend", color: "#3178c6" },
+  { id: "nextjs", name: "Next.js Yeast", emoji: "🍞", category: "frontend", color: "#ffffff" },
+  { id: "tailwind", name: "Tailwind Seasoning", emoji: "🧂", category: "frontend", color: "#06b6d4" },
+  // Backend Logic
+  { id: "nodejs", name: "Node.js Spice", emoji: "🍂", category: "backend", color: "#339933" },
+  { id: "express", name: "Express.js Yeast", emoji: "🥖", category: "backend", color: "#808080" },
+  { id: "python", name: "Python Beans", emoji: "🫘", category: "backend", color: "#3776ab" },
+  { id: "ai", name: "AI Syrup", emoji: "🔮", category: "backend", color: "#8b5cf6" },
+  { id: "apis", name: "APIs Syrup", emoji: "🍯", category: "backend", color: "#f97316" },
+  // Databases
+  { id: "mongodb", name: "MongoDB Herbs", emoji: "🌿", category: "database", color: "#47a248" },
+  { id: "postgres", name: "PostgreSQL Salt", emoji: "🧂", category: "database", color: "#4169e1" },
+  { id: "sql", name: "SQL Sauce", emoji: "🍾", category: "database", color: "#00758f" },
+  { id: "firebase", name: "Firebase Syrup", emoji: "🍯", category: "database", color: "#ffca28" },
+  // Tools
+  { id: "docker", name: "Docker Oil", emoji: "🛢️", category: "tool", color: "#2496ed" },
+  { id: "vercel", name: "Vercel Powder", emoji: "🧁", category: "tool", color: "#ffffff" },
+  { id: "github", name: "GitHub Seeds", emoji: "🌱", category: "tool", color: "#181717" },
+  { id: "figma", name: "Figma Glaze", emoji: "🎨", category: "tool", color: "#f24e1e" },
+  { id: "framer", name: "Framer Motion Sparkles", emoji: "✨", category: "tool", color: "#ea580c" },
+  { id: "threejs", name: "Three.js Glitz", emoji: "🧪", category: "tool", color: "#049ef4" },
+];
+
+const RECIPES: Recipe[] = [
+  {
+    id: "araaz",
+    name: "Araaz E-commerce",
+    dishName: "Araaz Burger 🍔",
+    emoji: "🍔",
+    description: "A fully stacked, juicy responsive digital hamburger with multi-layered role authentication.",
+    longDescription: "A high-performance full-stack e-commerce marketplace featuring robust state management, category filtering, a secure check-out workflow, and customizable user profile parameters.",
+    ingredients: ["react", "css", "tailwind", "sql", "vercel"],
+    features: [
+      "Dynamic Shopping Cart & State Tracking",
+      "Robust Admin Product Inventory dashboard",
+      "Stripe secure check-out pipeline mockup"
+    ],
+    github: "https://github.com/nimrawani04/Araaz-Ecommerce",
+    demo: "https://araaz-ecommerce.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1557821552-17105176677c?w=600&auto=format&fit=crop&q=80",
+    xpGain: 350
+  },
+  {
+    id: "raasta",
+    name: "Raasta AI Platform",
+    dishName: "Raasta Crop Ramen 🍜",
+    emoji: "🍜",
+    description: "A rich, comforting bowl of deep-learning crop analysis and AI-guided assistant.",
+    longDescription: "An advanced multi-domain platform utilizing cognitive AI, structured prompts, crop disease detection models, and custom summarizers tailored to simplify documentation tasks.",
+    ingredients: ["python", "ai", "react", "apis", "tailwind"],
+    features: [
+      "Image processing crop health engine",
+      "AI semantic chat bot guidance model",
+      "Multi-document offline summarizer pipeline"
+    ],
+    github: "https://github.com/nimrawani04/Raasta",
+    demo: "https://raasta-ai.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=600&auto=format&fit=crop&q=80",
+    xpGain: 450
+  },
+  {
+    id: "portal",
+    name: "Academic Portal System",
+    dishName: "Portal Dashboard Cake 🍰",
+    emoji: "🍰",
+    description: "A decadent, multi-tiered security dashboard cake with sweet roles and automated credentials.",
+    longDescription: "The central operations hub for the Central University of Kashmir (CUK). Automates result publication, semester registrations, roll-sheet generations, and grading charts with zero human overhead.",
+    ingredients: ["react", "ts", "postgres", "firebase", "figma"],
+    features: [
+      "Student registration & grading matrix",
+      "Faculty examination generation board",
+      "Role-based secure portal guards"
+    ],
+    github: "https://github.com/nimrawani04/CUK-Portal",
+    demo: "https://cuk-portal.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&auto=format&fit=crop&q=80",
+    xpGain: 400
+  },
+  {
+    id: "bisai",
+    name: "BIS AI Product Safety Assistant",
+    dishName: "BIS Safety Soup 🍲",
+    emoji: "🍲",
+    description: "An intelligent, warm offline-ready PWA soup that automatically filters product safety.",
+    longDescription: "A mission-critical compliance system using retrieval-augmented generation (RAG). Allows inspectors to verify product safety standards instantly using semantic lookup engines.",
+    ingredients: ["react", "ai", "apis", "figma", "docker"],
+    features: [
+      "Real-time RAG compliance vector index",
+      "Offline inspection progressive storage PWA",
+      "Compliance report audit builder"
+    ],
+    github: "https://github.com/nimrawani04/BIS-AI-Assistant",
+    demo: "https://bis-safety.vercel.app/",
+    screenshot: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=600&auto=format&fit=crop&q=80",
+    xpGain: 500
   }
-};
+];
 
-const playSFX = (type: "clink" | "splash" | "ignite" | "success" | "bubble") => {
-  try {
-    initAudio();
-    if (!audioCtx) return;
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
-    }
+const UTENSILS = [
+  { id: "pot", name: "Boiling Pot", emoji: "🍲", mode: "boil" },
+  { id: "pan", name: "Frying Pan", emoji: "🍳", mode: "fry" },
+  { id: "saucepan", name: "Saucepan", emoji: "🫕", mode: "simmer" },
+  { id: "mixer", name: "Mixer Bowl", emoji: "🥣", mode: "mix" },
+  { id: "skillet", name: "Skillet", emoji: "🥘", mode: "sear" }
+];
 
-    const now = audioCtx.currentTime;
+// -------------------------------------------------------------
+// 2. SYNTHESIZED WEB AUDIO ENGINE
+// -------------------------------------------------------------
 
-    if (type === "clink") {
-      // Metallic utensil tap sound
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(880, now);
-      osc.frequency.exponentialRampToValueAtTime(1760, now + 0.05);
-      gain.gain.setValueAtTime(0.15, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(now);
-      osc.stop(now + 0.15);
-    } 
-    else if (type === "splash") {
-      // Liquid splash or powder puff sound
-      const bufferSize = audioCtx.sampleRate * 0.15;
-      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        data[i] = Math.random() * 2 - 1;
-      }
-      const noise = audioCtx.createBufferSource();
-      noise.buffer = buffer;
-      const filter = audioCtx.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.setValueAtTime(400, now);
-      filter.frequency.exponentialRampToValueAtTime(80, now + 0.15);
-      const gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.2, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-      noise.connect(filter);
-      filter.connect(gain);
-      gain.connect(audioCtx.destination);
-      noise.start(now);
-      noise.stop(now + 0.15);
-    }
-    else if (type === "ignite") {
-      // Heavy gas burner ignition click
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "sawtooth";
-      osc.frequency.setValueAtTime(60, now);
-      gain.gain.setValueAtTime(0.3, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(now);
-      osc.stop(now + 0.1);
-    }
-    else if (type === "bubble") {
-      // Soft single bubble popping sound
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(150, now);
-      osc.frequency.exponentialRampToValueAtTime(300, now + 0.08);
-      gain.gain.setValueAtTime(0.08, now);
-      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start(now);
-      osc.stop(now + 0.08);
-    }
-    else if (type === "success") {
-      // Beautiful five-star reward metallic chime chords
-      const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C Major
-      frequencies.forEach((freq, idx) => {
-        const osc = audioCtx!.createOscillator();
-        const gain = audioCtx!.createGain();
-        osc.type = "triangle";
-        osc.frequency.setValueAtTime(freq, now + idx * 0.08);
-        gain.gain.setValueAtTime(0.12, now + idx * 0.08);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.08 + 1.2);
-        osc.connect(gain);
-        gain.connect(audioCtx!.destination);
-        osc.start(now + idx * 0.08);
-        osc.stop(now + idx * 0.08 + 1.2);
-      });
-    }
-  } catch (e) {
-    console.warn("Web Audio API not supported or context suspended:", e);
+class KitchenAudio {
+  private ctx: AudioContext | null = null;
+  private rainNode: AudioWorkletNode | ScriptProcessorNode | null = null;
+  private sizzleNode: OscillatorNode | AudioWorkletNode | ScriptProcessorNode | null = null;
+  private loopOsc: OscillatorNode | null = null;
+
+  constructor() {
+    // Lazy loaded on first user interaction
   }
-};
 
-const startAmbientSizzle = () => {
-  try {
-    initAudio();
-    if (!audioCtx) return;
-    if (audioCtx.state === "suspended") {
-      audioCtx.resume();
+  public init() {
+    if (this.ctx) return;
+    try {
+      this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    } catch (e) {
+      console.warn("Web Audio API not supported", e);
     }
-    // Create synthesized ambient noise for stove bubbling/sizzling
-    const bufferSize = audioCtx.sampleRate * 2;
-    const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+  }
+
+  public playClick() {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(600, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, this.ctx.currentTime + 0.1);
+    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.1);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.1);
+  }
+
+  public playDial() {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(50, this.ctx.currentTime + 0.12);
+    gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.12);
+  }
+
+  public playSplash() {
+    if (!this.ctx) return;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(300, this.ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(800, this.ctx.currentTime + 0.15);
+    gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.15);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    osc.stop(this.ctx.currentTime + 0.15);
+  }
+
+  public playChime() {
+    if (!this.ctx) return;
+    const time = this.ctx.currentTime;
+    const frequencies = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    frequencies.forEach((f, idx) => {
+      if (!this.ctx) return;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(f, time + idx * 0.12);
+      gain.gain.setValueAtTime(0.06, time + idx * 0.12);
+      gain.gain.exponentialRampToValueAtTime(0.001, time + idx * 0.12 + 0.4);
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(time + idx * 0.12);
+      osc.stop(time + idx * 0.12 + 0.4);
+    });
+  }
+
+  public startCookingAmbience() {
+    if (!this.ctx) return;
+    this.stopCookingAmbience();
+
+    // Sizzle Synthesizer (White Noise filtered)
+    const bufferSize = this.ctx.sampleRate * 2;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
     for (let i = 0; i < bufferSize; i++) {
       data[i] = Math.random() * 2 - 1;
     }
-    const noise = audioCtx.createBufferSource();
+
+    const noise = this.ctx.createBufferSource();
     noise.buffer = buffer;
     noise.loop = true;
 
-    const filter = audioCtx.createBiquadFilter();
+    const filter = this.ctx.createBiquadFilter();
     filter.type = "bandpass";
-    filter.frequency.setValueAtTime(600, audioCtx.currentTime);
+    filter.frequency.setValueAtTime(2500, this.ctx.currentTime);
+    filter.Q.setValueAtTime(1.0, this.ctx.currentTime);
 
-    const gain = audioCtx.createGain();
-    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.04, this.ctx.currentTime);
 
     noise.connect(filter);
     filter.connect(gain);
-    gain.connect(audioCtx.destination);
+    gain.connect(this.ctx.destination);
+
     noise.start();
-
-    ambientSizzleNode = noise as any;
-  } catch (e) {
-    console.warn(e);
+    this.sizzleNode = noise as any;
   }
-};
 
-const stopAmbientSizzle = () => {
-  if (ambientSizzleNode) {
-    try {
-      (ambientSizzleNode as any).stop();
-    } catch (e) {}
-    ambientSizzleNode = null;
+  public stopCookingAmbience() {
+    if (this.sizzleNode) {
+      try {
+        (this.sizzleNode as any).stop();
+      } catch (e) {}
+      this.sizzleNode = null;
+    }
   }
-};
 
-// 2. Data Definitions
-interface ProjectDish {
-  id: string;
-  title: string;
-  dishName: string;
-  tag: string;
-  icon: string;
-  desc: string;
-  requiredIngs: string[];
-  ingredientsView: string[];
-  github: string;
-  demo: string;
-  xp: number;
-  features: string[];
+  public startCozyMusic() {
+    if (!this.ctx) return;
+    this.stopCozyMusic();
+
+    // Soft pentatonic background chord loop
+    const time = this.ctx.currentTime;
+    const notes = [130.81, 164.81, 196.00, 220.00]; // C3, E3, G3, A3
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(notes[0], time);
+    gain.gain.setValueAtTime(0.015, time);
+
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start();
+    this.loopOsc = osc;
+  }
+
+  public stopCozyMusic() {
+    if (this.loopOsc) {
+      try {
+        this.loopOsc.stop();
+      } catch (e) {}
+      this.loopOsc = null;
+    }
+  }
 }
 
-const DISHES: ProjectDish[] = [
-  {
-    id: "bis-ai",
-    title: "BIS AI Safety Assistant",
-    dishName: "AI Safety Curry 🍛",
-    tag: "AI & RAG Pipeline",
-    icon: "🍛",
-    desc: "A production-grade AI-powered safety verification assistant built for product compliance standard analysis.",
-    requiredIngs: ["React", "TypeScript", "Python", "Tailwind CSS"],
-    ingredientsView: ["React Flour", "TypeScript Pepper", "Python Broth", "Tailwind Seasoning"],
-    github: "https://github.com/nimrawani04",
-    demo: "https://nimrawani.vercel.app/",
-    xp: 150,
-    features: [
-      "AI-powered RAG pipeline search",
-      "Offline PWA verification capabilities",
-      "Dynamic standard cross-referencing",
-      "Tailwind responsive layout grid"
-    ]
-  },
-  {
-    id: "raasta",
-    title: "Raasta AI Crop Platform",
-    dishName: "AI Crop Ramen 🍜",
-    tag: "Multi-Domain Intelligence",
-    icon: "🍜",
-    desc: "Agricultural multi-domain artificial intelligence advisor providing predictive crop health analysis.",
-    requiredIngs: ["Next.js", "Python", "MongoDB", "Tailwind CSS"],
-    ingredientsView: ["Next.js Essence", "Python Broth", "MongoDB Green Glaze", "Tailwind Seasoning"],
-    github: "https://github.com/nimrawani04",
-    demo: "https://nimrawani.vercel.app/",
-    xp: 150,
-    features: [
-      "Computer vision predictive crop diagnosing",
-      "Interactive crop calendar tracking scheduler",
-      "Fast next-gen Next.js serverside rendering",
-      "Secure persistent database clusters"
-    ]
-  },
-  {
-    id: "cuk-portal",
-    title: "Academic Portal CUK",
-    dishName: "Portal Vegetable Soup 🥣",
-    tag: "Full-Stack System",
-    icon: "🥣",
-    desc: "A highly resilient university dashboard featuring secure dual-role administrative portals.",
-    requiredIngs: ["React", "JavaScript", "SQL/PostgreSQL", "CSS"],
-    ingredientsView: ["React Flour", "JavaScript Sugar", "SQL Salt", "CSS Frosting"],
-    github: "https://github.com/nimrawani04",
-    demo: "https://nimrawani.vercel.app/",
-    xp: 120,
-    features: [
-      "Role-based secure administration portals",
-      "Highly responsive student profile dashboard",
-      "Persistent PostgreSQL course registry tables",
-      "Smooth classic CSS layouts & theme adjustments"
-    ]
-  },
-  {
-    id: "araaz",
-    title: "Araaz E-Commerce Hub",
-    dishName: "Araaz Stacked Burger 🍔",
-    tag: "Responsive Retail",
-    icon: "🍔",
-    desc: "An ultra-premium highly responsive online storefront integrated with serverless triggers.",
-    requiredIngs: ["React", "JavaScript", "Firebase", "CSS"],
-    ingredientsView: ["React Flour", "JavaScript Sugar", "Firebase Syrup", "CSS Frosting"],
-    github: "https://github.com/nimrawani04",
-    demo: "https://nimrawani.vercel.app/",
-    xp: 120,
-    features: [
-      "Intuitive global state checkout shopping carts",
-      "Firebase realtime catalog sync databases",
-      "Integrated secure authentication middleware",
-      "Sleek professional modern animations and grids"
-    ]
-  }
-];
-
-const SHELF_INGREDIENTS = [
-  { id: "React", label: "React Flour", icon: "🌾", type: "frontend" },
-  { id: "Next.js", label: "Next.js Essence", icon: "🏺", type: "frontend" },
-  { id: "JavaScript", label: "JavaScript Sugar", icon: "🧂", type: "frontend" },
-  { id: "TypeScript", label: "TypeScript Pepper", icon: "🫙", type: "frontend" },
-  { id: "CSS", label: "CSS Frosting", icon: "🧁", type: "styling" },
-  { id: "Tailwind CSS", label: "Tailwind Seasoning", icon: "🌶️", type: "styling" },
-  { id: "SQL/PostgreSQL", label: "SQL Salt", icon: "🧂", type: "database" },
-  { id: "MongoDB", label: "MongoDB Green Glaze", icon: "🍯", type: "database" },
-  { id: "Firebase", label: "Firebase Syrup", icon: "🫙", type: "database" },
-  { id: "Python", label: "Python Broth", icon: "🫕", type: "backend" }
-];
+// -------------------------------------------------------------
+// 3. MAIN REACT COMPONENT
+// -------------------------------------------------------------
 
 export default function CookingGame({ onBack }: { onBack: () => void }) {
-  const [activeUtensil, setActiveUtensil] = useState<string | null>(null);
-  const [activeRecipeIdx, setActiveRecipeIdx] = useState<number>(0);
-  const [potContents, setPotContents] = useState<string[]>([]);
-  const [stoveOn, setStoveOn] = useState(false);
-  const [cookingProgress, setCookingProgress] = useState(0);
-  const [dialogue, setDialogue] = useState("Greetings, Chef! 🍳 Select a project recipe from the menu wall to start cooking!");
-  const [revealedProject, setRevealedProject] = useState<ProjectDish | null>(null);
-  const [scoreStars, setScoreStars] = useState(5);
+  const [started, setStarted] = useState(false);
+  const [gateOpen, setGateOpen] = useState(true);
   const [musicOn, setMusicOn] = useState(false);
+  const [toast, setToast] = useState("");
+  
+  // Game States
+  const [cookingState, setCookingState] = useState<"menu" | "recipe" | "cooking" | "plated" | "showcase">("menu");
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
+  const [activeUtensil, setActiveUtensil] = useState<string | null>(null);
+  const [collectedIngredients, setCollectedIngredients] = useState<string[]>([]);
+  const [wrongSelectionsCount, setWrongSelectionsCount] = useState(0);
+  const [stoveOn, setStoveOn] = useState(false);
+  const [knobRotated, setKnobRotated] = useState(false);
+  const [cookProgress, setCookProgress] = useState(0);
+  
+  // Particle Systems
+  const [puffs, setPuffs] = useState<Array<{ id: number; x: number; y: number; tx: string; ty: string; color: string }>>([]);
+  const [sparks, setSparks] = useState<Array<{ id: number; emoji: string; dur: string }>>([]);
+  
+  // Audio Engine ref
+  const audioEngineRef = useRef<KitchenAudio | null>(null);
 
-  const activeRecipe = DISHES[activeRecipeIdx];
-
-  // 1. Synthesize stove hum bubbles when stove is running
+  // Initialize Audio
   useEffect(() => {
-    let bubbleInterval: any;
-    if (stoveOn) {
-      startAmbientSizzle();
-      bubbleInterval = setInterval(() => {
-        playSFX("bubble");
-      }, 350);
-    } else {
-      stopAmbientSizzle();
-    }
-    return () => {
-      clearInterval(bubbleInterval);
-      stopAmbientSizzle();
-    };
-  }, [stoveOn]);
+    audioEngineRef.current = new KitchenAudio();
+    // Sparkle generator for plated dish
+    const sparkleEmojis = ["✨", "🌟", "⭐", "💫", "✨"];
+    const activeSparks = Array.from({ length: 15 }).map((_, i) => ({
+      id: i,
+      emoji: sparkleEmojis[i % sparkleEmojis.length],
+      dur: `${1.5 + Math.random() * 2}s`
+    }));
+    setSparks(activeSparks);
+  }, []);
 
-  // 2. Handle cooking countdown simulation
-  useEffect(() => {
-    let timer: any;
-    if (stoveOn && cookingProgress < 100) {
-      timer = setTimeout(() => {
-        setCookingProgress(prev => {
-          const next = prev + 10;
-          if (next >= 100) {
-            handleCompleteRecipe();
-          }
-          return next;
-        });
-      }, 300);
-    }
-    return () => clearTimeout(timer);
-  }, [stoveOn, cookingProgress]);
-
-  // 3. Dialogue updates on recipe changes
-  useEffect(() => {
-    setDialogue(`Now Cooking: ${activeRecipe.title}. Step 1: Select a cooking utensil! Step 2: Ladel in the required tech stack.`);
-    setPotContents([]);
-    setStoveOn(false);
-    setCookingProgress(0);
-  }, [activeRecipeIdx]);
-
-  // 4. Utensil selection
-  const handleSelectUtensil = (utensil: string) => {
-    playSFX("clink");
-    setActiveUtensil(utensil);
-    setDialogue(`Great! Placed your ${utensil} on the stove. Now grab the technical ingredients from the shelves!`);
+  const triggerToast = (msg: string) => {
+    setToast(msg);
+    setTimeout(() => setToast(""), 2000);
   };
 
-  // 5. Add ingredient to pot
-  const handleAddIngredient = (ingId: string, ingLabel: string) => {
+  const playSFX = (type: "click" | "dial" | "splash" | "chime") => {
+    if (!audioEngineRef.current) return;
+    audioEngineRef.current.init();
+    if (type === "click") audioEngineRef.current.playClick();
+    if (type === "dial") audioEngineRef.current.playDial();
+    if (type === "splash") audioEngineRef.current.playSplash();
+    if (type === "chime") audioEngineRef.current.playChime();
+  };
+
+  const toggleSound = () => {
+    if (!audioEngineRef.current) return;
+    audioEngineRef.current.init();
+    if (musicOn) {
+      audioEngineRef.current.stopCozyMusic();
+      setMusicOn(false);
+    } else {
+      audioEngineRef.current.startCozyMusic();
+      setMusicOn(true);
+    }
+  };
+
+  // 1. SELECT RECIPE DISH
+  const selectRecipe = (recipe: Recipe) => {
+    playSFX("click");
+    setSelectedRecipe(recipe);
+    setGateOpen(false);
+    setTimeout(() => {
+      setCookingState("recipe");
+      setGateOpen(true);
+      setCollectedIngredients([]);
+      setActiveUtensil(null);
+      setWrongSelectionsCount(0);
+      setKnobRotated(false);
+      setStoveOn(false);
+      setCookProgress(0);
+    }, 1600);
+  };
+
+  // 2. CHOOSE UTENSIL
+  const handleSelectUtensil = (utensilId: string) => {
+    playSFX("click");
+    setActiveUtensil(utensilId);
+    triggerToast(`Cookware set: ${UTENSILS.find(u => u.id === utensilId)?.name} placed!`);
+  };
+
+  // 3. COLLECT INGREDIENT FROM CABINET
+  const handleCollectIngredient = (ingId: string, event: React.MouseEvent) => {
+    if (!selectedRecipe) return;
     if (!activeUtensil) {
-      setDialogue("Whoops! Grab a cooking utensil from the tool rack first so you have somewhere to put your ingredients!");
-      playSFX("clink");
+      triggerToast("⚠️ Place a cooking utensil on the counter first!");
       return;
     }
-    if (stoveOn) {
-      setDialogue("The stove burner is currently fully active! Wait for the dish to plate before adding more ingredients.");
+    if (collectedIngredients.includes(ingId)) {
+      triggerToast("Ingredient already gathered inside cookware.");
       return;
     }
+
+    // Trigger Puff Particles from cabinet jar to center counter
+    const rect = event.currentTarget.getBoundingClientRect();
+    const startX = rect.left + rect.width / 2;
+    const startY = rect.top + rect.height / 2;
+    
+    // Spawn 8 puffs flying towards cooking utensil area
+    const newPuffs = Array.from({ length: 8 }).map((_, i) => ({
+      id: Date.now() + i,
+      x: startX,
+      y: startY,
+      tx: `${(Math.random() - 0.5) * 160}px`,
+      ty: `${-100 - Math.random() * 150}px`,
+      color: INGREDIENTS.find(ing => ing.id === ingId)?.color || "#10b981"
+    }));
+    setPuffs(prev => [...prev, ...newPuffs]);
+    setTimeout(() => {
+      setPuffs(prev => prev.filter(p => !newPuffs.find(np => np.id === p.id)));
+    }, 700);
 
     playSFX("splash");
-    setPotContents(prev => [...prev, ingId]);
-    
-    const isRequired = activeRecipe.requiredIngs.includes(ingId);
-    if (isRequired) {
-      setDialogue(`Splendid! Added ${ingLabel} into the ${activeUtensil}. The recipe checklist updates!`);
+
+    const isCorrect = selectedRecipe.ingredients.includes(ingId);
+    if (isCorrect) {
+      setCollectedIngredients(prev => [...prev, ingId]);
+      triggerToast(`Added ${INGREDIENTS.find(ing => ing.id === ingId)?.name}!`);
     } else {
-      setDialogue(`Oh? You threw in ${ingLabel} which isn't on the recipe. This might alter the final star rating!`);
+      // Deduct star rating count
+      setWrongSelectionsCount(prev => prev + 1);
+      setCollectedIngredients(prev => [...prev, ingId]);
+      triggerToast(`⚠️ Wrong choice! Added ${INGREDIENTS.find(ing => ing.id === ingId)?.name} anyway...`);
     }
   };
 
-  // 6. Stove ignition knob trigger
+  // 4. IGNITE STOVE KNOB
   const handleIgniteStove = () => {
-    if (!activeUtensil) {
-      setDialogue("Please choose a utensil from the hanging rack before lighting the burner!");
-      return;
-    }
-    
-    // Check if at least all required ingredients are added
-    const missing = activeRecipe.requiredIngs.filter(ing => !potContents.includes(ing));
-    if (missing.length > 0) {
-      setDialogue(`Wait! The pot is missing recipe items: ${missing.join(", ")}. Gather them first!`);
+    if (!selectedRecipe || !activeUtensil) return;
+    const missingIngs = selectedRecipe.ingredients.filter(ing => !collectedIngredients.includes(ing));
+    if (missingIngs.length > 0) {
+      triggerToast("⚠️ Follow instructions! Missing recipe ingredients inside the cookware!");
       return;
     }
 
-    playSFX("ignite");
+    playSFX("dial");
+    setKnobRotated(true);
     setStoveOn(true);
-    setDialogue("Burner Ignited! 🔥 Sizzling and bubbling starting. The ingredients are marrying together!");
-  };
-
-  // 7. Complete Recipe scoring and reveal
-  const handleCompleteRecipe = () => {
-    setStoveOn(false);
-    
-    // Score system based on incorrect extra ingredients and correctness
-    const extras = potContents.filter(ing => !activeRecipe.requiredIngs.includes(ing));
-    let calculatedStars = 5;
-    if (extras.length === 1) calculatedStars = 4.5;
-    else if (extras.length === 2) calculatedStars = 4;
-    else if (extras.length >= 3) calculatedStars = 3;
-
-    setScoreStars(calculatedStars);
-    setRevealedProject(activeRecipe);
-    playSFX("success");
-  };
-
-  const handleCloseReveal = () => {
-    setRevealedProject(null);
-    setPotContents([]);
-    setCookingProgress(0);
-    setActiveUtensil(null);
-    setDialogue("Amazing job, Chef! Explore other developer recipes on the menu wall to continue leveling up!");
-  };
-
-  const toggleMusic = () => {
-    if (!musicOn) {
-      setMusicOn(true);
-      // Play a soft background ambient hum using Web Audio API
-      initAudio();
-      try {
-        const osc = audioCtx!.createOscillator();
-        const gain = audioCtx!.createGain();
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(220, audioCtx!.currentTime); // low harmonic A3
-        gain.gain.setValueAtTime(0.04, audioCtx!.currentTime);
-        osc.connect(gain);
-        gain.connect(audioCtx!.destination);
-        osc.start();
-      } catch(e){}
-    } else {
-      setMusicOn(false);
+    if (audioEngineRef.current) {
+      audioEngineRef.current.startCookingAmbience();
     }
+
+    // Start cooking progress simulation
+    const interval = setInterval(() => {
+      setCookProgress(prev => {
+        if (prev >= 100) {
+          clearInterval(interval);
+          handleFinishCooking();
+          return 100;
+        }
+        return prev + 5;
+      });
+    }, 150);
+  };
+
+  // 5. FINISH COOKING & PLATE
+  const handleFinishCooking = () => {
+    if (audioEngineRef.current) {
+      audioEngineRef.current.stopCookingAmbience();
+    }
+    playSFX("chime");
+    setCookingState("plated");
+  };
+
+  // 6. OPEN SHOWCASE SCREEN
+  const handleExploreProject = () => {
+    playSFX("click");
+    setCookingState("showcase");
+  };
+
+  // Calculate Star Rating dynamically
+  const getEarnedStars = () => {
+    const totalStars = 5 - (wrongSelectionsCount * 0.5);
+    return Math.max(1, totalStars);
+  };
+
+  const getUtensilEmoji = () => {
+    return UTENSILS.find(u => u.id === activeUtensil)?.emoji || "🍳";
   };
 
   return (
-    <div className="ck-viewport">
-      <div className="ck-vignette" />
+    <div className="kg-viewport">
+      <div className="kg-vignette" />
+      <div className="kg-stars" />
 
-      {/* Hanging spot light and shade */}
-      <div className="ck-pendant-light">
-        <div className="ck-light-shade" />
-        <div className="ck-light-glow" />
+      {/* Atmospheric Window Background with animated rain */}
+      <div className="kg-window-backdrop">
+        <div className="kg-rain-overlay" />
+        <div className="kg-rain-drops" />
       </div>
 
-      {/* Rainy window view */}
-      <div className="ck-window-backdrop">
-        <div className="ck-city-lights" />
-        <div className="ck-rain-overlay" />
-        <div className="ck-rain-drops" />
+      {/* Soundscape pill HUD */}
+      <div className="kg-soundscape-pill" onClick={toggleSound}>
+        <div className="kg-sound-waves">
+          <span className="kg-wave-bar" style={{ "--dur": "0.6s" } as any} />
+          <span className="kg-wave-bar" style={{ "--dur": "0.9s" } as any} />
+          <span className="kg-wave-bar" style={{ "--dur": "0.5s" } as any} />
+          <span className="kg-wave-bar" style={{ "--dur": "0.8s" } as any} />
+        </div>
+        <span>{musicOn ? "Music Ambient On 🔊" : "Music Ambient Off 🔇"}</span>
       </div>
 
-      {/* HUD Controller */}
-      <header className="ck-hud-header">
-        <div className="ck-hud-title">
-          <div className="ck-hud-logo">🍳</div>
-          <div className="ck-hud-title-text">
-            <h3>Nimra's Kitchen</h3>
-            <span>Game 1 — Project Simulator</span>
+      {/* -------------------------------------------------------------
+       * HUD TOP HEADER BAR
+       * ------------------------------------------------------------- */}
+      <div className="kg-hud-header">
+        <div className="kg-hud-title">
+          <div className="kg-hud-logo">
+            <Gamepad2 className="w-5 h-5" />
+          </div>
+          <div className="kg-hud-title-text">
+            <h3>NIMRA'S KITCHEN</h3>
+            <span>GAME 1 — Full-Stack Recipe Simulator</span>
           </div>
         </div>
 
-        <div className="ck-hud-controls">
-          <button className="ck-control-btn" onClick={toggleMusic} title="Toggle Ambience">
-            {musicOn ? <FaVolumeUp /> : <FaVolumeMute />}
+        <div className="kg-hud-controls">
+          <button className="kg-control-btn" onClick={onBack} title="Back to Selection Hub">
+            <Home className="w-5 h-5" />
           </button>
-          <button className="ck-control-btn" onClick={onBack} title="Return to Arcade">
-            <FaArrowLeft />
-          </button>
         </div>
-      </header>
+      </div>
 
-      {/* Hanging Utensils Hook Rack */}
-      <section className="ck-utensil-rack">
-        <div className="ck-rack-bar" />
-        {[
-          { id: "Bubbling Pot 🍲", label: "Pot", icon: "🍲" },
-          { id: "Sizzling Pan 🍳", label: "Pan", icon: "🍳" },
-          { id: "Mixing Bowl 🥣", label: "Bowl", icon: "🥣" }
-        ].map(item => (
-          <div 
-            key={item.label}
-            className="ck-rack-hook"
-            onClick={() => handleSelectUtensil(item.id)}
-            style={{ opacity: activeUtensil === item.id ? 1 : 0.6 }}
-          >
-            <span className="ck-rack-hook-chain text-slate-600 -mt-2 text-xs">🔗</span>
-            <span className="ck-rack-tool">{item.icon}</span>
-            <span className="ck-rack-label">{item.label}</span>
-          </div>
-        ))}
-      </section>
-
-      {/* Physical Restaurant Orders / Projects Board */}
-      <section className="ck-orders-board">
-        <div className="ck-board-header">Recipe Menu</div>
-        <div className="flex flex-col gap-2">
-          {DISHES.map((dish, idx) => (
-            <div
-              key={dish.id}
-              className={`ck-menu-card ${activeRecipeIdx === idx ? "active" : ""}`}
-              onClick={() => setActiveRecipeIdx(idx)}
-            >
-              <span className="ck-menu-card-icon">{dish.icon}</span>
-              <div className="ck-menu-card-details">
-                <span className="ck-menu-card-title">{dish.dishName}</span>
-                <span className="ck-menu-card-xp">+{dish.xp} XP</span>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Immersive Cookbook Panel */}
-      <section className="ck-recipe-book-panel">
-        <div className="ck-book-pin" />
-        <div className="ck-recipe-tag">{activeRecipe.tag}</div>
-        <h2 className="ck-recipe-title">{activeRecipe.dishName}</h2>
-        <p className="ck-recipe-desc">"{activeRecipe.desc}"</p>
-
-        <div className="ck-recipe-ingredients-box">
-          <h4 className="ck-recipe-ingredients-title">Ingredients Checklist:</h4>
-          <div className="ck-recipe-ingredients-list">
-            {activeRecipe.requiredIngs.map((ing, idx) => {
-              const checked = potContents.includes(ing);
-              const label = activeRecipe.ingredientsView[idx];
-              return (
-                <span key={ing} className={`ck-recipe-ing-tag ${checked ? "checked" : ""}`}>
-                  {checked ? "✓" : "☐"} {label}
-                </span>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="ck-recipe-instructions">
-          <h4 className="ck-recipe-instructions-title">Cooking Instructions:</h4>
-          <div className="ck-recipe-ins-step">
-            1. Select a cooking utensil from the rack to act as your cooking anchor.
-          </div>
-          <div className="ck-recipe-ins-step">
-            2. Tap and pour the tech stack ingredients from shelves into the cooker.
-          </div>
-          <div className="ck-recipe-ins-step">
-            3. Turn the stove dial to ignite burner when checklist is completed!
-          </div>
-        </div>
-      </section>
-
-      {/* Realistic Ingredient Storage Shelves */}
-      <section className="ck-storage-shelves">
-        {/* Top Shelf: Front-End Flours & Spices */}
-        <div className="ck-shelf-level">
-          {SHELF_INGREDIENTS.filter(i => i.type === "frontend" || i.type === "styling").map(ing => (
-            <div 
-              key={ing.id} 
-              className="ck-jar-container"
-              onClick={() => handleAddIngredient(ing.id, ing.label)}
-            >
-              <span className="ck-jar-icon">{ing.icon}</span>
-              <span className="ck-jar-badge">{ing.label}</span>
-            </div>
-          ))}
-          <div className="ck-shelf-wood" />
-        </div>
-
-        {/* Bottom Shelf: Back-End, Databases & Broths */}
-        <div className="ck-shelf-level">
-          {SHELF_INGREDIENTS.filter(i => i.type === "database" || i.type === "backend").map(ing => (
-            <div 
-              key={ing.id} 
-              className="ck-jar-container"
-              onClick={() => handleAddIngredient(ing.id, ing.label)}
-            >
-              <span className="ck-jar-icon">{ing.icon}</span>
-              <span className="ck-jar-badge">{ing.label}</span>
-            </div>
-          ))}
-          <div className="ck-shelf-wood" />
-        </div>
-      </section>
-
-      {/* Interactive Subtitles Narration */}
-      <section className="ck-dialogue-box">
-        <span className="ck-dialogue-blink" />
-        <p className="ck-dialogue-text">{dialogue}</p>
-      </section>
-
-      {/* Main Countertop & Stove Station */}
-      <section className="ck-countertop">
-        <div className="ck-marble-gloss" />
-        
-        {/* Active Stove Station */}
-        <div className="ck-stove-station">
-          <div className="ck-stove-grates" />
-          <div className={`ck-burner-ring ${stoveOn ? "ignited" : ""}`}>
-            <div className="ck-stove-flames" />
-          </div>
-
-          {/* Interactive Knob */}
-          <div className="ck-stove-knob-wrapper">
-            <div 
-              className="ck-stove-knob"
-              onClick={handleIgniteStove}
-              style={{ transform: stoveOn ? "rotate(90deg)" : "rotate(0deg)" }}
-            >
-              <div className="ck-knob-pointer" />
-            </div>
-            <span className={`ck-knob-label ${stoveOn ? "active" : ""}`}>
-              {stoveOn ? "Ignited 🔥" : "Turn Dial"}
-            </span>
-          </div>
-        </div>
-
-        {/* Active Placed Utensil */}
-        {activeUtensil && (
-          <div className="ck-active-utensil">
-            {activeUtensil.split(" ").pop()}
-          </div>
-        )}
-
-        {/* Steam and Bubbles VFX Layer */}
-        {stoveOn && (
-          <>
-            <div className="ck-steam-container">
-              <div className="ck-steam-waft" style={{ "--tx": "8px" } as any} />
-              <div className="ck-steam-waft" style={{ "--tx": "-6px", animationDelay: "0.8s" } as any} />
-              <div className="ck-steam-waft" style={{ "--tx": "12px", animationDelay: "1.4s" } as any} />
-            </div>
-            <div className="ck-bubbles-container">
-              <div className="ck-boiling-bubble" style={{ left: "20%", animationDelay: "0.1s" }} />
-              <div className="ck-boiling-bubble" style={{ left: "45%", animationDelay: "0.4s" }} />
-              <div className="ck-boiling-bubble" style={{ left: "70%", animationDelay: "0.7s" }} />
-            </div>
-          </>
-        )}
-      </section>
-
-      {/* Immersive Fullscreen Project Reveal Overlay */}
+      {/* -------------------------------------------------------------
+       * TOAST ALERTS OVERLAY
+       * ------------------------------------------------------------- */}
       <AnimatePresence>
-        {revealedProject && (
-          <div className="ck-reveal-overlay">
-            <motion.div 
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              className="ck-reveal-card"
-            >
-              {/* Header */}
-              <div className="ck-reveal-header">
-                <h2>🍲 {revealedProject.title} Plated!</h2>
-                <div className="ck-reveal-stars">
-                  {Array.from({ length: 5 }).map((_, idx) => (
-                    <span 
-                      key={idx}
-                      className={idx < Math.floor(scoreStars) ? "ck-star-gold" : "ck-star-gray"}
-                    >
-                      ★
-                    </span>
-                  ))}
-                  <span className="text-[10px] text-orange-400 font-bold ml-2">({scoreStars} Stars)</span>
-                </div>
-              </div>
-
-              {/* Body */}
-              <div className="ck-reveal-body">
-                {/* Left Column: Description & Features */}
-                <div className="ck-reveal-desc-box">
-                  <h4>Chef's Culinary Notes</h4>
-                  <p>{revealedProject.desc}</p>
-
-                  <h4 className="mt-4">Key Recipe Highlights</h4>
-                  <ul className="list-disc pl-4 text-[10px] text-slate-400 space-y-1.5 mt-2">
-                    {revealedProject.features.map((f, i) => (
-                      <li key={i}>{f}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Right Column: Spec card */}
-                <div className="ck-reveal-spec-box">
-                  <div className="ck-reveal-spec-item">
-                    <h5>Gourmet Dish Class</h5>
-                    <p>{revealedProject.dishName}</p>
-                  </div>
-
-                  <div className="ck-reveal-spec-item">
-                    <h5>Required Ingredient Stack</h5>
-                    <div className="ck-spec-tag-list mt-1">
-                      {revealedProject.requiredIngs.map(ing => (
-                        <span key={ing} className="ck-spec-tag">{ing}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="ck-reveal-actions mt-4">
-                    <a 
-                      href={revealedProject.github} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="ck-action-btn-secondary"
-                    >
-                      <FaGithub /> GitHub
-                    </a>
-                    <a 
-                      href={revealedProject.demo} 
-                      target="_blank" 
-                      rel="noopener noreferrer" 
-                      className="ck-action-btn-primary"
-                    >
-                      <FaExternalLinkAlt /> Live Demo
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Footer */}
-              <div className="ck-reveal-footer">
-                <div className="ck-reveal-xp-badge">
-                  <FaAward /> Earned +{revealedProject.xp} XP to Nimra's Arcade Hub!
-                </div>
-                <button className="ck-reveal-close" onClick={handleCloseReveal}>
-                  Close Kitchen
-                </button>
-              </div>
-            </motion.div>
-          </div>
+        {toast && (
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -20, opacity: 0 }}
+            className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-slate-950/90 border border-emerald-500/30 text-emerald-400 font-semibold px-4 py-2 rounded-lg text-xs tracking-wide shadow-[0_0_20px_rgba(16,185,129,0.2)] z-50 flex items-center gap-2"
+          >
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            {toast}
+          </motion.div>
         )}
       </AnimatePresence>
+
+      {/* -------------------------------------------------------------
+       * FLYING INGREDIENT PUFF PARTICLES
+       * ------------------------------------------------------------- */}
+      {puffs.map(p => (
+        <div
+          key={p.id}
+          className="kg-particle-puff"
+          style={{
+            left: p.x,
+            top: p.y,
+            "--tx": p.tx,
+            "--ty": p.ty,
+            "--p-color": p.color
+          } as any}
+        />
+      ))}
+
+      {/* -------------------------------------------------------------
+       * MAIN SCREEN ROUTER
+       * ------------------------------------------------------------- */}
+
+      {/* STATE A: SELECTION MENU BOARD */}
+      {cookingState === "menu" && (
+        <div className="kg-menu-scene">
+          <div className="kg-menu-board">
+            <div className="kg-menu-header">
+              <h2>CHOOSE A DISH RECIPE</h2>
+              <p>Prepare gourmet development dishes to explore featured repositories, earn Chef XP, and test your stack recipes.</p>
+            </div>
+
+            <div className="kg-recipe-cards-grid">
+              {RECIPES.map(recipe => (
+                <div 
+                  key={recipe.id} 
+                  className="kg-recipe-card"
+                  onClick={() => selectRecipe(recipe)}
+                >
+                  <div className="kg-card-thumbnail-container">
+                    <span className="kg-card-thumbnail-display">{recipe.emoji}</span>
+                  </div>
+                  <div>
+                    <h3>{recipe.dishName}</h3>
+                    <p>{recipe.description}</p>
+                  </div>
+                  <button className="kg-card-select-btn">
+                    COOK DISH 🍳
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* STATE B: ACTIVE WORKSPACE (STOVE, CABINET, COOKBOOK) */}
+      {(cookingState === "recipe" || cookingState === "cooking") && selectedRecipe && (
+        <div className="kg-workspace">
+          
+          {/* COLUMN 1: INGREDIENT CABINET */}
+          <div className="kg-ingredients-cabinet">
+            <div className="kg-cabinet-header">
+              <h4>Skill Ingredients</h4>
+              <p>Gather technologies below to populate your active recipe cookware bowl</p>
+            </div>
+
+            <div className="kg-shelves-container">
+              {/* Frontend Shelf */}
+              <div className="kg-shelf-row">
+                <span className="kg-shelf-title">Frontend Flour & Seasoning</span>
+                <div className="kg-shelf-wood">
+                  {INGREDIENTS.filter(i => i.category === "frontend").map(ing => (
+                    <div 
+                      key={ing.id} 
+                      className="kg-ingredient-jar"
+                      style={{ "--jar-glow": ing.color } as any}
+                      onClick={(e) => handleCollectIngredient(ing.id, e)}
+                      title={ing.name}
+                    >
+                      <span className="kg-jar-icon">{ing.emoji}</span>
+                      <span className="kg-jar-label">{ing.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Backend Shelf */}
+              <div className="kg-shelf-row">
+                <span className="kg-shelf-title">Backend Spices & Yeasts</span>
+                <div className="kg-shelf-wood">
+                  {INGREDIENTS.filter(i => i.category === "backend").map(ing => (
+                    <div 
+                      key={ing.id} 
+                      className="kg-ingredient-jar"
+                      style={{ "--jar-glow": ing.color } as any}
+                      onClick={(e) => handleCollectIngredient(ing.id, e)}
+                      title={ing.name}
+                    >
+                      <span className="kg-jar-icon">{ing.emoji}</span>
+                      <span className="kg-jar-label">{ing.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Database Shelf */}
+              <div className="kg-shelf-row">
+                <span className="kg-shelf-title">Database Salts & Syrups</span>
+                <div className="kg-shelf-wood">
+                  {INGREDIENTS.filter(i => i.category === "database").map(ing => (
+                    <div 
+                      key={ing.id} 
+                      className="kg-ingredient-jar"
+                      style={{ "--jar-glow": ing.color } as any}
+                      onClick={(e) => handleCollectIngredient(ing.id, e)}
+                      title={ing.name}
+                    >
+                      <span className="kg-jar-icon">{ing.emoji}</span>
+                      <span className="kg-jar-label">{ing.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tools Shelf */}
+              <div className="kg-shelf-row">
+                <span className="kg-shelf-title">Hosting & Animation Oils</span>
+                <div className="kg-shelf-wood">
+                  {INGREDIENTS.filter(i => i.category === "tool").map(ing => (
+                    <div 
+                      key={ing.id} 
+                      className="kg-ingredient-jar"
+                      style={{ "--jar-glow": ing.color } as any}
+                      onClick={(e) => handleCollectIngredient(ing.id, e)}
+                      title={ing.name}
+                    >
+                      <span className="kg-jar-icon">{ing.emoji}</span>
+                      <span className="kg-jar-label">{ing.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMN 2: CENTER COUNTER TABLE */}
+          <div className="kg-cooking-island">
+            <div className="kg-island-main">
+              
+              {/* Cookbook overlay */}
+              <div className="kg-leather-cookbook">
+                <div className="kg-cookbook-spine" />
+                
+                {/* Left Page */}
+                <div className="kg-page-left">
+                  <span className="kg-recipe-title">{selectedRecipe.dishName}</span>
+                  <p className="kg-recipe-desc">{selectedRecipe.longDescription}</p>
+                  
+                  <div className="kg-recipe-instructions">
+                    Instructions:<br/>
+                    1. Choose a proper cookware from the shelf below.<br/>
+                    2. Add required ingredients from the cabinet shelves.<br/>
+                    3. Turn on the stove knob burner to start cooking.
+                  </div>
+                </div>
+
+                {/* Right Page */}
+                <div className="kg-page-right">
+                  <span className="kg-recipe-ingredients-title">Recipe Ingredients:</span>
+                  <div className="kg-ingredients-checklist">
+                    {selectedRecipe.ingredients.map(ingId => {
+                      const ingDetail = INGREDIENTS.find(ing => ing.id === ingId);
+                      const isCollected = collectedIngredients.includes(ingId);
+                      return (
+                        <div key={ingId} className={`kg-ingredient-checklist-item ${isCollected ? "checked" : ""}`}>
+                          <div className="kg-checkbox-circle">
+                            {isCollected ? "✓" : ""}
+                          </div>
+                          <span>{ingDetail?.name || ingId}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Wrong additions warning tracker */}
+                  {wrongSelectionsCount > 0 && (
+                    <div className="mt-4 text-[8px] font-bold text-red-500 uppercase tracking-wider">
+                      ⚠️ Accuracy Alert: {wrongSelectionsCount} incorrect ingredients added. Star rating adjusted.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Wooden Countertop */}
+              <div className="kg-countertop">
+                {activeUtensil ? (
+                  <div className="kg-placed-utensil">
+                    <span className="kg-utensil-graphic">{getUtensilEmoji()}</span>
+                    
+                    {/* Steam Particle generator if stove is on */}
+                    {stoveOn && (
+                      <>
+                        <div className="kg-steam-cloud" style={{ animationDelay: "0s", left: "30px" }} />
+                        <div className="kg-steam-cloud" style={{ animationDelay: "0.5s", left: "55px" }} />
+                        <div className="kg-steam-cloud" style={{ animationDelay: "1s", left: "80px" }} />
+                      </>
+                    )}
+
+                    {/* Simmering liquid splash overlay */}
+                    {collectedIngredients.length > 0 && (
+                      <div 
+                        className="kg-liquid-splash"
+                        style={{ 
+                          "--splash-color": INGREDIENTS.find(i => i.id === collectedIngredients[collectedIngredients.length - 1])?.color 
+                        } as any}
+                      />
+                    )}
+
+                    <div className="kg-cooker-counter">
+                      Cookware Active ({collectedIngredients.length} ingredients)
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400 bg-slate-900/60 p-4 rounded border border-dashed border-slate-700">
+                    🍳 SELECT COOKWARE UTENSIL BELOW TO BEGIN RECIPE PREPARATION
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Bottom Cookware Utensil selector shelf */}
+            <div className="kg-utensil-shelf">
+              <span className="kg-utensil-shelf-title">Utensil Rack Shelf</span>
+              <div className="kg-utensil-rack">
+                {UTENSILS.map(utensil => (
+                  <div 
+                    key={utensil.id}
+                    className={`kg-utensil-rack-slot ${activeUtensil === utensil.id ? "selected" : ""}`}
+                    onClick={() => handleSelectUtensil(utensil.id)}
+                  >
+                    <span className="kg-rack-icon">{utensil.emoji}</span>
+                    <span className="kg-rack-label">{utensil.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* COLUMN 3: STOVE BURNING SLOTS */}
+          <div className="kg-stove-range">
+            <div className="kg-stove-burners">
+              {/* Burner 1: Active Cooking Slot */}
+              <div className={`kg-burner-slot ${stoveOn ? "active" : ""}`}>
+                <div className="kg-burner-ring" />
+                
+                {/* SVG burning fire flames */}
+                {stoveOn && (
+                  <div className="kg-burner-flames">
+                    <span className="kg-flame-tongue" style={{ "--d": "0.3s" } as any} />
+                    <span className="kg-flame-tongue" style={{ "--d": "0.5s" } as any} />
+                    <span className="kg-flame-tongue" style={{ "--d": "0.4s" } as any} />
+                    <span className="kg-flame-tongue" style={{ "--d": "0.6s" } as any} />
+                    <span className="kg-flame-tongue" style={{ "--d": "0.35s" } as any} />
+                  </div>
+                )}
+
+                {/* Status Indicator text overlay */}
+                <div className="absolute top-4 font-bold text-[8px] uppercase tracking-widest text-slate-500">
+                  {stoveOn ? "Burner Active 🔥" : "Burner Ready"}
+                </div>
+              </div>
+
+              {/* Burner 2: Showroom Slot */}
+              <div className="kg-burner-slot">
+                <div className="kg-burner-ring" />
+                <div className="absolute top-4 font-bold text-[8px] uppercase tracking-widest text-slate-600">
+                  Burner Off
+                </div>
+              </div>
+            </div>
+
+            {/* Dial Knob Board */}
+            <div className="kg-stove-controls-board">
+              <div className="kg-stove-knobs-rack">
+                
+                {/* Knob 1: Power Knob */}
+                <div className="kg-metallic-knob-container">
+                  <div 
+                    className="kg-metallic-knob"
+                    style={{ transform: knobRotated ? "rotate(90deg)" : "rotate(0deg)" }}
+                    onClick={handleIgniteStove}
+                    title="Click to Turn/Ignite burner"
+                  >
+                    <div className="kg-knob-indicator" />
+                  </div>
+                  <span className={`kg-knob-label ${stoveOn ? "active" : ""}`}>
+                    {stoveOn ? "ON 🔥" : "IGNITE"}
+                  </span>
+                </div>
+
+                {/* Knob 2: Deco Knob */}
+                <div className="kg-metallic-knob-container">
+                  <div className="kg-metallic-knob" style={{ transform: "rotate(45deg)" }}>
+                    <div className="kg-knob-indicator" />
+                  </div>
+                  <span className="kg-knob-label">TEMP</span>
+                </div>
+              </div>
+
+              {/* Active Cooking progress bar */}
+              {stoveOn && (
+                <div className="w-full bg-slate-950/60 p-2 rounded border border-emerald-500/20 text-center">
+                  <span className="text-[7px] font-extrabold text-emerald-400 uppercase tracking-widest block mb-1">
+                    Baking Project compilation recipe...
+                  </span>
+                  <div className="w-full h-1 bg-slate-900 rounded overflow-hidden">
+                    <div className="h-full bg-emerald-400 transition-all" style={{ width: `${cookProgress}%` }} />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* STATE C: PLATING REVEAL SCENE */}
+      {cookingState === "plated" && selectedRecipe && (
+        <div className="kg-plating-scene">
+          {/* Sparlkes floating around */}
+          {sparks.map(s => (
+            <span
+              key={s.id}
+              className="kg-gold-sparkle"
+              style={{
+                left: `${15 + Math.random() * 70}%`,
+                top: `${20 + Math.random() * 65}%`,
+                "--dur": s.dur
+              } as any}
+            >
+              {s.emoji}
+            </span>
+          ))}
+
+          <div className="kg-gourmet-reveal-card">
+            <span className="text-[9px] uppercase font-black text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full tracking-widest">
+              Gourmet Dish Prepared!
+            </span>
+
+            <div className="kg-plated-dish-display">
+              {selectedRecipe.emoji}
+            </div>
+
+            <h3 className="kg-plated-title">{selectedRecipe.dishName} Ready!</h3>
+            <p className="kg-plated-desc">
+              Your technology recipe compiled beautifully. The ingredients combined to produce a gourmet project representation!
+            </p>
+
+            {/* Stars generated based on accuracy */}
+            <div className="kg-stars-row">
+              {Array.from({ length: 5 }).map((_, idx) => {
+                const earned = getEarnedStars();
+                const isActive = idx < Math.floor(earned);
+                const isHalf = !isActive && idx === Math.floor(earned) && (earned % 1 !== 0);
+                return (
+                  <span 
+                    key={idx} 
+                    className={`kg-star-item ${isActive ? "active" : isHalf ? "active opacity-70" : "cracked"}`}
+                  >
+                    ★
+                  </span>
+                );
+              })}
+            </div>
+
+            <button className="kg-explore-dish-btn" onClick={handleExploreProject}>
+              SERVE & EXPLORE DISH <ArrowRight className="inline-block w-4 h-4 ml-1" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* STATE D: PROJECT SHOWCASE HUD */}
+      {cookingState === "showcase" && selectedRecipe && (
+        <div className="kg-showcase-scene">
+          <div className="kg-showcase-board">
+            
+            {/* Close Button */}
+            <button className="kg-showcase-close-btn" onClick={() => setCookingState("menu")} title="Back to cookbook menu">
+              ✕
+            </button>
+
+            {/* Left Col */}
+            <div className="kg-showcase-left">
+              <div>
+                <div className="kg-showcase-dish-badge">
+                  <span>{selectedRecipe.emoji}</span>
+                  <span>{selectedRecipe.dishName}</span>
+                </div>
+
+                <h2 className="kg-showcase-title">{selectedRecipe.name}</h2>
+                <p className="kg-showcase-desc">{selectedRecipe.longDescription}</p>
+
+                <div className="kg-showcase-features-title text-[9px] font-black text-slate-500 uppercase tracking-widest mb-2">
+                  Signature Highlights:
+                </div>
+                <div className="kg-showcase-features-list">
+                  {selectedRecipe.features.map((feat, idx) => (
+                    <div key={idx} className="kg-feature-pill">
+                      <span className="text-emerald-400">⚡</span>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Technologies recipe badges */}
+              <div>
+                <div className="text-[8px] font-extrabold uppercase text-slate-600 tracking-wider mb-2">
+                  Stack Ingredients recipe used:
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {selectedRecipe.ingredients.map(ingId => {
+                    const ingDetail = INGREDIENTS.find(i => i.id === ingId);
+                    return (
+                      <span 
+                        key={ingId} 
+                        className="text-[9px] font-black px-2.5 py-1 bg-slate-900 border border-slate-800 rounded-md text-slate-300"
+                      >
+                        {ingDetail?.emoji} {ingDetail?.name || ingId}
+                      </span>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Col */}
+            <div className="kg-showcase-right">
+              {/* Image screenshot */}
+              <div className="kg-showcase-screenshot-container">
+                <img src={selectedRecipe.screenshot} alt={selectedRecipe.name} />
+                
+                {/* XP gain badge */}
+                <div className="kg-xp-gain-badge">
+                  + {selectedRecipe.xpGain} CHEF XP
+                </div>
+              </div>
+
+              {/* Project links actions */}
+              <div className="kg-showcase-actions">
+                <a 
+                  href={selectedRecipe.demo} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="kg-showcase-btn primary"
+                >
+                  <ExternalLink className="w-4 h-4" /> Live Recipe Demo
+                </a>
+                <a 
+                  href={selectedRecipe.github} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="kg-showcase-btn secondary"
+                >
+                  <FaGithub className="w-4 h-4" /> Recipe Source
+                </a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
