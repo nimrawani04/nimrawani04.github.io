@@ -337,7 +337,7 @@ export default function MemoryLab({ onBack }: { onBack: () => void }) {
   const [activeText, setActiveText] = useState("");
   const [activeProp, setActiveProp] = useState<string | null>(null);
   const [musicOn, setMusicOn] = useState(false);
-  const [gateOpen, setGateOpen] = useState(false);
+  const [gateOpen, setGateOpen] = useState(true);
   
   // Interactive Room States
   const [lampOn, setLampOn] = useState(true);
@@ -409,10 +409,11 @@ export default function MemoryLab({ onBack }: { onBack: () => void }) {
       audioCtx.resume();
     }
     setMusicOn(true);
-    setGateOpen(true);
+    setGateOpen(false); // Slide doors shut dramatically!
     setTimeout(() => {
       setStarted(true);
-    }, 1200);
+      setGateOpen(true); // Slide doors open to reveal the first memory room!
+    }, 1600);
   };
 
   const selectProp = (prop: typeof room.props[0]) => {
