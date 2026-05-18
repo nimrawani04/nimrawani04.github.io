@@ -8,10 +8,11 @@ A clean, responsive, and highly interactive dual-mode portfolio website showcasi
 
 ## 🌟 Visual Modes
 
-This portfolio offers three distinct interactive experiences for visitors:
+This portfolio offers four distinct interactive experiences for visitors:
 * **Classic Professional View:** A sleek, glassmorphic dark-themed developer hub featuring floating Dock navigation and smooth micro-animations.
 * **Interactive Kitchen Portfolio (`?kitchen`):** An immersive cottage-core mini-game where visitors can explore projects, skills, and achievements by "cooking" recipes with specific tech stack ingredients!
 * **City Quest Driving Game (`?cityquest`):** A stylized 2.5D open-world arcade driving game where you customize a vehicle (sports car, lightcycle, scooter, hoverpod) in a showroom garage and drive around a neon city to explore achievements, certifications, events, and milestones!
+* **Bug Dungeon Debugging Game (`?bugdungeon`):** An atmospheric 2D retro-futuristic mechanical underground dungeon where you solve interactive coding logic challenges (CPU infinite loops, API timeouts, CSS overlaps, Git conflicts) to unlock real development stories, logs, and lessons learned!
 
 ---
 

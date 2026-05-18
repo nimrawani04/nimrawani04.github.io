@@ -1,0 +1,596 @@
+/* Bug Dungeon Game Stylesheet */
+
+:root {
+  --neon-red: #ef4444;
+  --neon-red-glow: rgba(239, 68, 68, 0.45);
+  --neon-cyan: #06b6d4;
+  --neon-cyan-glow: rgba(6, 182, 212, 0.4);
+  --neon-purple: #a855f7;
+  --neon-purple-glow: rgba(168, 85, 247, 0.4);
+  --neon-green: #22c55e;
+  --neon-green-glow: rgba(34, 197, 94, 0.4);
+  --metal-bg: rgba(10, 15, 30, 0.95);
+  --metal-border: rgba(255, 255, 255, 0.05);
+}
+
+/* Viewport Constraint */
+.bd-viewport {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #030408;
+  font-family: 'Courier New', Courier, monospace, system-ui;
+  color: #e2e8f0;
+  overflow: hidden;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Industrial Elevator Transition Screen */
+.bd-elevator-gate {
+  position: absolute;
+  inset: 0;
+  background: #020306;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bd-elevator-top,
+.bd-elevator-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to bottom, #111827, #030712);
+  border: 4px solid #1f2937;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9);
+  transition: transform 1.5s cubic-bezier(0.85, 0, 0.15, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.bd-elevator-top {
+  top: 0;
+  border-bottom: 3px solid #ef4444;
+  transform: translateY(0);
+}
+
+.bd-elevator-bottom {
+  bottom: 0;
+  border-top: 3px solid #ef4444;
+  transform: translateY(0);
+}
+
+.bd-elevator-top.open {
+  transform: translateY(-100%);
+}
+
+.bd-elevator-bottom.open {
+  transform: translateY(100%);
+}
+
+/* Scanlines Overlay */
+.bd-scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 4px, 6px 100%;
+  z-index: 99;
+}
+
+/* Glitch Text Effect */
+.bd-glitch {
+  position: relative;
+  color: #fff;
+  font-weight: 900;
+  text-shadow: 0.05em 0 0 rgba(255,0,0,.75),
+              -0.025em -0.05em 0 rgba(0,255,0,.75),
+              0.025em 0.05em 0 rgba(0,0,255,.75);
+  animation: glitch 1.5s infinite;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75);
+  }
+  14% {
+    text-shadow: 0.05em 0 0 rgba(255,0,0,.75), -0.025em -0.05em 0 rgba(0,255,0,.75), 0.025em 0.05em 0 rgba(0,0,255,.75);
+  }
+  15% {
+    text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75);
+  }
+  49% {
+    text-shadow: -0.05em -0.025em 0 rgba(255,0,0,.75), 0.025em 0.025em 0 rgba(0,255,0,.75), -0.05em -0.05em 0 rgba(0,0,255,.75);
+  }
+  50% {
+    text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75);
+  }
+  99% {
+    text-shadow: 0.025em 0.05em 0 rgba(255,0,0,.75), 0.05em 0 0 rgba(0,255,0,.75), 0 -0.05em 0 rgba(0,0,255,.75);
+  }
+  100% {
+    text-shadow: -0.025em 0 0 rgba(255,0,0,.75), -0.025em -0.025em 0 rgba(0,255,0,.75), -0.025em -0.05em 0 rgba(0,0,255,.75);
+  }
+}
+
+/* Dungeon Main Interface */
+.bd-main {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: row;
+  min-height: 0;
+}
+
+/* Sidebar Navigator for Dungeon Rooms */
+.bd-sidebar {
+  width: 280px;
+  background: #080b13;
+  border-right: 2px solid rgba(239, 68, 68, 0.15);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.2rem;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.bd-system-status {
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.02);
+  border-radius: 6px;
+  padding: 0.8rem;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.bd-room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 4px;
+}
+
+.bd-room-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  font-size: 0.72rem;
+}
+
+.bd-room-item:hover {
+  background: rgba(239, 68, 68, 0.05);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.bd-room-item.active {
+  background: rgba(239, 68, 68, 0.12);
+  border-color: #ef4444;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
+  color: #fff;
+}
+
+.bd-room-item.resolved {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.bd-room-item.resolved .status-dot {
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  box-shadow: 0 0 8px #ef4444;
+  transition: all 0.3s ease;
+}
+
+/* Center Terminal / Chamber view */
+.bd-chamber {
+  flex: 1;
+  background: radial-gradient(circle at center, #070911 0%, #020305 100%);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.bd-hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.bd-terminal-view {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+/* Puzzle Canvas area */
+.bd-puzzle-frame {
+  flex: 1.5;
+  background: rgba(4, 6, 12, 0.85);
+  border: 1.5px solid var(--theme-color, #ef4444);
+  box-shadow: 0 0 20px var(--glow-color, rgba(239, 68, 68, 0.2));
+  border-radius: 12px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.bd-puzzle-header {
+  background: rgba(255,255,255,0.02);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 8px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+}
+
+.bd-puzzle-workspace {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+/* Glitchy CRT Overlay */
+.bd-crt-lines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.15) 50%
+  );
+  background-size: 100% 3px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Console terminal output logs */
+.bd-terminal-logs {
+  flex: 0.8;
+  background: #020305;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.8rem;
+  font-family: monospace;
+  font-size: 0.65rem;
+  overflow-y: auto;
+  color: #a7f3d0; /* vintage green terminal text */
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.9);
+}
+
+.bd-log-row {
+  margin-bottom: 4px;
+}
+
+.bd-log-row.err {
+  color: #f87171;
+}
+
+.bd-log-row.success {
+  color: #4ade80;
+}
+
+/* Specialized Interactive Puzzle Components */
+/* Infinite Loop Break alignment */
+.bd-infinite-wheel {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  border: 4px dashed #ef4444;
+  animation: infiniteSpin 5s linear infinite;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+}
+
+.bd-infinite-wheel.stabilized {
+  animation-play-state: paused;
+  border-style: solid;
+  border-color: #22c55e;
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+}
+
+@keyframes infiniteSpin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.bd-wheel-node {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  background: #1e293b;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.5rem;
+  font-weight: bold;
+}
+
+/* API Connection slider wires */
+.bd-slider-track {
+  width: 100%;
+  max-width: 320px;
+  height: 6px;
+  background: #1e293b;
+  border-radius: 4px;
+  position: relative;
+}
+
+.bd-slider-thumb {
+  position: absolute;
+  top: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #a855f7;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+  border: 2px solid #fff;
+  transition: left 0.05s ease;
+}
+
+/* Story explanation Panel Overlay */
+.bd-story-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 4, 8, 0.85);
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.bd-story-card {
+  width: 100%;
+  max-width: 520px;
+  background: #0b0f19;
+  border: 2px solid var(--theme-color, #22c55e);
+  box-shadow: 0 0 35px var(--glow-color, rgba(34, 197, 94, 0.3));
+  border-radius: 12px;
+  padding: 1.5rem;
+  animation: slideCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(10px);
+}
+
+@keyframes slideCard {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bd-story-headline {
+  font-size: 0.95rem;
+  color: #fff;
+  font-weight: bold;
+  border-bottom: 1px dashed rgba(255,255,255,0.1);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bd-story-body {
+  font-size: 0.65rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-bottom: 18px;
+}
+
+.bd-story-section {
+  background: rgba(255,255,255,0.01);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  padding: 0.6rem;
+  margin-top: 10px;
+}
+
+.bd-story-section-title {
+  color: var(--theme-color, #22c55e);
+  font-weight: bold;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  font-size: 0.52rem;
+  letter-spacing: 0.5px;
+}
+
+.bd-story-btn {
+  font-family: inherit;
+  font-size: 0.65rem;
+  background: var(--theme-color, #22c55e);
+  color: #030408;
+  border: none;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.bd-story-btn:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 0 15px var(--glow-color, rgba(34, 197, 94, 0.3));
+}
+
+/* CSS Flex Alignment puzzle block */
+.bd-css-box {
+  width: 80px;
+  height: 80px;
+  background: rgba(6, 182, 212, 0.15);
+  border: 2px dashed #06b6d4;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: all 0.4s ease;
+}
+
+/* Interactive wires connections */
+.bd-wire-connector {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #ef4444;
+  background: #0b0f19;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bd-wire-connector:hover {
+  transform: scale(1.2);
+}
+
+.bd-wire-connector.active {
+  background: #ef4444;
+  box-shadow: 0 0 10px #ef4444;
+}
+
+.bd-wire-connector.connected {
+  background: #22c55e;
+  border-color: #22c55e;
+  box-shadow: 0 0 10px #22c55e;
+}
+
+/* Light Flickering overlay */
+.bd-overlay-flicker {
+  position: absolute;
+  inset: 0;
+  background: rgba(239, 68, 68, 0.05);
+  pointer-events: none;
+  z-index: 8;
+  animation: warningPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes warningPulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.9; }
+}
+
+/* Micro-spark visual sparks */
+.bd-spark {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #f59e0b;
+  box-shadow: 0 0 5px #f59e0b;
+  pointer-events: none;
+  animation: sparkFly 0.6s ease-out forwards;
+}
+
+@keyframes sparkFly {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--vx), var(--vy)) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Water drip coordinates */
+.bd-drip {
+  position: absolute;
+  width: 2px;
+  height: 8px;
+  background: rgba(6, 182, 212, 0.4);
+  animation: dripFall 1.5s linear infinite;
+}
+
+@keyframes dripFall {
+  0% {
+    top: -10px;
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+/* Responsive grid mobile adaptation */
+@media (max-width: 768px) {
+  .bd-main {
+    flex-direction: column;
+  }
+  .bd-sidebar {
+    width: 100%;
+    height: 180px;
+    border-right: none;
+    border-bottom: 2px solid rgba(239, 68, 68, 0.15);
+  }
+  .bd-room-list {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: 60px;
+  }
+  .bd-room-item {
+    min-width: 160px;
+  }
+  .bd-infinite-wheel {
+    width: 130px;
+    height: 130px;
+  }
+}

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import CookingGame from "@/components/CookingGame";
 import CityQuest from "@/components/CityQuest";
+import BugDungeon from "@/components/BugDungeon";
 import {
   Home,
   User,
@@ -26,6 +27,7 @@ import { motion } from "framer-motion";
 const Index = () => {
   const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen"));
   const [showCityQuest, setShowCityQuest] = useState(() => new URLSearchParams(window.location.search).has("city") || new URLSearchParams(window.location.search).has("cityquest"));
+  const [showBugDungeon, setShowBugDungeon] = useState(() => new URLSearchParams(window.location.search).has("dungeon") || new URLSearchParams(window.location.search).has("bugdungeon"));
   const [showArcadeHub, setShowArcadeHub] = useState(false);
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
@@ -205,6 +207,9 @@ const Index = () => {
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
+  if (showBugDungeon) {
+    return <BugDungeon onBack={() => setShowBugDungeon(false)} />;
+  }
   if (showCityQuest) {
     return <CityQuest onBack={() => setShowCityQuest(false)} />;
   }
@@ -770,7 +775,7 @@ const Index = () => {
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="relative w-full max-w-4xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left"
+            className="relative w-full max-w-5xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left"
           >
             {/* Close Button */}
             <button 
@@ -792,29 +797,29 @@ const Index = () => {
             </div>
 
             {/* Selector Grid */}
-            <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+            <div className="grid md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
               
               {/* Game 1: Cooking Kitchen */}
               <div 
                 onClick={() => { setShowGame(true); setShowArcadeHub(false); }}
-                className="group relative flex flex-col justify-between bg-gradient-to-br from-emerald-950/40 to-slate-900/90 border border-emerald-500/10 hover:border-emerald-500/40 rounded-xl p-6 md:p-8 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] cursor-pointer"
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-emerald-950/40 to-slate-900/90 border border-emerald-500/10 hover:border-emerald-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-4xl" role="img" aria-label="Cooking Pot">🍳</span>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                    <span className="text-3xl" role="img" aria-label="Cooking Pot">🍳</span>
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
                       Cottage-Core Game
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
+                  <h3 className="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
                     Kitchen Portfolio
                   </h3>
-                  <p className="text-xs text-slate-400 mt-3 leading-relaxed">
+                  <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
                     Step into Chef Nimra's cozy cottage-core kitchen. Gather skill ingredients (HTML, React, AI) from the jars and "cook" them in a bubbling stove pot to unlock project recipes, earn Chef XP, and level up!
                   </p>
                 </div>
-                <div className="mt-8">
-                  <button className="w-full py-2.5 px-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-lg transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(16,185,129,0.2)]">
+                <div className="mt-6">
+                  <button className="w-full py-2 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(16,185,129,0.2)]">
                     ENTER KITCHEN 🍳
                   </button>
                 </div>
@@ -823,25 +828,51 @@ const Index = () => {
               {/* Game 2: City Quest */}
               <div 
                 onClick={() => { setShowCityQuest(true); setShowArcadeHub(false); }}
-                className="group relative flex flex-col justify-between bg-gradient-to-br from-cyan-950/40 to-slate-900/90 border border-cyan-500/10 hover:border-cyan-500/40 rounded-xl p-6 md:p-8 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] cursor-pointer"
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-cyan-950/40 to-slate-900/90 border border-cyan-500/10 hover:border-cyan-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(6,182,212,0.15)] cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-4xl" role="img" aria-label="Sports Car">🏎️</span>
-                    <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full border border-cyan-500/20">
+                    <span className="text-3xl" role="img" aria-label="Sports Car">🏎️</span>
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-full border border-cyan-500/20">
                       2.5D Driving Game
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-slate-100 group-hover:text-cyan-400 transition-colors">
+                  <h3 className="text-base font-bold text-slate-100 group-hover:text-cyan-400 transition-colors">
                     City Quest
                   </h3>
-                  <p className="text-xs text-slate-400 mt-3 leading-relaxed">
+                  <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
                     Select a ride from the showroom garage (Phantom GTR, cyberCycle, Hover Pod) and explore a glowing neon sandbox city. Drive to discover achievements, certifications, events, and milestones with dynamic synthesized audio and fireworks!
                   </p>
                 </div>
-                <div className="mt-8">
-                  <button className="w-full py-2.5 px-4 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-lg transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(6,182,212,0.2)]">
+                <div className="mt-6">
+                  <button className="w-full py-2 px-3 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(6,182,212,0.2)]">
                     DRIVE IN CITY 🏎️
+                  </button>
+                </div>
+              </div>
+
+              {/* Game 3: Bug Dungeon */}
+              <div 
+                onClick={() => { setShowBugDungeon(true); setShowArcadeHub(false); }}
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-red-950/40 to-slate-900/90 border border-red-500/10 hover:border-red-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(239,68,68,0.15)] cursor-pointer"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl" role="img" aria-label="Puzzle Piece">🧩</span>
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-red-400 bg-red-500/10 px-2 py-0.5 rounded-full border border-red-500/20">
+                      Debugging Puzzle
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-slate-100 group-hover:text-red-400 transition-colors">
+                    Bug Dungeon
+                  </h3>
+                  <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
+                    Descend into a mechanical server vault. Fix CPU-blocking infinite loop beasts, stabilize API gateway timeouts, resolve CSS layout overlapping, and settle Git merge conflicts to unlock real debugging journals!
+                  </p>
+                </div>
+                <div className="mt-6">
+                  <button className="w-full py-2 px-3 bg-red-500 hover:bg-red-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(239,68,68,0.2)]">
+                    DESCEND DUNGEON 🧩
                   </button>
                 </div>
               </div>
