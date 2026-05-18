@@ -10,16 +10,16 @@ A clean, responsive, and highly interactive dual-mode portfolio website showcasi
 
 This portfolio offers five distinct interactive experiences for visitors:
 * **Classic Professional View:** A sleek, glassmorphic dark-themed developer hub featuring floating Dock navigation and smooth micro-animations.
-* **Nimra's Studio Kitchen (`?kitchen`):** A high-fidelity, late-night creative workshop cooking game where you assemble software architectures (React, SQL, Python, FastAPI) inside a warm simmering pot with custom procedural soundscapes, rain window backdrops, and cinematic transitions!
+* **Interactive Kitchen Portfolio (`?kitchen` or `?cooking`):** An immersive cinematic cooking simulator game where visitors explore projects by select-cooking developer recipes, dropping tech ingredients (React, SQL, Python) from jars into utensils, and turning the burner dial to plate dishes and unlock full showcases!
 * **City Quest Driving Game (`?cityquest`):** A stylized 2.5D open-world arcade driving game where you customize a vehicle (sports car, lightcycle, scooter, hoverpod) in a showroom garage and drive around a neon city to explore achievements, certifications, events, and milestones!
 * **Bug Dungeon Debugging Game (`?bugdungeon`):** An atmospheric 2D retro-futuristic mechanical underground dungeon where you solve interactive coding logic challenges (CPU infinite loops, API timeouts, CSS overlaps, Git conflicts) to unlock real development stories, logs, and lessons learned!
 * **Memory Lab Cinematic Narrative (`?memory` or `?memorylab`):** A deeply immersive, dream-like floating memory archive where visitors walk through chronological chapters of Nimra's development journey, clicking floating coffee cups, textbooks, lamps, and holograms to unlock nostalgic subtitles and programmatic audio soundscapes!
 
 ## 🎮 Interactive Arcade Games
 
-### 🍳 GAME 1 — NIMRA'S STUDIO KITCHEN
+### 🍳 GAME 1 — NIMRA’S KITCHEN
 
-Nimra’s Studio Kitchen represents projects, technical stacks, creativity, and the complete process of building software applications. Instead of presenting projects as static cards, this game transforms code construction into a high-fidelity atmospheric workshop. Users assemble technology dependencies (React, SQL, Python, FastAPI) inside a warm simmering pot, enjoying late-night rain window backdrops, organic Web Audio soundscapes, and cinematic transition reveals that plated software projects into the showcase page.
+Nimra’s Kitchen acts as the project showcase section of the portfolio. Instead of presenting projects through traditional cards or list layouts, the entire experience transforms project building into an interactive realistic stylized cooking simulation game. The game opens inside a believable, creative workspace where warm hanging pendant lights cast glowing spotlights onto reflective countertops, while rain slides down large windows overlooking distant city lights. At the center of the room is the preparation counter containing a handwritten recipe cookbook, utensils rack (Pot, Pan, Bowl), labeled technology jars on wooden shelves (React Flour, Next.js Essence, SQL Salt, Python Broth), and a physical burner stove with interactive turning knobs. Visitors choose a developer dish (AI Safety Curry, Portal Vegetable Soup), place their utensil of choice, pour the required technical ingredients according to the checklist, ignite the stove burner to trigger real-time steam columns and boiling bubbling sounds, and plate the final dish to unlock gorgeous production project showcases!
 
 ---
 

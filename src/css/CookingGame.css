@@ -1,990 +1,946 @@
 /* ==========================================================================
-   🎬 NIMRA'S KITCHEN — CINEMATIC CORE DESIGN SYSTEM
+   NIMRA'S KITCHEN — PREMIUM GAME 1 CUSTOM STYLES
    ========================================================================== */
 
-/* 🌌 Master Viewport Layout */
-.cg-viewport {
+/* 1. Main Viewport & Base Layout */
+.ck-viewport {
   position: fixed;
   inset: 0;
   width: 100vw;
   height: 100vh;
-  background: radial-gradient(circle at center, #160f29 0%, #0b0716 100%);
+  background: radial-gradient(circle at 50% 30%, #150d2e 0%, #080314 100%);
   color: #e2e8f0;
-  font-family: 'Outfit', sans-serif;
   overflow: hidden;
+  font-family: 'Outfit', sans-serif;
+  user-select: none;
   z-index: 40;
-  display: flex;
-  flex-direction: column;
 }
 
-/* 🎥 Vignette and Late-Night Lighting overlays */
-.cg-vignette {
+.ck-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
+  background: radial-gradient(circle at 50% 50%, transparent 40%, rgba(5, 2, 12, 0.9) 100%);
   pointer-events: none;
-  z-index: 5;
+  z-index: 3;
 }
 
-.cg-ambient-glow {
+/* 2. Rainy City Window Backdrop */
+.ck-window-backdrop {
   position: absolute;
-  top: -10%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
-  height: 60%;
-  background: radial-gradient(ellipse at top, rgba(245, 158, 11, 0.12) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* 🌧️ Rain Window Overlay */
-.cg-window-frame {
-  position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 25%;
-  height: 50%;
-  border: 4px solid #1e1b4b;
-  border-radius: 8px;
-  background: rgba(15, 23, 42, 0.45);
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.5);
+  top: 10%;
+  right: 8%;
+  width: 320px;
+  height: 240px;
+  border-radius: 12px;
+  border: 4px solid #1a103c;
+  background: linear-gradient(to bottom, #09031c, #1a0b36);
+  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8), 0 0 40px rgba(139, 92, 246, 0.15);
   overflow: hidden;
   z-index: 1;
 }
 
-.cg-window-glass {
+.ck-city-lights {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%);
-  backdrop-filter: blur(2px);
-}
-
-.cg-rain-streaks {
-  position: absolute;
-  inset: 0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%2338bdf8' fill-opacity='0.25'%3E%3Cpath d='M10 0 L5 40 L10 80 L9 80 L4 40 L9 0 Z M40 0 L35 40 L40 80 L39 80 L34 40 L39 0 Z M70 0 L65 40 L70 80 L69 80 L64 40 L69 0 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-image: radial-gradient(circle, rgba(239, 68, 68, 0.3) 2px, transparent 2px),
+                    radial-gradient(circle, rgba(6, 182, 212, 0.3) 3px, transparent 3px),
+                    radial-gradient(circle, rgba(245, 158, 11, 0.25) 2px, transparent 2px);
+  background-size: 40px 40px, 60px 60px, 80px 80px;
+  filter: blur(4px);
   opacity: 0.75;
-  animation: cg-rain-fall 1.8s linear infinite;
 }
 
-@keyframes cg-rain-fall {
-  0% { background-position: 0px 0px; }
-  100% { background-position: -40px 160px; }
-}
-
-.cg-city-lights {
+.ck-rain-overlay {
   position: absolute;
-  bottom: 10px;
+  inset: 0;
+  background: rgba(13, 7, 34, 0.4);
+}
+
+.ck-rain-drops {
+  position: absolute;
+  inset: 0;
+  background: repeat-y;
+  background-image: linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  background-size: 2px 80px;
+  animation: ck-rain-fall 1.5s linear infinite;
+}
+
+@keyframes ck-rain-fall {
+  0% { background-position: 0 0; }
+  100% { background-position: 10px 500px; }
+}
+
+/* 3. Hanging Pendant & Countertop Lighting */
+.ck-pendant-light {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 120px;
+  background: linear-gradient(to bottom, #2b1856, #a78bfa);
+  z-index: 5;
+}
+
+.ck-light-shade {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 48px;
+  height: 24px;
+  background: linear-gradient(135deg, #3b1f7a, #1a0b36);
+  border-radius: 24px 24px 0 0;
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.ck-light-glow {
+  position: absolute;
+  bottom: -320px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 320px;
+  background: radial-gradient(ellipse at top, rgba(253, 186, 116, 0.22) 0%, rgba(139, 92, 246, 0.05) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* 4. Active Preparation Countertop */
+.ck-countertop {
+  position: absolute;
+  bottom: 0;
   left: 0;
   right: 0;
-  height: 40px;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-  padding: 0 15px;
-  opacity: 0.45;
-}
-
-.cg-city-dot {
-  width: 4px;
-  height: 4px;
-  background: #fef08a;
-  border-radius: 50%;
-  filter: blur(1px);
-  animation: cg-sparkle-dot var(--d) ease-in-out infinite alternate;
-}
-
-@keyframes cg-sparkle-dot {
-  0% { opacity: 0.1; }
-  100% { opacity: 1; }
-}
-
-/* 🚪 Cinematic Entrance Scene */
-.cg-entrance-scene {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
-  padding: 2rem;
-  background: radial-gradient(circle at center, rgba(15,10,30,0.85) 0%, rgba(5,3,10,0.98) 100%);
-}
-
-.cg-entrance-panel {
-  max-w: 640px;
-  width: 100%;
-  background: rgba(15, 10, 25, 0.65);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(245, 158, 11, 0.15);
-  border-radius: 24px;
-  padding: 3rem;
-  text-align: center;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(245, 158, 11, 0.05);
-}
-
-.cg-entrance-logo {
-  font-size: 4rem;
-  margin-bottom: 1.5rem;
-  animation: cg-cooking-pot-bounce 3s infinite ease-in-out;
-  display: inline-block;
-}
-
-@keyframes cg-cooking-pot-bounce {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-8px) rotate(4deg); }
-}
-
-.cg-entrance-panel h2 {
-  font-size: 2.25rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 1rem;
-}
-
-.cg-entrance-panel p {
-  color: #94a3b8;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  margin-bottom: 2.5rem;
-}
-
-.cg-start-btn {
-  padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  color: #0f0a1c;
-  font-weight: 800;
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  border-radius: 9999px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(245, 158, 11, 0.35);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.cg-start-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(245, 158, 11, 0.55);
-  filter: brightness(1.05);
-}
-
-/* 🍳 Main HUD Header */
-.cg-hud-header {
-  height: 70px;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(11, 7, 22, 0.65);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  z-index: 20;
-}
-
-.cg-hud-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.cg-hud-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid #fbbf24;
-  background: rgba(245, 158, 11, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.25rem;
-}
-
-.cg-hud-titles h3 {
-  font-size: 1rem;
-  font-weight: 800;
-  color: #f8fafc;
-  margin: 0;
-}
-
-.cg-hud-titles span {
-  font-size: 0.75rem;
-  color: #fbbf24;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.cg-hud-controls {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.cg-control-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.cg-control-btn:hover {
-  background: rgba(255,255,255,0.08);
-  color: #fff;
-  border-color: rgba(255,255,255,0.15);
-}
-
-/* 📖 Recipe Wall Station */
-.cg-recipe-wall-view {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
+  height: 40%;
+  background: linear-gradient(to bottom, #110926 0%, #06020f 100%);
+  border-top: 4px solid #23144c;
+  box-shadow: inset 0 20px 40px rgba(139, 92, 246, 0.05), 0 -10px 30px rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
 
-.cg-wall-header {
-  text-align: center;
-  margin-bottom: 3rem;
-  max-w: 600px;
-}
-
-.cg-wall-header h2 {
-  font-size: 2.25rem;
-  font-weight: 800;
-  color: #fff;
-}
-
-.cg-wall-header p {
-  color: #64748b;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-.cg-recipe-grid {
-  display: grid;
-  grid-template-cols: repeat(4, 1fr);
-  gap: 2rem;
-  max-w: 1200px;
-  width: 100%;
-}
-
-@media (max-w: 1024px) {
-  .cg-recipe-grid { grid-template-cols: repeat(2, 1fr); }
-}
-
-@media (max-w: 640px) {
-  .cg-recipe-grid { grid-template-cols: 1fr; }
-}
-
-.cg-recipe-card {
-  background: rgba(15, 10, 25, 0.45);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 20px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-.cg-recipe-card::before {
-  content: '';
+.ck-marble-gloss {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05) 0%, transparent 100%);
+  background: linear-gradient(125deg, transparent 40%, rgba(255, 255, 255, 0.02) 48%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0.02) 52%, transparent 60%);
+  pointer-events: none;
+}
+
+/* 5. Utensil Hanging Rack & Selection */
+.ck-utensil-rack {
+  position: absolute;
+  top: 15%;
+  left: 8%;
+  display: flex;
+  gap: 16px;
+  background: rgba(13, 7, 32, 0.65);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  padding: 12px 18px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  z-index: 8;
+}
+
+.ck-rack-bar {
+  position: absolute;
+  top: -8px;
+  left: 10%;
+  right: 10%;
+  height: 4px;
+  background: #3c2475;
+  border-radius: 2px;
+}
+
+.ck-rack-hook {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.ck-rack-hook:hover {
+  transform: translateY(2px);
+  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.6));
+}
+
+.ck-rack-tool {
+  font-size: 2.2rem;
+}
+
+.ck-rack-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #a78bfa;
+  font-weight: 700;
+}
+
+/* 6. Realistic Storage Shelves */
+.ck-storage-shelves {
+  position: absolute;
+  top: 10%;
+  left: 45%;
+  right: 8%;
+  display: grid;
+  grid-template-rows: repeat(2, 1fr);
+  gap: 20px;
+  z-index: 5;
+}
+
+.ck-shelf-level {
+  position: relative;
+  background: rgba(15, 9, 36, 0.55);
+  border-bottom: 5px solid #2d195c;
+  border-radius: 4px;
+  padding: 14px 16px 4px 16px;
+  display: flex;
+  justify-content: space-around;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.ck-shelf-wood {
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(to right, #44208a, #200f45);
+  border-radius: 0 0 4px 4px;
+}
+
+/* 7. Labeled Technology Jars & Ingredients */
+.ck-jar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: grab;
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+}
+
+.ck-jar-container:active {
+  cursor: grabbing;
+}
+
+.ck-jar-container:hover {
+  transform: scale(1.1) translateY(-4px);
+  filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.4));
+}
+
+.ck-jar-icon {
+  font-size: 2.2rem;
+  transition: transform 0.15s ease;
+}
+
+.ck-jar-container:hover .ck-jar-icon {
+  animation: ck-jar-jiggle 0.4s ease infinite alternate;
+}
+
+@keyframes ck-jar-jiggle {
+  0% { transform: rotate(-5deg); }
+  100% { transform: rotate(5deg); }
+}
+
+.ck-jar-badge {
+  font-size: 8px;
+  background: rgba(167, 139, 250, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.3);
+  color: #c084fc;
+  font-weight: 700;
+  padding: 1px 4px;
+  border-radius: 4px;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+/* 8. Active Cooking Stove Burner */
+.ck-stove-station {
+  position: absolute;
+  top: -60px;
+  left: 10%;
+  width: 240px;
+  height: 180px;
+  background: #190e38;
+  border: 2px solid #2c1a59;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+}
+
+.ck-stove-grates {
+  position: absolute;
+  inset: 12px;
+  border: 3px dashed #35216b;
+  border-radius: 12px;
+}
+
+.ck-burner-ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 4px solid #231649;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.ck-burner-ring.ignited {
+  border-color: #f97316;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4), inset 0 0 15px rgba(249, 115, 22, 0.4);
+}
+
+.ck-stove-flames {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 3px dotted #f97316;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  animation: ck-pulse-flames 0.8s ease infinite alternate;
 }
 
-.cg-recipe-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(245, 158, 11, 0.35);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 30px rgba(245, 158, 11, 0.05);
-}
-
-.cg-recipe-card:hover::before {
+.ck-burner-ring.ignited .ck-stove-flames {
   opacity: 1;
 }
 
-.cg-card-emoji {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
+@keyframes ck-pulse-flames {
+  0% { transform: scale(0.98); filter: drop-shadow(0 0 2px #f97316); }
+  100% { transform: scale(1.05); filter: drop-shadow(0 0 6px #ef4444); }
 }
 
-.cg-card-title {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 0.5rem;
-}
-
-.cg-card-desc {
-  font-size: 0.8rem;
-  color: #64748b;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
-}
-
-.cg-card-techs {
+/* Interactive Knob */
+.ck-stove-knob-wrapper {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
-.cg-card-tech {
-  font-size: 0.65rem;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  color: #94a3b8;
-}
-
-.cg-select-btn {
-  width: 100%;
-  padding: 0.75rem;
-  background: rgba(245, 158, 11, 0.08);
-  border: 1px solid rgba(245, 158, 11, 0.25);
-  color: #fbbf24;
-  font-weight: 700;
-  font-size: 0.8rem;
-  border-radius: 10px;
+.ck-stove-knob {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4c2d9a, #1f0f47);
+  border: 2px solid #633bbd;
   cursor: pointer;
-  transition: all 0.2s ease;
+  position: relative;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ck-knob-pointer {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 8px;
+  background: #f97316;
+  border-radius: 1px;
+}
+
+.ck-knob-label {
+  font-size: 8px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.cg-recipe-card:hover .cg-select-btn {
-  background: #f59e0b;
-  color: #0f0a1c;
-  border-color: #fbbf24;
-}
-
-/* 🍳 Main Cooking Studio Workspace */
-.cg-workspace {
-  flex: 1;
-  display: grid;
-  grid-template-columns: 320px 1fr 340px;
-  z-index: 10;
-  height: calc(100vh - 70px);
-}
-
-@media (max-w: 1200px) {
-  .cg-workspace {
-    grid-template-columns: 280px 1fr;
-  }
-  .cg-right-stove { display: none; }
-}
-
-@media (max-w: 768px) {
-  .cg-workspace {
-    grid-template-columns: 1fr;
-  }
-  .cg-left-cookbook { display: none; }
-}
-
-/* 📖 Left Sidebar: Hand-written Cookbook */
-.cg-left-cookbook {
-  background: rgba(15, 10, 25, 0.55);
-  backdrop-filter: blur(20px);
-  border-right: 1px solid rgba(255,255,255,0.04);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow-y: auto;
-}
-
-.cg-book-tag {
-  font-size: 0.7rem;
-  font-weight: 800;
-  color: #f59e0b;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-}
-
-.cg-book-title {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: #fff;
-  margin-top: 0.25rem;
-  margin-bottom: 1.5rem;
-}
-
-.cg-book-notes {
-  background: rgba(245, 158, 11, 0.02);
-  border: 1px dashed rgba(245, 158, 11, 0.15);
-  border-radius: 12px;
-  padding: 1rem;
-  font-size: 0.8rem;
-  color: #94a3b8;
-  line-height: 1.6;
-  margin-bottom: 2rem;
-}
-
-.cg-step-title {
-  font-size: 0.8rem;
   font-weight: 700;
-  color: #fff;
-  text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.75rem;
+  color: #6d28d9;
 }
 
-.cg-ingredient-todo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.6rem 0.75rem;
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  font-size: 0.8rem;
-  transition: all 0.2s ease;
+.ck-knob-label.active {
+  color: #f97316;
+  animation: pulse 1s infinite alternate;
 }
 
-.cg-ingredient-todo.done {
-  background: rgba(16, 185, 129, 0.03);
-  border-color: rgba(16, 185, 129, 0.15);
-  color: #64748b;
-  text-decoration: line-through;
+/* 9. Steam and Bubble Particle FX */
+.ck-active-utensil {
+  position: absolute;
+  top: -95px;
+  left: calc(10% + 70px);
+  font-size: 6rem;
+  filter: drop-shadow(0 15px 15px rgba(0,0,0,0.6));
+  z-index: 15;
+  animation: ck-pot-hum 4s ease-in-out infinite;
 }
 
-.cg-checkbox {
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  border: 1px solid rgba(255,255,255,0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.6rem;
-  color: #10b981;
-}
-
-.cg-ingredient-todo.done .cg-checkbox {
-  border-color: #10b981;
-}
-
-/* 🍳 Central Studio Workspace: Preparation Island */
-.cg-center-island {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem;
-  position: relative;
-}
-
-.cg-cabinet-title {
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: #fbbf24;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.cg-ingredients-shelf {
-  display: grid;
-  grid-template-cols: repeat(4, 1fr);
-  gap: 1rem;
-  background: rgba(15, 10, 25, 0.45);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,255,255,0.04);
-  padding: 1.5rem;
-  border-radius: 20px;
-}
-
-.cg-ingredient-jar {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.05);
-  border-radius: 16px;
-  padding: 1rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
-  position: relative;
-}
-
-.cg-ingredient-jar:hover {
-  transform: scale(1.05);
-  border-color: rgba(245, 158, 11, 0.35);
-  background: rgba(245, 158, 11, 0.04);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-}
-
-.cg-jar-emoji {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-  display: inline-block;
-  transition: transform 0.2s ease;
-}
-
-.cg-ingredient-jar:hover .cg-jar-emoji {
-  transform: rotate(5deg) scale(1.1);
-}
-
-.cg-jar-name {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: #fff;
-  display: block;
-}
-
-.cg-jar-category {
-  font-size: 0.55rem;
-  color: #64748b;
-  margin-top: 0.15rem;
-  display: block;
-}
-
-/* 🍳 Central Cooking Hub: Steaming Stove Pot */
-.cg-cooking-pot-station {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: 3rem 0;
-  position: relative;
-}
-
-.cg-pot-wrapper {
-  position: relative;
-  width: 180px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cg-stew-pot {
-  font-size: 8rem;
-  filter: drop-shadow(0 15px 25px rgba(0,0,0,0.5));
-  z-index: 2;
-  position: relative;
-  animation: cg-pot-bubble 4s infinite linear;
-}
-
-.cg-pot-wrapper.shake .cg-stew-pot {
-  animation: cg-pot-shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-@keyframes cg-pot-shake {
-  10%, 90% { transform: translate3d(-2px, 0, 0); }
-  20%, 80% { transform: translate3d(4px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
-  40%, 60% { transform: translate3d(6px, 0, 0); }
-}
-
-@keyframes cg-pot-bubble {
+@keyframes ck-pot-hum {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
 }
 
-/* ♨️ Rising Steam Columns */
-.cg-steam-column {
+.ck-steam-container {
   position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 1.5rem;
+  top: -140px;
+  left: calc(10% + 95px);
+  width: 60px;
+  height: 70px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 18;
 }
 
-.cg-steam-waft {
-  width: 12px;
-  height: 60px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 50%;
-  filter: blur(6px);
-  animation: cg-steam-rise 2s ease-in-out infinite;
-  animation-delay: var(--d);
-}
-
-@keyframes cg-steam-rise {
-  0% { transform: translateY(20px) scaleX(1); opacity: 0; }
-  50% { transform: translateY(-10px) scaleX(1.5); opacity: 0.65; }
-  100% { transform: translateY(-40px) scaleX(2); opacity: 0; }
-}
-
-/* 🔥 Stove Burner Flames */
-.cg-stove-flames {
+.ck-steam-waft {
   position: absolute;
-  bottom: -5px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.4rem;
-  z-index: 1;
-}
-
-.cg-fire-particle {
+  bottom: 0;
   width: 14px;
-  height: 28px;
-  background: linear-gradient(to top, rgba(239, 68, 68, 0.8), rgba(245, 158, 11, 0.4), transparent);
-  border-radius: 50% 50% 0 0;
-  filter: blur(1px);
-  transform-origin: bottom center;
-  animation: cg-flame-flicker var(--dur) ease-in-out infinite alternate;
-  animation-delay: var(--d);
-}
-
-@keyframes cg-flame-flicker {
-  0% { transform: scaleY(0.7) scaleX(0.8) rotate(-2deg); }
-  100% { transform: scaleY(1.3) scaleX(1.2) rotate(2deg); }
-}
-
-/* 🍳 Right Sidebar: Stove Line Controls */
-.cg-right-stove {
-  background: rgba(15, 10, 25, 0.55);
-  backdrop-filter: blur(20px);
-  border-left: 1px solid rgba(255,255,255,0.04);
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.cg-stove-control-panel {
-  background: rgba(255,255,255,0.02);
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 16px;
-  padding: 1.5rem;
-}
-
-.cg-stove-dial-wrapper {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.cg-stove-dial {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.cg-dial-knob {
-  width: 50px;
-  height: 50px;
+  height: 35px;
+  background: radial-gradient(circle, rgba(226, 232, 240, 0.15) 0%, transparent 75%);
   border-radius: 50%;
-  background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-  border: 2px solid rgba(255,255,255,0.1);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-  cursor: pointer;
-  position: relative;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  animation: ck-steam-rise 2.5s ease-out infinite;
+  filter: blur(3px);
 }
 
-.cg-dial-knob::before {
-  content: '';
+@keyframes ck-steam-rise {
+  0% { transform: translateY(0) scale(0.6); opacity: 0; }
+  20% { opacity: 0.8; }
+  100% { transform: translateY(-60px) translateX(var(--tx, 10px)) scale(1.6); opacity: 0; }
+}
+
+.ck-bubbles-container {
   position: absolute;
-  top: 4px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 4px;
-  height: 10px;
-  background: #fbbf24;
-  border-radius: 2px;
-}
-
-.cg-dial-knob:hover {
-  border-color: rgba(245, 158, 11, 0.35);
-}
-
-.cg-dial-label {
-  font-size: 0.65rem;
-  color: #64748b;
-  text-transform: uppercase;
-  font-weight: 700;
-}
-
-/* ⭐ Star Plating slot feedback */
-.cg-star-plating-slot {
-  text-align: center;
-  background: rgba(255,255,255,0.01);
-  border: 1px dashed rgba(255,255,255,0.06);
-  border-radius: 16px;
-  padding: 1.5rem;
-}
-
-.cg-stars-display {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-.cg-star-cell {
-  font-size: 1.75rem;
-  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.cg-star-cell.active {
-  color: #fbbf24;
-  filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
-  transform: scale(1.1);
-}
-
-.cg-star-cell.inactive {
-  color: rgba(255,255,255,0.08);
-}
-
-/* 🍳 Pot / Bowl Plating Reveal Controls */
-.cg-action-bar {
-  display: flex;
-  gap: 1rem;
-}
-
-.cg-action-btn {
-  flex: 1;
-  padding: 0.9rem;
-  font-weight: 800;
-  font-size: 0.8rem;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.cg-action-btn.secondary {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  color: #94a3b8;
-}
-
-.cg-action-btn.secondary:hover {
-  background: rgba(255,255,255,0.06);
-  color: #fff;
-}
-
-.cg-action-btn.primary {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  border: none;
-  color: #0f0a1c;
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
-}
-
-.cg-action-btn.primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
-}
-
-.cg-action-btn.primary:disabled {
-  background: rgba(255,255,255,0.04);
-  color: #64748b;
-  box-shadow: none;
-  cursor: not-allowed;
-  border: 1px solid rgba(255,255,255,0.06);
-}
-
-/* ♨️ Dynamic Full-Screen Steam Reveal Transition Overlay */
-.cg-steam-reveal-transition {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: #f8fafc;
+  top: -85px;
+  left: calc(10% + 90px);
+  width: 70px;
+  height: 30px;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 1.8s cubic-bezier(0.25, 0.8, 0.25, 1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 17;
+  overflow: hidden;
 }
 
-.cg-steam-reveal-transition.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.cg-reveal-steam-smoke {
+.ck-boiling-bubble {
   position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255,255,255,0.96) 0%, rgba(241,245,249,0.9) 100%);
-  filter: blur(10px);
-}
-
-.cg-reveal-spinner {
-  position: relative;
-  z-index: 102;
-  text-align: center;
-  color: #0f172a;
-}
-
-.cg-reveal-spinner h2 {
-  font-size: 1.75rem;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  margin-top: 1rem;
-  animation: cg-pulse-text 2s infinite ease-in-out;
-}
-
-@keyframes cg-pulse-text {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
-
-/* 🍽️ Project Showcase Drawer Panel */
-.cg-showcase-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  background: rgba(11, 7, 22, 0.85);
-  backdrop-filter: blur(20px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.cg-showcase-container {
-  max-w: 960px;
-  width: 100%;
-  background: linear-gradient(135deg, #130f26 0%, #0c0819 100%);
-  border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 28px;
-  padding: 3rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 50px rgba(245, 158, 11, 0.1);
-  color: #e2e8f0;
-  position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.cg-showcase-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 2.5rem;
-}
-
-.cg-showcase-title-area h2 {
-  font-size: 2rem;
-  font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.cg-showcase-title-area span {
-  font-size: 0.8rem;
-  color: #f59e0b;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-weight: 700;
-  display: block;
-  margin-top: 0.25rem;
-}
-
-.cg-showcase-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 3rem;
-}
-
-@media (max-w: 768px) {
-  .cg-showcase-grid { grid-template-columns: 1fr; gap: 2rem; }
-}
-
-.cg-showcase-body p {
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: #94a3b8;
-  margin-bottom: 2rem;
-}
-
-.cg-feature-list h4 {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1rem;
-}
-
-.cg-feature-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
-  color: #cbd5e1;
-  margin-bottom: 0.65rem;
-}
-
-.cg-feature-dot {
+  bottom: 0;
   width: 6px;
   height: 6px;
-  background: #f59e0b;
   border-radius: 50%;
+  background: rgba(249, 115, 22, 0.4);
+  border: 1px solid rgba(254, 215, 170, 0.6);
+  animation: ck-bubble-pop 1s ease-out infinite;
 }
 
-.cg-showcase-links {
+@keyframes ck-bubble-pop {
+  0% { transform: translateY(0) scale(0.5); opacity: 0.8; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-20px) scale(1.5); opacity: 0; }
+}
+
+/* 10. Physical Menu Book & Orders Board */
+.ck-orders-board {
+  position: absolute;
+  top: 15%;
+  left: 28%;
+  width: 190px;
+  background: #110a26;
+  border: 2px solid #2c1a59;
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  z-index: 6;
+}
+
+.ck-board-header {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #a78bfa;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid rgba(167, 139, 250, 0.2);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.ck-menu-card {
+  background: rgba(30, 20, 60, 0.55);
+  border: 1px solid rgba(167, 139, 250, 0.1);
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ck-menu-card:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: #a78bfa;
+  transform: translateX(4px);
+}
+
+.ck-menu-card.active {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: #c084fc;
+  box-shadow: 0 0 10px rgba(167, 139, 250, 0.25);
+}
+
+.ck-menu-card-icon {
+  font-size: 1.5rem;
+}
+
+.ck-menu-card-details {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  text-align: left;
 }
 
-.cg-link-btn {
+.ck-menu-card-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #f1f5f9;
+}
+
+.ck-menu-card-xp {
+  font-size: 7px;
+  color: #a78bfa;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* 11. Immersive Recipe Cookbook UI */
+.ck-recipe-book-panel {
+  position: absolute;
+  top: 15%;
+  left: 12%;
+  width: 440px;
+  background: #fdfaf2; /* Elegant real paper look */
+  border: 6px solid #4a2c11; /* Wood bound cover */
+  border-radius: 8px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6), inset 0 0 40px rgba(0,0,0,0.06);
+  padding: 20px 24px;
+  color: #2b1f16; /* Pen handwriting shade */
+  font-family: 'Outfit', sans-serif;
+  z-index: 30;
+  text-align: left;
+}
+
+.ck-book-pin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 12px;
+  background: #8b5a2b;
+  border-radius: 4px;
+}
+
+.ck-recipe-tag {
+  font-size: 8px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #b45309;
+  background: rgba(180, 83, 9, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.ck-recipe-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #1e1105;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.ck-recipe-desc {
+  font-size: 10px;
+  line-height: 1.4;
+  color: #574130;
+  margin-bottom: 12px;
+  font-style: italic;
+}
+
+.ck-recipe-ingredients-box {
+  background: rgba(74, 44, 17, 0.04);
+  border: 1px dashed rgba(74, 44, 17, 0.2);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.ck-recipe-ingredients-title {
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #78350f;
+  margin-bottom: 4px;
+}
+
+.ck-recipe-ingredients-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ck-recipe-ing-tag {
+  font-size: 9px;
+  background: #ffffff;
+  border: 1px solid rgba(74, 44, 17, 0.15);
+  color: #4a2c11;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.ck-recipe-ing-tag.checked {
+  background: #dcfce7;
+  border-color: #86efac;
+  color: #166534;
+}
+
+.ck-recipe-instructions {
+  font-size: 9px;
+  line-height: 1.4;
+  color: #3b2818;
+}
+
+.ck-recipe-ins-step {
+  margin-bottom: 6px;
+}
+
+.ck-recipe-instructions-title {
+  font-size: 9px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #78350f;
+  margin-bottom: 4px;
+}
+
+/* 12. Cinematic HUD Header Controls */
+.ck-hud-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: linear-gradient(to bottom, rgba(13, 7, 34, 0.9) 0%, transparent 100%);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 25;
+}
+
+.ck-hud-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.ck-hud-logo {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(167, 139, 250, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  border-radius: 12px;
-  font-size: 0.9rem;
+  color: #c084fc;
+}
+
+.ck-hud-title-text h3 {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #f1f5f9;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.ck-hud-title-text span {
+  font-size: 9px;
+  color: #a78bfa;
+  text-transform: uppercase;
   font-weight: 700;
-  text-decoration: none;
+}
+
+.ck-hud-controls {
+  display: flex;
+  gap: 12px;
+}
+
+.ck-control-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(13, 7, 34, 0.8);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  color: #a78bfa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.cg-link-btn.primary {
-  background: #fbbf24;
-  color: #0f0a1c;
-}
-
-.cg-link-btn.primary:hover {
-  background: #f59e0b;
+.ck-control-btn:hover {
+  background: rgba(139, 92, 246, 0.25);
+  border-color: #c084fc;
+  color: #ffffff;
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
 
-.cg-link-btn.secondary {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: #fff;
+/* 13. Dynamic Subtitles Screen Overlay */
+.ck-dialogue-box {
+  position: absolute;
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 650px;
+  background: rgba(9, 4, 24, 0.88);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 12px;
+  padding: 12px 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(139,92,246,0.05);
+  backdrop-filter: blur(8px);
+  z-index: 20;
+  text-align: left;
 }
 
-.cg-link-btn.secondary:hover {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.15);
-  transform: translateY(-2px);
+.ck-dialogue-blink {
+  width: 6px;
+  height: 6px;
+  background: #f97316;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+  animation: ck-pulse-orange 1s infinite alternate;
+}
+
+@keyframes ck-pulse-orange {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.3); opacity: 1; }
+}
+
+.ck-dialogue-text {
+  font-size: 10px;
+  color: #cbd5e1;
+  line-height: 1.4;
+  margin: 0;
+  display: inline;
+}
+
+/* 14. Retro-Futuristic Project Reveal Panel */
+.ck-reveal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 2, 14, 0.95);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.ck-reveal-card {
+  width: 100%;
+  max-width: 760px;
+  background: #0d061c;
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 50px rgba(139, 92, 246, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.ck-reveal-header {
+  background: linear-gradient(to bottom, #160e32, #0d061c);
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(139, 92, 246, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ck-reveal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #c084fc, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.ck-reveal-stars {
+  display: flex;
+  gap: 4px;
+}
+
+.ck-star-gold {
+  color: #f59e0b;
+  font-size: 1.2rem;
+}
+
+.ck-star-gray {
+  color: #4b5563;
+  font-size: 1.2rem;
+}
+
+.ck-reveal-body {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 24px;
+  overflow-y: auto;
+  max-height: 480px;
+}
+
+.ck-reveal-desc-box h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #a78bfa;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.ck-reveal-desc-box p {
+  font-size: 11px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.ck-reveal-spec-box {
+  background: rgba(15, 9, 36, 0.7);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ck-reveal-spec-item h5 {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.ck-reveal-spec-item p {
+  font-size: 11px;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+.ck-spec-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ck-spec-tag {
+  font-size: 9px;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  color: #c084fc;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.ck-reveal-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.ck-action-btn-primary {
+  flex: 1;
+  padding: 10px;
+  background: #7c3aed;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ck-action-btn-primary:hover {
+  background: #8b5cf6;
+  transform: translateY(-1px);
+}
+
+.ck-action-btn-secondary {
+  flex: 1;
+  padding: 10px;
+  background: rgba(15, 9, 36, 0.8);
+  color: #cbd5e1;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.ck-action-btn-secondary:hover {
+  background: rgba(139, 92, 246, 0.1);
+  color: #ffffff;
+}
+
+.ck-reveal-footer {
+  background: #080314;
+  padding: 14px 24px;
+  border-top: 1px solid rgba(139, 92, 246, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ck-reveal-xp-badge {
+  font-size: 10px;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ck-reveal-close {
+  padding: 6px 16px;
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ck-reveal-close:hover {
+  background: #dc2626;
 }

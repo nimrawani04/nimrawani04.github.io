@@ -26,7 +26,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
 
 const Index = () => {
-  const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen"));
+  const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen") || new URLSearchParams(window.location.search).has("cooking"));
   const [showCityQuest, setShowCityQuest] = useState(() => new URLSearchParams(window.location.search).has("city") || new URLSearchParams(window.location.search).has("cityquest"));
   const [showBugDungeon, setShowBugDungeon] = useState(() => new URLSearchParams(window.location.search).has("dungeon") || new URLSearchParams(window.location.search).has("bugdungeon"));
   const [showMemoryLab, setShowMemoryLab] = useState(() => new URLSearchParams(window.location.search).has("memory") || new URLSearchParams(window.location.search).has("memorylab"));
@@ -804,28 +804,28 @@ const Index = () => {
             {/* Selector Grid */}
             <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 w-full max-w-6xl mx-auto">
               
-              {/* Game 1: Studio Kitchen */}
+              {/* Game 1: Cooking Kitchen */}
               <div 
                 onClick={() => { setShowGame(true); setShowArcadeHub(false); }}
-                className="group relative flex flex-col justify-between bg-gradient-to-br from-amber-950/40 to-slate-900/90 border border-amber-500/10 hover:border-amber-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,158,11,0.15)] cursor-pointer"
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-emerald-950/40 to-slate-900/90 border border-emerald-500/10 hover:border-emerald-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)] cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-3xl" role="img" aria-label="Cooking Pot">🍳</span>
-                    <span className="text-[8px] uppercase font-bold tracking-widest text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/20">
-                      Studio Kitchen
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                      Project Simulator
                     </span>
                   </div>
-                  <h3 className="text-base font-bold text-slate-100 group-hover:text-amber-400 transition-colors">
-                    Nimra's Kitchen
+                  <h3 className="text-base font-bold text-slate-100 group-hover:text-emerald-400 transition-colors">
+                    Kitchen Portfolio
                   </h3>
                   <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
-                    Step inside a dim, rainy creative studio. Assemble technical dependencies (React, SQL, Python, FastAPI) inside a warm simmering pot to cook gourmet project solutions (Ramen, Soufflés) with organic procedural soundscapes!
+                    Enter a realistic, atmospheric kitchen. Select gourmet recipes representing featured projects, drop technical ingredients (React, Python, SQL) from glass jars into pans, and turn stove dial to cook and unlock complete showcases!
                   </p>
                 </div>
                 <div className="mt-6">
-                  <button className="w-full py-2 px-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(245,158,11,0.2)]">
-                    ENTER STUDIO KITCHEN 🍳
+                  <button className="w-full py-2 px-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(16,185,129,0.2)]">
+                    ENTER KITCHEN 🍳
                   </button>
                 </div>
               </div>
