@@ -8,11 +8,12 @@ A clean, responsive, and highly interactive dual-mode portfolio website showcasi
 
 ## 🌟 Visual Modes
 
-This portfolio offers four distinct interactive experiences for visitors:
+This portfolio offers five distinct interactive experiences for visitors:
 * **Classic Professional View:** A sleek, glassmorphic dark-themed developer hub featuring floating Dock navigation and smooth micro-animations.
 * **Interactive Kitchen Portfolio (`?kitchen`):** An immersive cottage-core mini-game where visitors can explore projects, skills, and achievements by "cooking" recipes with specific tech stack ingredients!
 * **City Quest Driving Game (`?cityquest`):** A stylized 2.5D open-world arcade driving game where you customize a vehicle (sports car, lightcycle, scooter, hoverpod) in a showroom garage and drive around a neon city to explore achievements, certifications, events, and milestones!
 * **Bug Dungeon Debugging Game (`?bugdungeon`):** An atmospheric 2D retro-futuristic mechanical underground dungeon where you solve interactive coding logic challenges (CPU infinite loops, API timeouts, CSS overlaps, Git conflicts) to unlock real development stories, logs, and lessons learned!
+* **Memory Lab Cinematic Narrative (`?memory` or `?memorylab`):** A deeply immersive, dream-like floating memory archive where visitors walk through chronological chapters of Nimra's development journey, clicking floating coffee cups, textbooks, lamps, and holograms to unlock nostalgic subtitles and programmatic audio soundscapes!
 
 ---
 
@@ -53,6 +54,18 @@ City Quest acts as the achievements, certificates, awards, and milestone section
 ### 🧩 GAME 3 — BUG DUNGEON
 
 Bug Dungeon represents problem-solving, debugging, technical challenges, failures, learning experiences, and the ability to think like a real developer under pressure. Unlike the Kitchen Game, which focuses on building projects, or City Quest, which focuses on achievements, Bug Dungeon is about the hidden side of development — the moments where systems fail, errors appear unexpectedly, and solutions must be discovered through logic and persistence.
+
+---
+
+### 🧠 GAME 4 — MEMORY LAB
+
+Memory Lab acts as the emotional and personal core of the entire portfolio. While the other games focus on projects, achievements, debugging, and education, Memory Lab focuses on you as a person — your story, your journey into technology, your mindset, your motivations, your late-night struggles, your small victories, and the moments that shaped your growth. This is essentially the “About Me” section of the portfolio, but instead of being presented through paragraphs on a webpage, it becomes a deeply immersive cinematic exploration experience where users walk through your memories as if they are stepping inside your mind. The purpose of the game is to make the user emotionally connect with the person behind the projects and understand the journey rather than just the outcomes.
+
+The environment is designed like a floating memory archive suspended in space, separated into four distinct chronological rooms that players can slide between or query:
+1. **Chapter I: Curiosity (2009 - 2023):** Step into a rainy classroom environment recreating DPS Srinagar, tapping study lamps and vintage CRT terminals to review initial coding sparks.
+2. **Chapter II: The Fire & Learning (2023 - 2024):** Walk into a coffee-fueled server studio representing central university coursework, databases, and late-night compilation achievements.
+3. **Chapter III: Collaborative Synergy (2024 - 2025):** Experience a bright connected hub of hackathons (FOSS United, Cyber Conclave, Cursor Hackathon), Microsoft and Google Cloud certifications, and campus leadership roles.
+4. **Chapter IV: Cosmic Horizon (2026+):** An infinite stellar starry sky featuring floating holographic design philosophies, resilience tenets, and professional developer visions.
 
 ---
 

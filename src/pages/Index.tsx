@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import CookingGame from "@/components/CookingGame";
 import CityQuest from "@/components/CityQuest";
 import BugDungeon from "@/components/BugDungeon";
+import MemoryLab from "@/components/MemoryLab";
 import {
   Home,
   User,
@@ -28,6 +29,7 @@ const Index = () => {
   const [showGame, setShowGame] = useState(() => new URLSearchParams(window.location.search).has("kitchen"));
   const [showCityQuest, setShowCityQuest] = useState(() => new URLSearchParams(window.location.search).has("city") || new URLSearchParams(window.location.search).has("cityquest"));
   const [showBugDungeon, setShowBugDungeon] = useState(() => new URLSearchParams(window.location.search).has("dungeon") || new URLSearchParams(window.location.search).has("bugdungeon"));
+  const [showMemoryLab, setShowMemoryLab] = useState(() => new URLSearchParams(window.location.search).has("memory") || new URLSearchParams(window.location.search).has("memorylab"));
   const [showArcadeHub, setShowArcadeHub] = useState(false);
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
@@ -207,6 +209,9 @@ const Index = () => {
   const handleClick = () => {
     window.open("/Resume.pdf");
   };
+  if (showMemoryLab) {
+    return <MemoryLab onBack={() => setShowMemoryLab(false)} />;
+  }
   if (showBugDungeon) {
     return <BugDungeon onBack={() => setShowBugDungeon(false)} />;
   }
@@ -775,7 +780,7 @@ const Index = () => {
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="relative w-full max-w-5xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left"
+            className="relative w-full max-w-6xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left"
           >
             {/* Close Button */}
             <button 
@@ -797,7 +802,7 @@ const Index = () => {
             </div>
 
             {/* Selector Grid */}
-            <div className="grid md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto">
+            <div className="grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 gap-5 w-full max-w-6xl mx-auto">
               
               {/* Game 1: Cooking Kitchen */}
               <div 
@@ -815,7 +820,7 @@ const Index = () => {
                     Kitchen Portfolio
                   </h3>
                   <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
-                    Step into Chef Nimra's cozy cottage-core kitchen. Gather skill ingredients (HTML, React, AI) from the jars and "cook" them in a bubbling stove pot to unlock project recipes, earn Chef XP, and level up!
+                    Step into Nimra's cozy cottage-core kitchen. Gather skill ingredients (HTML, React, AI) from the jars and "cook" them in a bubbling stove pot to unlock project recipes, earn Chef XP, and level up!
                   </p>
                 </div>
                 <div className="mt-6">
@@ -873,6 +878,32 @@ const Index = () => {
                 <div className="mt-6">
                   <button className="w-full py-2 px-3 bg-red-500 hover:bg-red-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(239,68,68,0.2)]">
                     DESCEND DUNGEON 🧩
+                  </button>
+                </div>
+              </div>
+
+              {/* Game 4: Memory Lab */}
+              <div 
+                onClick={() => { setShowMemoryLab(true); setShowArcadeHub(false); }}
+                className="group relative flex flex-col justify-between bg-gradient-to-br from-violet-950/40 to-slate-900/90 border border-violet-500/10 hover:border-violet-500/40 rounded-xl p-5 transition-all duration-300 hover:shadow-[0_0_30px_rgba(139,92,246,0.15)] cursor-pointer"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-3xl" role="img" aria-label="Brain">🧠</span>
+                    <span className="text-[8px] uppercase font-bold tracking-widest text-violet-400 bg-violet-500/10 px-2 py-0.5 rounded-full border border-violet-500/20">
+                      Cinematic Narrative
+                    </span>
+                  </div>
+                  <h3 className="text-base font-bold text-slate-100 group-hover:text-violet-400 transition-colors">
+                    Memory Lab
+                  </h3>
+                  <p className="text-[10px] text-slate-400 mt-2 leading-relaxed">
+                    Step inside a surreal floating memory archive. Walk through chapters of Nimra's development journey—from school sparks in DPS Srinagar, CUK engineering days, coffee-fueled compiler struggles, to hackathon victories and dev philosophies!
+                  </p>
+                </div>
+                <div className="mt-6">
+                  <button className="w-full py-2 px-3 bg-violet-500 hover:bg-violet-400 text-slate-950 font-bold text-[10px] rounded transition-all group-hover:scale-[1.02] shadow-[0_4px_12px_rgba(139,92,246,0.2)]">
+                    ENTER LAB 🧠
                   </button>
                 </div>
               </div>
