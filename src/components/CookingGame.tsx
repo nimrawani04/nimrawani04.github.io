@@ -5,7 +5,7 @@ import { FaGithub } from "react-icons/fa";
 import "@/css/CookingGame.css";
 
 // -------------------------------------------------------------
-// 1. DATA DEFINITIONS & SCHEMAS (DATA-DRIVEN METHOD)
+// 1. DATA DEFINITIONS & SCHEMAS (AUTHENTIC PORTFOLIO ONLY)
 // -------------------------------------------------------------
 
 interface Ingredient {
@@ -240,31 +240,6 @@ const RECIPES: Recipe[] = [
     ]
   },
   {
-    id: "smartattendance",
-    name: "Smart Attendance System",
-    dishName: "Smart Attendance Salad 🥗",
-    emoji: "🥗",
-    description: "An automated administrative system tracking biometrics, logs, and notification alerts.",
-    longDescription: "A high-performance student attendance tracker integrating ESP8266 RFID sensors, real-time logging hooks, and SMS reminders.",
-    ingredients: ["react", "ts", "nodejs", "express", "postgres"],
-    features: [
-      "ESP8266 sensor biometric logging pipelines",
-      "Automated low attendance SMS warning hooks",
-      "Interactive analytics admin dashboard tables"
-    ],
-    github: "https://github.com/nimrawani04",
-    demo: "https://cuk-portal.vercel.app/",
-    screenshot: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?w=600&auto=format&fit=crop&q=80",
-    xpGain: 430,
-    instructions: [
-      "Prepare React Flour base layers.",
-      "Dice TypeScript Pepper for static model arrays.",
-      "Pour PostgreSQL Salt for secure relational metrics.",
-      "Garnish with Node.js Spice.",
-      "Drizzle Express.js Yeast server sauce."
-    ]
-  },
-  {
     id: "arduino",
     name: "IoT Smart House Automation",
     dishName: "Smart IoT Pizza 🍕",
@@ -305,6 +280,8 @@ class KitchenAudio {
   private ctx: AudioContext | null = null;
   private sizzleNode: AudioScheduledSourceNode | null = null;
   private loopOsc: OscillatorNode | null = null;
+  private ventNode: OscillatorNode | null = null;
+  private ambientCrackNode: AudioScheduledSourceNode | null = null;
 
   public init() {
     if (this.ctx) return;
@@ -312,6 +289,58 @@ class KitchenAudio {
       this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
     } catch (e) {
       console.warn("Audio context not supported", e);
+    }
+  }
+
+  public startAmbientLoop() {
+    if (!this.ctx) return;
+    this.stopAmbientLoop();
+
+    // 1. Ventilation Hum (low frequency drone)
+    const vent = this.ctx.createOscillator();
+    const ventGain = this.ctx.createGain();
+    vent.type = "sine";
+    vent.frequency.setValueAtTime(65, this.ctx.currentTime);
+    ventGain.gain.setValueAtTime(0.012, this.ctx.currentTime);
+    vent.connect(ventGain);
+    ventGain.connect(this.ctx.destination);
+    vent.start();
+    this.ventNode = vent;
+
+    // 2. Stove Crackling simulation (filtered noise impulses)
+    const bufferSize = this.ctx.sampleRate * 2;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = Math.random() * 2 - 1;
+    }
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+    noise.loop = true;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(3200, this.ctx.currentTime);
+    filter.Q.setValueAtTime(1.5, this.ctx.currentTime);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.003, this.ctx.currentTime);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+    noise.start();
+    this.ambientCrackNode = noise;
+  }
+
+  public stopAmbientLoop() {
+    if (this.ventNode) {
+      try { this.ventNode.stop(); } catch (e) {}
+      this.ventNode = null;
+    }
+    if (this.ambientCrackNode) {
+      try { this.ambientCrackNode.stop(); } catch (e) {}
+      this.ambientCrackNode = null;
     }
   }
 
@@ -527,6 +556,7 @@ class KitchenAudio {
 // -------------------------------------------------------------
 
 export default function CookingGame({ onBack }: { onBack: () => void }) {
+  const [introStep, setIntroStep] = useState<"black" | "hallway" | "ready">("black");
   const [cookingState, setCookingState] = useState<"menu" | "recipe" | "cooking" | "plated" | "showcase">("menu");
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [activeUtensil, setActiveUtensil] = useState<string | null>(null);
@@ -536,7 +566,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   const [toast, setToast] = useState("");
   
   // Stove, Temperature & Compilation
-  const [isStovePlaced, setIsStovePlaced] = useState(false); // Cookware physically on stove
+  const [isStovePlaced, setIsStovePlaced] = useState(false); 
   const [knobRotated, setKnobRotated] = useState(false);
   const [stoveOn, setStoveOn] = useState(false);
   const [heatLevel, setHeatLevel] = useState<"low" | "medium" | "high">("medium");
@@ -566,7 +596,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   const audioEngineRef = useRef<KitchenAudio | null>(null);
   const counterRef = useRef<HTMLDivElement>(null);
 
-  // Initialize sparkles
+  // 1. Initialize sparkles & soundscapes
   useEffect(() => {
     audioEngineRef.current = new KitchenAudio();
     const sparklesList = ["✨", "🌟", "⭐", "💫", "✨"];
@@ -582,8 +612,32 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       setMouseCoords({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("mousemove", handleGlobalMouseMove);
+
+    // Trigger atmospheric audio loops immediately (Gesture satisfied via select click)
+    if (audioEngineRef.current) {
+      audioEngineRef.current.init();
+      audioEngineRef.current.startAmbientLoop();
+      audioEngineRef.current.startCozyMusic();
+      setMusicOn(true);
+    }
+
+    // Progress cinematic intro steps
+    const timer1 = setTimeout(() => {
+      setIntroStep("hallway");
+    }, 3500);
+
+    const timer2 = setTimeout(() => {
+      setIntroStep("ready");
+    }, 7000);
+
     return () => {
       window.removeEventListener("mousemove", handleGlobalMouseMove);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      if (audioEngineRef.current) {
+        audioEngineRef.current.stopAmbientLoop();
+        audioEngineRef.current.stopCozyMusic();
+      }
     };
   }, []);
 
@@ -617,7 +671,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }
   };
 
-  // 1. SELECT DYNAMIC PORTFOLIO RECIPE
+  // SELECT DYNAMIC PORTFOLIO RECIPE
   const handleSelectRecipe = (recipe: Recipe) => {
     playSFX("clink");
     setSelectedRecipe(recipe);
@@ -637,7 +691,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setHasAiGlow(false);
   };
 
-  // 2. CHOOSE INITIAL COOKWARE UTENSIL
+  // CHOOSE INITIAL COOKWARE UTENSIL
   const handleSelectUtensil = (utensilId: string) => {
     if (isStovePlaced) return;
     playSFX("clink");
@@ -645,7 +699,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     triggerToast(`${UTENSILS.find(u => u.id === utensilId)?.name} placed on preparation table!`);
   };
 
-  // 3. TACTILE JAR PICKUP
+  // TACTILE JAR PICKUP
   const handlePickupIngredient = (ing: Ingredient) => {
     if (!selectedRecipe) return;
     if (!activeUtensil) {
@@ -660,7 +714,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setDraggedIng(ing);
   };
 
-  // 4. MOUSE HOVER EVENTS FOR PREP WORKSPACE
+  // MOUSE HOVER EVENTS FOR PREP WORKSPACE
   const handleCounterMouseEnter = () => {
     if (draggedIng) {
       setIsHoveringUtensil(true);
@@ -671,7 +725,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setIsHoveringUtensil(false);
   };
 
-  // 5. POUR RELEASE FOR DRAGGED INGREDIENTS
+  // POUR RELEASE FOR DRAGGED INGREDIENTS
   const handlePourRelease = () => {
     if (isTransferringUtensil) {
       handleCompleteUtensilTransfer();
@@ -738,7 +792,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }, 600);
   };
 
-  // 6. INGREDIENTS COMPLETE - LIFT/FLOAT COOKWARE TO MOVE TO STOVE
+  // INGREDIENTS COMPLETE - LIFT/FLOAT COOKWARE TO MOVE TO STOVE
   const handleStartUtensilTransfer = () => {
     if (!activeUtensil || isStovePlaced) return;
     if (!checkIsReadyToCook()) {
@@ -769,7 +823,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     return selectedRecipe.ingredients.every(ing => collectedIngredients.includes(ing));
   };
 
-  // 7. IGNITE STOVE & TEMPERATURE SPEED CONTROLLER
+  // IGNITE STOVE & TEMPERATURE SPEED CONTROLLER
   const handleIgniteStove = () => {
     if (!selectedRecipe || !activeUtensil) return;
     if (!isStovePlaced) {
@@ -823,7 +877,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     setCookingState("showcase");
   };
 
-  // Dynamics star ratings
+  // Dynamics star ratings (deducts 0.5 per wrong selection)
   const getDynamicStars = () => {
     const calculated = 5 - (wrongSelectionsCount * 0.5);
     return Math.max(1, calculated);
@@ -870,6 +924,33 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* -------------------------------------------------------------
+       * CINEMATIC STAGED INTROS
+       * ------------------------------------------------------------- */}
+      {introStep === "black" && (
+        <div className="kg-cinematic-intro-screen">
+          <div className="kg-cinematic-intro-typography">
+            <span className="text-4xl">🍳</span>
+            <h1 className="kg-cinematic-title">Nimra’s Little Kitchen</h1>
+            <p className="kg-cinematic-subtitle">GAME 1 — PORTFOLIO UNIVERSAL HUB</p>
+            <div className="kg-cinematic-loading-dots">
+              <span className="kg-loading-dot" style={{ animationDelay: "0s" }} />
+              <span className="kg-loading-dot" style={{ animationDelay: "0.2s" }} />
+              <span className="kg-loading-dot" style={{ animationDelay: "0.4s" }} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {introStep === "hallway" && (
+        <div className="kg-hallway-backdrop-reveal">
+          <div className="kg-hallway-shadows" />
+          <div className="text-center font-bold tracking-widest text-violet-400 uppercase text-[9px] animate-pulse">
+            🚶 walking into the cooking studio...
+          </div>
+        </div>
+      )}
 
       {/* -------------------------------------------------------------
        * HUD HEADER BAR
@@ -931,11 +1012,11 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
        * ------------------------------------------------------------- */}
 
       {/* STATE A: SELECTION MENU BOARD - TODAY'S MENU */}
-      {cookingState === "menu" && (
+      {cookingState === "menu" && introStep === "ready" && (
         <div className="kg-menu-scene">
           <div className="kg-menu-board">
             <div className="kg-menu-header">
-              <h2>TODAY'S MENU</h2>
+              <h2>🍴 TODAY’S MENU</h2>
               <p>These dishes are generated directly from my actual portfolio projects. Choose a recipe to begin compilation.</p>
             </div>
 
@@ -964,7 +1045,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       )}
 
       {/* STATE B: ACTIVE KITCHEN SIMULATION (STOVE, CABINET, PREP ISLAND) */}
-      {(cookingState === "recipe" || cookingState === "cooking") && selectedRecipe && (
+      {(cookingState === "recipe" || cookingState === "cooking") && selectedRecipe && introStep === "ready" && (
         <div className="kg-workspace">
           
           {/* COLUMN 1: SKILL INGREDIENTS CABINET */}
@@ -1321,7 +1402,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       )}
 
       {/* STATE C: PLATING REVEAL SCENE */}
-      {cookingState === "plated" && selectedRecipe && (
+      {cookingState === "plated" && selectedRecipe && introStep === "ready" && (
         <div className="kg-plating-scene">
           {/* Sparlkes floating around */}
           {sparks.map(s => (
@@ -1368,7 +1449,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
             {wrongSelectionsCount > 0 ? (
               <p className="kg-plated-desc">
-                Your recipe compiled! There were {wrongSelectionsCount} incorrect technical components added, but your chef resilience plated it beautifully anyway!
+                Your recipe compiled! There were {wrongSelectionsCount} incorrect technical components added, but your chef resilience plated it beautifully anyway! (Deducted 0.5 stars per mistake).
               </p>
             ) : (
               <p className="kg-plated-desc">
@@ -1384,7 +1465,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       )}
 
       {/* STATE D: PROJECT SHOWCASE BOARD HUD */}
-      {cookingState === "showcase" && selectedRecipe && (
+      {cookingState === "showcase" && selectedRecipe && introStep === "ready" && (
         <div className="kg-showcase-scene">
           <div className="kg-showcase-board">
             
