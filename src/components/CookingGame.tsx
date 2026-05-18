@@ -741,6 +741,10 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   // 6. INGREDIENTS COMPLETE - LIFT/FLOAT COOKWARE TO MOVE TO STOVE
   const handleStartUtensilTransfer = () => {
     if (!activeUtensil || isStovePlaced) return;
+    if (!checkIsReadyToCook()) {
+      triggerToast("⚠️ Add all required stack ingredients to the cookware first!");
+      return;
+    }
     playSFX("clink");
     setIsTransferringUtensil(true);
     triggerToast("Cookware floating! Move cursor to stove burner slot on the right to place it!");
