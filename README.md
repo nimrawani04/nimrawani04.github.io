@@ -8,27 +8,34 @@ A clean, responsive, and highly interactive dual-mode portfolio website showcasi
 
 ## 🌟 Visual Modes
 
-This portfolio offers four distinct interactive experiences for visitors:
+This portfolio offers five distinct interactive experiences for visitors:
 * **Classic Professional View:** A sleek, glassmorphic dark-themed developer hub featuring floating Dock navigation and smooth micro-animations.
+* **Nimra's Studio Kitchen (`?kitchen`):** A high-fidelity, late-night creative workshop cooking game where you assemble software architectures (React, SQL, Python, FastAPI) inside a warm simmering pot with custom procedural soundscapes, rain window backdrops, and cinematic transitions!
 * **City Quest Driving Game (`?cityquest`):** A stylized 2.5D open-world arcade driving game where you customize a vehicle (sports car, lightcycle, scooter, hoverpod) in a showroom garage and drive around a neon city to explore achievements, certifications, events, and milestones!
 * **Bug Dungeon Debugging Game (`?bugdungeon`):** An atmospheric 2D retro-futuristic mechanical underground dungeon where you solve interactive coding logic challenges (CPU infinite loops, API timeouts, CSS overlaps, Git conflicts) to unlock real development stories, logs, and lessons learned!
 * **Memory Lab Cinematic Narrative (`?memory` or `?memorylab`):** A deeply immersive, dream-like floating memory archive where visitors walk through chronological chapters of Nimra's development journey, clicking floating coffee cups, textbooks, lamps, and holograms to unlock nostalgic subtitles and programmatic audio soundscapes!
 
 ## 🎮 Interactive Arcade Games
 
-### 🚗 GAME 1 — CITY QUEST
+### 🍳 GAME 1 — NIMRA'S STUDIO KITCHEN
+
+Nimra’s Studio Kitchen represents projects, technical stacks, creativity, and the complete process of building software applications. Instead of presenting projects as static cards, this game transforms code construction into a high-fidelity atmospheric workshop. Users assemble technology dependencies (React, SQL, Python, FastAPI) inside a warm simmering pot, enjoying late-night rain window backdrops, organic Web Audio soundscapes, and cinematic transition reveals that plated software projects into the showcase page.
+
+---
+
+### 🚗 GAME 2 — CITY QUEST
 
 City Quest acts as the achievements, certificates, awards, and milestone section of the portfolio. Instead of presenting certifications and accomplishments through static cards or timelines, this game transforms the entire career journey into an explorable city where every road, district, building, and checkpoint represents a different achievement or stage of growth. The goal of the game is exploration and discovery. The user enters a living city environment and gradually uncovers certifications, hackathons, awards, leadership roles, and important milestones by physically traveling through the world in a vehicle of choice from a showroom garage.
 
 ---
 
-### 🧩 GAME 2 — BUG DUNGEON
+### 🧩 GAME 3 — BUG DUNGEON
 
 Bug Dungeon represents problem-solving, debugging, technical challenges, failures, learning experiences, and the ability to think like a real developer under pressure. Unlike the City Quest Game, which focuses on achievements, Bug Dungeon is about the hidden side of development — the moments where systems fail, errors appear unexpectedly, and solutions must be discovered through logic and persistence.
 
 ---
 
-### 🧠 GAME 3 — MEMORY LAB
+### 🧠 GAME 4 — MEMORY LAB
 
 Memory Lab acts as the emotional and personal core of the entire portfolio. While the other games focus on projects, achievements, debugging, and education, Memory Lab focuses on you as a person — your story, your journey into technology, your mindset, your motivations, your late-night struggles, your small victories, and the moments that shaped your growth. This is essentially the “About Me” section of the portfolio, but instead of being presented through paragraphs on a webpage, it becomes a deeply immersive cinematic exploration experience where users walk through your memories as if they are stepping inside your mind. The purpose of the game is to make the user emotionally connect with the person behind the projects and understand the journey rather than just the outcomes.
 
