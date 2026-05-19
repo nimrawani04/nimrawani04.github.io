@@ -3736,5 +3736,37 @@
   }
 }
 
+/* Landscape Mobile Sizing Adjustments for Low Height Displays */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .ec-building-structure {
+    width: 48px;
+    height: 48px;
+    font-size: 1.4rem;
+    border-radius: 12px;
+  }
+  .ec-building-glow-ring {
+    width: 56px;
+    height: 56px;
+  }
+  .ec-building-info {
+    margin-top: 0.4rem;
+  }
+  .ec-building-name {
+    font-size: 0.52rem;
+  }
+  .ec-building-task {
+    font-size: 0.44rem;
+  }
+  .ec-map-tree {
+    font-size: 0.8rem;
+  }
+  .ec-map-header {
+    padding: 0.4rem 1rem !important;
+  }
+  .ec-map-footer {
+    padding: 0.4rem 1rem !important;
+  }
+}
+
 
 

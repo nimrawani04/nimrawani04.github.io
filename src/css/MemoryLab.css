@@ -905,6 +905,17 @@
     padding: 5rem 1.5rem 1.5rem 12rem;
   }
 
+  .ml-interactive-canvas {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 0.5rem;
+  }
+
+  .ml-clickable-prop {
+    position: static !important;
+  }
+
   .ml-room-wrapper {
     height: 82vh;
   }

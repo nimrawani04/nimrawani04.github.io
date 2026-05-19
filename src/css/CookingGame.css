@@ -1876,6 +1876,10 @@
     margin-bottom: 12px;
   }
 
+  .kg-cookbook-spine {
+    display: none;
+  }
+
   .kg-countertop {
     height: 150px;
   }

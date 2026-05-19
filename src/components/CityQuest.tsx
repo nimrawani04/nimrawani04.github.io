@@ -1271,6 +1271,14 @@ export default function CityQuest({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="cq-viewport">
+      {/* Rotate Device Warning Screen */}
+      <div className="rotate-device">
+        <div className="rotate-icon">📱</div>
+        <h2>Rotate Your Device</h2>
+        <p>
+          City Quest is best experienced in landscape mode.
+        </p>
+      </div>
       
       {/* 1. FUTURISTIC ELEVATOR SCREEN */}
       {phase === "elevator" && (
