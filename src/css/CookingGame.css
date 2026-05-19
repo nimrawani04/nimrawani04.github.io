@@ -1553,3 +1553,210 @@
   color: #10b981;
   transform: translateY(-2px);
 }
+
+/* =============================================================
+ * 9. KITCHEN INTERACTION POLISH & HUD AUDIO INTEGRATION OVERRIDES
+ * ============================================================= */
+
+/* Symmetrical Glassmorphic Equalizer Music Pill in HUD */
+.kg-hud-music-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(139, 92, 246, 0.08);
+  border: 1px solid rgba(192, 132, 252, 0.2);
+  border-radius: 9999px;
+  padding: 6px 14px;
+  font-size: 8.5px;
+  font-weight: 800;
+  color: #c084fc;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(4px);
+}
+
+.kg-hud-music-pill:hover {
+  background: rgba(139, 92, 246, 0.15);
+  border-color: #c084fc;
+  box-shadow: 0 0 15px rgba(192, 132, 252, 0.25);
+  transform: translateY(-2px);
+}
+
+.kg-hud-music-pill.active {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: #10b981;
+}
+
+.kg-hud-music-pill.active:hover {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+}
+
+.kg-hud-equalizer {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+  width: 14px;
+}
+
+.kg-eq-bar {
+  width: 2px;
+  height: 3px;
+  background: currentColor;
+  border-radius: 9999px;
+  transition: height 0.2s ease;
+}
+
+.kg-eq-bar.animating {
+  animation: kg-eq-bounce var(--d) ease-in-out infinite alternate;
+}
+
+@keyframes kg-eq-bounce {
+  0% { height: 3px; }
+  100% { height: var(--h); }
+}
+
+/* Spacing and Padding Improvements for Left Cabinet */
+.kg-ingredients-cabinet {
+  padding: 22px 18px; /* Extra breathing room */
+  gap: 12px;
+}
+
+.kg-cabinet-header h4 {
+  margin-bottom: 2px;
+}
+
+.kg-shelves-container {
+  margin-top: 10px;
+}
+
+/* Jar Compatibility Glows and Hover Feedback */
+.kg-ingredient-jar.compatible-glow {
+  border-color: rgba(192, 132, 252, 0.2);
+  background: rgba(139, 92, 246, 0.02);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 0 8px rgba(192, 132, 252, 0.05);
+}
+
+.kg-ingredient-jar.compatible-glow:hover {
+  border-color: #c084fc;
+  background: rgba(139, 92, 246, 0.08);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.55), 0 0 14px rgba(192, 132, 252, 0.35);
+  transform: translateY(-4px) scale(1.08);
+}
+
+.kg-ingredient-jar.incompatible-dim {
+  opacity: 0.55;
+  filter: grayscale(20%);
+}
+
+.kg-ingredient-jar.incompatible-dim:hover {
+  opacity: 0.85;
+  border-color: #94a3b8;
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Dragging shadow and Shake feedback */
+.kg-dragged-active-jar {
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.85));
+}
+
+.kg-dragged-active-jar.wrong-shake {
+  border-color: #ef4444 !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.7), 0 0 25px rgba(239, 68, 68, 0.5) !important;
+  animation: kg-wrong-shake-pulse 0.22s infinite alternate !important;
+}
+
+@keyframes kg-wrong-shake-pulse {
+  0% { transform: translate(-3px, 1px) rotate(-3deg) scale(0.95); }
+  100% { transform: translate(3px, -1px) rotate(3deg) scale(0.95); }
+}
+
+/* Utensil Highlight drop zone glow radius */
+.kg-utensil-glow-radius {
+  position: absolute;
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  border: 2px dashed rgba(192, 132, 252, 0.4);
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  box-shadow: 0 0 25px rgba(139, 92, 246, 0.15), inset 0 0 20px rgba(139, 92, 246, 0.1);
+  pointer-events: none;
+}
+
+.kg-glow-radius-text {
+  font-size: 7px;
+  font-weight: 950;
+  letter-spacing: 0.15em;
+  color: #c084fc;
+  text-transform: uppercase;
+  background: rgba(13, 8, 22, 0.95);
+  border: 1px solid rgba(192, 132, 252, 0.35);
+  padding: 4px 12px;
+  border-radius: 9999px;
+  margin-top: 135px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+  text-shadow: 0 0 4px rgba(192, 132, 252, 0.5);
+}
+
+/* Cooking compile progress ring above cooker on stove burner */
+.kg-stove-compilation-ring {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(10, 5, 18, 0.95);
+  border: 2.5px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.85), 0 0 15px rgba(16, 185, 129, 0.25);
+  z-index: 50;
+  animation: kg-ring-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.kg-ring-spinner {
+  position: absolute;
+  inset: -2.5px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  border-top-color: #10b981;
+  border-right-color: #10b981;
+  animation: kg-spin 1.5s linear infinite;
+}
+
+.kg-ring-percent {
+  font-size: 8px;
+  font-weight: 950;
+  color: #10b981;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 5px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes kg-ring-pulse {
+  0% { transform: translateX(-50%) scale(0.95); }
+  100% { transform: translateX(-50%) scale(1.05); }
+}
+
+/* Enhanced Orange Stove Burner active state */
+.kg-burner-slot.active {
+  border-color: #ea580c !important;
+  box-shadow: inset 0 0 35px rgba(234, 88, 12, 0.4), 0 0 15px rgba(234, 88, 12, 0.25) !important;
+}
+
+.kg-burner-slot.active .kg-burner-ring {
+  border-color: #ea580c !important;
+  filter: drop-shadow(0 0 8px #ea580c);
+}

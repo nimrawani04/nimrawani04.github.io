@@ -15,6 +15,8 @@ import {
   GraduationCap
 } from "lucide-react";
 import "../css/EducationCampus.css";
+import { certificates, achievements } from "../data.js";
+
 
 // ==========================================
 // 🎵 WEB AUDIO SYNTHESIZER SOUND ENGINE
@@ -372,13 +374,20 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   // Incorrect attempt popups
   const [incorrectFlash, setIncorrectFlash] = useState<string | null>(null);
 
-  // Permanent Report Card scores
+  // Permanent Report Card scores (representing hits out of 5)
   const [classroomScore, setClassroomScore] = useState(0);
   const [artroomScore, setArtroomScore] = useState(0);
   const [playgroundScore, setPlaygroundScore] = useState(0);
   const [stadiumScore, setStadiumScore] = useState(0);
-  const [libraryScore, setLibraryScore] = useState(5); // star count
-  const [laboratoryScore, setLaboratoryScore] = useState(5); // star count
+  const [libraryScore, setLibraryScore] = useState(0);
+  const [laboratoryScore, setLaboratoryScore] = useState(0);
+
+  // Permanent University Scores (representing hits out of 5)
+  const [ailabScore, setAilabScore] = useState(0);
+  const [dsalabScore, setDsalabScore] = useState(0);
+  const [codingclassScore, setCodingclassScore] = useState(0);
+  const [researchlibScore, setResearchlibScore] = useState(0);
+  const [innovationScore, setInnovationScore] = useState(0);
 
   // Classroom Quiz
   const [classroomQuestionIndex, setClassroomQuestionIndex] = useState(0);
@@ -396,8 +405,50 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   const stadiumInterval = useRef<any>(null);
 
   const [artroomAttempts, setArtroomAttempts] = useState(0);
+
+  // Library Riddles (School)
+  const [libraryQuestionIndex, setLibraryQuestionIndex] = useState(0);
+  const [libraryHits, setLibraryHits] = useState(0);
   const [libraryAttempts, setLibraryAttempts] = useState(0);
+
+  // Chemical Synthesizer (School)
+  const [labQuestionIndex, setLabQuestionIndex] = useState(0);
+  const [labHits, setLabHits] = useState(0);
   const [labAttempts, setLabAttempts] = useState(0);
+  const [labTargetChemical, setLabTargetChemical] = useState("");
+
+  // University Coding Classroom Debugger
+  const [codingQuestionIndex, setCodingQuestionIndex] = useState(0);
+  const [codingCorrectCount, setCodingCorrectCount] = useState(0);
+
+  // University Research Catalog Queries
+  const [researchQuestionIndex, setResearchQuestionIndex] = useState(0);
+  const [researchCorrectCount, setResearchCorrectCount] = useState(0);
+
+  // University DSA node click mistakes tracking
+  const [dsaMistakes, setDsaMistakes] = useState(0);
+
+  // University Innovation Hub milestones sorting mistakes tracking
+  const [innovationMistakes, setInnovationMistakes] = useState(0);
+
+  // Cinematic Performance Result Screen overlay state
+  const [currentResult, setCurrentResult] = useState<{
+    activityName: string;
+    emoji: string;
+    scoreText: string;
+    marks: number;
+    stars: number;
+    grade: string;
+    xpGained: number;
+    performance: string;
+    badgeName: string;
+    badgeEmoji: string;
+    isUniv?: boolean;
+    locationId: string;
+  } | null>(null);
+
+  // Certificate viewer overlay state
+  const [selectedCertForView, setSelectedCertForView] = useState<any | null>(null);
 
   // ----------------------------------------
   // ACTIVE MINI-GAMES STATE ENGINE
@@ -438,10 +489,13 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   const [selectedAiInput, setSelectedAiInput] = useState<string | null>(null);
   const [selectedAiModel, setSelectedAiModel] = useState<string | null>(null);
   const [aiMatches, setAiMatches] = useState<Record<string, string>>({});
+  const [aiMistakes, setAiMistakes] = useState(0);
   const aiLinks = [
     { input: "Scan Image Data", model: "CNN Pipeline" },
     { input: "Synthesize Voice", model: "RNN WaveNet" },
-    { input: "Predict House Rent", model: "Linear Regression" }
+    { input: "Predict House Rent", model: "Linear Regression" },
+    { input: "Translate Sentence", model: "Transformer NLP" },
+    { input: "Cluster Customers", model: "K-Means Layer" }
   ];
 
   // DSA tree node bubble sort (University)
@@ -456,7 +510,7 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
 
   // Innovation milestones slide (University)
   const [scrambledMilestones, setScrambledMilestones] = useState<string[]>([]);
-  const correctMilestoneOrder = ["Concept Ideation", "React Prototype", "Beta Testing", "Vercel Deploy"];
+  const correctMilestoneOrder = ["Concept Ideation", "React Prototype", "Beta Testing", "Vercel Deploy", "Market Launch"];
 
   // ----------------------------------------
   // LEAF/PARTICLE EFFECT GENERATOR
@@ -478,6 +532,24 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   useEffect(() => {
     return () => { stopAudioEngine(); };
   }, []);
+
+  // Keyboard spacebar support for rhythm catch & basket shoots
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Space") {
+        if (phase === "school_game" && activeSchoolLoc?.id === "playground" && !currentResult) {
+          e.preventDefault();
+          handleRhythmHit();
+        }
+        else if (phase === "school_game" && activeSchoolLoc?.id === "stadium" && !currentResult) {
+          e.preventDefault();
+          handleBasketShoot();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [phase, rhythmBallPos, activeSchoolLoc, currentResult, stadiumNeedlePos, stadiumAttempts, playgroundAttempts]);
 
   // ----------------------------------------
   // MUSIC & AUDIO TOGGLER
@@ -567,21 +639,153 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     setGameSuccess(true);
   };
 
+  const showPerformanceResult = (
+    activityName: string,
+    emoji: string,
+    hits: number,
+    total: number,
+    locationId: string,
+    badgeName: string,
+    badgeEmoji: string,
+    xpBase: number,
+    isUniv?: boolean
+  ) => {
+    const marks = hits * 2;
+
+    let grade = "F";
+    let performance = "Academic Probation";
+    if (hits === 5) { grade = "A+"; performance = isUniv ? "Research Pioneer" : "Academic Excellence"; }
+    else if (hits === 4) { grade = "A"; performance = isUniv ? "System Architect" : "Outstanding Scholar"; }
+    else if (hits === 3) { grade = "B+"; performance = isUniv ? "Solutions Developer" : "Honors Division"; }
+    else if (hits === 2) { grade = "C"; performance = isUniv ? "Technical Apprentice" : "Passing Merit"; }
+    else if (hits === 1) { grade = "D"; performance = isUniv ? "Needs Mentorship" : "Needs Tutoring"; }
+    
+    let starCount = 0;
+    if (hits === 5) starCount = 5;
+    else if (hits === 4) starCount = 4.5;
+    else if (hits === 3) starCount = 4;
+    else if (hits === 2) starCount = 3;
+    else if (hits === 1) starCount = 2;
+    else starCount = 0;
+
+    const xpGained = hits * 30 + xpBase;
+
+    playSFX("fanfare");
+
+    setCurrentResult({
+      activityName,
+      emoji,
+      scoreText: isUniv ? `${hits}/${total} Tasks Solved` : `${hits}/${total} Correct`,
+      marks,
+      stars: starCount,
+      grade,
+      xpGained,
+      performance,
+      badgeName,
+      badgeEmoji,
+      isUniv,
+      locationId
+    });
+  };
+
+  const handleCloseResultScreen = () => {
+    if (!currentResult) return;
+
+    const { locationId, marks, stars, xpGained, badgeName, badgeEmoji, isUniv } = currentResult;
+    const hits = Math.round(marks / 2);
+
+    if (isUniv) {
+      if (locationId === "ailab") {
+        setAilabScore(hits);
+        setUnivCompleted(prev => ({ ...prev, ailab: true }));
+        setEarnedCerts(prev => {
+          if (!prev.includes("Microsoft AI Specialist")) return [...prev, "Microsoft AI Specialist"];
+          return prev;
+        });
+      } else if (locationId === "dsalab") {
+        setDsalabScore(hits);
+        setUnivCompleted(prev => ({ ...prev, dsalab: true }));
+        setEarnedCerts(prev => {
+          if (!prev.includes("NIT algorithms Scholar")) return [...prev, "NIT algorithms Scholar"];
+          return prev;
+        });
+      } else if (locationId === "codingclass") {
+        setCodingclassScore(hits);
+        setUnivCompleted(prev => ({ ...prev, codingclass: true }));
+        setEarnedCerts(prev => {
+          if (!prev.includes("Full-Stack Web Architect")) return [...prev, "Full-Stack Web Architect"];
+          return prev;
+        });
+      } else if (locationId === "researchlib") {
+        setResearchlibScore(hits);
+        setUnivCompleted(prev => ({ ...prev, researchlib: true }));
+        setEarnedCerts(prev => {
+          if (!prev.includes("Information Architect")) return [...prev, "Information Architect"];
+          return prev;
+        });
+      } else if (locationId === "innovation") {
+        setInnovationScore(hits);
+        setUnivCompleted(prev => ({ ...prev, innovation: true }));
+        setEarnedCerts(prev => {
+          if (!prev.includes("SynerTech Innovation Award")) return [...prev, "SynerTech Innovation Award"];
+          return prev;
+        });
+      }
+      
+      setPoints(prev => prev + hits * 40 + 50);
+      setXp(prev => prev + xpGained);
+      setStars(prev => prev + Math.floor(stars));
+      setPhase("univ_map");
+    } else {
+      if (locationId === "classroom") {
+        setClassroomScore(hits);
+        setSchoolCompleted(prev => ({ ...prev, classroom: true }));
+      } else if (locationId === "artroom") {
+        setArtroomScore(hits);
+        setSchoolCompleted(prev => ({ ...prev, artroom: true }));
+      } else if (locationId === "playground") {
+        setPlaygroundScore(hits);
+        setSchoolCompleted(prev => ({ ...prev, playground: true }));
+      } else if (locationId === "stadium") {
+        setStadiumScore(hits);
+        setSchoolCompleted(prev => ({ ...prev, stadium: true }));
+      } else if (locationId === "library") {
+        setLibraryScore(hits);
+        setSchoolCompleted(prev => ({ ...prev, library: true }));
+      } else if (locationId === "laboratory") {
+        setLaboratoryScore(hits);
+        setSchoolCompleted(prev => ({ ...prev, laboratory: true }));
+      }
+
+      setEarnedBadges(prev => {
+        if (badgeName && !prev.includes(badgeName)) return [...prev, badgeName];
+        return prev;
+      });
+
+      setPoints(prev => prev + hits * 30 + 30);
+      setXp(prev => prev + xpGained);
+      setStars(prev => prev + Math.floor(stars));
+      setPhase("school_map");
+    }
+
+    setCurrentResult(null);
+  };
+
   // ----------------------------------------
   // MINI-GAME INTIALIZERS & ACTION LOGIC
   // ----------------------------------------
 
   const generateClassroomQuestion = (index: number) => {
-    const coefficients = [2, 3, 4, 5, 6, 7];
-    const multipliers = [3, 4, 5, 6, 8];
-    const A = coefficients[index % coefficients.length];
-    const B = multipliers[Math.floor(Math.random() * multipliers.length)];
-    const targetVal = A * B + 5;
-    
-    const expr = `${A} * [X] + 5 = ${targetVal}`;
-    const opt = [B, B + 2, Math.max(1, B - 1), B + 4].sort(() => Math.random() - 0.5);
-
-    setChalkQuestion({ expression: expr, answer: B, options: opt });
+    const questions = [
+      { expression: "2 × [X] + 4 = 10",  answer: 3, options: [3, 5, 1, 7] },
+      { expression: "3 × [X] − 3 = 12",  answer: 5, options: [5, 2, 8, 4] },
+      { expression: "[X] ÷ 4 + 1 = 3",   answer: 8, options: [8, 4, 12, 6] },
+      { expression: "5 × [X] = 25",       answer: 5, options: [5, 3, 7, 10] },
+      { expression: "[X]² = 49",          answer: 7, options: [7, 5, 9, 6] }
+    ];
+    const q = questions[index % questions.length];
+    const shuffled = [...q.options].sort(() => Math.random() - 0.5);
+    setChalkQuestion({ expression: q.expression, answer: q.answer, options: shuffled });
   };
 
   const initializeSchoolMiniGame = (id: string) => {
@@ -592,7 +796,6 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     }
     else if (id === "artroom") {
       setArtroomAttempts(0);
-      // Scramble color array
       const list = correctColorOrder.map((c, i) => ({ id: i, color: c, order: i }));
       list.sort(() => Math.random() - 0.5);
       setScrambledColors(list);
@@ -604,21 +807,20 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       setRhythmBallPos(0);
       setFootballSnapped(false);
       setFootballMissed(false);
-      let dir = 4;
+      let dir = 3;
       let cur = 0;
-      
       if (rhythmInterval.current) clearInterval(rhythmInterval.current);
       rhythmInterval.current = setInterval(() => {
         cur += dir;
-        if (cur >= 100 || cur <= 0) dir = -dir;
-        setRhythmBallPos(cur);
-      }, 30);
+        if (cur >= 98 || cur <= 2) dir = -dir;
+        setRhythmBallPos(Math.max(2, Math.min(98, cur)));
+      }, 28);
     }
     else if (id === "stadium") {
       setStadiumAttempts(0);
       setStadiumHits(0);
       setStadiumNeedlePos(0);
-      let d = 5;
+      let d = 4; // Slower sweep step
       let c = 0;
 
       if (stadiumInterval.current) clearInterval(stadiumInterval.current);
@@ -626,25 +828,27 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
         c += d;
         if (c >= 100 || c <= 0) d = -d;
         setStadiumNeedlePos(c);
-      }, 22);
+      }, 35); // Relaxed interval (35ms instead of 22ms)
     }
     else if (id === "library") {
+      setLibraryQuestionIndex(0);
+      setLibraryHits(0);
       setLibraryAttempts(0);
-      // Riddle selection
-      const riddles = [
+      const riddlesList = [
         { question: "I talk of matrices, vectors, structural calculations, and absolute infinite equations.", answer: "Mathematics" },
         { question: "I explore loops, binary compilers, data logic nodes, and dynamic system builders.", answer: "Computer Science" },
-        { question: "I look at cosmic pathways, gravity fields, and the cold vast dark particles of galaxies.", answer: "Astrophysics" }
+        { question: "I look at cosmic pathways, gravity fields, and the cold vast dark particles of galaxies.", answer: "Astrophysics" },
+        { question: "I cover cell membranes, photosynthesis cycles, and the helix strands of human DNA.", answer: "Biology" },
+        { question: "I examine historic treaties, ancient dynasties, and the ruins of long-lost civilizations.", answer: "History" }
       ];
-      const r = riddles[Math.floor(Math.random() * riddles.length)];
-      setLibRiddle(r);
+      setLibRiddle(riddlesList[0]);
     }
     else if (id === "laboratory") {
+      setLabQuestionIndex(0);
+      setLabHits(0);
       setLabAttempts(0);
-      // Sequence chemical colors
-      const seq = ["Hydrogen", "Oxygen", "Nitrogen"].sort(() => Math.random() - 0.5);
-      setLabTargetSeq(seq);
-      setLabCurrentSeq([]);
+      const chemicals = ["Hydrogen", "Oxygen", "Nitrogen"];
+      setLabTargetChemical(chemicals[Math.floor(Math.random() * 3)]);
     }
   };
 
@@ -653,40 +857,51 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       setAiMatches({});
       setSelectedAiInput(null);
       setSelectedAiModel(null);
+      setAiMistakes(0);
     }
     else if (id === "dsalab") {
-      // Scramble Tree values
       const nums = [12, 28, 45, 62, 88].map((v, i) => ({ id: i, value: v, sorted: false }));
       nums.sort(() => Math.random() - 0.5);
       setDsaNodes(nums);
       setDsaExpectedIndex(0);
+      setDsaMistakes(0);
     }
     else if (id === "codingclass") {
-      const bugs = [
+      setCodingQuestionIndex(0);
+      setCodingCorrectCount(0);
+      const codingBugs = [
         {
           code: "const [data, setData] = useStae(null);\nuseEffect(() => {\n  fetchData();\n}, []);",
-          options: [
-            "Change useStae to useState",
-            "Change useEffect to useMemo",
-            "Change fetch to await fetch"
-          ],
+          options: ["Change useStae to useState", "Change useEffect to useMemo", "Change fetch to await fetch"],
           answer: "Change useStae to useState"
         },
         {
           code: "supabase\n  .from('exam')\n  .select('*')\n  .equ('id', 12);",
-          options: [
-            "Change .from to .table",
-            "Change .equ to .eq",
-            "Change select('*') to select(all)"
-          ],
+          options: ["Change .from to .table", "Change .equ to .eq", "Change select('*') to select(all)"],
           answer: "Change .equ to .eq"
+        },
+        {
+          code: "const element = <div class='card'>Hello</div>;",
+          options: ["Change class to className", "Change div to Div", "Wrap it in React.createElement"],
+          answer: "Change class to className"
+        },
+        {
+          code: "const query = supabase.from('users').delete().eq('id', uid);",
+          options: ["Ensure uid is defined", "Use deleteRow instead of delete", "Add SELECT at the beginning"],
+          answer: "Ensure uid is defined"
+        },
+        {
+          code: "useEffect(() => {\n  const sub = supabase.auth.onAuthStateChange();\n  return sub.unsubscribe();\n}, []);",
+          options: ["Unsubscribe on cleanup correctly", "Change useEffect to useState", "Add auth dependency"],
+          answer: "Unsubscribe on cleanup correctly"
         }
       ];
-      const selected = bugs[Math.floor(Math.random() * bugs.length)];
-      setDebugSnippet(selected);
+      setDebugSnippet(codingBugs[0]);
     }
     else if (id === "researchlib") {
-      const queries = [
+      setResearchQuestionIndex(0);
+      setResearchCorrectCount(0);
+      const researchQueriesList = [
         {
           target: "Retrieve all products with status pending and score > 80",
           options: [
@@ -704,13 +919,39 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
             "query ai_station [ title, tag ]"
           ],
           answer: "query { ai_station { title tag } }"
+        },
+        {
+          target: "Order students by rank descending in SQL",
+          options: [
+            "SELECT * FROM students ORDER BY rank DESC",
+            "SELECT * FROM students SORT BY rank DOWN",
+            "SELECT ALL students ORDERING rank DESC"
+          ],
+          answer: "SELECT * FROM students ORDER BY rank DESC"
+        },
+        {
+          target: "Find matching vector embeds in Supabase PGVector",
+          options: [
+            "SELECT * FROM documents ORDER BY embedding <=> vec_val LIMIT 5",
+            "SELECT * FROM documents MATCH embedding WITH vec_val LIMIT 5",
+            "SELECT VECTOR FROM documents NEAREST vec_val LIMIT 5"
+          ],
+          answer: "SELECT * FROM documents ORDER BY embedding <=> vec_val LIMIT 5"
+        },
+        {
+          target: "Select distinct organizations from certificate table",
+          options: [
+            "SELECT DISTINCT org FROM certificates",
+            "SELECT UNIQUE org FROM certificates",
+            "SELECT FILTER org FROM certificates"
+          ],
+          answer: "SELECT DISTINCT org FROM certificates"
         }
       ];
-      const selected = queries[Math.floor(Math.random() * queries.length)];
-      setResearchQuery(selected);
+      setResearchQuery(researchQueriesList[0]);
     }
     else if (id === "innovation") {
-      // Scramble milestones
+      setInnovationMistakes(0);
       const list = [...correctMilestoneOrder].sort(() => Math.random() - 0.5);
       setScrambledMilestones(list);
     }
@@ -720,52 +961,47 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   // PLAY INTERACTIONS
   // ----------------------------------------
 
-  // 1. Math block option click (Chalkboard Quiz cumulative flow)
+  // 1. Math Classroom Quiz
   const handleChalkAnswer = (val: number) => {
-    if (classroomQuestionIndex >= 6 || gameSuccess) return;
+    if (classroomQuestionIndex >= 5 || currentResult) return;
 
     const isCorrect = val === chalkQuestion.answer;
     let nextCorrectCount = classroomCorrectCount;
 
     if (isCorrect) {
-      playSFX("click");
+      playSFX("correct");
       nextCorrectCount = classroomCorrectCount + 1;
       setClassroomCorrectCount(nextCorrectCount);
-      setIncorrectFlash("CORRECT! +20 XP");
-      setPoints(prev => prev + 20);
-      setXp(prev => prev + 30);
-      setTimeout(() => setIncorrectFlash(null), 1200);
+      setIncorrectFlash("correct:Correct! +30 XP");
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 5));
-      setXp(prev => Math.max(0, prev - 10));
-      setIncorrectFlash("WRONG ATTEMPT! -10 XP");
-      setTimeout(() => setIncorrectFlash(null), 1200);
+      setIncorrectFlash("wrong:Incorrect formula!");
     }
+    setTimeout(() => setIncorrectFlash(null), 1000);
 
     const nextIndex = classroomQuestionIndex + 1;
     setClassroomQuestionIndex(nextIndex);
 
-    if (nextIndex < 6) {
-      setTimeout(() => {
-        generateClassroomQuestion(nextIndex);
-      }, 1300);
+    if (nextIndex < 5) {
+      setTimeout(() => generateClassroomQuestion(nextIndex), 1100);
     } else {
       setTimeout(() => {
-        const finalCorrect = nextCorrectCount;
-        setClassroomScore(finalCorrect);
-        setSchoolCompleted(prev => ({ ...prev, classroom: true }));
-        setEarnedBadges(prev => {
-          if (!prev.includes("Logic Prodigy")) return [...prev, "Logic Prodigy"];
-          return prev;
-        });
-        const rewardPoints = finalCorrect * 35;
-        triggerSuccessAward(rewardPoints, "Logic Prodigy", "🧠");
-      }, 1300);
+        showPerformanceResult(
+          "Classroom Quiz (Algebra)",
+          "📝",
+          nextCorrectCount,
+          5,
+          "classroom",
+          "Logic Prodigy",
+          "🧠",
+          50,
+          false
+        );
+      }, 1100);
     }
   };
 
-  // 2. Color gradient block click
+  // 2. Art Room Harmony Color check
   const handleArtColorClick = (idx: number) => {
     playSFX("click");
     if (selectedColorIdx === null) {
@@ -787,6 +1023,8 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   };
 
   const handleCheckArtRoom = () => {
+    if (currentResult) return;
+
     let balanced = true;
     for (let i = 0; i < scrambledColors.length; i++) {
       if (scrambledColors[i].color !== correctColorOrder[i]) {
@@ -794,55 +1032,62 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       }
     }
 
+    const nextAttempts = artroomAttempts + 1;
+    setArtroomAttempts(nextAttempts);
+
     if (balanced) {
-      const creativityPercent = Math.max(60, 100 - artroomAttempts * 8);
-      setArtroomScore(creativityPercent);
-      setSchoolCompleted(prev => ({ ...prev, artroom: true }));
-      setEarnedBadges(prev => {
-        if (!prev.includes("Creative Visionary")) return [...prev, "Creative Visionary"];
-        return prev;
-      });
-      triggerSuccessAward(180, "Creative Visionary", "✨");
+      const hits = Math.max(1, 5 - artroomAttempts);
+      showPerformanceResult(
+        "Art Room Harmony",
+        "🎨",
+        hits,
+        5,
+        "artroom",
+        "Creative Visionary",
+        "✨",
+        60,
+        false
+      );
     } else {
-      playSFX("incorrect");
-      setArtroomAttempts(prev => prev + 1);
-      setPoints(prev => Math.max(0, prev - 10));
-      setXp(prev => Math.max(0, prev - 15));
-      setIncorrectFlash("HARMONY FAILED! TRY AGAIN! -15 XP");
-      setTimeout(() => setIncorrectFlash(null), 1500);
+      if (nextAttempts >= 5) {
+        showPerformanceResult(
+          "Art Room Harmony",
+          "🎨",
+          1,
+          5,
+          "artroom",
+          "Creative Visionary",
+          "✨",
+          60,
+          false
+        );
+      } else {
+        playSFX("incorrect");
+        setIncorrectFlash(`HARMONY FAILED! Attempt ${nextAttempts}/5`);
+        setTimeout(() => setIncorrectFlash(null), 1200);
+      }
     }
   };
 
-  // 3. Rhythm play hit (Playground football Ground catches)
+  // 3. Football Zone catch
   const handleRhythmHit = () => {
-    if (playgroundAttempts >= 5 || gameSuccess) return;
+    if (playgroundAttempts >= 5 || currentResult) return;
 
-    // Forgiving hitbox: center center range is 30% to 70%
-    const isHit = rhythmBallPos >= 30 && rhythmBallPos <= 70;
+    const isHit = rhythmBallPos >= 25 && rhythmBallPos <= 75;
     let nextHits = rhythmHits;
-    
+
     if (isHit) {
-      playSFX("click");
+      playSFX("correct");
       nextHits = rhythmHits + 1;
       setRhythmHits(nextHits);
       setFootballSnapped(true);
-      setPoints(prev => prev + 25);
-      setXp(prev => prev + 35);
-      setIncorrectFlash("NICE CATCH! ⚽ +35 XP");
-      setTimeout(() => {
-        setFootballSnapped(false);
-        setIncorrectFlash(null);
-      }, 1200);
+      setIncorrectFlash(`correct:Goal ${nextHits}/5!`);
+      setTimeout(() => { setFootballSnapped(false); setIncorrectFlash(null); }, 1000);
     } else {
       playSFX("incorrect");
       setFootballMissed(true);
-      setPoints(prev => Math.max(0, prev - 5));
-      setXp(prev => Math.max(0, prev - 10));
-      setIncorrectFlash("MISSED BALL! -10 XP");
-      setTimeout(() => {
-        setFootballMissed(false);
-        setIncorrectFlash(null);
-      }, 1200);
+      setIncorrectFlash("wrong:Missed target!");
+      setTimeout(() => { setFootballMissed(false); setIncorrectFlash(null); }, 1000);
     }
 
     const nextAttempts = playgroundAttempts + 1;
@@ -851,57 +1096,39 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     if (nextAttempts >= 5) {
       clearInterval(rhythmInterval.current);
       setTimeout(() => {
-        setPlaygroundScore(nextHits);
-        setSchoolCompleted(prev => ({ ...prev, playground: true }));
-        setEarnedBadges(prev => {
-          if (!prev.includes("Star Athlete")) return [...prev, "Star Athlete"];
-          return prev;
-        });
-        const rewardPoints = nextHits * 40;
-        triggerSuccessAward(rewardPoints, "Star Athlete", "🏆");
-      }, 1400);
+        showPerformanceResult(
+          "Football Ground (Playground)",
+          "⚽",
+          nextHits,
+          5,
+          "playground",
+          "Star Athlete",
+          "🏆",
+          40,
+          false
+        );
+      }, 1100);
     }
   };
 
-  // Keyboard spacebar support for rhythm catch & basket shoots
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === "Space") {
-        if (phase === "school_game" && activeSchoolLoc?.id === "playground" && !gameSuccess) {
-          e.preventDefault();
-          handleRhythmHit();
-        }
-        else if (phase === "school_game" && activeSchoolLoc?.id === "stadium" && !gameSuccess) {
-          e.preventDefault();
-          handleBasketShoot();
-        }
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [phase, rhythmBallPos, activeSchoolLoc, gameSuccess, stadiumNeedlePos, stadiumAttempts]);
-
-  // 4. Indoor Stadium (Basket Shot Challenge shoot trigger)
+  // 4. Indoor Stadium Basketball shoot
   const handleBasketShoot = () => {
-    if (stadiumAttempts >= 5 || gameSuccess) return;
+    if (stadiumAttempts >= 5 || currentResult) return;
 
-    const isBasket = stadiumNeedlePos >= 40 && stadiumNeedlePos <= 60;
+    // Extremely forgiving 60% perfect sweet spot range
+    const isBasket = stadiumNeedlePos >= 20 && stadiumNeedlePos <= 80;
     let nextHits = stadiumHits;
 
     if (isBasket) {
-      playSFX("click");
+      playSFX("correct");
       nextHits = stadiumHits + 1;
       setStadiumHits(nextHits);
-      setPoints(prev => prev + 30);
-      setXp(prev => prev + 40);
-      setIncorrectFlash("SWISH! BASKET SCORED! 🏀 +40 XP");
-      setTimeout(() => setIncorrectFlash(null), 1200);
+      setIncorrectFlash("correct:SWISH! BASKET! 🏀");
+      setTimeout(() => setIncorrectFlash(null), 1000);
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 5));
-      setXp(prev => Math.max(0, prev - 10));
-      setIncorrectFlash("MISSED SHOT! -10 XP");
-      setTimeout(() => setIncorrectFlash(null), 1200);
+      setIncorrectFlash("wrong:Clank! Missed!");
+      setTimeout(() => setIncorrectFlash(null), 1000);
     }
 
     const nextAttempts = stadiumAttempts + 1;
@@ -910,80 +1137,112 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     if (nextAttempts >= 5) {
       clearInterval(stadiumInterval.current);
       setTimeout(() => {
-        setStadiumScore(nextHits);
-        setSchoolCompleted(prev => ({ ...prev, stadium: true }));
-        setEarnedBadges(prev => {
-          if (!prev.includes("Stadium Champion")) return [...prev, "Stadium Champion"];
-          return prev;
-        });
-        const rewardPoints = nextHits * 40;
-        triggerSuccessAward(rewardPoints, "Stadium Champion", "⚡");
-      }, 1400);
+        showPerformanceResult(
+          "Indoor Stadium Basketball",
+          "🏀",
+          nextHits,
+          5,
+          "stadium",
+          "Stadium Champion",
+          "⚡",
+          40,
+          false
+        );
+      }, 1100);
     }
   };
 
-  // 5. Library riddles book spine select
+  // 5. Library riddles book select
   const handleLibrarySelect = (ans: string) => {
-    if (ans === libRiddle.answer) {
-      const starsEarned = Math.max(2, 5 - libraryAttempts);
-      setLibraryScore(starsEarned);
-      setSchoolCompleted(prev => ({ ...prev, library: true }));
-      setEarnedBadges(prev => {
-        if (!prev.includes("Scholar of Secrets")) return [...prev, "Scholar of Secrets"];
-        return prev;
-      });
-      triggerSuccessAward(170, "Scholar of Secrets", "📖");
+    if (libraryQuestionIndex >= 5 || currentResult) return;
+
+    const riddlesList = [
+      { question: "I talk of matrices, vectors, structural calculations, and absolute infinite equations.", answer: "Mathematics" },
+      { question: "I explore loops, binary compilers, data logic nodes, and dynamic system builders.", answer: "Computer Science" },
+      { question: "I look at cosmic pathways, gravity fields, and the cold vast dark particles of galaxies.", answer: "Astrophysics" },
+      { question: "I cover cell membranes, photosynthesis cycles, and the helix strands of human DNA.", answer: "Biology" },
+      { question: "I examine historic treaties, ancient dynasties, and the ruins of long-lost civilizations.", answer: "History" }
+    ];
+
+    const isCorrect = ans === libRiddle.answer;
+    let nextHits = libraryHits;
+
+    if (isCorrect) {
+      playSFX("correct");
+      nextHits = libraryHits + 1;
+      setLibraryHits(nextHits);
+      setIncorrectFlash("correct:Correct book cataloged!");
     } else {
       playSFX("incorrect");
-      setLibraryAttempts(prev => prev + 1);
-      setPoints(prev => Math.max(0, prev - 10));
-      setXp(prev => Math.max(0, prev - 15));
-      setIncorrectFlash("WRONG CATEGORY! -15 XP");
-      setTimeout(() => setIncorrectFlash(null), 1200);
-      const riddles = [
-        { question: "I talk of matrices, vectors, structural calculations, and absolute infinite equations.", answer: "Mathematics" },
-        { question: "I explore loops, binary compilers, data logic nodes, and dynamic system builders.", answer: "Computer Science" },
-        { question: "I look at cosmic pathways, gravity fields, and the cold vast dark particles of galaxies.", answer: "Astrophysics" }
-      ];
-      const r = riddles[Math.floor(Math.random() * riddles.length)];
-      setLibRiddle(r);
+      setIncorrectFlash("wrong:Misfiled catalog shelf!");
+    }
+    setTimeout(() => setIncorrectFlash(null), 1000);
+
+    const nextIndex = libraryQuestionIndex + 1;
+    setLibraryQuestionIndex(nextIndex);
+
+    if (nextIndex < 5) {
+      setTimeout(() => setLibRiddle(riddlesList[nextIndex]), 1100);
+    } else {
+      setTimeout(() => {
+        showPerformanceResult(
+          "School Library Riddles",
+          "📖",
+          nextHits,
+          5,
+          "library",
+          "Scholar of Secrets",
+          "📖",
+          50,
+          false
+        );
+      }, 1100);
     }
   };
 
-  // 6. Chemical flask selector click
+  // 6. Chemical flask selector target matching
   const handleChemicalClick = (name: string) => {
+    if (labQuestionIndex >= 5 || currentResult) return;
+
     playSFX("click");
-    const nextSeq = [...labCurrentSeq, name];
-    setLabCurrentSeq(nextSeq);
+    const isCorrect = name === labTargetChemical;
+    let nextHits = labHits;
 
-    let correctSoFar = true;
-    for (let i = 0; i < nextSeq.length; i++) {
-      if (nextSeq[i] !== labTargetSeq[i]) {
-        correctSoFar = false;
-      }
-    }
-
-    if (!correctSoFar) {
+    if (isCorrect) {
+      playSFX("correct");
+      nextHits = labHits + 1;
+      setLabHits(nextHits);
+      setIncorrectFlash("correct:Synthesis Stable! 🧪");
+    } else {
       playSFX("incorrect");
-      setLabAttempts(prev => prev + 1);
-      setPoints(prev => Math.max(0, prev - 10));
-      setXp(prev => Math.max(0, prev - 15));
-      setIncorrectFlash("CHEMICAL EXPLO! SEQUENCE RESET! -15 XP");
-      setTimeout(() => setIncorrectFlash(null), 1200);
-      setLabCurrentSeq([]);
-    } else if (nextSeq.length === labTargetSeq.length) {
-      const starsEarned = Math.max(2, 5 - labAttempts);
-      setLaboratoryScore(starsEarned);
-      setSchoolCompleted(prev => ({ ...prev, laboratory: true }));
-      setEarnedBadges(prev => {
-        if (!prev.includes("Alchemist of Code")) return [...prev, "Alchemist of Code"];
-        return prev;
-      });
-      triggerSuccessAward(190, "Alchemist of Code", "🧪");
+      setIncorrectFlash("wrong:Chemical Reaction volatile!");
+    }
+    setTimeout(() => setIncorrectFlash(null), 1000);
+
+    const nextIndex = labQuestionIndex + 1;
+    setLabQuestionIndex(nextIndex);
+
+    if (nextIndex < 5) {
+      const chemicals = ["Hydrogen", "Oxygen", "Nitrogen"];
+      setTimeout(() => setLabTargetChemical(chemicals[Math.floor(Math.random() * 3)]), 1100);
+    } else {
+      setTimeout(() => {
+        showPerformanceResult(
+          "Science Lab (Chemistry)",
+          "🧪",
+          nextHits,
+          5,
+          "laboratory",
+          "Alchemist of Code",
+          "🧪",
+          60,
+          false
+        );
+      }, 1100);
     }
   };
 
-  // 7. AI network node connection
+  // 7. AI Lab network mapper connections
   const handleAiInputClick = (val: string) => {
     playSFX("click");
     setSelectedAiInput(val);
@@ -1001,45 +1260,51 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
   };
 
   const resolveAiConnection = (inputVal: string, modelVal: string) => {
+    if (currentResult) return;
+
     const targetLink = aiLinks.find(l => l.input === inputVal);
     if (targetLink && targetLink.model === modelVal) {
-      // Match found!
+      playSFX("correct");
       const newMatches = { ...aiMatches, [inputVal]: modelVal };
       setAiMatches(newMatches);
       setSelectedAiInput(null);
       setSelectedAiModel(null);
 
-      // Check if all matched
-      if (Object.keys(newMatches).length === aiLinks.length) {
-        setUnivCompleted(prev => ({ ...prev, ailab: true }));
-        setEarnedCerts(prev => {
-          if (!prev.includes("Microsoft AI Specialist")) return [...prev, "Microsoft AI Specialist"];
-          return prev;
-        });
-        triggerSuccessAward(220, "Microsoft AI Specialist", "🤖");
+      if (Object.keys(newMatches).length === 5) {
+        const hits = Math.max(1, 5 - aiMistakes);
+        showPerformanceResult(
+          "AI Neural Mapper Lab",
+          "🧠",
+          hits,
+          5,
+          "ailab",
+          "Microsoft AI Specialist",
+          "🤖",
+          70,
+          true
+        );
       }
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 15));
-      setXp(prev => Math.max(0, prev - 20));
-      setIncorrectFlash("-20 XP / -15 Points");
-      setTimeout(() => setIncorrectFlash(null), 1500);
+      setAiMistakes(prev => prev + 1);
+      setIncorrectFlash("wrong:Topological Mismatch!");
+      setTimeout(() => setIncorrectFlash(null), 1000);
       setSelectedAiInput(null);
       setSelectedAiModel(null);
     }
   };
 
-  // 8. DSA search tree ascending select
+  // 8. DSA search tree sorting ascending
   const handleDsaNodeClick = (nodeVal: number, idx: number) => {
+    if (currentResult) return;
+
     playSFX("click");
-    // Find absolute sorted list order
     const sortedVals = [...dsaNodes].map(n => n.value).sort((a, b) => a - b);
     const expectedVal = sortedVals[dsaExpectedIndex];
 
     if (nodeVal === expectedVal) {
-      // Correct node clicked in order
+      playSFX("correct");
       const copy = [...dsaNodes];
-      // Mark matching node as sorted
       const foundIdx = copy.findIndex(n => n.value === nodeVal);
       if (foundIdx !== -1) copy[foundIdx].sorted = true;
       setDsaNodes(copy);
@@ -1047,79 +1312,199 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       const nextExpected = dsaExpectedIndex + 1;
       setDsaExpectedIndex(nextExpected);
 
-      if (nextExpected === dsaNodes.length) {
-        // Balanced BST and array successfully
-        setUnivCompleted(prev => ({ ...prev, dsalab: true }));
-        setEarnedCerts(prev => {
-          if (!prev.includes("NIT algorithms Scholar")) return [...prev, "NIT algorithms Scholar"];
-          return prev;
-        });
-        triggerSuccessAward(250, "NIT algorithms Scholar", "🌳");
+      if (nextExpected === 5) {
+        const hits = Math.max(1, 5 - dsaMistakes);
+        showPerformanceResult(
+          "DSA Search Tree sorting",
+          "💻",
+          hits,
+          5,
+          "dsalab",
+          "NIT algorithms Scholar",
+          "🌳",
+          80,
+          true
+        );
       }
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 15));
-      setXp(prev => Math.max(0, prev - 20));
-      setIncorrectFlash("-20 XP / -15 Points");
-      setTimeout(() => setIncorrectFlash(null), 1500);
-      
-      // Reset index and scramble again
+      setDsaMistakes(prev => prev + 1);
+      setIncorrectFlash("wrong:BST Unbalanced! Sorting reset!");
+      setTimeout(() => setIncorrectFlash(null), 1200);
       initializeUnivMiniGame("dsalab");
     }
   };
 
   // 9. Coding debugging syntax cards selection
   const handleDebugSelect = (ans: string) => {
-    if (ans === debugSnippet.answer) {
-      setUnivCompleted(prev => ({ ...prev, codingclass: true }));
-      setEarnedCerts(prev => {
-        if (!prev.includes("Full-Stack Web Architect")) return [...prev, "Full-Stack Web Architect"];
-        return prev;
-      });
-      triggerSuccessAward(240, "Full-Stack Web Architect", "⚡");
+    if (codingQuestionIndex >= 5 || currentResult) return;
+
+    const codingBugs = [
+      {
+        code: "const [data, setData] = useStae(null);\nuseEffect(() => {\n  fetchData();\n}, []);",
+        options: ["Change useStae to useState", "Change useEffect to useMemo", "Change fetch to await fetch"],
+        answer: "Change useStae to useState"
+      },
+      {
+        code: "supabase\n  .from('exam')\n  .select('*')\n  .equ('id', 12);",
+        options: ["Change .from to .table", "Change .equ to .eq", "Change select('*') to select(all)"],
+        answer: "Change .equ to .eq"
+      },
+      {
+        code: "const element = <div class='card'>Hello</div>;",
+        options: ["Change class to className", "Change div to Div", "Wrap it in React.createElement"],
+        answer: "Change class to className"
+      },
+      {
+        code: "const query = supabase.from('users').delete().eq('id', uid);",
+        options: ["Ensure uid is defined", "Use deleteRow instead of delete", "Add SELECT at the beginning"],
+        answer: "Ensure uid is defined"
+      },
+      {
+        code: "useEffect(() => {\n  const sub = supabase.auth.onAuthStateChange();\n  return sub.unsubscribe();\n}, []);",
+        options: ["Unsubscribe on cleanup correctly", "Change useEffect to useState", "Add auth dependency"],
+        answer: "Unsubscribe on cleanup correctly"
+      }
+    ];
+
+    const isCorrect = ans === debugSnippet.answer;
+    let nextCorrectCount = codingCorrectCount;
+
+    if (isCorrect) {
+      playSFX("correct");
+      nextCorrectCount = codingCorrectCount + 1;
+      setCodingCorrectCount(nextCorrectCount);
+      setIncorrectFlash("correct:Compiler Success!");
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 15));
-      setXp(prev => Math.max(0, prev - 20));
-      setIncorrectFlash("-20 XP / -15 Points");
-      setTimeout(() => setIncorrectFlash(null), 1500);
-      initializeUnivMiniGame("codingclass");
+      setIncorrectFlash("wrong:Syntax Compilation Error!");
+    }
+    setTimeout(() => setIncorrectFlash(null), 1000);
+
+    const nextIndex = codingQuestionIndex + 1;
+    setCodingQuestionIndex(nextIndex);
+
+    if (nextIndex < 5) {
+      setTimeout(() => setDebugSnippet(codingBugs[nextIndex]), 1100);
+    } else {
+      setTimeout(() => {
+        showPerformanceResult(
+          "React & Supabase Debugging",
+          "⌨️",
+          nextCorrectCount,
+          5,
+          "codingclass",
+          "Full-Stack Web Architect",
+          "⚡",
+          70,
+          true
+        );
+      }, 1100);
     }
   };
 
-  // 10. Research library catalog query selection
+  // 10. Research library index query SQL
   const handleResearchSelect = (ans: string) => {
-    if (ans === researchQuery.answer) {
-      setUnivCompleted(prev => ({ ...prev, researchlib: true }));
-      setEarnedCerts(prev => {
-        if (!prev.includes("Information Architect")) return [...prev, "Information Architect"];
-        return prev;
-      });
-      triggerSuccessAward(210, "Information Architect", "📑");
+    if (researchQuestionIndex >= 5 || currentResult) return;
+
+    const researchQueriesList = [
+      {
+        target: "Retrieve all products with status pending and score > 80",
+        options: [
+          "SELECT * FROM products WHERE status = 'pending' AND score > 80",
+          "SELECT * FROM products MATCH status IN pending OR score > 80",
+          "SELECT products WHERE status == pending && score => 80"
+        ],
+        answer: "SELECT * FROM products WHERE status = 'pending' AND score > 80"
+      },
+      {
+        target: "Get title and tag from AI research station collection in GraphQL",
+        options: [
+          "query { ai_station { title tag } }",
+          "select { ai_station { title, tag } }",
+          "query ai_station [ title, tag ]"
+        ],
+        answer: "query { ai_station { title tag } }"
+      },
+      {
+        target: "Order students by rank descending in SQL",
+        options: [
+          "SELECT * FROM students ORDER BY rank DESC",
+          "SELECT * FROM students SORT BY rank DOWN",
+          "SELECT ALL students ORDERING rank DESC"
+        ],
+        answer: "SELECT * FROM students ORDER BY rank DESC"
+      },
+      {
+        target: "Find matching vector embeds in Supabase PGVector",
+        options: [
+          "SELECT * FROM documents ORDER BY embedding <=> vec_val LIMIT 5",
+          "SELECT * FROM documents MATCH embedding WITH vec_val LIMIT 5",
+          "SELECT VECTOR FROM documents NEAREST vec_val LIMIT 5"
+        ],
+        answer: "SELECT * FROM documents ORDER BY embedding <=> vec_val LIMIT 5"
+      },
+      {
+        target: "Select distinct organizations from certificate table",
+        options: [
+          "SELECT DISTINCT org FROM certificates",
+          "SELECT UNIQUE org FROM certificates",
+          "SELECT FILTER org FROM certificates"
+        ],
+        answer: "SELECT DISTINCT org FROM certificates"
+      }
+    ];
+
+    const isCorrect = ans === researchQuery.answer;
+    let nextCorrectCount = researchCorrectCount;
+
+    if (isCorrect) {
+      playSFX("correct");
+      nextCorrectCount = researchCorrectCount + 1;
+      setResearchCorrectCount(nextCorrectCount);
+      setIncorrectFlash("correct:Vector Retrospective Synced!");
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 15));
-      setXp(prev => Math.max(0, prev - 20));
-      setIncorrectFlash("-20 XP / -15 Points");
-      setTimeout(() => setIncorrectFlash(null), 1500);
-      initializeUnivMiniGame("researchlib");
+      setIncorrectFlash("wrong:Empty ResultSet / Syntax Glitch");
+    }
+    setTimeout(() => setIncorrectFlash(null), 1000);
+
+    const nextIndex = researchQuestionIndex + 1;
+    setResearchQuestionIndex(nextIndex);
+
+    if (nextIndex < 5) {
+      setTimeout(() => setResearchQuery(researchQueriesList[nextIndex]), 1100);
+    } else {
+      setTimeout(() => {
+        showPerformanceResult(
+          "Research Index Querying",
+          "☕",
+          nextCorrectCount,
+          5,
+          "researchlib",
+          "Information Architect",
+          "📑",
+          60,
+          true
+        );
+      }, 1100);
     }
   };
 
-  // 11. Project launch slide milestones click
+  // 11. Innovation Hub Slide Sequencer Swap milestones
   const handleMilestoneClick = (val: string) => {
+    if (currentResult) return;
+
     playSFX("click");
-    // Find expected next item in ordered chronological sequence
     const nextExpectedPos = scrambledMilestones.findIndex((m, i) => correctMilestoneOrder[i] !== m);
-    if (nextExpectedPos === -1) return; // All sorted
+    if (nextExpectedPos === -1) return;
 
     const clickedPos = scrambledMilestones.indexOf(val);
     if (clickedPos === -1) return;
 
-    // Verify if clicked is the expected one
     const expectedVal = correctMilestoneOrder[nextExpectedPos];
     if (val === expectedVal) {
-      // Swap clicked position with expected position
+      playSFX("correct");
       const copy = [...scrambledMilestones];
       const temp = copy[nextExpectedPos];
       copy[nextExpectedPos] = copy[clickedPos];
@@ -1127,7 +1512,6 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
 
       setScrambledMilestones(copy);
 
-      // Verify if fully aligned
       let fullyAligned = true;
       for (let i = 0; i < copy.length; i++) {
         if (copy[i] !== correctMilestoneOrder[i]) {
@@ -1136,19 +1520,24 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       }
 
       if (fullyAligned) {
-        setUnivCompleted(prev => ({ ...prev, innovation: true }));
-        setEarnedCerts(prev => {
-          if (!prev.includes("SynerTech Innovation Award")) return [...prev, "SynerTech Innovation Award"];
-          return prev;
-        });
-        triggerSuccessAward(260, "SynerTech Innovation Award", "🥇");
+        const hits = Math.max(1, 5 - innovationMistakes);
+        showPerformanceResult(
+          "Innovation Hub Milestones",
+          "🚀",
+          hits,
+          5,
+          "innovation",
+          "SynerTech Innovation Award",
+          "🥇",
+          80,
+          true
+        );
       }
     } else {
       playSFX("incorrect");
-      setPoints(prev => Math.max(0, prev - 20));
-      setXp(prev => Math.max(0, prev - 25));
-      setIncorrectFlash("-25 XP / -20 Points");
-      setTimeout(() => setIncorrectFlash(null), 1500);
+      setInnovationMistakes(prev => prev + 1);
+      setIncorrectFlash("wrong:Out of logical lifecycle sequence!");
+      setTimeout(() => setIncorrectFlash(null), 1000);
     }
   };
 
@@ -1191,14 +1580,43 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     setArtroomScore(0);
     setPlaygroundScore(0);
     setStadiumScore(0);
-    setLibraryScore(5);
-    setLaboratoryScore(5);
+    setLibraryScore(0);
+    setLaboratoryScore(0);
+
+    setAilabScore(0);
+    setDsalabScore(0);
+    setCodingclassScore(0);
+    setResearchlibScore(0);
+    setInnovationScore(0);
 
     setClassroomQuestionIndex(0);
     setClassroomCorrectCount(0);
+
     setPlaygroundAttempts(0);
+    setRhythmHits(0);
+
     setStadiumAttempts(0);
     setStadiumHits(0);
+    
+    setArtroomAttempts(0);
+
+    setLibraryQuestionIndex(0);
+    setLibraryHits(0);
+    setLibraryAttempts(0);
+
+    setLabQuestionIndex(0);
+    setLabHits(0);
+    setLabAttempts(0);
+
+    setCodingQuestionIndex(0);
+    setCodingCorrectCount(0);
+
+    setResearchQuestionIndex(0);
+    setResearchCorrectCount(0);
+
+    setDsaMistakes(0);
+    setInnovationMistakes(0);
+    setAiMistakes(0);
     
     setGateOpen(false);
     setTimeout(() => {
@@ -1442,13 +1860,21 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
             {/* Active game arena */}
             <div className="ec-game-interactive-arena">
               
-              {/* Incorrect Flash Warning Alert */}
+              {/* Colour-coded feedback flash banner */}
               {incorrectFlash && (
-                <div className="ec-incorrect-flash-banner">
-                  <span>❌</span>
-                  <span>INCORRECT ATTEMPT! {incorrectFlash}</span>
+                <div
+                  className="ec-incorrect-flash-banner"
+                  style={{
+                    background: incorrectFlash.startsWith("correct")
+                      ? "rgba(22,163,74,0.88)" : "rgba(185,28,28,0.88)",
+                    borderColor: incorrectFlash.startsWith("correct")
+                      ? "#4ade80" : "#f87171"
+                  }}
+                >
+                  <span>{incorrectFlash.replace(/^(correct|wrong):/, "")}</span>
                 </div>
               )}
+
 
               <div className="ec-game-screen">
                 
@@ -1456,7 +1882,10 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
                 {activeSchoolLoc.id === "classroom" && (
                   <div className="ec-game-board-container">
                     <div className="ec-board-chalk-title">
-                      Blackboard (Q {Math.min(6, classroomQuestionIndex + 1)}/6) - Correct: {classroomCorrectCount}/6
+                      Question {Math.min(6, classroomQuestionIndex + 1)} / 6
+                      &nbsp;&nbsp;{Array.from({ length: 6 }).map((_, i) => (
+                        <span key={i} style={{ opacity: i < classroomCorrectCount ? 1 : 0.2 }}>⭐</span>
+                      ))}
                     </div>
                     <div className="ec-board-chalk-expression">
                       {chalkQuestion.expression}
@@ -1745,14 +2174,14 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
         return (
           <div className="ec-progress-view" style={{ position: "relative" }}>
             
-            {/* Cinematic Floating Top-Left Dashboard Return HUD (Visual cleanliness preserved) */}
+            {/* Cinematic Floating Top-Left Dashboard Return HUD */}
             <div className="ec-floating-nav-container">
               <button className="ec-cinematic-back-btn" onClick={() => { playSFX("click"); setPhase("school_map"); }}>
                 <span>←</span> Back to School Dashboard
               </button>
             </div>
 
-            <div className="ec-report-notebook" style={{ margin: "2rem auto" }}>
+            <div className="ec-report-notebook" style={{ margin: "2rem auto", overflowY: "auto", maxHeight: "85vh" }}>
               
               {/* Elegant floating sparkle overlay particles */}
               <div className="ec-academic-sparkles">
@@ -1767,7 +2196,7 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
                 <div className="ec-report-logo-crest">🏫</div>
                 <div className="ec-report-institution-info">
                   <h3>Delhi Public School, Srinagar</h3>
-                  <p>Academic Grade Report Card (2009 - 2023)</p>
+                  <p>Official Scholastic Achievement Document (2009 - 2023)</p>
                 </div>
               </div>
 
@@ -1775,215 +2204,204 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
               <div className="ec-report-student-meta">
                 <div className="ec-meta-row">STUDENT: <strong>Nimra Wani</strong></div>
                 <div className="ec-meta-row">ROLL NO: <strong>DPS-2009-04</strong></div>
-                <div className="ec-meta-row">SEMESTER: <strong>Primary to Secondary</strong></div>
+                <div className="ec-meta-row">SEMESTER: <strong>Primary & Secondary Years</strong></div>
                 <div className="ec-meta-row">STATUS: <strong>{pathwayUnlocked ? "Alumni (Graduated)" : "Active Scholar"}</strong></div>
               </div>
 
-              {/* 📘 SECTION 1: ACADEMIC PERFORMANCE */}
+              {/* 📘 SECTION 1: ACADEMIC SUBJECTS TABLE */}
               <div className="ec-report-category-section">
-                <h4 className="ec-category-header">📘 Academic Performance</h4>
-                <div className="ec-report-activities-list">
-                  
-                  {/* Classroom Quiz Row */}
-                  <div className="ec-report-row-card">
-                    <div className="ec-report-row-header">
-                      <div className="ec-row-title-container">
-                        <span className="ec-row-icon-bubble">📝</span>
-                        <span className="ec-row-subject-name">Classroom Quiz (Algebra)</span>
-                      </div>
-                      <span className={`ec-row-rating-badge ${
-                        hasClassroom 
-                          ? (classroomScore === 6 ? "badge-rating-excellent" : classroomScore >= 5 ? "badge-rating-outstanding" : classroomScore >= 4 ? "badge-rating-verygood" : "badge-rating-good") 
-                          : "badge-rating-pending"
-                      }`}>
-                        {hasClassroom ? (classroomScore === 6 ? "Grade A+" : classroomScore >= 5 ? "Grade A" : classroomScore >= 4 ? "Grade B" : "Grade C") : "Pending"}
-                      </span>
-                    </div>
-                    <div className="ec-report-row-stats">
-                      <div className="ec-row-stat-group">
-                        <span>Score:</span>
-                        <strong>{hasClassroom ? `${classroomScore}/6 Algebra Solved` : "Incomplete"}</strong>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        <span className="ec-row-stars-glow">{hasClassroom ? (classroomScore === 6 ? "⭐⭐⭐⭐⭐" : classroomScore === 5 ? "⭐⭐⭐⭐✨" : classroomScore === 4 ? "⭐⭐⭐⭐" : classroomScore === 3 ? "⭐⭐⭐" : "⭐⭐") : "—"}</span>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        {hasClassroom && <span className="ec-row-stat-xp">+{classroomScore * 30 + 50} XP</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Science Laboratory Row */}
-                  <div className="ec-report-row-card">
-                    <div className="ec-report-row-header">
-                      <div className="ec-row-title-container">
-                        <span className="ec-row-icon-bubble">🧪</span>
-                        <span className="ec-row-subject-name">Science Laboratory (Chemistry)</span>
-                      </div>
-                      <span className={`ec-row-rating-badge ${
-                        hasLab 
-                          ? (laboratoryScore === 5 ? "badge-rating-excellent" : laboratoryScore === 4 ? "badge-rating-outstanding" : "badge-rating-verygood") 
-                          : "badge-rating-pending"
-                      }`}>
-                        {hasLab ? (laboratoryScore === 5 ? "Grade A+" : laboratoryScore === 4 ? "Grade A" : "Grade B") : "Pending"}
-                      </span>
-                    </div>
-                    <div className="ec-report-row-stats">
-                      <div className="ec-row-stat-group">
-                        <span>Accuracy:</span>
-                        <strong>{hasLab ? `${labPct}% Synthesis Accuracy` : "Incomplete"}</strong>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        <span className="ec-row-stars-glow">{hasLab ? (laboratoryScore === 5 ? "⭐⭐⭐⭐⭐" : laboratoryScore === 4 ? "⭐⭐⭐⭐" : "⭐⭐⭐") : "—"}</span>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        {hasLab && <span className="ec-row-stat-xp">+190 XP</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* School Library Row */}
-                  <div className="ec-report-row-card">
-                    <div className="ec-report-row-header">
-                      <div className="ec-row-title-container">
-                        <span className="ec-row-icon-bubble">📚</span>
-                        <span className="ec-row-subject-name">School Library (Logic & Riddles)</span>
-                      </div>
-                      <span className={`ec-row-rating-badge ${
-                        hasLibrary 
-                          ? (libraryScore === 5 ? "badge-rating-excellent" : libraryScore === 4 ? "badge-rating-outstanding" : "badge-rating-verygood") 
-                          : "badge-rating-pending"
-                      }`}>
-                        {hasLibrary ? (libraryScore === 5 ? "Grade A+" : libraryScore === 4 ? "Grade A" : "Grade B") : "Pending"}
-                      </span>
-                    </div>
-                    <div className="ec-report-row-stats">
-                      <div className="ec-row-stat-group">
-                        <span>Research:</span>
-                        <strong>{hasLibrary ? `${libraryScore}/5 Hidden Books Found` : "Incomplete"}</strong>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        <span className="ec-row-stars-glow">{hasLibrary ? (libraryScore === 5 ? "⭐⭐⭐⭐⭐" : libraryScore === 4 ? "⭐⭐⭐⭐" : "⭐⭐⭐") : "—"}</span>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        {hasLibrary && <span className="ec-row-stat-xp">+170 XP</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
+                <h4 className="ec-category-header">📘 Section I: Academic Subjects</h4>
+                <table className="ec-academic-table">
+                  <thead>
+                    <tr>
+                      <th>Subject Domain & Scope</th>
+                      <th>Score</th>
+                      <th>Marks</th>
+                      <th>Grade</th>
+                      <th>Stars</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className={hasClassroom ? (classroomScore >= 4 ? "ec-row-excellent" : "ec-row-average") : "ec-row-incomplete"}>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                            <span>📝</span>
+                            <strong>Classroom Algebra</strong>
+                          </span>
+                          <span style={{ fontSize: "0.55rem", opacity: 0.7, paddingLeft: "1.2rem" }}>Algebraic Equation Quizzes</span>
+                        </div>
+                      </td>
+                      <td>{hasClassroom ? `${classroomScore} / 5 Correct` : "Incomplete"}</td>
+                      <td>{hasClassroom ? `${classroomScore * 2} / 10` : "—"}</td>
+                      <td>
+                        <span className={`ec-table-grade-badge ${hasClassroom ? `grade-${classroomScore}` : "grade-0"}`}>
+                          {hasClassroom ? (classroomScore === 5 ? "A+" : classroomScore === 4 ? "A" : classroomScore === 3 ? "B+" : classroomScore === 2 ? "C" : classroomScore === 1 ? "D" : "F") : "Pending"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="ec-row-stars-glow">
+                          {hasClassroom ? (classroomScore === 5 ? "⭐⭐⭐⭐⭐" : classroomScore === 4 ? "⭐⭐⭐⭐✨" : classroomScore === 3 ? "⭐⭐⭐⭐" : classroomScore === 2 ? "⭐⭐⭐" : classroomScore === 1 ? "⭐⭐" : "☆") : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr className={hasLab ? (laboratoryScore >= 4 ? "ec-row-excellent" : "ec-row-average") : "ec-row-incomplete"}>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                            <span>🧪</span>
+                            <strong>Science Laboratory</strong>
+                          </span>
+                          <span style={{ fontSize: "0.55rem", opacity: 0.7, paddingLeft: "1.2rem" }}>Chemical Synthesis Sequences</span>
+                        </div>
+                      </td>
+                      <td>{hasLab ? `${laboratoryScore} / 5 Formulated` : "Incomplete"}</td>
+                      <td>{hasLab ? `${laboratoryScore * 2} / 10` : "—"}</td>
+                      <td>
+                        <span className={`ec-table-grade-badge ${hasLab ? `grade-${laboratoryScore}` : "grade-0"}`}>
+                          {hasLab ? (laboratoryScore === 5 ? "A+" : laboratoryScore === 4 ? "A" : laboratoryScore === 3 ? "B+" : laboratoryScore === 2 ? "C" : laboratoryScore === 1 ? "D" : "F") : "Pending"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="ec-row-stars-glow">
+                          {hasLab ? (laboratoryScore === 5 ? "⭐⭐⭐⭐⭐" : laboratoryScore === 4 ? "⭐⭐⭐⭐✨" : laboratoryScore === 3 ? "⭐⭐⭐⭐" : laboratoryScore === 2 ? "⭐⭐⭐" : laboratoryScore === 1 ? "⭐⭐" : "☆") : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr className={hasLibrary ? (libraryScore >= 4 ? "ec-row-excellent" : "ec-row-average") : "ec-row-incomplete"}>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                            <span>📖</span>
+                            <strong>Library & Riddles</strong>
+                          </span>
+                          <span style={{ fontSize: "0.55rem", opacity: 0.7, paddingLeft: "1.2rem" }}>Subject Riddle Researches</span>
+                        </div>
+                      </td>
+                      <td>{hasLibrary ? `${libraryScore} / 5 Found` : "Incomplete"}</td>
+                      <td>{hasLibrary ? `${libraryScore * 2} / 10` : "—"}</td>
+                      <td>
+                        <span className={`ec-table-grade-badge ${hasLibrary ? `grade-${libraryScore}` : "grade-0"}`}>
+                          {hasLibrary ? (libraryScore === 5 ? "A+" : libraryScore === 4 ? "A" : libraryScore === 3 ? "B+" : libraryScore === 2 ? "C" : libraryScore === 1 ? "D" : "F") : "Pending"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="ec-row-stars-glow">
+                          {hasLibrary ? (libraryScore === 5 ? "⭐⭐⭐⭐⭐" : libraryScore === 4 ? "⭐⭐⭐⭐✨" : libraryScore === 3 ? "⭐⭐⭐⭐" : libraryScore === 2 ? "⭐⭐⭐" : libraryScore === 1 ? "⭐⭐" : "☆") : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-              <hr className="ec-report-divider" />
-
-              {/* 🎨 SECTION 2: EXTRACURRICULAR ACTIVITIES */}
-              <div className="ec-report-category-section">
-                <h4 className="ec-category-header">🎨 Extracurricular Activities</h4>
-                <div className="ec-report-activities-list">
-                  
-                  {/* Football Ground Row */}
-                  <div className="ec-report-row-card">
-                    <div className="ec-report-row-header">
-                      <div className="ec-row-title-container">
-                        <span className="ec-row-icon-bubble">⚽</span>
-                        <span className="ec-row-subject-name">Football Ground (Soccer Snaps)</span>
-                      </div>
-                      <span className={`ec-row-rating-badge ${
-                        hasPlayground 
-                          ? (playgroundScore === 5 ? "badge-rating-excellent" : playgroundScore >= 3 ? "badge-rating-outstanding" : "badge-rating-verygood") 
-                          : "badge-rating-pending"
-                      }`}>
-                        {hasPlayground ? (playgroundScore === 5 ? "Star Athlete" : playgroundScore >= 3 ? "Pro Striker" : "Active Play") : "Pending"}
-                      </span>
-                    </div>
-                    <div className="ec-report-row-stats">
-                      <div className="ec-report-row-stats-row">
-                        <span>Performance: <strong>{hasPlayground ? `${playgroundScore}/5 Caught Catches` : "Incomplete"}</strong></span>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        <span className="ec-row-stars-glow">{hasPlayground ? (playgroundScore === 5 ? "⭐⭐⭐⭐⭐" : playgroundScore === 4 ? "⭐⭐⭐⭐" : playgroundScore === 3 ? "⭐⭐⭐" : "⭐⭐") : "—"}</span>
-                        {hasPlayground && <span className="ec-row-stat-xp">+{playgroundScore * 40} XP</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Indoor Stadium Row */}
-                  <div className="ec-report-row-card">
-                    <div className="ec-report-row-header">
-                      <div className="ec-row-title-container">
-                        <span className="ec-row-icon-bubble">🏀</span>
-                        <span className="ec-row-subject-name">Indoor Stadium (Basket Shot)</span>
-                      </div>
-                      <span className={`ec-row-rating-badge ${
-                        hasStadium 
-                          ? (stadiumScore === 5 ? "badge-rating-excellent" : stadiumScore >= 3 ? "badge-rating-outstanding" : "badge-rating-verygood") 
-                          : "badge-rating-pending"
-                      }`}>
-                        {hasStadium ? (stadiumScore === 5 ? "Sports Excellence" : stadiumScore >= 3 ? "Varsity Player" : "Active Shooter") : "Pending"}
-                      </span>
-                    </div>
-                    <div className="ec-report-row-stats">
-                      <div className="ec-report-row-stats-row">
-                        <span>Result: <strong>{hasStadium ? `${stadiumScore}/5 Baskets Score` : "Incomplete"}</strong></span>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        <span className="ec-row-stars-glow">{hasStadium ? (stadiumScore === 5 ? "⭐⭐⭐⭐⭐" : stadiumScore === 4 ? "⭐⭐⭐⭐" : stadiumScore === 3 ? "⭐⭐⭐" : "⭐⭐") : "—"}</span>
-                        {hasStadium && <span className="ec-row-stat-xp">+{stadiumScore * 40} XP</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Art Room Row */}
-                  <div className="ec-report-row-card">
-                    <div className="ec-report-row-header">
-                      <div className="ec-row-title-container">
-                        <span className="ec-row-icon-bubble">🎨</span>
-                        <span className="ec-row-subject-name">Art Room Harmony (Design)</span>
-                      </div>
-                      <span className={`ec-row-rating-badge ${
-                        hasArt 
-                          ? (artroomScore >= 90 ? "badge-rating-excellent" : artroomScore >= 80 ? "badge-rating-outstanding" : "badge-rating-verygood") 
-                          : "badge-rating-pending"
-                      }`}>
-                        {hasArt ? (artroomScore >= 90 ? "Creative Distinction" : artroomScore >= 80 ? "Artisan Honors" : "Active Designer") : "Pending"}
-                      </span>
-                    </div>
-                    <div className="ec-report-row-stats">
-                      <div className="ec-report-row-stats-row">
-                        <span>Expression: <strong>{hasArt ? `${artroomScore}% Gradients Match` : "Incomplete"}</strong></span>
-                      </div>
-                      <div className="ec-row-stat-group">
-                        <span className="ec-row-stars-glow">{hasArt ? (artroomScore >= 90 ? "⭐⭐⭐⭐⭐" : artroomScore >= 80 ? "⭐⭐⭐⭐" : "⭐⭐⭐") : "—"}</span>
-                        {hasArt && <span className="ec-row-stat-xp">+180 XP</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
+              {/* 🎨 SECTION 2: CO-CURRICULAR ACTIVITIES TABLE */}
+              <div className="ec-report-category-section" style={{ marginTop: "1.5rem" }}>
+                <h4 className="ec-category-header">🎨 Section II: Co-Curricular Activities</h4>
+                <table className="ec-academic-table">
+                  <thead>
+                    <tr>
+                      <th>Activity Domain & Scope</th>
+                      <th>Score</th>
+                      <th>Marks</th>
+                      <th>Grade</th>
+                      <th>Stars</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className={hasPlayground ? (playgroundScore >= 4 ? "ec-row-excellent" : "ec-row-average") : "ec-row-incomplete"}>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                            <span>⚽</span>
+                            <strong>Football Ground</strong>
+                          </span>
+                          <span style={{ fontSize: "0.55rem", opacity: 0.7, paddingLeft: "1.2rem" }}>Soccer Rhythm Catching</span>
+                        </div>
+                      </td>
+                      <td>{hasPlayground ? `${playgroundScore} / 5 Hits` : "Incomplete"}</td>
+                      <td>{hasPlayground ? `${playgroundScore * 2} / 10` : "—"}</td>
+                      <td>
+                        <span className={`ec-table-grade-badge ${hasPlayground ? `grade-${playgroundScore}` : "grade-0"}`}>
+                          {hasPlayground ? (playgroundScore === 5 ? "A+" : playgroundScore === 4 ? "A" : playgroundScore === 3 ? "B+" : playgroundScore === 2 ? "C" : playgroundScore === 1 ? "D" : "F") : "Pending"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="ec-row-stars-glow">
+                          {hasPlayground ? (playgroundScore === 5 ? "⭐⭐⭐⭐⭐" : playgroundScore === 4 ? "⭐⭐⭐⭐✨" : playgroundScore === 3 ? "⭐⭐⭐⭐" : playgroundScore === 2 ? "⭐⭐⭐" : playgroundScore === 1 ? "⭐⭐" : "☆") : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr className={hasStadium ? (stadiumScore >= 4 ? "ec-row-excellent" : "ec-row-average") : "ec-row-incomplete"}>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                            <span>🏀</span>
+                            <strong>Indoor Stadium</strong>
+                          </span>
+                          <span style={{ fontSize: "0.55rem", opacity: 0.7, paddingLeft: "1.2rem" }}>Reflex Basketball Shoots</span>
+                        </div>
+                      </td>
+                      <td>{hasStadium ? `${stadiumScore} / 5 Baskets` : "Incomplete"}</td>
+                      <td>{hasStadium ? `${stadiumScore * 2} / 10` : "—"}</td>
+                      <td>
+                        <span className={`ec-table-grade-badge ${hasStadium ? `grade-${stadiumScore}` : "grade-0"}`}>
+                          {hasStadium ? (stadiumScore === 5 ? "A+" : stadiumScore === 4 ? "A" : stadiumScore === 3 ? "B+" : stadiumScore === 2 ? "C" : stadiumScore === 1 ? "D" : "F") : "Pending"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="ec-row-stars-glow">
+                          {hasStadium ? (stadiumScore === 5 ? "⭐⭐⭐⭐⭐" : stadiumScore === 4 ? "⭐⭐⭐⭐✨" : stadiumScore === 3 ? "⭐⭐⭐⭐" : stadiumScore === 2 ? "⭐⭐⭐" : stadiumScore === 1 ? "⭐⭐" : "☆") : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                    <tr className={hasArt ? (artroomScore >= 4 ? "ec-row-excellent" : "ec-row-average") : "ec-row-incomplete"}>
+                      <td>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+                            <span>🎨</span>
+                            <strong>Art Room Harmony</strong>
+                          </span>
+                          <span style={{ fontSize: "0.55rem", opacity: 0.7, paddingLeft: "1.2rem" }}>Color Palette Alignment</span>
+                        </div>
+                      </td>
+                      <td>{hasArt ? `${artroomScore} / 5 Matches` : "Incomplete"}</td>
+                      <td>{hasArt ? `${artroomScore * 2} / 10` : "—"}</td>
+                      <td>
+                        <span className={`ec-table-grade-badge ${hasArt ? `grade-${artroomScore}` : "grade-0"}`}>
+                          {hasArt ? (artroomScore === 5 ? "A+" : artroomScore === 4 ? "A" : artroomScore === 3 ? "B+" : artroomScore === 2 ? "C" : artroomScore === 1 ? "D" : "F") : "Pending"}
+                        </span>
+                      </td>
+                      <td>
+                        <span className="ec-row-stars-glow">
+                          {hasArt ? (artroomScore === 5 ? "⭐⭐⭐⭐⭐" : artroomScore === 4 ? "⭐⭐⭐⭐✨" : artroomScore === 3 ? "⭐⭐⭐⭐" : artroomScore === 2 ? "⭐⭐⭐" : artroomScore === 1 ? "⭐⭐" : "☆") : "—"}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
-              <hr className="ec-report-divider" />
-
-              {/* 📅 SECTION 3: ATTENDANCE & PARTICIPATION MATRIX */}
-              <div className="ec-report-category-section">
-                <h4 className="ec-category-header">📅 Attendance & Participation</h4>
-                <div className="ec-attendance-matrix-card">
+              {/* 📅 SECTION 3: ATTENDANCE & METRICS MATRIX */}
+              <div className="ec-report-category-section" style={{ marginTop: "1.5rem" }}>
+                <h4 className="ec-category-header">📅 Section III: Attendance & Academic Metrics</h4>
+                <div className="ec-attendance-matrix-card" style={{ padding: "1.2rem" }}>
                   <div className="ec-attendance-progress-row">
                     <div className="ec-attendance-progress-labels">
-                      <span>MODULES ATTENDED</span>
-                      <span>{attendancePercent}% ATTENDANCE</span>
+                      <span>MODULES PARTICIPATION RATE</span>
+                      <strong>{attendancePercent}% ATTENDANCE</strong>
                     </div>
                     <div className="ec-attendance-progress-bg">
                       <div className="ec-attendance-progress-bar" style={{ width: `${attendancePercent}%` }} />
                     </div>
                   </div>
-                  <div className="ec-attendance-details-grid">
+                  <div className="ec-attendance-details-grid" style={{ marginTop: "1rem" }}>
                     <div className="ec-attendance-detail-item">
                       <span>Completed Modules</span>
                       <strong>{completedCount} / 6 Activities</strong>
                     </div>
                     <div className="ec-attendance-detail-item">
-                      <span>Participation Rating</span>
+                      <span>Engagement Status</span>
                       <strong style={{ color: completedCount === 6 ? "#16a34a" : completedCount >= 3 ? "#b58d3d" : "#ef4444" }}>
                         {attendanceRating}
                       </strong>
@@ -1992,18 +2410,27 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
                 </div>
               </div>
 
-              <hr className="ec-report-divider" />
-
               {/* Bottom Lined Performance Matrix Summary Panel */}
-              <div className="ec-report-student-meta" style={{ marginTop: "1rem", borderTop: "none", borderBottom: "none", paddingTop: "0" }}>
-                <div className="ec-meta-row">TOTAL SEMESTER XP: <strong>{calculatedSemesterXp} XP</strong></div>
-                <div className="ec-meta-row">OVERALL PERCENT: <strong>{overallPercent}%</strong></div>
-                <div className="ec-meta-row">ACADEMIC RANK: <strong style={{ color: "#b71c1c" }}>{finalGrade}</strong></div>
-                <div className="ec-meta-row">SEMESTER EVALUATION: <strong>{semesterGPA}</strong></div>
+              <div className="ec-report-category-section" style={{ marginTop: "1.5rem" }}>
+                <h4 className="ec-category-header">📊 Section IV: Semester Summary Matrix</h4>
+                <table className="ec-summary-matrix-table">
+                  <tbody>
+                    <tr>
+                      <td>Total Earned XP: <strong>{calculatedSemesterXp} XP</strong></td>
+                      <td>Overall Percentage: <strong>{completedCount > 0 ? `${Math.round(((
+                        (classroomScore + laboratoryScore + libraryScore + playgroundScore + stadiumScore + artroomScore) / (completedCount * 5)
+                      ) * 100))}%` : "0%"}</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Scholastic Rank: <strong style={{ color: "#b71c1c" }}>{finalGrade}</strong></td>
+                      <td>Cumulative CGPA Equivalent: <strong>{semesterGPA}</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
               {/* Dynamic Collectible Merit Badges Earned Section */}
-              <div className="ec-report-badges-showcase">
+              <div className="ec-report-badges-showcase" style={{ marginTop: "1.5rem" }}>
                 <div className="ec-report-section-title">Academic Merit Badges Earned</div>
                 <div className="ec-report-badges-flex">
                   {dynamicBadges.length === 0 ? (
@@ -2031,14 +2458,22 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
 
               {/* Principal Signature cursive & Gold Approved Crest stamp */}
               <div className="ec-report-embossed-seal-container">
-                <div className="ec-principal-signature-block">
-                  <span className="ec-principal-sig-line">Nimra Wani</span>
-                  <span className="ec-principal-label">Approved by Principal – DPS Academic Board</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: "4px", textAlign: "left" }}>
+                  <span style={{ fontSize: "0.55rem", color: "#64748b", textTransform: "uppercase", fontWeight: 700 }}>ACADEMIC SESSION: <strong style={{ color: "#2c0b0b" }}>2009 - 2023</strong></span>
+                  <span style={{ fontSize: "0.55rem", color: "#64748b", textTransform: "uppercase", fontWeight: 700 }}>ISSUE AUTHORITY: <strong style={{ color: "#2c0b0b" }}>DPS Srinagar Senate</strong></span>
+                  <span style={{ fontSize: "0.55rem", color: "#64748b", textTransform: "uppercase", fontWeight: 700 }}>DATE OF ISSUE: <strong style={{ color: "#2c0b0b" }}>May 19, 2026</strong></span>
                 </div>
-                <div className="ec-official-dps-stamp">
-                  <span className="ec-report-stamp-crest">🏫</span>
-                  <span>DPS Srinagar</span>
-                  <span>APPROVED</span>
+                
+                <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+                  <div className="ec-principal-signature-block">
+                    <span className="ec-principal-sig-line">Nimra Wani</span>
+                    <span className="ec-principal-label">Approved by Principal</span>
+                  </div>
+                  <div className="ec-official-dps-stamp">
+                    <span className="ec-report-stamp-crest">🏫</span>
+                    <span>DPS Srinagar</span>
+                    <span>APPROVED</span>
+                  </div>
                 </div>
               </div>
 
@@ -2159,13 +2594,21 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
             {/* University interactive active game arena */}
             <div className="ec-game-interactive-arena">
 
-              {/* Incorrect Flash Warning Alert */}
+              {/* Colour-coded feedback flash banner */}
               {incorrectFlash && (
-                <div className="ec-incorrect-flash-banner">
-                  <span>❌</span>
-                  <span>INCORRECT ATTEMPT! {incorrectFlash}</span>
+                <div
+                  className="ec-incorrect-flash-banner"
+                  style={{
+                    background: incorrectFlash.startsWith("correct")
+                      ? "rgba(22,163,74,0.88)" : "rgba(185,28,28,0.88)",
+                    borderColor: incorrectFlash.startsWith("correct")
+                      ? "#4ade80" : "#f87171"
+                  }}
+                >
+                  <span>{incorrectFlash.replace(/^(correct|wrong):/, "")}</span>
                 </div>
               )}
+
 
               <div className="ec-game-screen">
                 
@@ -2332,89 +2775,334 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       {/* ==========================================================
          STAGE 7: COLLEGE SEMESTER TRANSCRIPT TRANSCRIPT MODAL
          ========================================================== */}
-      {phase === "univ_transcript" && (
-        <div className="ec-progress-view">
-          <div className="ec-report-notebook univ-transcript-style">
+      {phase === "univ_transcript" && (() => {
+        // Dynamic calculations for transcript GPA, Credits, CGPA
+        const getLabGpa = (hits: number, completed: boolean) => {
+          if (!completed) return { grade: "Pending", gpa: 0 };
+          if (hits === 5) return { grade: "A+", gpa: 10.0 };
+          if (hits === 4) return { grade: "A", gpa: 9.0 };
+          if (hits === 3) return { grade: "B+", gpa: 8.0 };
+          if (hits === 2) return { grade: "C", gpa: 6.0 };
+          if (hits === 1) return { grade: "D", gpa: 4.0 };
+          return { grade: "F", gpa: 0.0 };
+        };
+
+        const aiInfo = getLabGpa(ailabScore, !!univCompleted.ailab);
+        const dsaInfo = getLabGpa(dsalabScore, !!univCompleted.dsalab);
+        const codingInfo = getLabGpa(codingclassScore, !!univCompleted.codingclass);
+        const researchInfo = getLabGpa(researchlibScore, !!univCompleted.researchlib);
+        const innovationInfo = getLabGpa(innovationScore, !!univCompleted.innovation);
+
+        let totalCredits = 0;
+        let weightedGpaSum = 0;
+        let completedCourses = 0;
+
+        if (univCompleted.ailab) { totalCredits += 4; weightedGpaSum += aiInfo.gpa * 4; completedCourses++; }
+        if (univCompleted.dsalab) { totalCredits += 4; weightedGpaSum += dsaInfo.gpa * 4; completedCourses++; }
+        if (univCompleted.codingclass) { totalCredits += 3; weightedGpaSum += codingInfo.gpa * 3; completedCourses++; }
+        if (univCompleted.researchlib) { totalCredits += 3; weightedGpaSum += researchInfo.gpa * 3; completedCourses++; }
+        if (univCompleted.innovation) { totalCredits += 4; weightedGpaSum += innovationInfo.gpa * 4; completedCourses++; }
+
+        const finalCgpa = totalCredits > 0 ? (weightedGpaSum / totalCredits).toFixed(2) : "0.00";
+
+        let cgpaHonors = "Pending Complete Evaluation";
+        if (completedCourses >= 3) {
+          const cgpaVal = parseFloat(finalCgpa);
+          if (cgpaVal >= 9.0) cgpaHonors = "Dean's Merit List 🏆";
+          else if (cgpaVal >= 8.0) cgpaHonors = "First Class with Distinction 🌟";
+          else if (cgpaVal >= 6.5) cgpaHonors = "First Class Honors 🎓";
+          else if (cgpaVal >= 5.0) cgpaHonors = "Second Class Division 📝";
+          else cgpaHonors = "Pass Class";
+        }
+
+        // Map labs to real certifications and achievements imported from data.js
+        const realCertsEarned: typeof certificates = [];
+        const realAchievementsEarned: typeof achievements = [];
+
+        if (univCompleted.ailab) {
+          const c1 = certificates.find(c => c.title.includes("OCI 2025 AI Foundations"));
+          const c2 = certificates.find(c => c.title.includes("Introduction to AI Concepts"));
+          const a1 = achievements.find(a => a.title.includes("Standard-a-Thon"));
+          if (c1) realCertsEarned.push(c1);
+          if (c2) realCertsEarned.push(c2);
+          if (a1) realAchievementsEarned.push(a1);
+        }
+        if (univCompleted.dsalab) {
+          const c1 = certificates.find(c => c.title.includes("DSA in Modern Product"));
+          const c2 = certificates.find(c => c.title.includes("Introduction to ML Concepts"));
+          const a1 = achievements.find(a => a.title.includes("Code Debugging"));
+          if (c1) realCertsEarned.push(c1);
+          if (c2) realCertsEarned.push(c2);
+          if (a1) realAchievementsEarned.push(a1);
+        }
+        if (univCompleted.codingclass) {
+          const c1 = certificates.find(c => c.title.includes("Prepare Data for ML"));
+          const c2 = certificates.find(c => c.title.includes("AI Fundamentals"));
+          const a1 = achievements.find(a => a.title.includes("Open Build Challenge"));
+          if (c1) realCertsEarned.push(c1);
+          if (c2) realCertsEarned.push(c2);
+          if (a1) realAchievementsEarned.push(a1);
+        }
+        if (univCompleted.researchlib) {
+          const c1 = certificates.find(c => c.title.includes("Python for AI"));
+          const a1 = achievements.find(a => a.title.includes("Coding Challenge"));
+          if (c1) realCertsEarned.push(c1);
+          if (a1) realAchievementsEarned.push(a1);
+        }
+        if (univCompleted.innovation) {
+          const a1 = achievements.find(a => a.title.includes("Cursor Kashmir Hackathon"));
+          const a2 = achievements.find(a => a.title.includes("Logo Designing"));
+          if (a1) realCertsEarned.push(a1);
+          if (a2) realAchievementsEarned.push(a2);
+        }
+
+        return (
+          <div className="ec-progress-view" style={{ position: "relative" }}>
             
-            <div className="ec-report-header">
-              <div className="ec-report-dps-crest">🎓</div>
-              <div className="ec-report-institution-info">
-                <h3>Central University of Kashmir</h3>
-                <p>Official Academic transcript & certifications (2023 - 2027)</p>
+            {/* Cinematic Floating Return button */}
+            <div className="ec-floating-nav-container">
+              <button className="ec-cinematic-back-btn" onClick={() => { playSFX("click"); setPhase("univ_map"); }}>
+                <span>←</span> Back to University Map
+              </button>
+            </div>
+
+            <div className="ec-report-notebook univ-transcript-style" style={{ margin: "2rem auto", overflowY: "auto", maxHeight: "85vh" }}>
+              
+              {/* Floating aesthetic cyber spark particles */}
+              <div className="ec-academic-sparkles">
+                <div className="ec-sparkle-dot" style={{ top: "15%", left: "8%", animationDelay: "0.5s", background: "#38bdf8" }} />
+                <div className="ec-sparkle-dot" style={{ top: "35%", left: "85%", animationDelay: "1.2s", background: "#60a5fa" }} />
+                <div className="ec-sparkle-dot" style={{ top: "60%", left: "10%", animationDelay: "2.1s", background: "#34d399" }} />
+                <div className="ec-sparkle-dot" style={{ top: "80%", left: "90%", animationDelay: "0.8s", background: "#a78bfa" }} />
               </div>
-            </div>
 
-            <div className="ec-report-student-meta">
-              <div className="ec-meta-row">ENGINEER: <strong>Nimra Wani</strong></div>
-              <div className="ec-meta-row">CREDIT REF: <strong>CUK-BTECH-23</strong></div>
-              <div className="ec-meta-row">DEPARTMENT: <strong>Computer Engineering</strong></div>
-              <div className="ec-meta-row">GPA: <strong>4.0 Perfect Scale</strong></div>
-            </div>
+              {/* Large Centered CUK Crest Logo */}
+              <div className="ec-report-header">
+                <div className="ec-report-dps-crest">🎓</div>
+                <div className="ec-report-institution-info">
+                  <h3>Central University of Kashmir</h3>
+                  <p>Official Technical Transcript & Certifications (2023 - 2027)</p>
+                </div>
+              </div>
 
-            {/* University marks grid */}
-            <table className="ec-report-grades-table">
-              <thead>
-                <tr>
-                  <th>Technical Core</th>
-                  <th>Lab Work Module</th>
-                  <th>Academic Grade</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Artificial Intelligence models</td>
-                  <td>AI Lab neural layer mapper</td>
-                  <td className="ec-grade-bold">{univCompleted.ailab ? "Passed (10.0)" : "Pending Credit"}</td>
-                </tr>
-                <tr>
-                  <td>Algorithms & Data Structures</td>
-                  <td>DSA Lab Tree sorting clicker</td>
-                  <td className="ec-grade-bold">{univCompleted.dsalab ? "Passed (10.0)" : "Pending Credit"}</td>
-                </tr>
-                <tr>
-                  <td>Full-Stack web architectures</td>
-                  <td>React Supabase bugs squasher</td>
-                  <td className="ec-grade-bold">{univCompleted.codingclass ? "Passed (10.0)" : "Pending Credit"}</td>
-                </tr>
-                <tr>
-                  <td>Database search engines</td>
-                  <td>Research indexing SQL queries</td>
-                  <td className="ec-grade-bold">{univCompleted.researchlib ? "Passed (10.0)" : "Pending Credit"}</td>
-                </tr>
-                <tr>
-                  <td>Product launches & milestones</td>
-                  <td>Innovation Hub presentation slide sequence</td>
-                  <td className="ec-grade-bold">{univCompleted.innovation ? "Passed (10.0)" : "Pending Credit"}</td>
-                </tr>
-              </tbody>
-            </table>
+              {/* Student Identification Meta Data */}
+              <div className="ec-report-student-meta">
+                <div className="ec-meta-row">ENGINEER: <strong>Nimra Wani</strong></div>
+                <div className="ec-meta-row">CREDIT REF: <strong>CUK-BTECH-23</strong></div>
+                <div className="ec-meta-row">DEPARTMENT: <strong>Computer Science & Engineering</strong></div>
+                <div className="ec-meta-row">STATUS: <strong>{Object.keys(univCompleted).length >= 3 ? "Graduate Candidate" : "Undergrad Candidate"}</strong></div>
+              </div>
 
-            {/* Badges showcase section */}
-            <div className="ec-report-badges-showcase">
-              <div className="ec-report-section-title">Professional Certifications Verified</div>
-              <div className="ec-report-badges-flex">
-                {earnedCerts.length === 0 ? (
-                  <span style={{ fontSize: "0.68rem", color: "#38bdf8" }}>No professional certifications verified yet. Solve labs!</span>
-                ) : (
-                  earnedCerts.map(c => {
-                    const loc = UNIV_LOCATIONS.find(l => l.certification === c);
-                    return (
-                      <div key={c} className="ec-report-badge-token" style={{ background: "rgba(56,189,248,0.08)" }}>
-                        <span>{loc?.emoji}</span>
-                        <span>{c}</span>
+              {/* 🔬 UNIVERSITY SEMESTER TRANSCRIPT TABLE */}
+              <div className="ec-report-category-section">
+                <h4 className="ec-category-header">🔬 Semester Academic Transcript</h4>
+                <div style={{ overflowX: "auto" }}>
+                  <table className="ec-academic-table">
+                    <thead>
+                      <tr>
+                        <th>Course Module</th>
+                        <th>Core Activity Lab Scope</th>
+                        <th>Credits</th>
+                        <th>Marks</th>
+                        <th>Grade</th>
+                        <th>GPA</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span>🧠</span>
+                            <strong>Artificial Intelligence</strong>
+                          </div>
+                        </td>
+                        <td>CNN & RNN Topology Linker</td>
+                        <td>4.0</td>
+                        <td>{univCompleted.ailab ? `${ailabScore * 2} / 10` : "—"}</td>
+                        <td>
+                          <span className={`ec-table-grade-badge ${univCompleted.ailab ? `grade-${ailabScore}` : ""}`}>
+                            {aiInfo.grade}
+                          </span>
+                        </td>
+                        <td>{univCompleted.ailab ? `${aiInfo.gpa.toFixed(1)}` : "—"}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span>💻</span>
+                            <strong>Data Structures & Algo</strong>
+                          </div>
+                        </td>
+                        <td>BST Unbalanced Tree Sorter</td>
+                        <td>4.0</td>
+                        <td>{univCompleted.dsalab ? `${dsalabScore * 2} / 10` : "—"}</td>
+                        <td>
+                          <span className={`ec-table-grade-badge ${univCompleted.dsalab ? `grade-${dsalabScore}` : ""}`}>
+                            {dsaInfo.grade}
+                          </span>
+                        </td>
+                        <td>{univCompleted.dsalab ? `${dsaInfo.gpa.toFixed(1)}` : "—"}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span>⌨️</span>
+                            <strong>Full-Stack Coding</strong>
+                          </div>
+                        </td>
+                        <td>React & Supabase Bugs Squash</td>
+                        <td>3.0</td>
+                        <td>{univCompleted.codingclass ? `${codingclassScore * 2} / 10` : "—"}</td>
+                        <td>
+                          <span className={`ec-table-grade-badge ${univCompleted.codingclass ? `grade-${codingclassScore}` : ""}`}>
+                            {codingInfo.grade}
+                          </span>
+                        </td>
+                        <td>{univCompleted.codingclass ? `${codingInfo.gpa.toFixed(1)}` : "—"}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span>☕</span>
+                            <strong>Research Library</strong>
+                          </div>
+                        </td>
+                        <td>Database Search SQL Queries</td>
+                        <td>3.0</td>
+                        <td>{univCompleted.researchlib ? `${researchlibScore * 2} / 10` : "—"}</td>
+                        <td>
+                          <span className={`ec-table-grade-badge ${univCompleted.researchlib ? `grade-${researchlibScore}` : ""}`}>
+                            {researchInfo.grade}
+                          </span>
+                        </td>
+                        <td>{univCompleted.researchlib ? `${researchInfo.gpa.toFixed(1)}` : "—"}</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span>🚀</span>
+                            <strong>Innovation Hub</strong>
+                          </div>
+                        </td>
+                        <td>Product Lifecycle Sequencer</td>
+                        <td>4.0</td>
+                        <td>{univCompleted.innovation ? `${innovationScore * 2} / 10` : "—"}</td>
+                        <td>
+                          <span className={`ec-table-grade-badge ${univCompleted.innovation ? `grade-${innovationScore}` : ""}`}>
+                            {innovationInfo.grade}
+                          </span>
+                        </td>
+                        <td>{univCompleted.innovation ? `${innovationInfo.gpa.toFixed(1)}` : "—"}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 📊 SUMMARY CALCULATOR MATRIX */}
+              <div className="ec-report-category-section" style={{ marginTop: "1.5rem" }}>
+                <h4 className="ec-category-header">📊 Credit Weighted GPA Summary</h4>
+                <div style={{ overflowX: "auto" }}>
+                  <table className="ec-summary-matrix-table">
+                    <tbody>
+                      <tr>
+                        <td><strong>Total Completed Credits:</strong></td>
+                        <td>{totalCredits} Credits Logged</td>
+                        <td><strong>Calculated Weighted CGPA:</strong></td>
+                        <td style={{ color: "#38bdf8", fontWeight: 700 }}>{finalCgpa} / 10.0 Scale</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Academic Status:</strong></td>
+                        <td>{cgpaHonors}</td>
+                        <td><strong>Course Completion Rate:</strong></td>
+                        <td>{completedCourses} / 5 Modules ({Math.round((completedCourses / 5) * 100)}%)</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Verified Professional Certifications Portfolio Integration */}
+              <div className="ec-report-category-section" style={{ marginTop: "1.5rem" }}>
+                <h4 className="ec-category-header">🏅 Section V: Verified Credentials Portfolio</h4>
+                <p style={{ fontSize: "0.62rem", color: "#64748b", margin: "-6px 0 10px 0" }}>
+                  Click any credential token below to open the official verified certificate frame.
+                </p>
+                <div className="ec-report-badges-flex">
+                  {realCertsEarned.length === 0 ? (
+                    <span style={{ fontSize: "0.68rem", color: "#38bdf8", fontStyle: "italic" }}>
+                      No verified professional credentials loaded yet. Complete the AI, DSA, or Coding Labs!
+                    </span>
+                  ) : (
+                    realCertsEarned.map(c => (
+                      <div 
+                        key={c.title} 
+                        className="ec-report-badge-token" 
+                        style={{ background: "rgba(56, 189, 248, 0.08)", borderColor: "rgba(56, 189, 248, 0.2)", cursor: "pointer" }}
+                        onClick={() => { playSFX("click"); setSelectedCertForView(c); }}
+                      >
+                        <span>🛡️</span>
+                        <div style={{ display: "flex", flexDirection: "column", gap: "1px" }}>
+                          <span style={{ color: "#e2e8f0" }}>{c.title}</span>
+                          <span style={{ fontSize: "0.5rem", opacity: 0.8, fontWeight: 500 }}>{c.org} • {c.date}</span>
+                        </div>
                       </div>
-                    );
-                  })
-                )}
+                    ))
+                  )}
+                </div>
               </div>
-            </div>
 
-            <button className="ec-report-close-btn" onClick={() => setPhase("univ_map")}>
-              Return to Campus map ◄
-            </button>
+              {/* Hackathon Awards & Achievements Showcase */}
+              <div className="ec-report-category-section" style={{ marginTop: "1.5rem" }}>
+                <h4 className="ec-category-header">🏆 Section VI: Hackathon & Competitive Achievements</h4>
+                <div className="ec-report-badges-flex" style={{ flexDirection: "column", gap: "8px" }}>
+                  {realAchievementsEarned.length === 0 ? (
+                    <span style={{ fontSize: "0.68rem", color: "#38bdf8", fontStyle: "italic" }}>
+                      No hackathon or competition awards verified. Complete AI lab or innovation milestones!
+                    </span>
+                  ) : (
+                    realAchievementsEarned.map(a => (
+                      <div 
+                        key={a.title} 
+                        className="ec-achievement-list-card" 
+                        style={{
+                          background: "rgba(30, 41, 59, 0.4)",
+                          border: "1px solid rgba(56, 189, 248, 0.15)",
+                          borderRadius: "6px",
+                          padding: "10px",
+                          display: "flex",
+                          gap: "10px",
+                          alignItems: "center"
+                        }}
+                      >
+                        <span style={{ fontSize: "1.2rem" }}>🥇</span>
+                        <div>
+                          <strong style={{ fontSize: "0.75rem", color: "#38bdf8" }}>{a.title}</strong>
+                          <p style={{ fontSize: "0.65rem", color: "#94a3b8", marginTop: "2px", lineHeight: "1.3" }}>{a.desc}</p>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {/* Verification & Registrar Signatures with dynamic SVG seals */}
+              <div className="ec-report-embossed-seal-container" style={{ marginTop: "2rem" }}>
+                <div className="ec-principal-signature-block">
+                  <span className="ec-principal-sig-line" style={{ color: "#38bdf8", fontFamily: "serif" }}>Nimra Wani</span>
+                  <span className="ec-principal-label" style={{ color: "#94a3b8" }}>Registrar – Central University of Kashmir</span>
+                </div>
+                <div className="ec-official-dps-stamp" style={{ border: "2px solid #0284c7", color: "#38bdf8" }}>
+                  <span className="ec-report-stamp-crest">🎓</span>
+                  <span>CUK SENATE</span>
+                  <span>VERIFIED</span>
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* ==========================================================
          STAGE 8: FINAL QUEST GRADUATED COMPLETION SCREEN
@@ -2446,6 +3134,129 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
             >
               Restart Journey <RotateCcw size={13} style={{ marginLeft: "4px" }} />
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* Cinematic Performance Result Overlay */}
+      {currentResult && (
+        <div className="ec-result-screen-overlay">
+          <div className="ec-result-card animate-pop-in">
+            <div className="ec-result-glow" />
+            <div className="ec-result-ribbon">{currentResult.performance}</div>
+            
+            <div className="ec-result-emoji-spin">
+              {currentResult.emoji}
+            </div>
+
+            <h3 className="ec-result-activity-name">{currentResult.activityName}</h3>
+            
+            <div className="ec-result-stars-container">
+              {(() => {
+                const totalStars = 5;
+                const starVal = currentResult.stars;
+                const fullStars = Math.floor(starVal);
+                const hasHalf = starVal % 1 !== 0;
+                
+                return Array.from({ length: totalStars }).map((_, i) => {
+                  if (i < fullStars) {
+                    return <span key={i} className="ec-star ec-star-gold ec-star-pop">★</span>;
+                  } else if (i === fullStars && hasHalf) {
+                    return <span key={i} className="ec-star ec-star-half ec-star-pop">★</span>;
+                  } else {
+                    return <span key={i} className="ec-star ec-star-empty ec-star-fade">☆</span>;
+                  }
+                });
+              })()}
+            </div>
+
+            <div className="ec-result-details-grid">
+              <div className="ec-result-detail-item">
+                <span>Core Score</span>
+                <strong>{currentResult.scoreText}</strong>
+              </div>
+              <div className="ec-result-detail-item">
+                <span>Earned Marks</span>
+                <strong>{currentResult.marks} / 10</strong>
+              </div>
+              <div className="ec-result-detail-item">
+                <span>Academic Grade</span>
+                <strong style={{ color: currentResult.grade === "F" ? "#ef4444" : "#fbbf24" }}>{currentResult.grade}</strong>
+              </div>
+              <div className="ec-result-detail-item">
+                <span>Semester XP</span>
+                <strong style={{ color: "#34d399" }}>+{currentResult.xpGained} XP</strong>
+              </div>
+            </div>
+
+            {currentResult.badgeName && (
+              <div className="ec-result-badge-reveal">
+                <span className="ec-reveal-badge-icon">{currentResult.badgeEmoji}</span>
+                <div style={{ display: "flex", flexDirection: "column", gap: "2px", textAlign: "left" }}>
+                  <span className="ec-reveal-badge-name">{currentResult.badgeName}</span>
+                  <span className="ec-reveal-badge-type">{currentResult.isUniv ? "CUK Credential" : "DPS Srinagar Badge"}</span>
+                </div>
+              </div>
+            )}
+
+            <button className="ec-result-claim-btn" onClick={handleCloseResultScreen}>
+              Claim Rewards & Sync Data
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Digital Certificate Viewer Overlay */}
+      {selectedCertForView && (
+        <div className="ec-cert-viewer-overlay" onClick={() => setSelectedCertForView(null)}>
+          <div className="ec-cert-container" onClick={e => e.stopPropagation()}>
+            <button className="ec-cert-close-btn" onClick={() => setSelectedCertForView(null)}>×</button>
+            <div className="ec-cert-frame">
+              <div className="ec-cert-header">
+                <span className="ec-cert-institution-logo">🎓</span>
+                <h2 className="ec-cert-org">{selectedCertForView.org || "Central University of Kashmir"}</h2>
+                <span className="ec-cert-subtitle">Department of Computer Science & Engineering</span>
+              </div>
+
+              <div className="ec-cert-body">
+                <p className="ec-cert-award-text">This is to certify that</p>
+                <h1 className="ec-cert-student-name">Nimra Wani</h1>
+                <p className="ec-cert-fulfillment">has successfully completed the professional curriculum and laboratory examinations for</p>
+                <h2 className="ec-cert-title">{selectedCertForView.title || selectedCertForView.name}</h2>
+                <p className="ec-cert-skills">Specialization Areas: {selectedCertForView.skills || selectedCertForView.desc || "Systems Architect, Engineering Design"}</p>
+              </div>
+
+              <div className="ec-cert-footer">
+                <div className="ec-cert-sign-block">
+                  <span className="ec-cert-signature">Nimra Wani</span>
+                  <span className="ec-cert-sign-label">Registrar Senate</span>
+                </div>
+
+                {/* Elegant Gold Seal */}
+                <div className="ec-cert-gold-seal">
+                  <div className="ec-gold-seal-inner">
+                    <span>OFFICIAL</span>
+                    <span>CREDENTIAL</span>
+                  </div>
+                  <div className="ec-seal-ribbon ribbon-left" />
+                  <div className="ec-seal-ribbon ribbon-right" />
+                </div>
+
+                <div className="ec-cert-sign-block">
+                  <span className="ec-cert-date-val">{selectedCertForView.date || "2025"}</span>
+                  <span className="ec-cert-sign-label">Date of Issuance</span>
+                </div>
+              </div>
+
+              <div className="ec-cert-verification">
+                <span>Verification ID: CUK-CRED-{Math.floor(100000 + Math.random() * 900000)}</span>
+                {selectedCertForView.link && (
+                  <a href={selectedCertForView.link} target="_blank" rel="noopener noreferrer" className="ec-cert-verify-link">
+                    Verify Credential Online ↗
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}

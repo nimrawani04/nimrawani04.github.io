@@ -669,6 +669,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   const [wrongSelectionsCount, setWrongSelectionsCount] = useState(0);
   const [musicOn, setMusicOn] = useState(false);
   const [toast, setToast] = useState("");
+  const [activePouringIngs, setActivePouringIngs] = useState<Array<{ id: number; emoji: string; x: number; y: number; color: string; type: string }>>([]);
   
   // Stove, Temperature & Compilation
   const [isStovePlaced, setIsStovePlaced] = useState(false); 
@@ -862,6 +863,26 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       setDraggedIng(null);
       return;
     }
+
+    // Spawn falling ingredient animation from current cursor coords to active utensil center!
+    const utensilEl = document.querySelector(".kg-placed-utensil");
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight * 0.65;
+    if (utensilEl) {
+      const rect = utensilEl.getBoundingClientRect();
+      targetX = rect.left + rect.width / 2;
+      targetY = rect.top + rect.height / 3;
+    }
+
+    const newPouring = {
+      id: Date.now(),
+      emoji: draggedIng.emoji,
+      x: mouseCoords.x,
+      y: mouseCoords.y,
+      color: draggedIng.color,
+      type: draggedIng.soundType
+    };
+    setActivePouringIngs(prev => [...prev, newPouring]);
 
     // Trigger visual pouring droplets
     setIsPouring(true);
@@ -1115,16 +1136,53 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
         <div className="kg-rain-drops" />
       </div>
 
-      {/* Floating Soundscape Toggle */}
-      <div className="kg-soundscape-pill" onClick={toggleSound}>
-        <div className="kg-sound-waves">
-          <span className="kg-wave-bar" style={{ "--dur": "0.6s" } as any} />
-          <span className="kg-wave-bar" style={{ "--dur": "0.8s" } as any} />
-          <span className="kg-wave-bar" style={{ "--dur": "0.5s" } as any} />
-          <span className="kg-wave-bar" style={{ "--dur": "0.9s" } as any} />
-        </div>
-        <span>{musicOn ? "🌸 Cozy Cottage Melodies: On 🔊" : "🌸 Cozy Cottage Melodies: Off 🔇"}</span>
-      </div>
+      {/* -------------------------------------------------------------
+       * TACTILE FALLING INGREDIENT EMOJIS (MAGNETIC UTENSIL INTEGRATION)
+       * ------------------------------------------------------------- */}
+      <AnimatePresence>
+        {activePouringIngs.map(p => {
+          const utensilEl = document.querySelector(".kg-placed-utensil");
+          let targetX = window.innerWidth / 2;
+          let targetY = window.innerHeight * 0.65;
+          if (utensilEl) {
+            const rect = utensilEl.getBoundingClientRect();
+            targetX = rect.left + rect.width / 2;
+            targetY = rect.top + rect.height / 3;
+          }
+          return (
+            <motion.div
+              key={p.id}
+              initial={{ 
+                position: "fixed",
+                left: p.x - 20, 
+                top: p.y - 20, 
+                scale: 1.1, 
+                rotate: 0, 
+                opacity: 1,
+                zIndex: 9999,
+                pointerEvents: "none"
+              }}
+              animate={{ 
+                left: targetX - 16,
+                top: targetY - 12,
+                scale: [1.1, 0.8, 0.4],
+                rotate: [0, -45, 20, -15],
+                opacity: [1, 1, 0]
+              }}
+              transition={{ 
+                duration: 0.58, 
+                ease: "easeOut"
+              }}
+              onAnimationComplete={() => {
+                setActivePouringIngs(prev => prev.filter(item => item.id !== p.id));
+              }}
+              className="text-2xl filter drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
+            >
+              {p.emoji}
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
 
       {/* -------------------------------------------------------------
        * TOAST ALERTS OVERLAY
@@ -1185,6 +1243,35 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
         </div>
 
         <div className="kg-hud-controls">
+          {/* Live Stars indicator */}
+          {selectedRecipe && (cookingState === "recipe" || cookingState === "cooking") && (
+            <div className="kg-hud-live-stars flex items-center gap-1 bg-slate-950/60 border border-amber-500/20 px-2.5 py-1.5 rounded-xl">
+              {Array.from({ length: 5 }).map((_, idx) => {
+                const earned = getDynamicStars();
+                const isActive = idx < Math.floor(earned);
+                return (
+                  <span key={idx} className="text-[10px] tracking-tight leading-none" style={{ color: isActive ? "#fbbf24" : "#334155", textShadow: isActive ? "0 0 8px rgba(251, 191, 36, 0.5)" : "none" }}>
+                    ★
+                  </span>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Compact glass equalizer Music Toggle */}
+          <button 
+            className={`kg-hud-music-pill ${musicOn ? "active" : ""}`}
+            onClick={toggleSound}
+            title={musicOn ? "Mute Cafe Mix" : "Play Cafe Mix"}
+          >
+            <div className="kg-hud-equalizer">
+              <span className={`kg-eq-bar ${musicOn ? "animating" : ""}`} style={{ "--h": "6px", "--d": "0.1s" } as any} />
+              <span className={`kg-eq-bar ${musicOn ? "animating" : ""}`} style={{ "--h": "11px", "--d": "0.3s" } as any} />
+              <span className={`kg-eq-bar ${musicOn ? "animating" : ""}`} style={{ "--h": "5px", "--d": "0.2s" } as any} />
+            </div>
+            <span>{musicOn ? "Music: ON" : "Music: OFF"}</span>
+          </button>
+
           <button className="kg-control-btn" onClick={onBack} title="Back to Selection Hub">
             <Home className="w-5 h-5" />
           </button>
@@ -1194,21 +1281,24 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       {/* -------------------------------------------------------------
        * TACTILE FLOATING/DRAGGED JAR FOLLOWING CURSOR
        * ------------------------------------------------------------- */}
-      {draggedIng && (
-        <div 
-          className={`kg-dragged-active-jar ${isPouring ? "pouring" : ""}`}
-          style={{
-            left: mouseCoords.x - 30,
-            top: mouseCoords.y - 35,
-            "--jar-glow": draggedIng.color
-          } as any}
-        >
-          <span className="text-3xl">{draggedIng.emoji}</span>
-          <span className="text-[7.5px] font-black text-slate-400 mt-1 uppercase tracking-widest text-center max-w-[90%] truncate">
-            {draggedIng.name}
-          </span>
-        </div>
-      )}
+       {draggedIng && (() => {
+        const isWrongHovered = selectedRecipe && !selectedRecipe.ingredients.includes(draggedIng.id) && isHoveringUtensil;
+        return (
+          <div 
+            className={`kg-dragged-active-jar ${isPouring ? "pouring" : ""} ${isWrongHovered ? "wrong-shake" : ""}`}
+            style={{
+              left: mouseCoords.x - 30,
+              top: mouseCoords.y - 35,
+              "--jar-glow": isWrongHovered ? "#ef4444" : draggedIng.color
+            } as any}
+          >
+            <span className="text-3xl">{draggedIng.emoji}</span>
+            <span className="text-[7.5px] font-black text-slate-400 mt-1 uppercase tracking-widest text-center max-w-[90%] truncate">
+              {draggedIng.name}
+            </span>
+          </div>
+        );
+      })()}
 
       {/* -------------------------------------------------------------
        * TACTILE FLOATING/DRAGGED COOKWARE UTENSIL
@@ -1272,7 +1362,9 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           <div className="kg-ingredients-cabinet">
             <div className="kg-cabinet-header">
               <h4>Cabinet Ingredients</h4>
-              <p>Click a jar to hold it, then release over the cookware to pour. Add actual project stack components only.</p>
+              <p style={{ opacity: 0.65, fontSize: "7.5px", marginTop: "4px", lineHeight: "1.3" }}>
+                Click a jar to hold it, then release over cookware to pour.
+              </p>
             </div>
 
             <div className="kg-shelves-container">
@@ -1280,18 +1372,21 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               <div className="kg-shelf-row">
                 <span className="kg-shelf-title">Frontend Flour & Base</span>
                 <div className="kg-shelf-wood">
-                  {INGREDIENTS.filter(i => i.category === "frontend").map(ing => (
-                    <div 
-                      key={ing.id}
-                      className="kg-ingredient-jar"
-                      style={{ "--jar-glow": ing.color } as any}
-                      onClick={() => handlePickupIngredient(ing)}
-                      title={`Click to pick up ${ing.name}`}
-                    >
-                      <span className="kg-jar-icon">{ing.emoji}</span>
-                      <span className="kg-jar-label">{ing.name}</span>
-                    </div>
-                  ))}
+                  {INGREDIENTS.filter(i => i.category === "frontend").map(ing => {
+                    const isCompatible = selectedRecipe?.ingredients.includes(ing.id);
+                    return (
+                      <div 
+                        key={ing.id}
+                        className={`kg-ingredient-jar ${isCompatible ? "compatible-glow" : "incompatible-dim"}`}
+                        style={{ "--jar-glow": ing.color } as any}
+                        onClick={() => handlePickupIngredient(ing)}
+                        title={`Click to pick up ${ing.name}`}
+                      >
+                        <span className="kg-jar-icon">{ing.emoji}</span>
+                        <span className="kg-jar-label">{ing.name}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1299,18 +1394,21 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               <div className="kg-shelf-row">
                 <span className="kg-shelf-title">Backend Spices & Logic</span>
                 <div className="kg-shelf-wood">
-                  {INGREDIENTS.filter(i => i.category === "backend").map(ing => (
-                    <div 
-                      key={ing.id}
-                      className="kg-ingredient-jar"
-                      style={{ "--jar-glow": ing.color } as any}
-                      onClick={() => handlePickupIngredient(ing)}
-                      title={`Click to pick up ${ing.name}`}
-                    >
-                      <span className="kg-jar-icon">{ing.emoji}</span>
-                      <span className="kg-jar-label">{ing.name}</span>
-                    </div>
-                  ))}
+                  {INGREDIENTS.filter(i => i.category === "backend").map(ing => {
+                    const isCompatible = selectedRecipe?.ingredients.includes(ing.id);
+                    return (
+                      <div 
+                        key={ing.id}
+                        className={`kg-ingredient-jar ${isCompatible ? "compatible-glow" : "incompatible-dim"}`}
+                        style={{ "--jar-glow": ing.color } as any}
+                        onClick={() => handlePickupIngredient(ing)}
+                        title={`Click to pick up ${ing.name}`}
+                      >
+                        <span className="kg-jar-icon">{ing.emoji}</span>
+                        <span className="kg-jar-label">{ing.name}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1318,18 +1416,21 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               <div className="kg-shelf-row">
                 <span className="kg-shelf-title">Database Salts & Syrups</span>
                 <div className="kg-shelf-wood">
-                  {INGREDIENTS.filter(i => i.category === "database").map(ing => (
-                    <div 
-                      key={ing.id}
-                      className="kg-ingredient-jar"
-                      style={{ "--jar-glow": ing.color } as any}
-                      onClick={() => handlePickupIngredient(ing)}
-                      title={`Click to pick up ${ing.name}`}
-                    >
-                      <span className="kg-jar-icon">{ing.emoji}</span>
-                      <span className="kg-jar-label">{ing.name}</span>
-                    </div>
-                  ))}
+                  {INGREDIENTS.filter(i => i.category === "database").map(ing => {
+                    const isCompatible = selectedRecipe?.ingredients.includes(ing.id);
+                    return (
+                      <div 
+                        key={ing.id}
+                        className={`kg-ingredient-jar ${isCompatible ? "compatible-glow" : "incompatible-dim"}`}
+                        style={{ "--jar-glow": ing.color } as any}
+                        onClick={() => handlePickupIngredient(ing)}
+                        title={`Click to pick up ${ing.name}`}
+                      >
+                        <span className="kg-jar-icon">{ing.emoji}</span>
+                        <span className="kg-jar-label">{ing.name}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1337,18 +1438,21 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               <div className="kg-shelf-row">
                 <span className="kg-shelf-title">Hosting & DevOps Oils</span>
                 <div className="kg-shelf-wood">
-                  {INGREDIENTS.filter(i => i.category === "tool").map(ing => (
-                    <div 
-                      key={ing.id}
-                      className="kg-ingredient-jar"
-                      style={{ "--jar-glow": ing.color } as any}
-                      onClick={() => handlePickupIngredient(ing)}
-                      title={`Click to pick up ${ing.name}`}
-                    >
-                      <span className="kg-jar-icon">{ing.emoji}</span>
-                      <span className="kg-jar-label">{ing.name}</span>
-                    </div>
-                  ))}
+                  {INGREDIENTS.filter(i => i.category === "tool").map(ing => {
+                    const isCompatible = selectedRecipe?.ingredients.includes(ing.id);
+                    return (
+                      <div 
+                        key={ing.id}
+                        className={`kg-ingredient-jar ${isCompatible ? "compatible-glow" : "incompatible-dim"}`}
+                        style={{ "--jar-glow": ing.color } as any}
+                        onClick={() => handlePickupIngredient(ing)}
+                        title={`Click to pick up ${ing.name}`}
+                      >
+                        <span className="kg-jar-icon">{ing.emoji}</span>
+                        <span className="kg-jar-label">{ing.name}</span>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -1416,6 +1520,12 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
               {/* Wooden Table prep surface */}
               <div className="kg-countertop">
+                {/* Active drop highlighted radius around utensil while dragging */}
+                {draggedIng && activeUtensil && !isStovePlaced && (
+                  <div className="kg-utensil-glow-radius animate-pulse">
+                    <span className="kg-glow-radius-text">DROP HERE</span>
+                  </div>
+                )}
                 {activeUtensil && !isStovePlaced ? (
                   <div 
                     className={`kg-placed-utensil ${isTransferringUtensil ? "opacity-30" : ""}`}
@@ -1522,6 +1632,14 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                       <div className={`kg-sprinkle-layer ${hasSprinkles ? "visible" : ""}`} style={getContentsStyle()} />
                       <div className={`kg-ai-layer-glow ${hasAiGlow ? "visible" : ""}`} style={{ ...getContentsStyle(), borderRadius: "50%" }} />
                     </div>
+
+                    {/* Floating circular compilation status overlay */}
+                    {stoveOn && (
+                      <div className="kg-stove-compilation-ring">
+                        <div className="kg-ring-spinner" />
+                        <span className="kg-ring-percent">{cookProgress}%</span>
+                      </div>
+                    )}
                   </div>
                 )}
 
