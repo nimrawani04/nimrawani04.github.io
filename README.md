@@ -1,156 +1,152 @@
-# Nimra Wani | Portfolio Website 🌐
+# Nimra Wani — Interactive Portfolio
 
-A clean, responsive, and highly interactive dual-mode portfolio website showcasing computer science foundations, full-stack engineering, and AI/ML projects. 
+A modern interactive developer portfolio that combines software engineering, immersive storytelling, and game-inspired digital experiences into a single web platform.
 
-**Live Demo:** [https://nimrawani.vercel.app/](https://nimrawani.vercel.app/)
+🌐 **Live Website:** https://nimrawani.vercel.app
 
 ---
 
-## 🌟 Visual Modes
-
-This portfolio offers a classic professional view as well as five distinct interactive game experiences. You can access the games via the **Arcade** button in the navigation dock, or by directly adding their query parameters (e.g., `?kitchen`) to the URL.
+# 🖼️ Main Portfolio
 
 ![Main Portfolio](./public/screenshots/main_portfolio.png)
 
-* **Classic Professional View:** A sleek, dark-themed developer hub featuring floating Dock navigation.
-* **Nimra's Kitchen Cooking Game:** A 2.5D kitchen simulator where you "cook" projects using tech stack ingredients. (Direct link: `?kitchen`)
-* **City Quest Driving Game:** An open-world neon city where you drive to explore achievements and awards. (Direct link: `?cityquest`)
-* **Bug Dungeon Debugging Game:** A 2D retro-futuristic underground where you solve coding logic challenges. (Direct link: `?bugdungeon`)
-* **Memory Lab Cinematic Narrative:** A dream-like floating archive where you walk through Nimra's development journey. (Direct link: `?memory`)
-* **Education Campus Simulator:** A gamified academic simulator to explore semester milestones and certificates. (Direct link: `?education`)
+The main portfolio experience features a modern glassmorphism-inspired interface with smooth animations, immersive transitions, and interactive navigation systems designed to create a cinematic developer showcase.
+
+### Highlights
+
+* Modern responsive UI with smooth transitions and animations
+* Interactive navigation and immersive user experience
+* Dynamic visual effects and game-inspired design system
+* Professional project, achievement, and education showcase
 
 ---
 
-## 🎮 Interactive Arcade Games
+# 🎮 Interactive Experiences
 
-### 🍳 GAME 1 — NIMRA’S KITCHEN
+## 🍳 Kitchen Simulator
 
-Nimra’s Kitchen transforms every project into a playable cooking experience where the user learns about technologies, features, and development processes by physically preparing dishes inside an interactive kitchen environment.
+An interactive cooking-themed portfolio where projects are presented as recipes and technologies become ingredients inside a stylized kitchen environment.
 
-![Nimra's Kitchen](./public/screenshots/cooking_game.png)
+![Kitchen Simulator](./public/screenshots/cooking_game.png)
 
-* **22 Labeled Stack Ingredients:** Hover and gather React Flour, TypeScript Pepper, SQL Sauce, Tailwind Seasoning, AI Syrup, Vercel Powder, and more from cabinet shelves.
-* **4 Signature Gourmet Project Recipes:** Mix ingredients and follow custom recipes to compile and bake the *Araaz E-commerce Burger*, the *Raasta AI Crop Ramen*, the *Portal Dashboard Cake*, and the *BIS AI Product Safety Soup*.
-* **Tactile Cooking Interactions:** Place cookware utensils on the stove, ignite SVG flames by turning metallic dial knobs, watch steam clouds rise, and listen to synthesized boiling and frying sounds!
+### Highlights
+
+* Explore tech stack ingredients placed across shelves and cabinets
+* Prepare featured projects as interactive dishes and recipes
+* Dynamic cooking interactions with animated flames, utensils, and effects
 
 ---
 
-### 🚗 GAME 2 — CITY QUEST
+## 🚗 City Quest
 
-City Quest replaces static accomplishment cards with an explorable open-world environment. Every road, district, building, and checkpoint represents a different achievement or stage of growth.
+A neon open-world driving experience where achievements, certifications, and milestones are discovered throughout different city districts.
 
 ![City Quest](./public/screenshots/city_quest.png)
 
-* **Customizable Vehicles:** Choose and customize your ride (sports car, lightcycle, scooter, hoverpod) in an interactive virtual showroom garage.
-* **Explorable Neon Open-World:** Navigate distinct districts within a living neon city environment to discover and collect hidden certifications, hackathon awards, and leadership milestones.
-* **Achievement Checkpoints:** Drive through the map and trigger milestone checkpoints that reveal specific details about your growth and awards.
+### Highlights
+
+* Drive through a stylized arcade-inspired neon city
+* Discover achievement checkpoints and hidden milestones
+* Interactive vehicle selection and customization system
 
 ---
 
-### 🧩 GAME 3 — BUG DUNGEON
+## 🧩 Bug Dungeon
 
-Bug Dungeon focuses on the hidden side of development — the moments where systems fail, errors appear unexpectedly, and solutions must be discovered through logic and persistence under pressure.
+A retro-inspired underground debugging world focused on logic challenges and problem-solving experiences.
 
 ![Bug Dungeon](./public/screenshots/bug_dungeon.png)
 
-* **Interactive Logic Puzzles:** Solve retro-style coding logic puzzles based on real-world development challenges like API timeouts, CPU infinite loops, and CSS overlaps.
-* **Immersive Mechanical Atmosphere:** Explore a 2D retro-futuristic mechanical underground filled with environmental storytelling.
-* **Unlock Post-Mortems:** Successfully resolving the bugs unlocks real development stories, system logs, and lessons learned during challenging project builds.
+### Highlights
+
+* Solve interactive coding and debugging puzzles
+* Explore a futuristic mechanical dungeon environment
+* Unlock development stories and challenge logs
 
 ---
 
-### 🧠 GAME 4 — MEMORY LAB
+## 🧠 Memory Lab
 
-Memory Lab serves as the emotional and personal "About Me" section. It's a deeply immersive cinematic exploration experience where users walk through memories inside a floating archive.
+A cinematic narrative experience that presents development journeys and creative growth through immersive floating memory spaces.
 
 ![Memory Lab](./public/screenshots/memory_lab.png)
 
-* **Chronological Floating Rooms:** Explore four distinct rooms (Curiosity, The Fire & Learning, Collaborative Synergy, Cosmic Horizon) suspended in space.
-* **Interactive Storytelling Objects:** Interact with nostalgic items like vintage CRT terminals, study lamps, and holograms to trigger story subtitles.
-* **Cinematic Soundscapes:** Experience programmatic audio soundscapes that dynamically shift to elevate the emotional narrative of your journey into technology.
+### Highlights
+
+* Explore themed floating memory rooms
+* Interactive storytelling through environmental objects
+* Cinematic atmosphere with animated visual effects
 
 ---
 
-### 🏫 GAME 5 — EDUCATION CAMPUS
+## 🏫 Education Campus
 
-Education Campus replaces standard timeline components with a gamified simulator that tracks university milestones, courses, and certifications.
+A gamified academic world designed to showcase coursework, certifications, and educational progression.
 
 ![Education Campus](./public/screenshots/education_campus.png)
 
-* **Structured Academic Progression:** Navigate through different semester milestones and view detailed coursework logs.
-* **Scrollable Certificate Dashboard:** Explore an organized digital dashboard to review completed workshops, courses, and certifications.
-* **Interactive University World:** Experience a progression-based academic simulator that perfectly blends traditional timeline tracking with a gamified interface.
+### Highlights
+
+* Interactive academic progression experience
+* Scrollable certification and achievement dashboards
+* Structured semester and milestone exploration
 
 ---
 
-## 📚 Portfolio Sections
+# ✨ Features
 
-### 1. 🏠 Home
-A modern typography landing screen powered by dynamic matrix canvas visual effects.
-
-### 2. 👤 About Me
-An introduction to my background as a Computer Science student focused on building scalable, reliable, and user-centered digital solutions.
-
-### 3. 🛠️ Featured Projects
-Showcases select software engineering achievements, including:
-* **Academic Portal System (CUK):** A full-stack academic dashboard with role-based auth.
-* **BIS AI – Product Safety Assistant:** AI-powered verification assistant utilizing a RAG pipeline and offline PWA.
-* **Raasta – AI Platform:** Multi-domain crop intelligence, document Simplifier, and AI-guided assistant.
-* **Araaz E-commerce:** A fully responsive e-commerce application.
-* **CUK Exam System & Acadex:** Student and faculty dashboards for managing university operations.
-* **Smart House:** IoT home automation prototype using Arduino sensors.
-
-### 4. 🏆 Experience
-* **Campus Lead** @ Open Source Global Connect (Leadership & Community)
-* **Student Intern** @ National Institute of Technology Srinagar (Hybrid Research)
-* **Mentor** @ Social Winter of Code (SWOC) (Frontend Guidance)
-
-### 5. 📜 Certifications & Credentials
-Professional certifications from Microsoft, IBM, Oracle, and Google Cloud covering Artificial Intelligence Foundations, Machine Learning, and Cloud Computing.
-
-### 6. 🎓 Education
-* **B.Tech in Computer Engineering** – Central University of Kashmir (2023 – 2027)
-* **Senior Secondary Education** – Delhi Public School, Srinagar (2009 – 2023)
-
-### 7. 🥇 Awards & Recognitions
-* **1st Position** – Logo Designing Competition (Cyber Conclave)
-* **1st Position** – Open Build Challenge (FOSS NIT Srinagar & FOSS United)
-* **1st Position** – SynerTech (Kashmir College of Engineering & Technology)
-* **2nd Position** – Cursor Kashmir Hackathon (v0 Track)
-* **4th Rank** – Portfolio BuildSprint 1.0 (Girls Leading Tech)
-
-### 8. ✉️ Contact
-Quick links to connect via email, GitHub, or LinkedIn.
+* Interactive game-inspired portfolio experience
+* Responsive modern UI with smooth animations
+* Multiple immersive portfolio worlds
+* Dynamic transitions and cinematic effects
+* Gamified project and achievement exploration
+* Mobile-friendly optimized performance
 
 ---
 
-## 🚀 Getting Started
+# 🛠️ Tech Stack
 
-To run this portfolio locally:
-
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/nimrawani04/nimrawani04.github.io.git
-   ```
-
-2. **Navigate to the directory:**
-   ```bash
-   cd nimrawani04.github.io
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-
-4. **Run in development mode:**
-   ```bash
-   npm run dev
-   ```
-
-5. **Open in your browser:**
-   Open [http://localhost:5173](http://localhost:5173). Click the **"Arcade"** icon in the floating dock to discover the interactive games!
+* React
+* TypeScript
+* Tailwind CSS
+* Framer Motion
+* Vite
+* GSAP
+* Three.js
+* Vercel
 
 ---
 
-Built with ❤️ by [Nimra Wani](https://github.com/nimrawani04)
+# 🚀 Run Locally
+
+### 1. Clone the repository
+
+```bash id="a19sk2"
+git clone https://github.com/your-username/your-repository.git
+```
+
+### 2. Navigate to the project folder
+
+```bash id="ls81qp"
+cd your-repository
+```
+
+### 3. Install dependencies
+
+```bash id="m29xla"
+npm install
+```
+
+### 4. Start the development server
+
+```bash id="q17zpt"
+npm run dev
+```
+
+### 5. Open in browser
+
+Visit:
+
+```bash id="vt63qn"
+http://localhost:5173
+```
