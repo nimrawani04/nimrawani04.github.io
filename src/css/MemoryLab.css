@@ -842,3 +842,148 @@
   0%, 100% { height: 2px; }
   50% { height: 10px; }
 }
+
+/* -------------------------------------------------------------
+ * 6. ROTATE DEVICE SCREEN & MOBILE LANDSCAPE STYLING
+ * ------------------------------------------------------------- */
+.rotate-device {
+  display: none;
+}
+
+@media screen and (max-width: 900px) and (orientation: portrait) {
+  .ml-viewport > *:not(.rotate-device) {
+    display: none !important;
+  }
+
+  .rotate-device {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: radial-gradient(circle at center, #120022 0%, #05010d 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    color: white;
+    font-family: 'Outfit', 'Courier New', monospace;
+  }
+
+  .rotate-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+    animation: rotatePhone 2s infinite ease-in-out;
+  }
+
+  .rotate-device h2 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #a78bfa;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 20px rgba(167, 139, 250, 0.4);
+  }
+
+  .rotate-device p {
+    font-size: 11px;
+    color: #94a3b8;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+}
+
+@keyframes rotatePhone {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .ml-scene-container {
+    padding: 5rem 1.5rem 1.5rem 12rem;
+  }
+
+  .ml-room-wrapper {
+    height: 82vh;
+  }
+
+  .ml-room-card {
+    padding: 1.2rem;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .ml-chapter-title {
+    font-size: 1.35rem;
+    line-height: 1.15;
+    margin-bottom: 0.8rem;
+  }
+
+  .ml-chapter-tag {
+    font-size: 0.55rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .ml-story-subtitles {
+    font-size: 0.76rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  .ml-timeline-hub {
+    transform: scale(0.72);
+    transform-origin: left center;
+    left: 1.5rem;
+  }
+
+  .ml-hud-header {
+    top: 1rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .ml-hud-logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ml-control-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .ml-hud-bottom {
+    bottom: 0.8rem;
+    left: 1.5rem;
+    right: 1.5rem;
+  }
+
+  .ml-nav-btn {
+    padding: 0.45rem 1.2rem;
+    font-size: 0.65rem;
+  }
+
+  .ml-clickable-prop .ml-prop-icon {
+    font-size: 2.2rem;
+  }
+
+  .ml-clickable-prop .ml-prop-label {
+    font-size: 0.48rem;
+    margin-top: 0.3rem;
+  }
+
+  .ml-vintage-monitor {
+    width: 105px;
+    height: 75px;
+  }
+
+  .ml-ambient-hint {
+    top: 4rem;
+    right: 1.5rem;
+  }
+}

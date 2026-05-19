@@ -482,6 +482,15 @@ export default function MemoryLab({ onBack }: { onBack: () => void }) {
   if (!started) {
     return (
       <div className="ml-viewport">
+        {/* Rotate Device Warning Screen */}
+        <div className="rotate-device">
+          <div className="rotate-icon">📱</div>
+          <h2>Rotate Your Device</h2>
+          <p>
+            Memory Lab is best experienced in landscape mode.
+          </p>
+        </div>
+
         <div className="ml-vignette" />
         <div className="ml-stars" />
         
@@ -534,6 +543,15 @@ export default function MemoryLab({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="ml-viewport">
+      {/* Rotate Device Warning Screen */}
+      <div className="rotate-device">
+        <div className="rotate-icon">📱</div>
+        <h2>Rotate Your Device</h2>
+        <p>
+          Memory Lab is best experienced in landscape mode.
+        </p>
+      </div>
+
       <div className="ml-vignette" />
       <div className="ml-stars" />
 

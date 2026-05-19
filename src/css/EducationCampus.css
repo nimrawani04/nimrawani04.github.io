@@ -3685,5 +3685,56 @@
   to { opacity: 1; }
 }
 
+/* -------------------------------------------------------------
+ * 🎓 PORTRAIT ORIENTATION LOCK
+ * ------------------------------------------------------------- */
+.rotate-device {
+  display: none;
+}
+
+@media screen and (max-width: 900px) and (orientation: portrait) {
+  .ec-viewport > *:not(.rotate-device) {
+    display: none !important;
+  }
+
+  .rotate-device {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: radial-gradient(circle at center, #1b0707 0%, #080202 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 30px;
+    color: white;
+    font-family: 'Outfit', 'Courier New', monospace;
+  }
+
+  .rotate-icon {
+    font-size: 72px;
+    margin-bottom: 20px;
+    animation: rotatePhone 2s infinite ease-in-out;
+  }
+
+  .rotate-device h2 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #ffb300;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 20px rgba(255, 179, 0, 0.4);
+  }
+
+  .rotate-device p {
+    font-size: 11px;
+    color: #d7ccc8;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+}
+
 
 

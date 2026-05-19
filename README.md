@@ -122,13 +122,13 @@ A gamified academic world designed to showcase coursework, certifications, and e
 ### 1. Clone the repository
 
 ```bash id="a19sk2"
-git clone https://github.com/your-username/your-repository.git
+git clone https://github.com/nimrawani04/nimrawani04.github.io.git
 ```
 
 ### 2. Navigate to the project folder
 
 ```bash id="ls81qp"
-cd your-repository
+cd nimrawani04.github.io
 ```
 
 ### 3. Install dependencies

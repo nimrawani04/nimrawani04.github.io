@@ -52,8 +52,8 @@ const DockItem = ({
   return (
     <motion.div
       ref={ref}
-      style={{ width }}
-      className="flex aspect-square items-center justify-center rounded-full bg-card backdrop-blur-md border border-border/50 cursor-pointer hover:bg-card/80 transition-colors"
+      style={{ width, height: width }}
+      className="nav-icon bg-card backdrop-blur-md border border-border/50 cursor-pointer hover:bg-card/80 transition-colors"
       onClick={handleClick}
     >
       <div className="flex items-center justify-center text-primary">
@@ -73,23 +73,21 @@ export const Dock = ({
   const mouseX = useMotionValue(Infinity);
 
   return (
-    <div className={cn("fixed bottom-8 left-1/2 -translate-x-1/2 z-50", className)}>
-      <motion.div
-        onMouseMove={(e) => mouseX.set(e.pageX)}
-        onMouseLeave={() => mouseX.set(Infinity)}
-        className="flex items-end gap-4 rounded-2xl bg-card/30 backdrop-blur-xl px-4 py-3 border border-border/50"
-      >
-        {items.map((item, i) => (
-          <DockItem 
-            key={i} 
-            item={item} 
-            mouseX={mouseX}
-            distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}
-          />
-        ))}
-      </motion.div>
-    </div>
+    <motion.div
+      onMouseMove={(e) => mouseX.set(e.pageX)}
+      onMouseLeave={() => mouseX.set(Infinity)}
+      className={cn("bottom-nav", className)}
+    >
+      {items.map((item, i) => (
+        <DockItem 
+          key={i} 
+          item={item} 
+          mouseX={mouseX}
+          distance={distance}
+          magnification={magnification}
+          baseItemSize={baseItemSize}
+        />
+      ))}
+    </motion.div>
   );
 };

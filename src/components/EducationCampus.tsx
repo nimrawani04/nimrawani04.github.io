@@ -1628,6 +1628,15 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
 
   return (
     <div className={`ec-viewport ${phase.startsWith("univ") || phase === "graduated" ? "univ-theme" : "school-theme"}`}>
+      {/* Rotate Device Warning Screen */}
+      <div className="rotate-device">
+        <div className="rotate-icon">📱</div>
+        <h2>Rotate Your Device</h2>
+        <p>
+          Campus Quest is best experienced in landscape mode.
+        </p>
+      </div>
+
       <div className="ec-sunlight" />
       <div className="ec-vignette" />
 

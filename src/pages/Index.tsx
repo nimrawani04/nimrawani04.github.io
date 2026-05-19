@@ -228,7 +228,7 @@ const Index = () => {
   }
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen pb-32">
       <LetterGlitch
         glitchColors={[
           "rgba(99, 230, 190, 0.3)",
@@ -781,11 +781,11 @@ const Index = () => {
       </div>
 
       {showArcadeHub && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4 overflow-y-auto">
+        <div className="fixed inset-0 z-50 flex sm:items-center items-start justify-center bg-slate-950/85 backdrop-blur-md p-4 sm:p-6 overflow-y-auto">
           <motion.div 
             initial={{ scale: 0.95, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="relative w-full max-w-6xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left"
+            className="relative w-full max-w-6xl bg-slate-900/95 border border-slate-800 rounded-2xl shadow-2xl p-6 md:p-8 overflow-hidden font-sans text-left my-8 sm:my-0"
           >
             {/* Close Button */}
             <button 
@@ -807,7 +807,7 @@ const Index = () => {
             </div>
 
             {/* Selector Grid */}
-            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-5 w-full max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-5 md:grid-cols-3 grid-cols-1 gap-5 w-full max-w-6xl mx-auto pb-32">
               
               {/* Game 1: Cooking Kitchen */}
               <div 

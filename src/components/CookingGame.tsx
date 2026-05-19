@@ -1128,13 +1128,23 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
   return (
     <div className="kg-viewport" onMouseUp={handlePourRelease}>
-      <div className="kg-vignette" />
-
-      {/* Falling Rain backdrop overlay */}
-      <div className="kg-window-backdrop">
-        <div className="kg-rain-overlay" />
-        <div className="kg-rain-drops" />
+      {/* Rotate Device Warning Screen */}
+      <div className="kg-rotate-device">
+        <div className="kg-rotate-icon">📱</div>
+        <h2>Rotate Your Device</h2>
+        <p>
+          This game is optimized for landscape mode for the best gameplay experience.
+        </p>
       </div>
+
+      <div className="kg-game-wrapper">
+        <div className="kg-vignette" />
+
+        {/* Falling Rain backdrop overlay */}
+        <div className="kg-window-backdrop">
+          <div className="kg-rain-overlay" />
+          <div className="kg-rain-drops" />
+        </div>
 
       {/* -------------------------------------------------------------
        * TACTILE FALLING INGREDIENT EMOJIS (MAGNETIC UTENSIL INTEGRATION)
@@ -1901,6 +1911,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
         </div>
       )}
 
+      </div>
     </div>
   );
 }

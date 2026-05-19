@@ -685,10 +685,10 @@ export default function BugDungeon({ onBack }: { onBack: () => void }) {
                             </div>
                             
                             {/* Outer orbital nodes representing code segments */}
-                            <div className="bd-wheel-node top-0 left-[75px]" style={{ transform: "rotate(45deg)" }}>x++</div>
-                            <div className="bd-wheel-node top-[75px] right-0">loop</div>
-                            <div className="bd-wheel-node bottom-0 left-[75px]">cpu</div>
-                            <div className="bd-wheel-node top-[75px] left-0">heap</div>
+                            <div className="bd-wheel-node node-top"><span style={{ transform: "rotate(45deg)", display: "inline-block" }}>x++</span></div>
+                            <div className="bd-wheel-node node-right">loop</div>
+                            <div className="bd-wheel-node node-bottom">cpu</div>
+                            <div className="bd-wheel-node node-left">heap</div>
                           </div>
 
                           <div className="text-center">

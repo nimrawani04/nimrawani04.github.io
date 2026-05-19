@@ -1356,11 +1356,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   background: radial-gradient(circle at 50% 30%, #150923 0%, #040108 100%);
   z-index: 12;
   overflow-y: auto;
-  padding: 80px 20px 40px 20px;
+  padding: 100px 20px 140px 20px;
 }
 
 .kg-menu-board {
@@ -1390,13 +1390,25 @@
 .kg-recipe-cards-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
   width: 100%;
+}
+
+@media (max-width: 1024px) {
+  .kg-recipe-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
   .kg-recipe-cards-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .kg-recipe-cards-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1759,4 +1771,133 @@
 .kg-burner-slot.active .kg-burner-ring {
   border-color: #ea580c !important;
   filter: drop-shadow(0 0 8px #ea580c);
+}
+
+/* -------------------------------------------------------------
+ * 10. ROTATE DEVICE SCREEN & MOBILE LANDSCAPE STYLING
+ * ------------------------------------------------------------- */
+.kg-rotate-device {
+  display: none;
+}
+
+@media screen and (max-width: 900px) and (orientation: portrait) {
+  .kg-game-wrapper {
+    display: none !important;
+  }
+
+  .kg-rotate-device {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 30%, #150923 0%, #040108 100%);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+    color: #f8fafc;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .kg-rotate-icon {
+    font-size: 70px;
+    margin-bottom: 20px;
+    animation: kg-rotate-phone 2s infinite ease-in-out;
+  }
+
+  .kg-rotate-device h2 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #10b981;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-shadow: 0 0 20px rgba(16,185,129,0.3);
+  }
+
+  .kg-rotate-device p {
+    font-size: 11px;
+    color: #94a3b8;
+    max-width: 280px;
+    line-height: 1.5;
+  }
+}
+
+@keyframes kg-rotate-phone {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(90deg); }
+  100% { transform: rotate(0deg); }
+}
+
+@media screen and (max-width: 900px) and (orientation: landscape) {
+  .kg-workspace {
+    inset: 70px 12px 12px 12px;
+    grid-template-columns: 260px 1fr;
+    grid-template-rows: auto auto;
+    gap: 16px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .kg-ingredients-cabinet {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 90px);
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+  }
+
+  .kg-cooking-island {
+    grid-column: 2;
+    grid-row: 1;
+    grid-template-rows: auto auto;
+    height: auto;
+    gap: 12px;
+  }
+
+  .kg-island-main {
+    height: auto;
+    padding: 12px;
+    justify-content: flex-start;
+  }
+
+  .kg-leather-cookbook {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: auto;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+  }
+
+  .kg-countertop {
+    height: 150px;
+  }
+
+  .kg-placed-utensil {
+    transform: scale(0.85);
+  }
+
+  .kg-stove-range {
+    grid-column: 2;
+    grid-row: 2;
+    height: auto;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .kg-stove-burners {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .kg-burner-slot {
+    height: 140px;
+  }
 }
