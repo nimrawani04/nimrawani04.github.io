@@ -1868,6 +1868,9 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
 
             {/* Active game arena */}
             <div className="ec-game-interactive-arena">
+              <button className="ec-mobile-abort-btn" onClick={handleBackToMap}>
+                ◄ Quit Activity
+              </button>
               
               {/* Colour-coded feedback flash banner */}
               {incorrectFlash && (
@@ -2602,6 +2605,9 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
 
             {/* University interactive active game arena */}
             <div className="ec-game-interactive-arena">
+              <button className="ec-mobile-abort-btn" onClick={handleBackToMap}>
+                ◄ Quit Activity
+              </button>
 
               {/* Colour-coded feedback flash banner */}
               {incorrectFlash && (

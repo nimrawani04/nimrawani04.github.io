@@ -36,7 +36,9 @@
 }
 
 .ec-viewport {
-  position: relative;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
   width: 100vw;
   height: 100vh;
   background: var(--theme-bg);
@@ -3766,6 +3768,55 @@
   .ec-map-footer {
     padding: 0.4rem 1rem !important;
   }
+}
+
+/* -------------------------------------------------------------
+ * 📱 LANDSCAPE MOBILE COZY MINI-GAME SCALING
+ * ------------------------------------------------------------- */
+@media screen and (max-height: 560px) and (orientation: landscape) {
+  .ec-quest-lore-panel {
+    display: none !important;
+  }
+  .ec-play-card {
+    grid-template-columns: 1fr !important;
+    height: 92vh !important;
+    margin-top: 10px !important;
+  }
+  .ec-play-view {
+    padding: 3rem 1rem 0.5rem 1rem !important;
+  }
+  .ec-game-interactive-arena {
+    padding: 1rem !important;
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .ec-mobile-abort-btn {
+    display: block !important;
+  }
+}
+
+.ec-mobile-abort-btn {
+  display: none;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--theme-border);
+  color: var(--theme-text-muted);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.55rem;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 100;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+
+.ec-mobile-abort-btn:hover {
+  border-color: #ef5350;
+  color: #ef5350;
+  background: rgba(239, 83, 80, 0.05);
 }
 
 

@@ -12,7 +12,7 @@
   background: radial-gradient(circle at 50% 30%, #160d26 0%, #08030f 100%);
   font-family: 'Outfit', sans-serif;
   color: #f8fafc;
-  z-index: 40;
+  z-index: 50;
   user-select: none;
 }
 

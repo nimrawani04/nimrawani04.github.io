@@ -13,9 +13,9 @@
 
 /* Base Viewport Constraint (16:9 Screen Lock) */
 .cq-viewport {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  inset: 0;
+  z-index: 50;
   background: #090d16;
   font-family: 'Press Start 2P', system-ui, -apple-system, sans-serif;
   color: #f8fafc;
@@ -645,21 +645,29 @@
 
 /* Media Queries for responsive garage */
 @media (max-width: 768px) {
+  .cq-garage {
+    overflow-y: auto;
+    justify-content: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+  }
   .cq-garage-showroom {
     flex-direction: column;
     justify-content: center;
+    flex: none;
   }
   .cq-platform-container {
-    flex: 1;
-    min-height: 200px;
+    flex: none;
+    height: 160px;
+    min-height: 160px;
   }
   .cq-garage-sidebar {
     width: 100%;
-    flex: 1.2;
+    flex: none;
     padding: 0.8rem;
   }
   .cq-vehicle-menu {
-    max-height: 100px;
+    max-height: 120px;
   }
   .cq-platform-ring {
     width: 180px;
@@ -667,6 +675,11 @@
   }
   .cq-vehicle-avatar {
     font-size: 3.8rem;
+  }
+  .cq-launch-panel {
+    flex: none;
+    margin-top: 1rem;
+    padding-bottom: 1.5rem;
   }
   .cq-card {
     padding: 1rem;

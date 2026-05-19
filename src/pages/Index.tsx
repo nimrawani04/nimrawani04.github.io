@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DecryptedText } from "@/components/DecryptedText";
 import { Dock } from "@/components/Dock";
 import { LetterGlitch } from "@/components/LetterGlitch";
@@ -33,6 +33,20 @@ const Index = () => {
   const [showMemoryLab, setShowMemoryLab] = useState(() => new URLSearchParams(window.location.search).has("memory") || new URLSearchParams(window.location.search).has("memorylab"));
   const [showEducationCampus, setShowEducationCampus] = useState(() => new URLSearchParams(window.location.search).has("education") || new URLSearchParams(window.location.search).has("campus"));
   const [showArcadeHub, setShowArcadeHub] = useState(false);
+
+  // Reset scroll and disable main body scrolling when a game is active
+  useEffect(() => {
+    const isAnyGameActive = showGame || showCityQuest || showBugDungeon || showMemoryLab || showEducationCampus;
+    if (isAnyGameActive) {
+      window.scrollTo(0, 0);
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [showGame, showCityQuest, showBugDungeon, showMemoryLab, showEducationCampus]);
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
     { icon: <User className="w-5 h-5" />, label: "About", href: "#about" },

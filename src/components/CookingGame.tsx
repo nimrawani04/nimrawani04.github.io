@@ -683,6 +683,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   const [mouseCoords, setMouseCoords] = useState({ x: 0, y: 0 });
   const [isHoveringUtensil, setIsHoveringUtensil] = useState(false);
   const [isPouring, setIsPouring] = useState(false);
+  const dragHasMovedRef = useRef(false);
 
   // Cookware Transfer Coordinate states (Move pot to stove)
   const [isTransferringUtensil, setIsTransferringUtensil] = useState(false);
@@ -735,8 +736,44 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     // Global cursor listener
     const handleGlobalMouseMove = (e: MouseEvent) => {
       setMouseCoords({ x: e.clientX, y: e.clientY });
+      dragHasMovedRef.current = true;
     };
     window.addEventListener("mousemove", handleGlobalMouseMove);
+
+    const handleGlobalTouchMove = (e: TouchEvent) => {
+      if (e.touches && e.touches[0]) {
+        const touch = e.touches[0];
+        setMouseCoords({ x: touch.clientX, y: touch.clientY });
+        dragHasMovedRef.current = true;
+
+        // If dragging an ingredient, check if touch overlaps the preparation island countertop or placed cookware
+        const islandEl = document.querySelector(".kg-island-main");
+        if (islandEl) {
+          const rect = islandEl.getBoundingClientRect();
+          const inside = (
+            touch.clientX >= rect.left &&
+            touch.clientX <= rect.right &&
+            touch.clientY >= rect.top &&
+            touch.clientY <= rect.bottom
+          );
+          setIsHoveringUtensil(inside);
+        }
+
+        // If transferring cookware, check if touch overlaps the stove burner slot
+        const burnerEl = document.querySelector(".kg-burner-slot");
+        if (burnerEl) {
+          const rect = burnerEl.getBoundingClientRect();
+          const inside = (
+            touch.clientX >= rect.left &&
+            touch.clientX <= rect.right &&
+            touch.clientY >= rect.top &&
+            touch.clientY <= rect.bottom
+          );
+          setIsHoveringStoveBurner(inside);
+        }
+      }
+    };
+    window.addEventListener("touchmove", handleGlobalTouchMove, { passive: true });
 
     // Trigger atmospheric audio loops immediately (Gesture satisfied via select click)
     if (audioEngineRef.current) {
@@ -757,6 +794,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
 
     return () => {
       window.removeEventListener("mousemove", handleGlobalMouseMove);
+      window.removeEventListener("touchmove", handleGlobalTouchMove);
       clearTimeout(timer1);
       clearTimeout(timer2);
       if (audioEngineRef.current) {
@@ -836,6 +874,14 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
       return;
     }
     playSFX("clink");
+
+    // Toggle off if clicking the same selected ingredient again
+    if (draggedIng && draggedIng.id === ing.id) {
+      setDraggedIng(null);
+      return;
+    }
+
+    dragHasMovedRef.current = false;
     setDraggedIng(ing);
   };
 
@@ -858,6 +904,12 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
     }
 
     if (!draggedIng || !selectedRecipe) return;
+
+    // If it was just a tap (no dragging motion) and not hovering the target,
+    // do not auto-cancel on release! This enables Tap-to-Select.
+    if (!dragHasMovedRef.current && !isHoveringUtensil) {
+      return;
+    }
 
     if (!isHoveringUtensil) {
       setDraggedIng(null);
@@ -1127,7 +1179,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
   };
 
   return (
-    <div className="kg-viewport" onMouseUp={handlePourRelease}>
+    <div className="kg-viewport" onMouseUp={handlePourRelease} onTouchEnd={handlePourRelease}>
       {/* Rotate Device Warning Screen */}
       <div className="kg-rotate-device">
         <div className="kg-rotate-icon">📱</div>
@@ -1176,17 +1228,17 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                 left: targetX - 16,
                 top: targetY - 12,
                 scale: [1.1, 0.8, 0.4],
-                rotate: [0, -45, 20, -15],
+                rotate: 360,
                 opacity: [1, 1, 0]
               }}
               transition={{ 
-                duration: 0.58, 
+                duration: 0.6, 
                 ease: "easeOut"
               }}
               onAnimationComplete={() => {
                 setActivePouringIngs(prev => prev.filter(item => item.id !== p.id));
               }}
-              className="text-2xl filter drop-shadow-[0_6px_10px_rgba(0,0,0,0.5)]"
+              className="absolute text-2xl filter drop-shadow(0 4px 6px rgba(0,0,0,0.3))"
             >
               {p.emoji}
             </motion.div>
@@ -1219,7 +1271,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           <div className="kg-cinematic-intro-typography">
             <span className="text-4xl">🍳</span>
             <h1 className="kg-cinematic-title">Nimra’s Little Kitchen</h1>
-            <p className="kg-cinematic-subtitle">GAME 1 — PORTFOLIO UNIVERSAL HUB</p>
+            <p className="kg-cinematic-subtitle">Cozy stack-cooking simulation showcasing developer projects & technical expertise</p>
             <div className="kg-cinematic-loading-dots">
               <span className="kg-loading-dot" style={{ animationDelay: "0s" }} />
               <span className="kg-loading-dot" style={{ animationDelay: "0.2s" }} />
@@ -1248,7 +1300,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
           </div>
           <div className="kg-hud-title-text">
             <h3>NIMRA'S KITCHEN STUDIO</h3>
-            <span>GAME 1 — Authentic Stack Recipe Simulator</span>
+            <span>Tactile Stack-Cooking & Project Recipe Simulator</span>
           </div>
         </div>
 
@@ -1478,6 +1530,7 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               onClick={() => {
                 if (draggedIng) {
                   setIsHoveringUtensil(true);
+                  dragHasMovedRef.current = true;
                   setTimeout(() => {
                     handlePourRelease();
                   }, 10);
@@ -1629,7 +1682,16 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
                 className={`kg-burner-slot ${stoveOn ? "active" : ""} ${isTransferringUtensil ? "burner-highlight" : ""}`}
                 onMouseEnter={() => { if (isTransferringUtensil) setIsHoveringStoveBurner(true); }}
                 onMouseLeave={() => { setIsHoveringStoveBurner(false); }}
-                onClick={() => { if (isTransferringUtensil) handleCompleteUtensilTransfer(); }}
+                onClick={() => {
+                  if (isTransferringUtensil) {
+                    setIsHoveringStoveBurner(true);
+                    setIsStovePlaced(true);
+                    setIsTransferringUtensil(false);
+                    setIsHoveringStoveBurner(false);
+                    playSFX("clink");
+                    triggerToast("🍳 Cookware placed successfully on burner range! Ignition ready.");
+                  }
+                }}
               >
                 <div className="kg-burner-ring" />
                 
