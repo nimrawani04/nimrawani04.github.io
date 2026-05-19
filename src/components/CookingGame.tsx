@@ -1475,6 +1475,14 @@ export default function CookingGame({ onBack }: { onBack: () => void }) {
               ref={counterRef}
               onMouseEnter={handleCounterMouseEnter}
               onMouseLeave={handleCounterMouseLeave}
+              onClick={() => {
+                if (draggedIng) {
+                  setIsHoveringUtensil(true);
+                  setTimeout(() => {
+                    handlePourRelease();
+                  }, 10);
+                }
+              }}
             >
               {/* Highlight drop zone when dragged element is active */}
               <div className={`kg-drop-zone-overlay ${draggedIng ? "active" : ""}`}>

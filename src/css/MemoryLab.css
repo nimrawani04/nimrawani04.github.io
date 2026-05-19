@@ -921,9 +921,9 @@
   }
 
   .ml-room-card {
-    padding: 1.2rem;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 1rem;
     border-radius: 16px;
   }
 
@@ -980,17 +980,17 @@
   }
 
   .ml-clickable-prop .ml-prop-icon {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .ml-clickable-prop .ml-prop-label {
-    font-size: 0.48rem;
-    margin-top: 0.3rem;
+    font-size: 0.44rem;
+    margin-top: 0.2rem;
   }
 
   .ml-vintage-monitor {
-    width: 105px;
-    height: 75px;
+    width: 80px;
+    height: 58px;
   }
 
   .ml-ambient-hint {
