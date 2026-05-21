@@ -141,9 +141,54 @@ export const BentoGrid = () => {
     }
   ];
 
+  // Participations & Hackathons data
+  const participations = [
+    {
+      title: "Standard-a-Thon Hackathon",
+      event: "FOSS Club, NIT Srinagar",
+      desc: "Developed BIS AI, an AI-powered assistant with RAG pipeline, multilingual support, and offline accessibility.",
+      icon: "🤖"
+    },
+    {
+      title: "Coding Challenge",
+      event: "Tech Summit 2025",
+      desc: "Competitive coding event focused on problem-solving, logical reasoning, and teamwork.",
+      icon: "💻"
+    },
+    {
+      title: "Code Debugging Challenge",
+      event: "Cyber Conclave 2025, CUK",
+      desc: "Solved debugging challenges in C, emphasizing analytical thinking and error resolution.",
+      icon: "⚡"
+    },
+    {
+      title: "Technical Treasure Hunt",
+      event: "Cyber Conclave 2025, CUK",
+      desc: "Team-based challenge requiring decision-making, time management, and critical thinking.",
+      icon: "🎯"
+    },
+    {
+      title: "National Tech Day Coding",
+      event: "National Tech Day 2024",
+      desc: "Competitive coding event focused on problem-solving, debugging, and logical reasoning under time constraints.",
+      icon: "⭐"
+    }
+  ];
+
   // Certificate Carousel state
   const [currentCertIdx, setCurrentCertIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+
+  // Honors & Participations Carousel state (0 = Honors, 1 = Participations)
+  const [honorsSlide, setHonorsSlide] = useState(0);
+
+  const nextHonors = () => {
+    setHonorsSlide((prev) => (prev + 1) % 2);
+  };
+
+  const prevHonors = () => {
+    setHonorsSlide((prev) => (prev - 1 + 2) % 2);
+  };
 
   // Expanded experience skills tracking state
   const [expandedSkillsIdxs, setExpandedSkillsIdxs] = useState<number[]>([]);
@@ -396,35 +441,92 @@ export const BentoGrid = () => {
 
       {/* ================= COLUMN 3: HONORS & COMPETITIONS ================= */}
       <div className="flex flex-col h-full md:col-span-1">
-        <MagicBento className="flex-1 flex flex-col justify-between border-slate-800/80 bg-slate-900/40 p-4 md:p-5">
-          <div>
-            <div className="flex items-center gap-3 mb-5 border-b border-slate-800/60 pb-3">
-              <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
-                <Trophy className="w-5 h-5 text-amber-400" />
+        <MagicBento className="flex-1 flex flex-col justify-between border-slate-800/80 bg-slate-900/40 p-4 md:p-5 relative overflow-hidden">
+          <div className="h-full flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-5 border-b border-slate-800/60 pb-3">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                    <Trophy className="w-5 h-5 text-amber-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase transition-colors duration-300">
+                      {honorsSlide === 0 ? "Honors & Awards" : "Participations"}
+                    </h3>
+                    <p className="text-[9px] text-slate-400 tracking-wider transition-colors duration-300">
+                      {honorsSlide === 0 ? "Rankings and competitive honors" : "Hackathons & technical contests"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Carousel Controls */}
+                <div className="flex gap-1">
+                  <button 
+                    onClick={prevHonors}
+                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-850 hover:bg-slate-800 hover:text-amber-400 border border-slate-800 transition-all text-slate-400"
+                    title="Previous Slide"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                  </button>
+                  <button 
+                    onClick={nextHonors}
+                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-850 hover:bg-slate-800 hover:text-amber-400 border border-slate-800 transition-all text-slate-400"
+                    title="Next Slide"
+                  >
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
               </div>
-              <div>
-                <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase">Honors & Awards</h3>
-                <p className="text-[9px] text-slate-400 tracking-wider">Rankings and competitive honors</p>
+
+              {/* Slider Wrapper */}
+              <div className="relative min-h-[340px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={honorsSlide}
+                    initial={{ opacity: 0, x: 15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.25 }}
+                    className="space-y-3.5"
+                  >
+                    {(honorsSlide === 0 ? awards : participations).map((item, idx) => (
+                      <div 
+                        key={idx} 
+                        className="group relative p-2.5 bg-slate-900/60 border border-slate-855 rounded-xl hover:border-amber-500/20 hover:bg-slate-850/40 transition-all duration-300 flex items-start gap-2 h-full overflow-hidden"
+                      >
+                        <span className="text-lg pt-0.5 select-none">{item.icon}</span>
+                        <div className="space-y-0.5 flex-1 min-w-0">
+                          <h4 className="text-[11px] md:text-xs font-bold text-slate-100 group-hover:text-amber-450 transition-colors leading-tight truncate">
+                            {item.title}
+                          </h4>
+                          <p className="text-[8px] font-black text-amber-500/80 uppercase tracking-widest truncate">{item.event}</p>
+                          <p className="text-[9px] text-slate-400 leading-normal group-hover:text-slate-350 transition-colors line-clamp-2">{item.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                </AnimatePresence>
               </div>
             </div>
 
-            <div className="space-y-3.5">
-              {awards.map((award, idx) => (
-                <div 
-                  key={idx} 
-                  className="group relative p-2.5 bg-slate-900/60 border border-slate-855 rounded-xl hover:border-amber-500/20 hover:bg-slate-850/40 transition-all duration-300 flex items-start gap-2 h-full overflow-hidden"
-                >
-                  <span className="text-lg pt-0.5 select-none">{award.icon}</span>
-                  <div className="space-y-0.5 flex-1 min-w-0">
-                    <h4 className="text-[11px] md:text-xs font-bold text-slate-100 group-hover:text-amber-450 transition-colors leading-tight truncate">
-                      {award.title}
-                    </h4>
-                    <p className="text-[8px] font-black text-amber-500/80 uppercase tracking-widest truncate">{award.event}</p>
-                    <p className="text-[9px] text-slate-400 leading-normal group-hover:text-slate-350 transition-colors line-clamp-2">{award.desc}</p>
-                  </div>
-                </div>
-              ))}
+            {/* Dots Indicator at the bottom */}
+            <div className="flex items-center justify-between border-t border-slate-850 pt-2.5 mt-3">
+              <div className="flex gap-1">
+                {[0, 1].map((dotIdx) => (
+                  <button
+                    key={dotIdx}
+                    onClick={() => setHonorsSlide(dotIdx)}
+                    className={`w-1 h-1 rounded-full transition-all duration-300 ${
+                      dotIdx === honorsSlide ? "w-2.5 bg-amber-400" : "bg-slate-700 hover:bg-slate-650"
+                    }`}
+                  />
+                ))}
+              </div>
+              <span className="text-[8px] font-black tracking-wider text-slate-500 uppercase transition-colors duration-300">
+                {honorsSlide === 0 ? "Honors" : "Participations"} ({(honorsSlide === 0 ? awards : participations).length} items)
+              </span>
             </div>
+
           </div>
         </MagicBento>
       </div>

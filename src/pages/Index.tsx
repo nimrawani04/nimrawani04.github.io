@@ -200,7 +200,7 @@ const Index = () => {
                 Enthusiast
               </motion.p>
               <motion.div
-                className="flex gap-4 justify-center flex-wrap"
+                className="grid grid-cols-2 gap-3 max-w-sm mx-auto w-full px-4 sm:flex sm:flex-row sm:gap-4 sm:justify-center sm:w-auto sm:px-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2, duration: 0.8 }}
@@ -209,8 +209,9 @@ const Index = () => {
                   href="https://github.com/nimrawani04"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="w-full sm:w-auto"
                 >
-                  <Button variant="default" size="lg" className="gap-2">
+                  <Button variant="default" size="lg" className="w-full h-12 gap-2 justify-center px-8 py-3 text-sm font-bold">
                     <FaGithub className="w-5 h-5" />
                     GitHub
                   </Button>
@@ -219,8 +220,9 @@ const Index = () => {
                   href="https://linkedin.com/in/nimra-wani-b32438359"
                   target="_blank"
                   rel="noopener noreferrer"
+                  className="w-full sm:w-auto"
                 >
-                  <Button variant="outline" size="lg" className="gap-2">
+                  <Button variant="outline" size="lg" className="w-full h-12 gap-2 justify-center px-8 py-3 text-sm font-bold">
                     <FaLinkedin className="w-5 h-5" />
                     LinkedIn
                   </Button>
@@ -229,7 +231,7 @@ const Index = () => {
                   onClick={handleClick}
                   variant="secondary"
                   size="lg"
-                  className="gap-2"
+                  className="w-full h-12 gap-2 justify-center px-8 py-3 text-sm font-bold sm:w-auto"
                 >
                   <Download className="w-5 h-5" />
                   Resume
@@ -238,7 +240,7 @@ const Index = () => {
                   onClick={() => setIsAboutFolderOpen(true)}
                   variant="outline"
                   size="lg"
-                  className="gap-2 border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/10 text-cyan-400 font-bold transition-all hover:shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+                  className="w-full h-12 gap-2 justify-center px-8 py-3 border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/10 text-cyan-400 font-bold transition-all hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] sm:w-auto"
                 >
                   <FolderOpen className="w-5 h-5 animate-pulse" />
                   About
