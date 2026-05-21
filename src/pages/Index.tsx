@@ -11,6 +11,9 @@ import CityQuest from "@/components/CityQuest";
 import BugDungeon from "@/components/BugDungeon";
 import MemoryLab from "@/components/MemoryLab";
 import EducationCampus from "@/components/EducationCampus";
+import { Folder } from "@/components/Folder";
+import { Masonry } from "@/components/Masonry";
+import { BentoGrid } from "@/components/BentoGrid";
 import {
   Home,
   User,
@@ -22,6 +25,7 @@ import {
   Download,
   Gamepad2,
   Car,
+  FolderOpen,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -33,6 +37,7 @@ const Index = () => {
   const [showMemoryLab, setShowMemoryLab] = useState(() => new URLSearchParams(window.location.search).has("memory") || new URLSearchParams(window.location.search).has("memorylab"));
   const [showEducationCampus, setShowEducationCampus] = useState(() => new URLSearchParams(window.location.search).has("education") || new URLSearchParams(window.location.search).has("campus"));
   const [showArcadeHub, setShowArcadeHub] = useState(false);
+  const [isAboutFolderOpen, setIsAboutFolderOpen] = useState(false);
 
   // Reset scroll and disable main body scrolling when a game is active
   useEffect(() => {
@@ -47,9 +52,14 @@ const Index = () => {
       document.body.style.overflow = "unset";
     };
   }, [showGame, showCityQuest, showBugDungeon, showMemoryLab, showEducationCampus]);
+
   const dockItems = [
     { icon: <Home className="w-5 h-5" />, label: "Home", href: "#hero" },
-    { icon: <User className="w-5 h-5" />, label: "About", href: "#about" },
+    { 
+      icon: <User className="w-5 h-5" />, 
+      label: "About", 
+      onClick: () => setIsAboutFolderOpen(true) 
+    },
     {
       icon: <Code className="w-5 h-5" />,
       label: "Projects",
@@ -57,10 +67,9 @@ const Index = () => {
     },
     {
       icon: <Briefcase className="w-5 h-5" />,
-      label: "Experience",
-      href: "#experience",
+      label: "Journey",
+      href: "#journey",
     },
-    { icon: <Award className="w-5 h-5" />, label: "Awards", href: "#awards" },
     { icon: <Mail className="w-5 h-5" />, label: "Contact", href: "#contact" },
     {
       icon: <Gamepad2 className="w-5 h-5" />,
@@ -85,7 +94,7 @@ const Index = () => {
     },
 
     {
-      title: "2AI Conference Website – 2026 International Conference on Applied Artificial Intelligence",
+      title: "2AI Conference Website – 2026 International Conference on Applied Artificial Intelligence (Team Project)",
       description:
         "Collaborated on the design and development of the official conference website, focusing on crafting a clean, modern UI/UX and implementing a responsive, user-friendly frontend. Contributed to structuring content for accessibility and seamless navigation, ensuring an engaging experience for global attendees and researchers.",
       tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
@@ -129,98 +138,7 @@ const Index = () => {
       tech: ["Arduino", "C++", "Infrared", "Ultrasonic Sensors"],
     },
   ];
-  const certifications = [
-    {
-      title: "Introduction to Artificial Intelligence Concepts",
-      provider: "Microsoft",
-      year: "Jan 2026",
-      link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/WV44L35N?sharingId=B856B6811014E40C",
-      tags: [
-        "Artificial Intelligence",
-        "Generative AI",
-        "Responsible AI",
-        "Computer Vision",
-      ],
-    },
 
-    {
-      title: "Introduction to Machine Learning Concepts",
-      provider: "Microsoft",
-      year: "Jan 2026",
-      link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/KC8WHGGB?sharingId=B856B6811014E40C",
-      tags: [
-        "Machine Learning",
-        "Linear Regression",
-        "Classification",
-        "Clustering",
-        "Deep Learning",
-      ],
-    },
-
-    {
-      title: "Artificial Intelligence Fundamentals",
-      provider: "IBM SkillsBuild",
-      year: "Dec 2025",
-      link: "https://www.credly.com/badges/a36fcbd9-3963-4a4a-b29b-19ff4792aaf1/public_url",
-      tags: [
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Deep Learning",
-        "AI Ethics",
-        "Artificial Neural Networks",
-        "Computer Vision",
-        "Natural Language Processing",
-        "AI Applications",
-        "AI Capabilities",
-      ],
-    },
-
-    {
-      title:
-        "Oracle Cloud Infrastructure 2025 Certified AI Foundations Associate",
-      provider: "Oracle",
-      year: "Dec 2025",
-      link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=C982AECE9426EA178736DD1F01312EA6B7ECF089391F6FDDCF9CCBCC6CB1A243",
-      tags: [
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Deep Learning",
-        "Sequence Models",
-        "Oracle Cloud Infrastructure",
-        "OCI",
-        "Cloud Computing",
-      ],
-    },
-    {
-      title: "Prepare Data for ML APIs on Google Cloud",
-      provider: "Google Cloud",
-      year: "Dec 2025",
-      link: "https://www.credly.com/badges/0c570f0b-e9e3-4228-962c-c6b06ac28f8c/public_url",
-      tags: [
-        "Python",
-        "TensorFlow",
-        "Machine Learning",
-        "Google Cloud",
-        "Cloud Natural Language API",
-        "Google Cloud Speech API",
-        "Dataflow",
-      ],
-    },
-
-    {
-      title: "DSA in Modern Product Engineering",
-      provider: "Dec TechBairn",
-      year: "2025",
-      tags: ["DSA", "Algorithms", "Problem Solving"],
-    },
-
-    {
-      title: "Python for Artificial Intelligence (5-Day Workshop)",
-      provider: "NIT Srinagar",
-      year: "Nov 2025",
-      tags: ["Python", "NumPy", "Pandas", "Scikit-Learn"],
-    },
-  ];
 
   const handleClick = () => {
     window.open("/nimra-wani-resume.pdf");
@@ -316,86 +234,21 @@ const Index = () => {
                   <Download className="w-5 h-5" />
                   Resume
                 </Button>
+                <Button
+                  onClick={() => setIsAboutFolderOpen(true)}
+                  variant="outline"
+                  size="lg"
+                  className="gap-2 border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/10 text-cyan-400 font-bold transition-all hover:shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+                >
+                  <FolderOpen className="w-5 h-5 animate-pulse" />
+                  About
+                </Button>
               </motion.div>
             </motion.div>
           </div>
         </section>
 
-        {/* About Section */}
-        <section id="about" className="py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                About <span className="text-gradient">Me</span>
-              </h2>
-
-              <Card className="p-8 md:p-12 bg-card/50 backdrop-blur-sm border-border/50">
-                <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                  I’m a{" "}
-                  <span className="text-primary font-semibold">
-                    Computer Science student
-                  </span>{" "}
-                  focused on building{" "}
-                  <span className="text-primary font-semibold">reliable</span>,{" "}
-                  <span className="text-primary font-semibold">scalable</span>,
-                  and{" "}
-                  <span className="text-primary font-semibold">
-                    user-centered
-                  </span>{" "}
-                  digital solutions through clean and structured development
-                  practices.
-                </p>
-
-                <p className="text-lg text-foreground/90 leading-relaxed mb-6">
-                  My interests include{" "}
-                  <span className="text-primary font-semibold">
-                    Artificial Intelligence
-                  </span>
-                  ,{" "}
-                  <span className="text-primary font-semibold">
-                    Machine Learning
-                  </span>
-                  , and{" "}
-                  <span className="text-primary font-semibold">
-                    Full Stack Web Development
-                  </span>
-                  , with a focus on building intelligent and data-driven web
-                  applications.
-                </p>
-
-                <p className="text-lg text-foreground/90 leading-relaxed">
-                  I have a strong interest in{" "}
-                  <span className="text-primary font-semibold">
-                    mathematics
-                  </span>{" "}
-                  and{" "}
-                  <span className="text-primary font-semibold">
-                    logical reasoning
-                  </span>
-                  , which helps me understand algorithms and models more deeply.
-                  I value{" "}
-                  <span className="text-primary font-semibold">
-                    continuous learning
-                  </span>
-                  ,{" "}
-                  <span className="text-primary font-semibold">
-                    collaboration
-                  </span>
-                  , and building{" "}
-                  <span className="text-primary font-semibold">
-                    future-ready solutions
-                  </span>
-                  .
-                </p>
-              </Card>
-            </motion.div>
-          </div>
-        </section>
+        <Folder isOpen={isAboutFolderOpen} onClose={() => setIsAboutFolderOpen(false)} />
 
         {/* Projects Section */}
         <section id="projects" className="py-24 px-6 bg-muted/20">
@@ -409,326 +262,31 @@ const Index = () => {
               <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
                 Featured <span className="text-gradient">Projects</span>
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {projects.map((project, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                  >
-                    <ProjectCard {...project} className="h-full" />
-                  </motion.div>
-                ))}
-              </div>
+              <Masonry items={projects} />
             </motion.div>
           </div>
         </section>
 
-        {/* Certifications Section */}
-        <section id="certifications" className="py-24 px-6 bg-muted/20">
-          <div className="max-w-6xl mx-auto">
+        {/* Journey & Credentials Section (Bento Grid Dashboard) */}
+        <section id="journey" className="py-24 bg-muted/10 relative overflow-hidden">
+          <div className="max-w-7xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
+              className="space-y-12"
             >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Certifications &{" "}
-                <span className="text-gradient">Credentials</span>
-              </h2>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {certifications.map((cert, i) => (
-                  <Card
-                    key={i}
-                    className="p-6 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-colors"
-                  >
-                    <h3 className="text-xl font-bold mb-1">{cert.title}</h3>
-                    <p className="text-primary font-semibold">
-                      {cert.provider}
-                    </p>
-                    <p className="text-muted-foreground text-sm mb-3">
-                      Issued {cert.year}
-                    </p>
-
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {cert.tags.map((tag, j) => (
-                        <Badge key={j} variant="secondary" className="text-xs">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    {cert.link && (
-                      <a
-                        href={cert.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
-                      >
-                        View Credential
-                        <ExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                  </Card>
-                ))}
+              <div className="text-center space-y-4">
+                <h2 className="text-4xl md:text-5xl font-black tracking-tight uppercase text-slate-100">
+                  Credentials & <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-indigo-400 bg-clip-text text-transparent">Journey</span>
+                </h2>
+                <p className="text-slate-400 text-sm max-w-2xl mx-auto uppercase tracking-widest font-semibold">
+                  A high-fidelity layout showcasing experience, academics, achievements & certifications
+                </p>
               </div>
-            </motion.div>
-          </div>
-        </section>
 
-        {/* Education Section */}
-        <section id="education" className="py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Education
-              </h2>
-
-              <div className="space-y-8">
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50">
-                  <h3 className="text-2xl font-bold">
-                    B.Tech in Computer Engineering
-                  </h3>
-                  <p className="text-primary font-semibold">
-                    Central University of Kashmir, Ganderbal
-                  </p>
-                  <p className="text-muted-foreground">Oct 2023 – Jun 2027</p>
-                </Card>
-
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50">
-                  <h3 className="text-2xl font-bold">
-                    Senior Secondary Education
-                  </h3>
-                  <p className="text-primary font-semibold">
-                    Delhi Public School, Srinagar
-                  </p>
-                  <p className="text-muted-foreground">Mar 2009 – Mar 2023</p>
-                </Card>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Experience Section */}
-        <section id="experience" className="py-24 px-6 bg-muted/20">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Experience
-              </h2>
-
-              <div className="space-y-8">
-
-                {/* Experience 1 */}
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <h3 className="text-2xl font-bold mb-1">Campus Lead</h3>
-                  <p className="text-primary font-semibold">
-                    Open Source Global Connect · Remote
-                  </p>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Dec 2025 – Present
-                  </p>
-
-                  <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-                    <li>
-                      Led and coordinated open-source awareness initiatives, organizing technical sessions and student engagement activities.
-                    </li>
-                    <li>
-                      Mentored students in open-source contributions and promoted collaborative development practices.
-                    </li>
-                    <li>
-                      Acted as a bridge between students and the global open-source community.
-                    </li>
-                  </ul>
-
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    <Badge variant="secondary">Leadership</Badge>
-                    <Badge variant="secondary">Open Source</Badge>
-                    <Badge variant="secondary">Community Building</Badge>
-                  </div>
-                </Card>
-
-                {/* Experience 2 */}
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <h3 className="text-2xl font-bold mb-1">Student Intern</h3>
-                  <p className="text-primary font-semibold">
-                    National Institute of Technology Srinagar · Hybrid
-                  </p>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Dec 2025 – Feb 2026
-                  </p>
-
-                  <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-                    <li>
-                      Gained hands-on experience in applied computer science through coding exercises and problem-solving tasks.
-                    </li>
-                    <li>
-                      Participated in technical discussions and academic mentorship under faculty guidance.
-                    </li>
-                    <li>
-                      Strengthened foundations in programming, algorithms, and teamwork.
-                    </li>
-                  </ul>
-
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    <Badge variant="secondary">Internship</Badge>
-                    <Badge variant="secondary">Problem Solving</Badge>
-                    <Badge variant="secondary">Programming</Badge>
-                  </div>
-                </Card>
-
-                {/* Experience 3 */}
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <h3 className="text-2xl font-bold mb-1">Mentor</h3>
-                  <p className="text-primary font-semibold">
-                    Social Winter of Code (SWOC) · Remote
-                  </p>
-                  <p className="text-muted-foreground text-sm mb-4">
-                    Jan 2026 – Mar 2026
-                  </p>
-
-                  <ul className="list-disc pl-5 text-muted-foreground space-y-2">
-                    <li>
-                      Mentored contributors in front-end web development through structured, project-based learning.
-                    </li>
-                    <li>
-                      Guided participants in open-source collaboration, code practices, and project contributions.
-                    </li>
-                    <li>
-                      Supported learners in building real-world projects and improving development workflows.
-                    </li>
-                  </ul>
-
-                  <div className="flex flex-wrap gap-2 mt-4">
-                    <Badge variant="secondary">Mentorship</Badge>
-                    <Badge variant="secondary">Frontend Development</Badge>
-                    <Badge variant="secondary">Open Source</Badge>
-                  </div>
-                </Card>
-
-              </div>
-            </motion.div>
-          </div>
-        </section>
-        {/* Awards & Recognitions Section */}
-        <section id="awards" className="py-24 px-6">
-          <div className="max-w-5xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Awards & <span className="text-gradient">Recognitions</span>
-              </h2>
-
-              <div className="space-y-8">
-                {/* Ranked / Winning Achievements */}
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <h3 className="text-2xl font-bold mb-6 text-primary">
-                    🏆 Competitive Achievements
-                  </h3>
-
-                  <ul className="space-y-4 text-muted-foreground">
-                    <li>
-                      <strong>1st Position – Logo Designing Competition</strong>
-                      <br />
-                      Cyber Conclave 2025, Central University of Kashmir —
-                      Recognized for creativity, visual communication, and
-                      design thinking.
-                    </li>
-
-                    <li>
-                      <strong>1st Position – Open Build Challenge</strong>
-                      <br />
-                      FOSS NIT Srinagar in collaboration with FOSS United —
-                      Demonstrated strong problem-solving skills and collaborative development in a competitive build environment.
-                    </li>
-
-                    <li>
-                      <strong>1st Position – SynerTech 2026</strong>
-                      <br />
-                      Kashmir College of Engineering and Technology —
-                      Collaboratively developed a CRM-based Academic Management Portal with an AI-powered chatbot and Android application to streamline academic and administrative workflows through intelligent, real-time assistance.
-                    </li>
-
-                    <li>
-                      <strong>2nd Position – Cursor Kashmir Hackathon (Vercel v0 Track)</strong>
-                      <br />
-                      Built <em>Rasta AI</em>, an AI platform for document simplification, crop insights, youth services, and AI-guided assistance, with voice/text interaction and multilingual support.
-                    </li>
-
-                    <li>
-                      <strong>4th Rank – Portfolio BuildSprint 1.0</strong>
-                      <br />
-                      Girls Leading Tech — Demonstrated excellence in portfolio development under the EmpowerHer 2.0 initiative, highlighting technical proficiency, creativity, and continuous professional growth.
-                    </li>
-
-
-
-                  </ul>
-                </Card>
-
-                {/* Participation & Involvement */}
-                <Card className="p-8 bg-card/50 backdrop-blur-sm border-border/50 card-glow-hover">
-                  <h3 className="text-2xl font-bold mb-6 text-primary">
-                    🎯 Participation & Involvement
-                  </h3>
-
-                  <ul className="space-y-4 text-muted-foreground">
-                    <li>
-                      <strong>
-                        Standard-a-Thon Hackathon – FOSS Club, NIT Srinagar
-                      </strong>
-                      <br />
-                      Collaboratively developed <em>BIS AI</em>, an AI-powered assistant leveraging a RAG pipeline to provide source-cited responses from BIS data, with multilingual support, voice interaction, and offline accessibility.
-                    </li>
-
-                    <li>
-                      <strong>Coding Challenge – Tech Summit 2025</strong>
-                      <br />
-                      Participated in a competitive coding event focused on problem-solving, logical reasoning, and teamwork.
-                    </li>
-
-                    <li>
-                      <strong>
-                        Code Debugging Competition – Cyber Conclave 2025
-                      </strong>
-                      <br />
-                      Solved debugging challenges in C, emphasizing analytical thinking and error resolution.
-                    </li>
-
-                    <li>
-                      <strong>Treasure Hunt – Cyber Conclave 2025</strong>
-                      <br />
-                      Engaged in a team-based challenge requiring decision-making, time management, and critical thinking.
-                    </li>
-
-                    <li>
-                      <strong>
-                        Coding Competition – National Technology Day 2024
-                      </strong>
-                      <br />
-                      Participated in a competitive coding event focused on problem-solving, debugging, and logical reasoning under time constraints.
-                    </li>
-                  </ul>
-                </Card>
-              </div>
+              <BentoGrid />
             </motion.div>
           </div>
         </section>
@@ -787,8 +345,7 @@ const Index = () => {
         <footer className="py-8 px-6 border-t border-border/50">
           <div className="max-w-7xl mx-auto text-center text-muted-foreground">
             <p>
-              © 2025 Nimra Wani. Built with React, Tailwind CSS, and Framer
-              Motion.
+              © 2026 Nimra Wani.
             </p>
           </div>
         </footer>

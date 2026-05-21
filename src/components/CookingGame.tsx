@@ -115,7 +115,7 @@ const RECIPES: Recipe[] = [
   },
   {
     id: "twoai",
-    name: "2AI Conference Website",
+    name: "2AI Conference Website (Team Project)",
     dishName: "2AI Conference Coffee ☕",
     emoji: "☕",
     description: "The official academic summit website for Applied Artificial Intelligence (2AI 2026).",

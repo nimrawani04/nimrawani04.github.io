@@ -85,7 +85,7 @@ export const projects = [
   },
   {
     id: '2ai-conference',
-    name: '2AI Conference Website',
+    name: '2AI Conference Website (Team Project)',
     subtitle: '2026 International Conference on Applied AI.',
     desc: 'Collaborated on the design and development of the official conference website, focusing on crafting a clean, modern UI/UX and implementing a responsive, user-friendly frontend.',
     tech: ['JavaScript', 'TypeScript', 'CSS', 'HTML'],
