@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Cpu, Sparkles, FileText, CheckCircle, Code } from "lucide-react";
+import { X, User, Cpu, Sparkles, FileText, CheckCircle, Code, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { GalleryView } from "./GalleryView";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -11,11 +12,12 @@ interface FolderProps {
 }
 
 export const Folder = ({ isOpen, onClose }: FolderProps) => {
-  const [activeTab, setActiveTab] = useState<"whoami" | "skills">("whoami");
+  const [activeTab, setActiveTab] = useState<"whoami" | "skills" | "gallery">("whoami");
 
   const tabs = [
     { id: "whoami" as const, label: "WHO AM I?", icon: <User className="w-4 h-4" /> },
     { id: "skills" as const, label: "SKILLS", icon: <Cpu className="w-4 h-4" /> },
+    { id: "gallery" as const, label: "GALLERY", icon: <ImageIcon className="w-4 h-4" /> },
   ];
 
   const skillCategories = [
@@ -264,6 +266,19 @@ export const Folder = ({ isOpen, onClose }: FolderProps) => {
                         </motion.div>
                       ))}
                     </div>
+                  </motion.div>
+                )}
+
+                {activeTab === "gallery" && (
+                  <motion.div
+                    key="gallery"
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 10 }}
+                    transition={{ duration: 0.25 }}
+                    className="h-full"
+                  >
+                    <GalleryView />
                   </motion.div>
                 )}
               </AnimatePresence>
