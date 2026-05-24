@@ -105,7 +105,7 @@
 /* Ambient hints */
 .ec-ambient-indicator {
   position: absolute;
-  top: 1.2rem;
+  top: 0.4rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -294,7 +294,7 @@
 /* ---- HUD PANELS ---- */
 .ec-hud {
   position: absolute;
-  top: 1.2rem;
+  top: 1.6rem;
   left: 1.5rem;
   right: 1.5rem;
   display: flex;

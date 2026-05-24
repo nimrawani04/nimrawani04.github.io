@@ -848,7 +848,10 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
       setLabHits(0);
       setLabAttempts(0);
       const chemicals = ["Hydrogen", "Oxygen", "Nitrogen"];
-      setLabTargetChemical(chemicals[Math.floor(Math.random() * 3)]);
+      const target = Array.from({ length: 5 }).map(() => chemicals[Math.floor(Math.random() * 3)]);
+      setLabTargetSeq(target);
+      setLabCurrentSeq([]);
+      setLabTargetChemical(target[0]);
     }
   };
 
@@ -1208,6 +1211,9 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     const isCorrect = name === labTargetChemical;
     let nextHits = labHits;
 
+    const nextSeq = [...labCurrentSeq, name];
+    setLabCurrentSeq(nextSeq);
+
     if (isCorrect) {
       playSFX("correct");
       nextHits = labHits + 1;
@@ -1223,8 +1229,8 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
     setLabQuestionIndex(nextIndex);
 
     if (nextIndex < 5) {
-      const chemicals = ["Hydrogen", "Oxygen", "Nitrogen"];
-      setTimeout(() => setLabTargetChemical(chemicals[Math.floor(Math.random() * 3)]), 1100);
+      const nextTarget = labTargetSeq[nextIndex];
+      setTimeout(() => setLabTargetChemical(nextTarget), 1100);
     } else {
       setTimeout(() => {
         showPerformanceResult(
