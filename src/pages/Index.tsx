@@ -26,6 +26,14 @@ import {
   Gamepad2,
   Car,
   FolderOpen,
+  GraduationCap,
+  ShoppingBag,
+  Globe,
+  ClipboardList,
+  BookOpen,
+  ShieldCheck,
+  Map,
+  Cpu,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -81,8 +89,9 @@ const Index = () => {
     {
       title: "Academic Portal System – Central University of Kashmir",
       description:
-        "Designed and developed a full-stack academic portal for students and faculty, featuring role-based authentication and personalized dashboards. Implemented core academic functionalities including attendance tracking, marks management, notices, and exam-related workflows with structured data handling and intuitive UI/UX.",
+        "Designed and developed a full-stack academic portal with role-based authentication, personalized dashboards, attendance tracking, marks management, notices, and exam workflows, featuring structured data handling and an intuitive UI/UX.",
       tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
+      icon: <GraduationCap className="w-10 h-10" strokeWidth={1} />,
     },
 
     {
@@ -91,44 +100,51 @@ const Index = () => {
         "Developed a fully responsive e-commerce website with automated contact handling using Web3Forms and deployed it on Vercel.",
       tech: ["HTML", "CSS", "JavaScript", "Web3Forms", "Vercel"],
       link: "https://araaaz.vercel.app/",
+      icon: <ShoppingBag className="w-10 h-10" strokeWidth={1} />,
     },
 
     {
-      title: "2AI Conference Website – 2026 International Conference on Applied Artificial Intelligence (Team Project)",
+      title: "2AI Conference Website (Team Project)",
       description:
-        "Collaborated on the design and development of the official conference website, focusing on crafting a clean, modern UI/UX and implementing a responsive, user-friendly frontend. Contributed to structuring content for accessibility and seamless navigation, ensuring an engaging experience for global attendees and researchers.",
+        "Collaborated on the design and development of the official conference website, creating a modern, responsive, and user-friendly frontend with accessible content structure and seamless navigation for attendees and researchers.",
       tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
+      link: "https://2ai-conference.org/",
+      icon: <Globe className="w-10 h-10" strokeWidth={1} />,
     },
 
     {
       title: "CUK Examination Management System (Team Project)",
       description:
-        "Collaboratively developed a secure and scalable examination management system with role-based access control and real-time data handling. Contributed to authentication workflows, structured database design, and responsive UI to streamline exam scheduling, data management, and user interactions.",
+        "Collaboratively developed a secure examination management system with role-based access control, real-time data handling, authentication workflows, structured database design, and a responsive UI for streamlined exam operations.",
       tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
       link: "https://secure-exam-flow.vercel.app/",
+      icon: <ClipboardList className="w-10 h-10" strokeWidth={1} />,
     },
 
     {
       title: "CUK Acadex (Team Project)",
       description:
-        "Contributed to the development of a university-wide academic portal for Central University of Kashmir by building student and teacher portals with role-based dashboards. Implemented features enabling access to attendance, marks, notices, and exam-related information, focusing on structured data flow, usability, and responsive UI design.",
+        "Contributed to a university-wide academic portal by building role-based student and teacher dashboards with features for attendance, marks, notices, and exam-related information, focusing on usability and responsive UI design.",
       tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
       link: "https://ds-cuk.vercel.app/",
+      icon: <BookOpen className="w-10 h-10" strokeWidth={1} />,
     },
     {
       title: "BIS AI – Product Safety Assistant (Team Project)",
       description:
-        "Built an AI-powered product verification platform inspired by BIS standards, enabling users to check product authenticity and compliance with Indian regulations. Integrated an intelligent chatbot with multilingual support to provide real-time guidance and improve accessibility. Designed scalable backend workflows and a responsive PWA interface.",
+        "Built an AI-powered product verification platform inspired by BIS standards, featuring multilingual chatbot support, real-time product guidance, scalable backend workflows, and a responsive PWA interface.",
       tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
       link: "https://bis-ai.vercel.app/",
+      icon: <ShieldCheck className="w-10 h-10" strokeWidth={1} />,
     },
 
     {
       title: "Raasta – AI Platform for Kashmir (Team Project)",
       description:
-        "Collaboratively developed Raasta, a multi-domain AI platform for Kashmir, structured across Smjho, Zameen, Taleem, and Raah (document understanding, crop intelligence, education, and career guidance). Integrated voice/text interaction, multilingual navigation, and Firecrawler-powered scraping pipelines to deliver real-time, actionable information with a focus on accessibility and scalability.",
+        "Collaboratively developed a multi-domain AI platform for Kashmir with features for document understanding, crop intelligence, education, and career guidance. Integrated multilingual voice/text interaction, real-time data pipelines, and scalable workflows to deliver accessible, actionable information.",
       tech: ["React", "TypeScript", "AI APIs", "Firecrawler", "Supabase", "PostgreSQL", "Vercel"],
       link: "https://cursor-hackathon-roan.vercel.app/",
+      icon: <Map className="w-10 h-10" strokeWidth={1} />,
     },
 
     {
@@ -136,6 +152,7 @@ const Index = () => {
       description:
         "Designed an IoT-based home automation prototype integrating multiple sensors for intelligent environmental control.",
       tech: ["Arduino", "C++", "Infrared", "Ultrasonic Sensors"],
+      icon: <Cpu className="w-10 h-10" strokeWidth={1} />,
     },
   ];
 
