@@ -254,6 +254,7 @@ const Index = () => {
 
         {/* Projects Section */}
         <section id="projects" className="py-24 px-6 bg-muted/20">
+          <a id="portfolio-summary" className="sr-only" aria-hidden="true" />
           <div className="max-w-7xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -318,14 +319,15 @@ const Index = () => {
                   </Button>
                 </a>
 
-                <div className="flex gap-4 mt-4">
+                <div className="flex flex-col sm:flex-row gap-4 mt-4 items-center">
                   <a
                     href="https://github.com/nimrawani04"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="lg" className="gap-2 px-6">
                       <FaGithub className="w-5 h-5" />
+                      github.com/nimrawani04
                     </Button>
                   </a>
                   <a
@@ -333,8 +335,9 @@ const Index = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button variant="outline" size="icon">
+                    <Button variant="outline" size="lg" className="gap-2 px-6">
                       <FaLinkedin className="w-5 h-5" />
+                      linkedin.com/in/nimra-wani
                     </Button>
                   </a>
                 </div>
