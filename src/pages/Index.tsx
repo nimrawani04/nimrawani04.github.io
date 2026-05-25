@@ -537,7 +537,7 @@ const Index = () => {
         </div>
       )}
 
-      <Dock items={dockItems} />
+      {!showArcadeHub && <Dock items={dockItems} />}
     </div>
   );
 };

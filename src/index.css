@@ -115,7 +115,7 @@ All colors MUST be HSL.
   justify-content: center;
   gap: 14px;
 
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 
   padding: 14px 18px;
 
@@ -159,17 +159,30 @@ All colors MUST be HSL.
 /* Mobile */
 @media (max-width: 600px) {
   .bottom-nav {
-    width: calc(100vw - 20px);
-
-    gap: 10px;
-    padding: 12px;
-
+    width: auto;
+    max-width: calc(100vw - 16px);
+    gap: 8px;
+    padding: 8px 10px;
     bottom: 12px;
   }
 
   .bottom-nav .nav-icon {
-    width: 44px !important;
-    height: 44px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+  .bottom-nav {
+    gap: 6px;
+    padding: 6px 8px;
+    bottom: 8px;
+  }
+
+  .bottom-nav .nav-icon {
+    width: 34px !important;
+    height: 34px !important;
   }
 }
 

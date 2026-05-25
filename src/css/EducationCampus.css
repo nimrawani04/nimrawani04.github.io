@@ -3793,14 +3793,48 @@
   .ec-mobile-abort-btn {
     display: block !important;
   }
+
+  /* Scale down HUD header elements to prevent overlaps and save screen space */
+  .ec-hud {
+    top: 0.5rem !important;
+    left: 1rem !important;
+    right: 1rem !important;
+  }
+  .ec-hud-left {
+    padding: 0.25rem 0.8rem !important;
+    gap: 0.5rem !important;
+  }
+  .ec-hud-logo {
+    font-size: 0.9rem !important;
+  }
+  .ec-hud-journey h2 {
+    font-size: 0.62rem !important;
+  }
+  .ec-hud-journey span {
+    font-size: 0.45rem !important;
+  }
+  .ec-hud-stats {
+    padding: 0.25rem 0.9rem !important;
+    gap: 0.8rem !important;
+  }
+  .ec-stat-item {
+    font-size: 0.55rem !important;
+  }
+  .ec-stat-icon {
+    font-size: 0.7rem !important;
+  }
+  .ec-hud-btn {
+    width: 32px !important;
+    height: 32px !important;
+  }
 }
 
 .ec-mobile-abort-btn {
   display: none;
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.7);
+  bottom: 12px;
+  left: 12px;
+  background: rgba(0, 0, 0, 0.85);
   border: 1px solid var(--theme-border);
   color: var(--theme-text-muted);
   padding: 0.4rem 0.8rem;
@@ -3811,6 +3845,7 @@
   z-index: 100;
   text-transform: uppercase;
   transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .ec-mobile-abort-btn:hover {
