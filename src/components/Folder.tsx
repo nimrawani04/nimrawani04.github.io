@@ -189,7 +189,7 @@ export const Folder = ({ isOpen, onClose }: FolderProps) => {
                           </span>
                         </div>
                         
-                        <a href="/nimra-wani-resume.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                        <a href="/nimrawani_Resume.pdf" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
                           <Button className="w-full sm:w-auto justify-center bg-slate-900 hover:bg-slate-850 border border-slate-850 text-cyan-400 text-xs font-bold py-4 px-5 rounded-xl group transition-all">
                             <span className="flex items-center gap-2">
                               <FileText className="w-4 h-4 text-cyan-400 group-hover:scale-110 transition-transform" />

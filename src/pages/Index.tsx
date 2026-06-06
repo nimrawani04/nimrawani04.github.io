@@ -158,7 +158,7 @@ const Index = () => {
 
 
   const handleClick = () => {
-    window.open("/nimra-wani-resume.pdf");
+    window.open("/nimrawani_Resume.pdf");
   };
   if (showEducationCampus) {
     return <EducationCampus onBack={() => setShowEducationCampus(false)} />;

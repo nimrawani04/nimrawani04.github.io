@@ -5,7 +5,7 @@ export const SITE = {
   location: 'Central University of Kashmir, Ganderbal',
   githubProfile: 'https://github.com/nimrawani04',
   portfolioRepo: 'https://github.com/nimrawani04/nimrawani04.github.io',
-  resumePdfPath: 'nimra-wani-resume.pdf',
+  resumePdfPath: 'nimrawani_Resume.pdf',
 };
 
 
