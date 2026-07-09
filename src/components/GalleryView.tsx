@@ -63,7 +63,7 @@ const PHOTOS: Photo[] = [
   },
   { 
     id: "cursor2", 
-    src: "/gallery/cursor2.png", 
+    src: "/gallery/cursor2.jpg", 
     albumId: "cursor-hackathon", 
     albumName: "Cursor Hackathon", 
     date: "28-29th March 2026", 
@@ -141,7 +141,7 @@ export const GalleryView = () => {
   const albums = useMemo((): Album[] => {
     const albumsMap: { [key: string]: { name: string; images: string[] } } = {
       "foss-united": { name: "FOSS United", images: ["/gallery/foss1.jpeg", "/gallery/foss2.jpeg"] },
-      "cursor-hackathon": { name: "Cursor Hackathon", images: ["/gallery/cursor.jpg", "/gallery/cursor2.png"] },
+      "cursor-hackathon": { name: "Cursor Hackathon", images: ["/gallery/cursor.jpg", "/gallery/cursor2.jpg"] },
       "standard-a-thon": { name: "Standard-a-Thon Hackathon", images: ["/gallery/bis1.jpeg"] },
       "synertech": { name: "Synertech", images: ["/gallery/kcet1.jpeg", "/gallery/kcet2.jpeg", "/gallery/kcet3.jpeg"] },
     };
@@ -341,6 +341,7 @@ export const GalleryView = () => {
                             src={album.coverImage}
                             alt={album.name}
                             className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                            loading="lazy"
                           />
 
                           {/* Photos indicator badge */}
@@ -397,6 +398,7 @@ export const GalleryView = () => {
                           src={photo.src} 
                           alt={photo.title}
                           className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
+                          loading="lazy"
                         />
                       </motion.div>
                     ))}
@@ -455,6 +457,7 @@ export const GalleryView = () => {
                         src={photo.src} 
                         alt={photo.title}
                         className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
+                        loading="lazy"
                       />
                     </motion.div>
                   ))}
@@ -533,6 +536,7 @@ export const GalleryView = () => {
                           src={photo.src} 
                           alt={photo.title}
                           className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
+                          loading="lazy"
                         />
                       </motion.div>
                     ))}

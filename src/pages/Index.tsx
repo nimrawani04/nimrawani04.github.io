@@ -34,6 +34,7 @@ import {
   ShieldCheck,
   Map,
   Cpu,
+  Image,
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { motion } from "framer-motion";
@@ -153,6 +154,15 @@ const Index = () => {
         "Designed an IoT-based home automation prototype integrating multiple sensors for intelligent environmental control.",
       tech: ["Arduino", "C++", "Infrared", "Ultrasonic Sensors"],
       icon: <Cpu className="w-10 h-10" strokeWidth={1} />,
+    },
+
+    {
+      title: "Pixel GIFs",
+      description:
+        "A curated collection of animated pixel art GIFs for enhancing GitHub profiles and other digital platforms.",
+      tech: ["Pixel Art", "GIFs", "GitHub", "Digital Assets"],
+      github: "https://github.com/nimrawani04/pixel_gifs",
+      icon: <Image className="w-10 h-10" strokeWidth={1} />,
     },
   ];
 
