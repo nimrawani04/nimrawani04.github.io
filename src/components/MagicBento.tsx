@@ -60,7 +60,7 @@ export const MagicBento = ({ children, className = "", spotlightRadius = 300 }: 
           }}
         />
       )}
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10 h-full w-full flex flex-col flex-1">{children}</div>
     </motion.div>
   );
 };

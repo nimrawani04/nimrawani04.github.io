@@ -5,8 +5,19 @@ import { MagicBento } from "./MagicBento";
 import { Badge } from "./ui/badge";
 
 export const BentoGrid = () => {
-  // Experience data (fully detailed with arrays of skills for interactive click-to-expand)
   const experiences = [
+    {
+      title: "Web Developer",
+      org: "Central University of Kashmir Department of IT",
+      period: "Jun 2026 – Present · 1 mo",
+      skills: ["Web Design", "Responsive Web Design", "UI/UX", "Frontend Development", "Usability", "Accessibility", "Responsiveness"]
+    },
+    {
+      title: "Design Team Lead",
+      org: "Central University of Kashmir Department of IT",
+      period: "Jun 2026 – Present · 1 mo",
+      skills: ["Team Leadership", "Branding & Visual Identity", "Event Branding", "Design Thinking", "Team Management", "Product Design"]
+    },
     {
       title: "Google Student Ambassador",
       org: "Google · Internship",
@@ -62,6 +73,7 @@ export const BentoGrid = () => {
       title: "Introduction to Artificial Intelligence Concepts",
       provider: "Microsoft",
       year: "Jan 2026",
+      desc: "Mastered fundamental concepts of AI, including machine learning basics, generative AI applications, and core principles of responsible AI development and deployment.",
       link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/WV44L35N?sharingId=B856B6811014E40C",
       tags: ["Artificial Intelligence", "Generative AI", "Responsible AI", "Computer Vision"]
     },
@@ -69,6 +81,7 @@ export const BentoGrid = () => {
       title: "Introduction to Machine Learning Concepts",
       provider: "Microsoft",
       year: "Jan 2026",
+      desc: "Explored advanced statistical modeling techniques, focusing on linear regression algorithms, data classification methodologies, and neural network foundations.",
       link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/KC8WHGGB?sharingId=B856B6811014E40C",
       tags: ["Machine Learning", "Linear Regression", "Classification", "Clustering", "Deep Learning"]
     },
@@ -76,6 +89,7 @@ export const BentoGrid = () => {
       title: "Artificial Intelligence Fundamentals",
       provider: "IBM SkillsBuild",
       year: "Dec 2025",
+      desc: "Comprehensive study covering the core philosophy of AI, neural networks architecture, deep learning paradigms, and the ethical considerations of modern AI.",
       link: "https://www.credly.com/badges/a36fcbd9-3963-4a4a-b29b-19ff4792aaf1/public_url",
       tags: ["AI Ethics", "ML / DL Models", "Neural Networks", "NLP / Computer Vision"]
     },
@@ -83,6 +97,7 @@ export const BentoGrid = () => {
       title: "Oracle Cloud Infrastructure 2025 AI Associate",
       provider: "Oracle",
       year: "Dec 2025",
+      desc: "Validated expertise in utilizing OCI services for developing, deploying, and managing scalable artificial intelligence and machine learning applications.",
       link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=C982AECE9426EA178736DD1F01312EA6B7ECF089391F6FDDCF9CCBCC6CB1A243",
       tags: ["Cloud Computing", "AI Foundations", "Oracle Cloud (OCI)", "Deep Learning"]
     },
@@ -90,6 +105,7 @@ export const BentoGrid = () => {
       title: "Prepare Data for ML APIs on Google Cloud",
       provider: "Google Cloud",
       year: "Dec 2025",
+      desc: "Specialized in data preprocessing techniques, utilizing TensorFlow and Google Cloud tools to optimize datasets for sophisticated machine learning models.",
       link: "https://www.credly.com/badges/0c570f0b-e9e3-4228-962c-c6b06ac28f8c/public_url",
       tags: ["Python", "TensorFlow", "Google Cloud ML APIs", "Dataflow Caching"]
     },
@@ -97,12 +113,14 @@ export const BentoGrid = () => {
       title: "DSA in Modern Product Engineering",
       provider: "TechBairn",
       year: "Dec 2025",
+      desc: "Intensive training on advanced data structures, optimization algorithms, and modern problem-solving frameworks tailored for scalable software engineering.",
       tags: ["DSA", "Data Structures", "Algorithms", "Problem Solving"]
     },
     {
       title: "Python for AI (5-Day Workshop)",
       provider: "NIT Srinagar",
       year: "Nov 2025",
+      desc: "Hands-on implementation of Python libraries including NumPy, Pandas, and Scikit-Learn for data manipulation and predictive modeling.",
       tags: ["Python", "NumPy", "Pandas", "Scikit-Learn"]
     }
   ];
@@ -112,31 +130,31 @@ export const BentoGrid = () => {
     {
       title: "1st Position – Logo Designing",
       event: "Cyber Conclave 2025, CUK",
-      desc: "Recognized for creative vision, branding principles, and visual layout structures.",
+      desc: "Recognized for creative vision, branding principles, and visual layout structures. Demonstrated an exceptional ability to translate complex conceptual ideas into cohesive, minimalist graphic representations that effectively captured the event's core technological theme.",
       icon: "🏆"
     },
     {
       title: "1st Position – Open Build Challenge",
       event: "FOSS NIT Srinagar & FOSS United",
-      desc: "Collaborative building challenge focusing on open source technology stack implementation under tight deadlines.",
+      desc: "Collaborative building challenge focusing on open source technology stack implementation under tight deadlines. Engineered an innovative solution with a highly optimized architecture, showcasing strong problem-solving skills and effective team synchronization.",
       icon: "💻"
     },
     {
       title: "1st Position – SynerTech 2026",
       event: "Kashmir College of Eng. & Tech.",
-      desc: "Developed a CRM-based Academic Management Portal with AI chat helper and fully-functional Android companion.",
+      desc: "Developed a CRM-based Academic Management Portal with AI chat helper and fully-functional Android companion. Integrated seamless cross-platform syncing and intelligent automation to streamline university administrative workflows efficiently.",
       icon: "⚡"
     },
     {
       title: "2nd Position – Cursor Kashmir Hackathon",
       event: "Cursor Kashmir (Vercel v0 Track)",
-      desc: "Constructed Rasta AI, an AI assistant leveraging document parsing, voice synthesis, and multi-domain models.",
+      desc: "Constructed Rasta AI, an AI assistant leveraging document parsing, voice synthesis, and multi-domain models. Built a robust Retrieval-Augmented Generation pipeline tailored to assist users with accurate, context-aware insights in real-time.",
       icon: "🤖"
     },
     {
       title: "4th Rank – Portfolio BuildSprint 1.0",
       event: "Girls Leading Tech (EmpowerHer 2.0)",
-      desc: "Honored for excellence in coding, responsive design patterns, and creative presentation.",
+      desc: "Honored for excellence in coding, responsive design patterns, and creative presentation. Delivered a high-performance web portfolio that balanced aesthetic appeal with strict web accessibility standards and semantic structural integrity.",
       icon: "⭐"
     }
   ];
@@ -305,21 +323,23 @@ export const BentoGrid = () => {
       <div className="flex flex-col gap-6 h-full md:col-span-1">
         
         {/* Education (Highly Compact: No details, only institute, degree, years, stream) */}
-        <MagicBento className="border-slate-800/80 bg-slate-900/40 flex flex-col justify-between p-4 md:p-5">
-          <div>
-            <div className="flex items-center gap-3 mb-4 border-b border-slate-800/60 pb-3">
-              <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
-                <GraduationCap className="w-5 h-5 text-emerald-400" />
-              </div>
-              <div>
-                <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase">Education</h3>
-                <p className="text-[9px] text-slate-400 tracking-wider">Academic milestones</p>
+        <MagicBento className="border-slate-800/80 bg-slate-900/40 flex-1 flex flex-col justify-between p-4 md:p-5">
+          <div className="h-full flex flex-col justify-between flex-1">
+            <div>
+              <div className="flex items-center gap-3 mb-4 border-b border-slate-800/60 pb-3">
+                <div className="p-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                  <GraduationCap className="w-5 h-5 text-emerald-400" />
+                </div>
+                <div>
+                  <h3 className="text-base md:text-lg font-bold tracking-tight text-slate-100 uppercase">Education</h3>
+                  <p className="text-[9px] text-slate-400 tracking-wider">Academic milestones</p>
+                </div>
               </div>
             </div>
 
-            <div className="space-y-3.5">
+            <div className="flex-grow flex flex-col justify-around py-1">
               {education.map((edu, idx) => (
-                <div key={idx} className="group p-3 bg-slate-900/60 border border-slate-850 rounded-xl hover:border-emerald-500/20 hover:bg-slate-850/40 transition-all duration-300">
+                <div key={idx} className="group p-3 bg-slate-900/60 border border-slate-850 rounded-xl hover:border-emerald-500/20 hover:bg-slate-855/40 transition-all duration-300">
                   <h4 className="text-[11px] md:text-xs font-bold text-slate-100 group-hover:text-emerald-400 transition-colors leading-tight">
                     {edu.institute}
                   </h4>
@@ -342,8 +362,8 @@ export const BentoGrid = () => {
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="h-full flex flex-col justify-between">
-            <div>
+          <div className="h-full flex flex-col justify-between flex-1">
+            <div className="flex-grow flex flex-col">
               <div className="flex items-center justify-between mb-3 border-b border-slate-800/60 pb-2.5">
                 <div className="flex items-center gap-2.5">
                   <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
@@ -359,13 +379,13 @@ export const BentoGrid = () => {
                 <div className="flex gap-1">
                   <button 
                     onClick={prevCertificate}
-                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-850 hover:bg-slate-800 hover:text-purple-400 border border-slate-800 transition-all text-slate-400"
+                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-855 hover:bg-slate-800 hover:text-purple-400 border border-slate-800 transition-all text-slate-400"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                   </button>
                   <button 
                     onClick={nextCertificate}
-                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-850 hover:bg-slate-800 hover:text-purple-400 border border-slate-800 transition-all text-slate-400"
+                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-855 hover:bg-slate-800 hover:text-purple-400 border border-slate-800 transition-all text-slate-400"
                   >
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
@@ -373,7 +393,7 @@ export const BentoGrid = () => {
               </div>
 
               {/* Slider Content Wrapper */}
-              <div className="relative min-h-[145px] flex items-center justify-center py-1">
+              <div className="relative flex-grow flex flex-col justify-center py-1">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentCertIdx}
@@ -381,38 +401,45 @@ export const BentoGrid = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -10 }}
                     transition={{ duration: 0.2 }}
-                    className="w-full flex flex-col justify-between h-full space-y-2.5"
+                    className="w-full flex flex-col justify-between flex-grow space-y-2.5"
                   >
-                    <div className="space-y-1">
+                    <div className="space-y-1.5">
                       <span className="text-[8px] uppercase font-black text-purple-400 tracking-widest bg-purple-500/10 px-1.5 py-0.5 border border-purple-500/20 rounded">
                         {activeCert.provider}
                       </span>
                       <h4 className="text-[11px] font-black text-slate-200 tracking-tight leading-snug">{activeCert.title}</h4>
                       <p className="text-[8px] text-slate-500">Issued: {activeCert.year}</p>
+                      {activeCert.desc && (
+                        <p className="text-[9px] text-slate-400 leading-relaxed mt-1.5">
+                          {activeCert.desc}
+                        </p>
+                      )}
                     </div>
 
-                    <div className="flex flex-wrap gap-1">
-                      {activeCert.tags.slice(0, 3).map((tag, tIdx) => (
-                        <span key={tIdx} className="text-[8px] font-bold text-slate-350 bg-slate-950 border border-slate-855 px-1.5 py-0.5 rounded">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
+                    <div>
+                      <div className="flex flex-wrap gap-1 mt-2">
+                        {activeCert.tags.slice(0, 3).map((tag, tIdx) => (
+                          <span key={tIdx} className="text-[8px] font-bold text-slate-350 bg-slate-950 border border-slate-855 px-1.5 py-0.5 rounded">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
 
-                    {activeCert.link && (
-                      <a
-                        href={activeCert.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-between w-full p-2 bg-slate-950/60 hover:bg-purple-950/15 border border-slate-855 hover:border-purple-500/30 rounded-lg text-[9px] font-bold text-purple-400 hover:text-purple-300 transition-all group mt-1"
-                      >
-                        <span className="flex items-center gap-1">
-                          <Sparkles className="w-2.5 h-2.5 text-purple-400 group-hover:scale-110 transition-transform" />
-                          Verify Credentials
-                        </span>
-                        <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                      </a>
-                    )}
+                      {activeCert.link && (
+                        <a
+                          href={activeCert.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center justify-between w-full p-2 bg-slate-950/60 hover:bg-purple-950/15 border border-slate-855 hover:border-purple-500/30 rounded-lg text-[9px] font-bold text-purple-400 hover:text-purple-300 transition-all group mt-2"
+                        >
+                          <span className="flex items-center gap-1">
+                            <Sparkles className="w-2.5 h-2.5 text-purple-400 group-hover:scale-110 transition-transform" />
+                            Verify Credentials
+                          </span>
+                          <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
+                        </a>
+                      )}
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
@@ -442,8 +469,8 @@ export const BentoGrid = () => {
       {/* ================= COLUMN 3: HONORS & COMPETITIONS ================= */}
       <div className="flex flex-col h-full md:col-span-1">
         <MagicBento className="flex-1 flex flex-col justify-between border-slate-800/80 bg-slate-900/40 p-4 md:p-5 relative overflow-hidden">
-          <div className="h-full flex flex-col justify-between">
-            <div>
+          <div className="h-full flex flex-col justify-between flex-1">
+            <div className="flex-grow flex flex-col">
               <div className="flex items-center justify-between mb-5 border-b border-slate-800/60 pb-3">
                 <div className="flex items-center gap-3">
                   <div className="p-2 rounded-lg bg-amber-500/10 border border-amber-500/20">
@@ -479,7 +506,7 @@ export const BentoGrid = () => {
               </div>
 
               {/* Slider Wrapper */}
-              <div className="relative min-h-[340px]">
+              <div className="relative flex-grow flex flex-col justify-center py-1">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={honorsSlide}
@@ -487,20 +514,20 @@ export const BentoGrid = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -15 }}
                     transition={{ duration: 0.25 }}
-                    className="space-y-3.5"
+                    className="flex flex-col justify-between gap-3 h-full flex-grow"
                   >
                     {(honorsSlide === 0 ? awards : participations).map((item, idx) => (
                       <div 
                         key={idx} 
-                        className="group relative p-2.5 bg-slate-900/60 border border-slate-855 rounded-xl hover:border-amber-500/20 hover:bg-slate-850/40 transition-all duration-300 flex items-start gap-2 h-full overflow-hidden"
+                        className="group relative p-2.5 bg-slate-900/60 border border-slate-855 rounded-xl hover:border-amber-500/20 hover:bg-slate-850/40 transition-all duration-300 flex items-start gap-2 flex-1 overflow-hidden"
                       >
                         <span className="text-lg pt-0.5 select-none">{item.icon}</span>
                         <div className="space-y-0.5 flex-1 min-w-0">
-                          <h4 className="text-[11px] md:text-xs font-bold text-slate-100 group-hover:text-amber-450 transition-colors leading-tight truncate">
+                          <h4 className="text-[11px] md:text-xs font-bold text-slate-100 group-hover:text-amber-450 transition-colors leading-tight">
                             {item.title}
                           </h4>
-                          <p className="text-[8px] font-black text-amber-500/80 uppercase tracking-widest truncate">{item.event}</p>
-                          <p className="text-[9px] text-slate-400 leading-normal group-hover:text-slate-350 transition-colors line-clamp-2">{item.desc}</p>
+                          <p className="text-[8px] font-black text-amber-500/80 uppercase tracking-widest">{item.event}</p>
+                          <p className="text-[9px] text-slate-400 leading-normal group-hover:text-slate-350 transition-colors">{item.desc}</p>
                         </div>
                       </div>
                     ))}

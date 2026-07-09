@@ -191,6 +191,8 @@ export const certificates = [
 ];
 
 export const experience = [
+  { title: 'Web Developer', org: 'Central University of Kashmir Department of IT', period: 'Jun 2026 – Present', desc: 'Developed and maintained the conference website, delivering a responsive and visually engaging web experience. Focused on usability, accessibility, and interface design to ensure seamless performance.' },
+  { title: 'Design Team Lead', org: 'Central University of Kashmir Department of IT', period: 'Jun 2026 – Present', desc: 'Led the design team for the conference website, ensuring a cohesive and accessible visual experience.' },
   { title: 'Campus Lead', org: 'Open Source Global Connect', period: 'Dec 2025 – Present', desc: 'Led and coordinated open-source awareness initiatives, organized technical sessions, and mentored students in open source contributions.' },
   { title: 'Student Intern', org: 'National Institute of Technology Srinagar', period: 'Dec 2025 – Feb 2026', desc: 'Gaining hands-on experience in applied computer science through coding exercises, problem-solving tasks, and academic mentorship.' },
   { title: 'Mentor', org: 'SWOC (Social Winter of Code)', period: 'Jan 2026 – Mar 2026', desc: 'Mentoring contributors in front-end web development, guiding them through project-based learning and open-source collaboration.' }
