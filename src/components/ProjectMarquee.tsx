@@ -185,14 +185,27 @@ export const ProjectMarquee = ({
     };
   }, []);
 
-  // Split projects into two halves
-  const mid = Math.ceil(projectsList.length / 2);
-  const firstHalf = projectsList.slice(0, mid);
-  const secondHalf = projectsList.slice(mid);
+  // Split projects into four parts for mobile (3-4 rows), two for larger screens
+  const quarterLength = Math.ceil(projectsList.length / 4);
+  const halfLength = Math.ceil(projectsList.length / 2);
+  
+  // For mobile: 4 rows
+  const row1Mobile = projectsList.slice(0, quarterLength);
+  const row2Mobile = projectsList.slice(quarterLength, quarterLength * 2);
+  const row3Mobile = projectsList.slice(quarterLength * 2, quarterLength * 3);
+  const row4Mobile = projectsList.slice(quarterLength * 3);
+  
+  // For desktop: 2 rows
+  const row1Desktop = projectsList.slice(0, halfLength);
+  const row2Desktop = projectsList.slice(halfLength);
 
-  // Triple each half for seamless loop
-  const row1 = [...firstHalf, ...firstHalf, ...firstHalf];
-  const row2 = [...secondHalf, ...secondHalf, ...secondHalf];
+  // Triple each for seamless loop
+  const row1 = [...row1Mobile, ...row1Mobile, ...row1Mobile];
+  const row2 = [...row2Mobile, ...row2Mobile, ...row2Mobile];
+  const row3 = [...row3Mobile, ...row3Mobile, ...row3Mobile];
+  const row4 = [...row4Mobile, ...row4Mobile, ...row4Mobile];
+  const row1Desk = [...row1Desktop, ...row1Desktop, ...row1Desktop];
+  const row2Desk = [...row2Desktop, ...row2Desktop, ...row2Desktop];
 
   const handleTileClick = (project: ProjectItem) => {
     setExpandedTile(expandedTile === project.title ? null : project.title);
@@ -205,7 +218,7 @@ export const ProjectMarquee = ({
       <div
         key={`${rowPrefix}-${project.title}-${idx}`}
         onClick={() => handleTileClick(project)}
-        className="w-[280px] h-[180px] sm:w-[350px] sm:h-[225px] md:w-[420px] md:h-[270px] flex-shrink-0 relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 shadow-lg group"
+        className="w-[260px] h-[170px] sm:w-[320px] sm:h-[200px] md:w-[380px] md:h-[240px] lg:w-[420px] lg:h-[270px] flex-shrink-0 relative overflow-hidden rounded-2xl cursor-pointer transition-all duration-300 shadow-lg group"
         style={{
           border: '1px solid rgba(255,255,255,0.05)',
           background: 'linear-gradient(145deg, #0f172a, #0a0f1a 50%, #0d1117)',
@@ -214,7 +227,7 @@ export const ProjectMarquee = ({
         {/* Name face (always visible) */}
         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 rounded-2xl">
           <div
-            className="mb-4 p-3.5 rounded-xl transition-colors duration-300"
+            className="mb-3 p-2.5 sm:p-3 md:p-3.5 rounded-xl transition-colors duration-300"
             style={{
               background: project.color + '15',
               border: `1px solid ${project.color}30`,
@@ -223,18 +236,18 @@ export const ProjectMarquee = ({
           >
             {project.icon}
           </div>
-          <h3 className="text-sm sm:text-base md:text-lg font-bold text-white text-center leading-tight whitespace-normal">
+          <h3 className="text-xs sm:text-sm md:text-base lg:text-lg font-bold text-white text-center leading-tight whitespace-normal px-2">
             {project.title}
           </h3>
           <p
-            className="text-[10px] sm:text-xs mt-1.5 font-medium text-center whitespace-normal"
+            className="text-[9px] sm:text-[10px] md:text-xs mt-1 sm:mt-1.5 font-medium text-center whitespace-normal px-2"
             style={{ color: project.color + 'aa' }}
           >
             {project.subtitle}
           </p>
-          <div className="flex items-center gap-1 mt-3 text-[10px] sm:text-xs text-slate-500 uppercase tracking-widest font-semibold group-hover:text-slate-300 transition-colors">
+          <div className="flex items-center gap-1 mt-2 sm:mt-3 text-[9px] sm:text-[10px] md:text-xs text-slate-500 uppercase tracking-widest font-semibold group-hover:text-slate-300 transition-colors">
             <span>View details</span>
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
           </div>
         </div>
       </div>
@@ -257,11 +270,12 @@ export const ProjectMarquee = ({
         </p>
       </div>
 
-      <div className="flex flex-col gap-3 w-full">
+      {/* Mobile: 4 rows */}
+      <div className="flex flex-col gap-2 sm:gap-3 w-full md:hidden">
         {/* Row 1: Scrolls RIGHT */}
         <div className="overflow-hidden w-full">
           <div
-            className="flex gap-3 whitespace-nowrap"
+            className="flex gap-2 whitespace-nowrap"
             style={{
               transform: `translateX(calc(-33.333% + ${offset - 200}px))`,
               willChange: "transform",
@@ -274,7 +288,7 @@ export const ProjectMarquee = ({
         {/* Row 2: Scrolls LEFT */}
         <div className="overflow-hidden w-full">
           <div
-            className="flex gap-3 whitespace-nowrap"
+            className="flex gap-2 whitespace-nowrap"
             style={{
               transform: `translateX(calc(-33.333% - ${offset - 200}px))`,
               willChange: "transform",
@@ -283,17 +297,72 @@ export const ProjectMarquee = ({
             {row2.map((project, idx) => renderTile(project, idx, "row2"))}
           </div>
         </div>
+
+        {/* Row 3: Scrolls RIGHT */}
+        <div className="overflow-hidden w-full">
+          <div
+            className="flex gap-2 whitespace-nowrap"
+            style={{
+              transform: `translateX(calc(-33.333% + ${offset - 150}px))`,
+              willChange: "transform",
+            }}
+          >
+            {row3.map((project, idx) => renderTile(project, idx, "row3"))}
+          </div>
+        </div>
+
+        {/* Row 4: Scrolls LEFT */}
+        <div className="overflow-hidden w-full">
+          <div
+            className="flex gap-2 whitespace-nowrap"
+            style={{
+              transform: `translateX(calc(-33.333% - ${offset - 150}px))`,
+              willChange: "transform",
+            }}
+          >
+            {row4.map((project, idx) => renderTile(project, idx, "row4"))}
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop: 2 rows */}
+      <div className="hidden md:flex flex-col gap-3 w-full">
+        {/* Row 1: Scrolls RIGHT */}
+        <div className="overflow-hidden w-full">
+          <div
+            className="flex gap-3 whitespace-nowrap"
+            style={{
+              transform: `translateX(calc(-33.333% + ${offset - 200}px))`,
+              willChange: "transform",
+            }}
+          >
+            {row1Desk.map((project, idx) => renderTile(project, idx, "row1-desk"))}
+          </div>
+        </div>
+
+        {/* Row 2: Scrolls LEFT */}
+        <div className="overflow-hidden w-full">
+          <div
+            className="flex gap-3 whitespace-nowrap"
+            style={{
+              transform: `translateX(calc(-33.333% - ${offset - 200}px))`,
+              willChange: "transform",
+            }}
+          >
+            {row2Desk.map((project, idx) => renderTile(project, idx, "row2-desk"))}
+          </div>
+        </div>
       </div>
 
       {/* Expanded project overlay — renders above everything, never clipped */}
       {expandedProject && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4"
           onClick={() => setExpandedTile(null)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-[280px] h-[180px] sm:w-[350px] sm:h-[225px] md:w-[420px] md:h-[270px] relative rounded-2xl shadow-2xl flex flex-col p-4 sm:p-5 md:p-6 overflow-y-auto scrollbar-none whitespace-normal text-left"
+            className="w-full max-w-[340px] sm:max-w-[400px] md:max-w-[480px] h-auto max-h-[80vh] relative rounded-2xl shadow-2xl flex flex-col p-4 sm:p-5 md:p-6 overflow-y-auto scrollbar-none whitespace-normal text-left"
             style={{
               border: `1px solid ${expandedProject.color}60`,
               background: `linear-gradient(145deg, ${expandedProject.color}12, #0a0f1a 40%, #0d1117)`,
