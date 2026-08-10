@@ -12,7 +12,7 @@ import BugDungeon from "@/components/BugDungeon";
 import MemoryLab from "@/components/MemoryLab";
 import EducationCampus from "@/components/EducationCampus";
 import { Folder } from "@/components/Folder";
-import { Masonry } from "@/components/Masonry";
+import { ProjectMarquee } from "@/components/ProjectMarquee";
 import { BentoGrid } from "@/components/BentoGrid";
 import {
   Home,
@@ -86,85 +86,7 @@ const Index = () => {
       onClick: () => setShowArcadeHub(true),
     },
   ];
-  const projects = [
-    {
-      title: "Academic Portal System – Central University of Kashmir",
-      description:
-        "Designed and developed a full-stack academic portal with role-based authentication, personalized dashboards, attendance tracking, marks management, notices, and exam workflows, featuring structured data handling and an intuitive UI/UX.",
-      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-      icon: <GraduationCap className="w-10 h-10" strokeWidth={1} />,
-    },
 
-    {
-      title: "Araaz E-commerce Website",
-      description:
-        "Developed a fully responsive e-commerce website with automated contact handling using Web3Forms and deployed it on Vercel.",
-      tech: ["HTML", "CSS", "JavaScript", "Web3Forms", "Vercel"],
-      link: "https://araaaz.vercel.app/",
-      icon: <ShoppingBag className="w-10 h-10" strokeWidth={1} />,
-    },
-
-    {
-      title: "2AI Conference Website (Team Project)",
-      description:
-        "Collaborated on the design and development of the official conference website, creating a modern, responsive, and user-friendly frontend with accessible content structure and seamless navigation for attendees and researchers.",
-      tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
-      link: "https://2ai-conference.org/",
-      icon: <Globe className="w-10 h-10" strokeWidth={1} />,
-    },
-
-    {
-      title: "CUK Examination Management System (Team Project)",
-      description:
-        "Collaboratively developed a secure examination management system with role-based access control, real-time data handling, authentication workflows, structured database design, and a responsive UI for streamlined exam operations.",
-      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-      link: "https://secure-exam-flow.vercel.app/",
-      icon: <ClipboardList className="w-10 h-10" strokeWidth={1} />,
-    },
-
-    {
-      title: "CUK Acadex (Team Project)",
-      description:
-        "Contributed to a university-wide academic portal by building role-based student and teacher dashboards with features for attendance, marks, notices, and exam-related information, focusing on usability and responsive UI design.",
-      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-      link: "https://ds-cuk.vercel.app/",
-      icon: <BookOpen className="w-10 h-10" strokeWidth={1} />,
-    },
-    {
-      title: "BIS AI – Product Safety Assistant (Team Project)",
-      description:
-        "Built an AI-powered product verification platform inspired by BIS standards, featuring multilingual chatbot support, real-time product guidance, scalable backend workflows, and a responsive PWA interface.",
-      tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
-      link: "https://bis-ai.vercel.app/",
-      icon: <ShieldCheck className="w-10 h-10" strokeWidth={1} />,
-    },
-
-    {
-      title: "Raasta – AI Platform for Kashmir (Team Project)",
-      description:
-        "Collaboratively developed a multi-domain AI platform for Kashmir with features for document understanding, crop intelligence, education, and career guidance. Integrated multilingual voice/text interaction, real-time data pipelines, and scalable workflows to deliver accessible, actionable information.",
-      tech: ["React", "TypeScript", "AI APIs", "Firecrawler", "Supabase", "PostgreSQL", "Vercel"],
-      link: "https://cursor-hackathon-roan.vercel.app/",
-      icon: <Map className="w-10 h-10" strokeWidth={1} />,
-    },
-
-    {
-      title: "Smart House using Arduino",
-      description:
-        "Designed an IoT-based home automation prototype integrating multiple sensors for intelligent environmental control.",
-      tech: ["Arduino", "C++", "Infrared", "Ultrasonic Sensors"],
-      icon: <Cpu className="w-10 h-10" strokeWidth={1} />,
-    },
-
-    {
-      title: "Pixel GIFs",
-      description:
-        "A curated collection of animated pixel art GIFs for enhancing GitHub profiles and other digital platforms.",
-      tech: ["Pixel Art", "GIFs", "GitHub", "Digital Assets"],
-      github: "https://github.com/nimrawani04/pixel_gifs",
-      icon: <Image className="w-10 h-10" strokeWidth={1} />,
-    },
-  ];
 
 
   const handleClick = () => {
@@ -187,7 +109,7 @@ const Index = () => {
   }
 
   return (
-    <div className="relative min-h-screen pb-32">
+    <div className="relative min-h-screen pb-32 overflow-x-clip" style={{ overflowX: "clip" }}>
       <LetterGlitch
         glitchColors={[
           "rgba(99, 230, 190, 0.3)",
@@ -280,22 +202,13 @@ const Index = () => {
         <Folder isOpen={isAboutFolderOpen} onClose={() => setIsAboutFolderOpen(false)} />
 
         {/* Projects Section */}
-        <section id="projects" className="py-24 px-6 bg-muted/20">
-          <a id="portfolio-summary" className="sr-only" aria-hidden="true" />
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center">
-                Featured <span className="text-gradient">Projects</span>
-              </h2>
-              <Masonry items={projects} />
-            </motion.div>
-          </div>
-        </section>
+        <ProjectMarquee
+          onOpenCookingGame={() => setShowGame(true)}
+          onOpenMemoryLab={() => setShowMemoryLab(true)}
+          onOpenBugDungeon={() => setShowBugDungeon(true)}
+          onOpenCityQuest={() => setShowCityQuest(true)}
+          onOpenEducationCampus={() => setShowEducationCampus(true)}
+        />
 
         {/* Journey & Credentials Section (Bento Grid Dashboard) */}
         <section id="journey" className="py-24 bg-muted/10 relative overflow-hidden">
