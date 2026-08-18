@@ -10,7 +10,11 @@ import {
   Cpu,
   ExternalLink,
   ChevronRight,
-  X
+  X,
+  Heart,
+  Languages,
+  Car,
+  Accessibility
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
@@ -144,6 +148,58 @@ const projectsList: ProjectItem[] = [
     icon: <Cpu className="w-5 h-5" />,
     color: "#f97316",
   },
+  {
+    title: "Her Space",
+    subtitle: "Women's Health Support Platform",
+    description: [
+      "Developed a comprehensive platform combining health tracking, pregnancy planning, research resources, and AI-powered health support.",
+      "Integrated mentorship, career opportunities, women-focused travel, professional discovery, and community experiences.",
+      "Built resources for health awareness, research discovery, mental wellness, safety, and personalized support in one ecosystem."
+    ],
+    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "AI APIs", "Tailwind CSS", "Vercel"],
+    github: "https://github.com/nimrawani04",
+    icon: <Heart className="w-5 h-5" />,
+    color: "#f43f5e",
+  },
+  {
+    title: "GaashAI",
+    subtitle: "Multilingual AI Translation & Conversational Assistant",
+    description: [
+      "Developed a multilingual AI assistant supporting Kashmiri, Urdu, and English communication and translation.",
+      "Integrated OCR-based image recognition to extract and translate text from images and documents.",
+      "Implemented voice input, text-to-speech, RTL support, and persistent chat sessions."
+    ],
+    tech: ["React", "TypeScript", "AI APIs", "OCR", "Voice API", "Tailwind CSS", "Vercel"],
+    github: "https://github.com/nimrawani04",
+    icon: <Languages className="w-5 h-5" />,
+    color: "#8b5cf6",
+  },
+  {
+    title: "Karawan",
+    subtitle: "Team Project · Intercity Carpooling Platform for Kashmir",
+    description: [
+      "Developed a peer-to-peer carpooling platform connecting people travelling along the same routes across Kashmir.",
+      "Enabled users to offer rides by publishing their route, date, available seats, and fare, while others can discover and join suitable rides.",
+      "Implemented real-time ride search, bookings, in-ride chat, notifications, ratings, and cross-platform mobile support."
+    ],
+    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Maps API", "Tailwind CSS", "Vercel"],
+    github: "https://github.com/nimrawani04",
+    icon: <Car className="w-5 h-5" />,
+    color: "#14b8a6",
+  },
+  {
+    title: "Sign Bridge India",
+    subtitle: "Real-Time Indian Sign Language Communication Platform",
+    description: [
+      "Developed a browser-based platform for real-time bidirectional translation between Indian Sign Language and spoken/written language.",
+      "Integrated MediaPipe Vision AI for real-time sign recognition and a 3D avatar for generating ISL signs from text and speech.",
+      "Implemented ISL grammar conversion, interactive gloss editing, bilingual support, and privacy-focused local processing."
+    ],
+    tech: ["React", "TypeScript", "MediaPipe", "3D Avatar", "WebGL", "Tailwind CSS", "Vercel"],
+    github: "https://github.com/nimrawani04",
+    icon: <Accessibility className="w-5 h-5" />,
+    color: "#06b6d4",
+  },
 ];
 
 export const ProjectMarquee = ({
@@ -185,9 +241,9 @@ export const ProjectMarquee = ({
     };
   }, []);
 
-  // Split projects into four parts for mobile (3-4 rows), two for larger screens
+  // Split projects into four parts for mobile (4 rows of 3), three for desktop (3 rows of 4)
   const quarterLength = Math.ceil(projectsList.length / 4);
-  const halfLength = Math.ceil(projectsList.length / 2);
+  const thirdLength = Math.ceil(projectsList.length / 3);
   
   // For mobile: 4 rows
   const row1Mobile = projectsList.slice(0, quarterLength);
@@ -195,9 +251,10 @@ export const ProjectMarquee = ({
   const row3Mobile = projectsList.slice(quarterLength * 2, quarterLength * 3);
   const row4Mobile = projectsList.slice(quarterLength * 3);
   
-  // For desktop: 2 rows
-  const row1Desktop = projectsList.slice(0, halfLength);
-  const row2Desktop = projectsList.slice(halfLength);
+  // For desktop: 3 rows
+  const row1Desktop = projectsList.slice(0, thirdLength);
+  const row2Desktop = projectsList.slice(thirdLength, thirdLength * 2);
+  const row3Desktop = projectsList.slice(thirdLength * 2);
 
   // Triple each for seamless loop
   const row1 = [...row1Mobile, ...row1Mobile, ...row1Mobile];
@@ -206,6 +263,7 @@ export const ProjectMarquee = ({
   const row4 = [...row4Mobile, ...row4Mobile, ...row4Mobile];
   const row1Desk = [...row1Desktop, ...row1Desktop, ...row1Desktop];
   const row2Desk = [...row2Desktop, ...row2Desktop, ...row2Desktop];
+  const row3Desk = [...row3Desktop, ...row3Desktop, ...row3Desktop];
 
   const handleTileClick = (project: ProjectItem) => {
     setExpandedTile(expandedTile === project.title ? null : project.title);
@@ -325,7 +383,7 @@ export const ProjectMarquee = ({
         </div>
       </div>
 
-      {/* Desktop: 2 rows */}
+      {/* Desktop: 3 rows */}
       <div className="hidden md:flex flex-col gap-3 w-full">
         {/* Row 1: Scrolls RIGHT */}
         <div className="overflow-hidden w-full">
@@ -350,6 +408,19 @@ export const ProjectMarquee = ({
             }}
           >
             {row2Desk.map((project, idx) => renderTile(project, idx, "row2-desk"))}
+          </div>
+        </div>
+
+        {/* Row 3: Scrolls RIGHT */}
+        <div className="overflow-hidden w-full">
+          <div
+            className="flex gap-3 whitespace-nowrap"
+            style={{
+              transform: `translateX(calc(-33.333% + ${offset - 150}px))`,
+              willChange: "transform",
+            }}
+          >
+            {row3Desk.map((project, idx) => renderTile(project, idx, "row3-desk"))}
           </div>
         </div>
       </div>

@@ -166,6 +166,106 @@ export const projects = [
     systemFlow: 'Sensors → Arduino → Logic Processing → Actuators → Environmental Control',
     skillsGained: ['IoT', 'Embedded Systems', 'Hardware Design'],
     missionObj: ['Sensor integration', 'Automated control', 'Prototype design']
+  },
+  {
+    id: 'her-space',
+    name: 'Her Space',
+    subtitle: "Women's Health Support Platform",
+    desc: 'Developed a comprehensive platform combining health tracking, pregnancy planning, research resources, and AI-powered health support.',
+    tech: ['React', 'TypeScript', 'Supabase', 'PostgreSQL', 'AI APIs', 'Tailwind CSS', 'Vercel'],
+    features: [
+      'Comprehensive platform combining health tracking, pregnancy planning, and AI support',
+      'Integrated mentorship, career opportunities, and community experiences',
+      'Built resources for health awareness, mental wellness, safety, and personalized support'
+    ],
+    live: '',
+    github: 'https://github.com/nimrawani04',
+    color: '#f43f5e',
+    status: 'COMPLETED',
+    levelRequired: 3,
+    story: 'Designed a unified and secure space for women to manage health metrics, access resources, and seek guidance.',
+    challenges: ['Designing inclusive and sensitive tracking UI', 'Ensuring top-tier privacy for personal health logs', 'Integrating natural language AI advice safely'],
+    learned: ['Healthcare product design guidelines', 'Sensitive user data encryption', 'Community feature design patterns'],
+    approach: ['Prioritized strict user privacy controls', 'Ensured clean, empathetic interface elements', 'Integrated context-aware health LLM queries'],
+    optimizations: ['Optimized state persistence for daily tracking logs', 'Cached resource databases', 'Lightweight graphics for fast loads'],
+    systemFlow: 'User Log → Local Dashboard → Metrics Sync → AI Health Chatbot & Community Forums',
+    skillsGained: ['Sensitive Data Design', 'Community Portals', 'Health Tech AI'],
+    missionObj: ['Health tracking dashboard', 'AI-powered coaching logs', 'Mentorship portal']
+  },
+  {
+    id: 'gaash-ai',
+    name: 'GaashAI',
+    subtitle: 'Multilingual AI Translation & Conversational Assistant',
+    desc: 'Developed a multilingual AI assistant supporting Kashmiri, Urdu, and English communication and translation.',
+    tech: ['React', 'TypeScript', 'AI APIs', 'OCR', 'Voice API', 'Tailwind CSS', 'Vercel'],
+    features: [
+      'Multilingual translation supporting Kashmiri, Urdu, and English',
+      'OCR-based image text recognition and extraction',
+      'Voice input, speech synthesis, RTL language alignment, and persistent chat sessions'
+    ],
+    live: '',
+    github: 'https://github.com/nimrawani04',
+    color: '#8b5cf6',
+    status: 'COMPLETED',
+    levelRequired: 3,
+    story: 'Created an intelligent communication bridge to translate and speak complex regional dialects, improving local language digitization.',
+    challenges: ['Mapping Urdu/Kashmiri right-to-left layout rules', 'Handling accurate OCR conversion for low-resource languages', 'Minimizing voice response latency'],
+    learned: ['RTL layout mechanics in modern frameworks', 'Tesseract/OCR processing models', 'Web Audio synthesis streams'],
+    approach: ['Implemented flexible CSS direction layouts', 'Utilized chunked vector queries for dialect dictionary lookups', 'Integrated native browser speech synthesis'],
+    optimizations: ['Prefetched translations database', 'Optimized image preprocessing before OCR analysis', 'Persisted sessions state on client'],
+    systemFlow: 'Voice/Image Input → Dialect Recognizer → Translation Processing → RTL Text Display & Audio Output',
+    skillsGained: ['Language Processing', 'RTL Layouts', 'OCR Integration'],
+    missionObj: ['Multilingual text synthesis', 'OCR document parsing', 'Persistent session records']
+  },
+  {
+    id: 'karawan',
+    name: 'Karawan',
+    subtitle: 'Intercity Carpooling Platform for Kashmir',
+    desc: 'Developed a peer-to-peer carpooling platform connecting people travelling along the same routes across Kashmir.',
+    tech: ['React', 'TypeScript', 'Supabase', 'PostgreSQL', 'Maps API', 'Tailwind CSS', 'Vercel'],
+    features: [
+      'Peer-to-peer ride sharing routes catalog across Kashmir valleys',
+      'Ride offer listings detailing dates, seats, and fares',
+      'Real-time ride search, bookings, in-app messaging, notifications, and rating logs'
+    ],
+    live: '',
+    github: 'https://github.com/nimrawani04',
+    color: '#14b8a6',
+    status: 'COMPLETED',
+    levelRequired: 4,
+    story: 'Designed a reliable community-based carpooling service to optimize daily transit and travel between Kashmir cities.',
+    challenges: ['Managing concurrent route searches and booking requests', 'Building responsive in-ride real-time communication channels', 'Handling route map calculations'],
+    learned: ['Real-time database sync logic', 'Geocoding and maps APIs design', 'Notification push triggers'],
+    approach: ['Integrated Supabase real-time channels', 'Built modular and lazy-loaded map overlays', 'Designed dual booking portals (Driver & Passenger)'],
+    optimizations: ['Debounced search inputs to limit queries', 'Cached routing overlays', 'Indexed databases for regional roads'],
+    systemFlow: 'Driver Publishes Ride → Passenger Searches Route → Match Found → Booking & Real-Time Chat → Completed Ride & Review',
+    skillsGained: ['Logistics Apps', 'Map Routing', 'Instant Messaging'],
+    missionObj: ['Ride publishing workflow', 'Geocoding search lists', 'Dual-mode booking console']
+  },
+  {
+    id: 'sign-bridge-india',
+    name: 'Sign Bridge India',
+    subtitle: 'Real-Time Indian Sign Language Communication Platform',
+    desc: 'Developed a browser-based platform for real-time bidirectional translation between Indian Sign Language and spoken/written language.',
+    tech: ['React', 'TypeScript', 'MediaPipe', '3D Avatar', 'WebGL', 'Tailwind CSS', 'Vercel'],
+    features: [
+      'Real-time bidirectional sign language translation',
+      'MediaPipe Vision AI engine for real-time hands/pose tracking',
+      '3D avatar animation renderer for rendering ISL signs from speech and text inputs'
+    ],
+    live: '',
+    github: 'https://github.com/nimrawani04',
+    color: '#06b6d4',
+    status: 'COMPLETED',
+    levelRequired: 5,
+    story: 'Built an advanced accessibility project that leverages Web AI and interactive WebGL assets to bridge the gap between spoken speech and sign gestures.',
+    challenges: ['Achieving low-latency pose and hand gesture detection in-browser', 'Synchronizing the 3D avatar joints with dynamic grammar rules', 'Ensuring absolute data privacy with offline local models'],
+    learned: ['MediaPipe framework APIs and performance optimization', 'Three.js / WebGL avatar animation loops', 'ISL grammatical syntax rules'],
+    approach: ['Utilized client-side MediaPipe WASM bindings', 'Created modular gesture-to-animation interpolation maps', 'Implemented offline-first model caching'],
+    optimizations: ['Offloaded computer vision frame analysis to web workers', 'Simplified 3D model polygon count', 'Lazy loaded assets to reduce bundle footprint'],
+    systemFlow: 'Video Input → MediaPipe Gesture Analytics → Grammar Parsing → Output Text/Speech OR Spoken Input → 3D Avatar Rendering',
+    skillsGained: ['Computer Vision', '3D Animation', 'Accessibility Design'],
+    missionObj: ['MediaPipe gesture processor', '3D animation rig', 'Grammar translation compiler']
   }
 ];
 

@@ -261,6 +261,107 @@ const RECIPES: Recipe[] = [
       "Spread CSS Frosting cheese layouts.",
       "Sprinkle Arduino Chips embedded controller gates."
     ]
+  },
+  {
+    id: "herspace",
+    name: "Her Space",
+    dishName: "Her Space Smoothie 🥤",
+    emoji: "🥤",
+    description: "Women's health ecosystem tracking pregnancy, wellness resources, and AI coaching.",
+    longDescription: "A comprehensive health tracking platform integrated with AI support, wellness research resources, safety tracking, and community networks.",
+    ingredients: ["react", "ts", "supabase", "postgres", "ai", "vercel"],
+    features: [
+      "AI Health coaching and diagnostics",
+      "Pregnancy tracking & wellness planner",
+      "Mentorship and travel communities"
+    ],
+    github: "https://github.com/nimrawani04",
+    demo: "",
+    screenshot: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&auto=format&fit=crop&q=80",
+    xpGain: 470,
+    instructions: [
+      "Pour React Flour base to layout health tracking widgets.",
+      "Stir TypeScript Pepper for solid wellness state definitions.",
+      "Drizzle Supabase Syrup for authentication and secure records.",
+      "Simmer PostgreSQL Salt database metrics.",
+      "Mix AI Syrup for predictive health coaching advice.",
+      "Steam cook and deploy via Vercel Powder."
+    ]
+  },
+  {
+    id: "gaashai",
+    name: "GaashAI",
+    dishName: "GaashAI Tea 🫖",
+    emoji: "🫖",
+    description: "Multilingual AI translation assistant supporting Kashmiri, Urdu, and English communication.",
+    longDescription: "A robust voice and text translation platform using OCR recognition, RTL localization, speech synthesis, and persistent sessions.",
+    ingredients: ["react", "ts", "ai", "apis", "vercel"],
+    features: [
+      "OCR image translation scanner",
+      "Voice and text-to-speech engines",
+      "RTL and persistent session state"
+    ],
+    github: "https://github.com/nimrawani04",
+    demo: "",
+    screenshot: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=600&auto=format&fit=crop&q=80",
+    xpGain: 450,
+    instructions: [
+      "Steep HTML Sugar for structured conversation chats.",
+      "Add React Flour to compile interactive text feeds.",
+      "Mix AI Syrup for multimodal translation inference.",
+      "Stir APIs Syrup for speech-to-text integration.",
+      "Bake under Vercel Powder static cloud serving."
+    ]
+  },
+  {
+    id: "karawan",
+    name: "Karawan",
+    dishName: "Karawan Kebab 🍢",
+    emoji: "🍢",
+    description: "Peer-to-peer intercity carpooling platform for travelers across Kashmir.",
+    longDescription: "A collaborative logistics platform allowing real-time ride offering, booking routes, in-ride chat rooms, and safety ratings.",
+    ingredients: ["react", "ts", "supabase", "postgres", "vercel"],
+    features: [
+      "Ride publishing and booking flow",
+      "Real-time chat and geocoding search",
+      "Cross-platform mobile optimization"
+    ],
+    github: "https://github.com/nimrawani04",
+    demo: "",
+    screenshot: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=600&auto=format&fit=crop&q=80",
+    xpGain: 460,
+    instructions: [
+      "Skewer React Flour panels for ride listing views.",
+      "Season with TypeScript Pepper for booking flow rules.",
+      "Pour Supabase Syrup to handle real-time ride tracking.",
+      "Simmer PostgreSQL Salt database metrics.",
+      "Serve hot via Vercel Powder deployment."
+    ]
+  },
+  {
+    id: "signbridge",
+    name: "Sign Bridge India",
+    dishName: "Sign Bridge Pie 🥧",
+    emoji: "🥧",
+    description: "Bidirectional Indian Sign Language translator utilizing MediaPipe Vision AI and 3D avatars.",
+    longDescription: "An accessibility interface translating signs to text/speech and spoken input to 3D avatar animations locally and privately.",
+    ingredients: ["react", "ts", "ai", "apis", "vercel"],
+    features: [
+      "MediaPipe Vision AI sign recognizer",
+      "3D Avatar gesture animator",
+      "Bilingual local translation parser"
+    ],
+    github: "https://github.com/nimrawani04",
+    demo: "",
+    screenshot: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80",
+    xpGain: 480,
+    instructions: [
+      "Bake React Flour pie crust for accessibility console.",
+      "Mix AI Syrup for MediaPipe gesture classification.",
+      "Drizzle APIs Syrup for speech-to-text avatar sync.",
+      "Stir TypeScript Pepper for rigid translation gloss parsing.",
+      "Serve cold on Vercel Powder static hosting."
+    ]
   }
 ];
 

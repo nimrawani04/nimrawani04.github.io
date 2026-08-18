@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Calendar, 
@@ -13,6 +13,45 @@ import {
   Grid,
   Info
 } from "lucide-react";
+
+// Optimized lazy-loading image with IntersectionObserver + fade-in
+const LazyImage = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
+  const imgRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const el = imgRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { rootMargin: "200px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div ref={imgRef} className={`${className ?? ''} bg-slate-800/60`}>
+      {isVisible && (
+        <img
+          src={src}
+          alt={alt}
+          decoding="async"
+          onLoad={() => setIsLoaded(true)}
+          className={`w-full h-full object-cover transition-opacity duration-500 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      )}
+    </div>
+  );
+};
 
 interface Photo {
   id: string;
@@ -97,6 +136,177 @@ const PHOTOS: Photo[] = [
     title: "FOSS United", 
     description: "Answering engaging technical questions from attendees at the meetup." 
   },
+  { 
+    id: "frappe1", 
+    src: "/gallery/frappe1.jpeg", 
+    albumId: "frappe-workshop", 
+    albumName: "Frappe Workshop", 
+    date: "1st August 2026", 
+    title: "Frappe Workshop", 
+    description: "Deep dive into Frappe framework architecture and development." 
+  },
+  { 
+    id: "frappe2", 
+    src: "/gallery/frappe2.jpeg", 
+    albumId: "frappe-workshop", 
+    albumName: "Frappe Workshop", 
+    date: "1st August 2026", 
+    title: "Frappe Workshop", 
+    description: "Hands-on application building and Frappe site setup." 
+  },
+  { 
+    id: "frappe3", 
+    src: "/gallery/frappe3.jpeg", 
+    albumId: "frappe-workshop", 
+    albumName: "Frappe Workshop", 
+    date: "1st August 2026", 
+    title: "Frappe Workshop", 
+    description: "Collaborative problem solving and setup verification session." 
+  },
+  { 
+    id: "pc1", 
+    src: "/gallery/pc1.jpg", 
+    albumId: "pre-conference", 
+    albumName: "Pre-Conference", 
+    date: "17th June 2026", 
+    title: "Pre-Conference", 
+    description: "Setting up tools and aligning with presenters before the main sessions." 
+  },
+  { 
+    id: "pc2", 
+    src: "/gallery/pc2.JPG", 
+    albumId: "pre-conference", 
+    albumName: "Pre-Conference", 
+    date: "17th June 2026", 
+    title: "Pre-Conference", 
+    description: "Interactive session with industry leaders and academic researchers." 
+  },
+  { 
+    id: "pc3", 
+    src: "/gallery/pc3.JPG", 
+    albumId: "pre-conference", 
+    albumName: "Pre-Conference", 
+    date: "17th June 2026", 
+    title: "Pre-Conference", 
+    description: "Hands-on setup workshop for applied artificial intelligence tools." 
+  },
+  { 
+    id: "pc4", 
+    src: "/gallery/pc4.JPG", 
+    albumId: "pre-conference", 
+    albumName: "Pre-Conference", 
+    date: "17th June 2026", 
+    title: "Pre-Conference", 
+    description: "Collaborative knowledge sharing between delegates." 
+  },
+  { 
+    id: "preconf", 
+    src: "/gallery/preconf.jpeg", 
+    albumId: "pre-conference", 
+    albumName: "Pre-Conference", 
+    date: "17th June 2026", 
+    title: "Pre-Conference", 
+    description: "Opening keynote introducing the topics for pre-conference workshops." 
+  },
+  { 
+    id: "2c", 
+    src: "/gallery/2c.jpg", 
+    albumId: "pre-conference", 
+    albumName: "Pre-Conference", 
+    date: "17th June 2026", 
+    title: "Pre-Conference", 
+    description: "Connecting with attendees and organizers." 
+  },
+  { 
+    id: "conf1_2", 
+    src: "/gallery/conf1,2.jpg", 
+    albumId: "conference-day-1", 
+    albumName: "Conference Day 1", 
+    date: "18th June 2026", 
+    title: "Conference Day 1", 
+    description: "Official inaugural ceremony of the applied AI international conference." 
+  },
+  { 
+    id: "conf1_1", 
+    src: "/gallery/conf1.1.jpg", 
+    albumId: "conference-day-1", 
+    albumName: "Conference Day 1", 
+    date: "18th June 2026", 
+    title: "Conference Day 1", 
+    description: "Keynote presentation detailing upcoming advancements in deep learning models." 
+  },
+  { 
+    id: "conf2_3", 
+    src: "/gallery/conf2.3.JPG", 
+    albumId: "conference-day-1", 
+    albumName: "Conference Day 1", 
+    date: "18th June 2026", 
+    title: "Conference Day 1", 
+    description: "Technical track showcasing research findings in natural language models." 
+  },
+  { 
+    id: "conf2_4", 
+    src: "/gallery/conf2.4.JPG", 
+    albumId: "conference-day-1", 
+    albumName: "Conference Day 1", 
+    date: "18th June 2026", 
+    title: "Conference Day 1", 
+    description: "Exhibition stalls highlighting prototype solutions and poster presentations." 
+  },
+  { 
+    id: "2_2c", 
+    src: "/gallery/2.2c.jpg", 
+    albumId: "conference-day-1", 
+    albumName: "Conference Day 1", 
+    date: "18th June 2026", 
+    title: "Conference Day 1", 
+    description: "Panel discussion with experts on AI safety and ethics." 
+  },
+  { 
+    id: "conf2", 
+    src: "/gallery/conf2.jpeg", 
+    albumId: "conference-day-2", 
+    albumName: "Conference Day 2", 
+    date: "19th June 2026", 
+    title: "Conference Day 2", 
+    description: "Main track presentations on computer vision applications." 
+  },
+  { 
+    id: "c2_4", 
+    src: "/gallery/c2.4.jpg", 
+    albumId: "conference-day-2", 
+    albumName: "Conference Day 2", 
+    date: "19th June 2026", 
+    title: "Conference Day 2", 
+    description: "Breakout sessions discussing AI integration workflows." 
+  },
+  { 
+    id: "conf2_2", 
+    src: "/gallery/conf2.2.jpg", 
+    albumId: "conference-day-2", 
+    albumName: "Conference Day 2", 
+    date: "19th June 2026", 
+    title: "Conference Day 2", 
+    description: "Interactive session demonstrating edge AI hardware nodes." 
+  },
+  { 
+    id: "3c", 
+    src: "/gallery/3c.JPG", 
+    albumId: "conference-day-2", 
+    albumName: "Conference Day 2", 
+    date: "19th June 2026", 
+    title: "Conference Day 2", 
+    description: "Valedictory function and certificate distribution ceremony." 
+  },
+  { 
+    id: "3_2c", 
+    src: "/gallery/3.2c.JPG", 
+    albumId: "conference-day-2", 
+    albumName: "Conference Day 2", 
+    date: "19th June 2026", 
+    title: "Conference Day 2", 
+    description: "Group photo with conference organizers and attendees." 
+  }
 ];
 
 interface Album {
@@ -125,6 +335,10 @@ export const GalleryView = () => {
     });
     // Order of dates as requested
     const orderedDates = [
+      "1st August 2026",
+      "19th June 2026",
+      "18th June 2026",
+      "17th June 2026",
       "9th-10th May 2026",
       "28-29th March 2026",
       "14th March 2026",
@@ -140,6 +354,10 @@ export const GalleryView = () => {
   // 2. Generate Albums list
   const albums = useMemo((): Album[] => {
     const albumsMap: { [key: string]: { name: string; images: string[] } } = {
+      "frappe-workshop": { name: "Frappe Workshop", images: ["/gallery/frappe1.jpeg", "/gallery/frappe2.jpeg", "/gallery/frappe3.jpeg"] },
+      "pre-conference": { name: "Pre-Conference", images: ["/gallery/pc1.jpg", "/gallery/pc2.JPG", "/gallery/pc3.JPG", "/gallery/pc4.JPG", "/gallery/preconf.jpeg", "/gallery/2c.jpg"] },
+      "conference-day-1": { name: "Conference Day 1", images: ["/gallery/conf1,2.jpg", "/gallery/conf1.1.jpg", "/gallery/conf2.3.JPG", "/gallery/conf2.4.JPG", "/gallery/2.2c.jpg"] },
+      "conference-day-2": { name: "Conference Day 2", images: ["/gallery/conf2.jpeg", "/gallery/c2.4.jpg", "/gallery/conf2.2.jpg", "/gallery/3c.JPG", "/gallery/3.2c.JPG"] },
       "foss-united": { name: "FOSS United", images: ["/gallery/foss1.jpeg", "/gallery/foss2.jpeg"] },
       "cursor-hackathon": { name: "Cursor Hackathon", images: ["/gallery/cursor.jpg", "/gallery/cursor2.jpg"] },
       "standard-a-thon": { name: "Standard-a-Thon Hackathon", images: ["/gallery/bis1.jpeg"] },
@@ -270,11 +488,10 @@ export const GalleryView = () => {
                   {/* Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-3">
                     {group.photos.map((photo, index) => (
-                      <motion.div
+                      <div
                         key={photo.id}
-                        whileHover={{ scale: 1.02 }}
                         onClick={() => openLightbox(group.photos, index)}
-                        className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/50 overflow-hidden cursor-zoom-in shadow-lg"
+                        className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/50 overflow-hidden cursor-zoom-in shadow-lg hover:scale-[1.02] transition-transform duration-200"
                       >
                         {/* Hover Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-3 text-left">
@@ -292,13 +509,12 @@ export const GalleryView = () => {
                           />
                         </button>
 
-                        <img 
+                        <LazyImage 
                           src={photo.src} 
                           alt={photo.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          loading="lazy"
+                          className="w-full h-full"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -325,11 +541,10 @@ export const GalleryView = () => {
 
                   <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-5">
                     {albums.map((album) => (
-                      <motion.div
+                      <div
                         key={album.id}
-                        whileHover={{ y: -4 }}
                         onClick={() => setSelectedAlbumId(album.id)}
-                        className="group flex flex-col cursor-pointer text-left"
+                        className="group flex flex-col cursor-pointer text-left hover:-translate-y-1 transition-transform duration-200"
                       >
                         {/* iOS Stack/Cover Design */}
                         <div className="relative aspect-square bg-slate-900 rounded-2xl border border-slate-800/80 overflow-hidden shadow-md group-hover:shadow-cyan-950/20 group-hover:border-cyan-500/20 transition-all duration-300">
@@ -337,11 +552,10 @@ export const GalleryView = () => {
                           {/* Folder/Album Stack Visual Effect */}
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent z-10" />
 
-                          <img
+                          <LazyImage
                             src={album.coverImage}
                             alt={album.name}
-                            className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
-                            loading="lazy"
+                            className="w-full h-full"
                           />
 
                           {/* Photos indicator badge */}
@@ -356,7 +570,7 @@ export const GalleryView = () => {
                           <h4 className="text-xs font-bold text-slate-200 group-hover:text-cyan-400 transition-colors line-clamp-1">{album.name}</h4>
                           <p className="text-[10px] text-slate-400 font-medium mt-0.5">{album.photoCount} Photos</p>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -372,11 +586,10 @@ export const GalleryView = () => {
                   {/* Grid */}
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                     {albumPhotos.map((photo, index) => (
-                      <motion.div
+                      <div
                         key={photo.id}
-                        whileHover={{ scale: 1.02 }}
                         onClick={() => openLightbox(albumPhotos, index)}
-                        className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/60 overflow-hidden cursor-zoom-in shadow-md"
+                        className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/60 overflow-hidden cursor-zoom-in shadow-md hover:scale-[1.02] transition-transform duration-200"
                       >
                         {/* Hover Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-3 text-left">
@@ -394,13 +607,12 @@ export const GalleryView = () => {
                           />
                         </button>
 
-                        <img 
+                        <LazyImage 
                           src={photo.src} 
                           alt={photo.title}
-                          className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
-                          loading="lazy"
+                          className="w-full h-full"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -433,11 +645,10 @@ export const GalleryView = () => {
                 /* Favorites Grid */
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                   {favoritePhotos.map((photo, index) => (
-                    <motion.div
+                    <div
                       key={photo.id}
-                      whileHover={{ scale: 1.02 }}
                       onClick={() => openLightbox(favoritePhotos, index)}
-                      className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/60 overflow-hidden cursor-zoom-in shadow-md"
+                      className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/60 overflow-hidden cursor-zoom-in shadow-md hover:scale-[1.02] transition-transform duration-200"
                     >
                       {/* Hover Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-3 text-left">
@@ -453,13 +664,12 @@ export const GalleryView = () => {
                         <Heart className="w-3.5 h-3.5 fill-red-500 text-red-500" />
                       </button>
 
-                      <img 
+                      <LazyImage 
                         src={photo.src} 
                         alt={photo.title}
-                        className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
-                        loading="lazy"
+                        className="w-full h-full"
                       />
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
               )}
@@ -510,11 +720,10 @@ export const GalleryView = () => {
                   </p>
                   <div className="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                     {searchedPhotos.map((photo, index) => (
-                      <motion.div
+                      <div
                         key={photo.id}
-                        whileHover={{ scale: 1.02 }}
                         onClick={() => openLightbox(searchedPhotos, index)}
-                        className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/60 overflow-hidden cursor-zoom-in shadow-md"
+                        className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/60 overflow-hidden cursor-zoom-in shadow-md hover:scale-[1.02] transition-transform duration-200"
                       >
                         {/* Hover Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-3 text-left">
@@ -532,13 +741,12 @@ export const GalleryView = () => {
                           />
                         </button>
 
-                        <img 
+                        <LazyImage 
                           src={photo.src} 
                           alt={photo.title}
-                          className="w-full h-full object-cover group-hover:scale-104 transition-transform duration-500"
-                          loading="lazy"
+                          className="w-full h-full"
                         />
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>

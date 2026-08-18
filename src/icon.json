@@ -417,7 +417,8 @@
         "y": 40,
         "category": "Productivity",
         "description": "Araaaz — handcrafted jewelry: bracelets, earrings, combos, keychains, and more."
-    },{
+    },
+    {
         "name": "IE",
         "pic": "IE",
         "folderId": "Desktop",
@@ -425,6 +426,49 @@
         "type": ".exe",
         "x": 41,
         "y": 41
+    },
+    {
+        "name": "HerSpace",
+        "pic": "HerSpace",
+        "folderId": "Project",
+        "size": 18,
+        "type": ".exe",
+        "x": 42,
+        "y": 42,
+        "category": "Productivity",
+        "description": "Her Space — Women's Health Support Platform (pregnancy planning, tracking, AI support)."
+    },
+    {
+        "name": "GaashAI",
+        "pic": "GaashAI",
+        "folderId": "Project",
+        "size": 22,
+        "type": ".exe",
+        "x": 43,
+        "y": 43,
+        "category": "Productivity",
+        "description": "GaashAI — Multilingual AI Translation Conversational Assistant (Kashmiri, Urdu, English)."
+    },
+    {
+        "name": "Karawan",
+        "pic": "Karawan",
+        "folderId": "Project",
+        "size": 25,
+        "type": ".exe",
+        "x": 44,
+        "y": 44,
+        "category": "Productivity",
+        "description": "Karawan — Intercity Carpooling Platform for Kashmir (peer-to-peer carpooling)."
+    },
+    {
+        "name": "SignBridge",
+        "pic": "SignBridge",
+        "folderId": "Project",
+        "size": 30,
+        "type": ".exe",
+        "x": 45,
+        "y": 45,
+        "category": "Productivity",
+        "description": "Sign Bridge India — Real-Time Indian Sign Language Communication Platform (bidirectional translation)."
     }
-
 ]
