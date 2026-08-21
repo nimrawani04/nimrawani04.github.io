@@ -179,6 +179,21 @@ const CHECKPOINTS: Checkpoint[] = [
       Skills: "Time-Complexity, Graphs, Dynamic Programming"
     }
   },
+  {
+    id: "frappe-workshop-cert",
+    x: 550,
+    y: 1300,
+    type: "cert",
+    title: "Frappe Framework Workshop",
+    subtitle: "FOSS NIT Srinagar & FOSS United",
+    desc: "Participated in hands-on technical workshop on building business applications using Frappe Framework and ERPNext.",
+    details: {
+      Issuer: "FOSS NIT Srinagar & FOSS United",
+      Workshop: "Frappe Framework & ERPNext",
+      Date: "1st August 2026"
+    },
+    link: "/gallery/frappe_cert.jpg"
+  },
 
   // EVENT ARENA (Purple/Pink Neon - South)
   {

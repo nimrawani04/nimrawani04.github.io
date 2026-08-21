@@ -281,6 +281,7 @@ export const achievements = [
 ];
 
 export const certificates = [
+  { title: 'Frappe Framework Workshop', org: 'FOSS NIT Srinagar & FOSS United', date: 'Aug 2026', skills: 'Frappe Framework, ERPNext, Python, MariaDB, JavaScript', link: '/gallery/frappe_cert.jpg' },
   { title: 'Introduction to AI Concepts', org: 'Microsoft', date: 'Jan 2026', skills: 'AI, Generative AI, Responsible AI, Computer Vision', link: 'https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/WV44L35N?sharingId=B856B6811014E40C' },
   { title: 'Introduction to ML Concepts', org: 'Microsoft', date: 'Jan 2026', skills: 'ML, Linear Regression, Classification, Clustering, Deep Learning', link: 'https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/KC8WHGGB?sharingId=B856B6811014E40C' },
   { title: 'AI Fundamentals', org: 'IBM SkillsBuild', date: 'Dec 2025', skills: 'AI, ML, Deep Learning, AI Ethics, Computer Vision, NLP', link: 'https://www.credly.com/badges/a36fcbd9-3963-4a4a-b29b-19ff4792aaf1/linked_in_profile' },

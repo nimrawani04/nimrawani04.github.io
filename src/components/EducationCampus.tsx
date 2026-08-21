@@ -2859,9 +2859,11 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
         if (univCompleted.codingclass) {
           const c1 = certificates.find(c => c.title.includes("Prepare Data for ML"));
           const c2 = certificates.find(c => c.title.includes("AI Fundamentals"));
+          const c3 = certificates.find(c => c.title.includes("Frappe Framework Workshop"));
           const a1 = achievements.find(a => a.title.includes("Open Build Challenge"));
           if (c1) realCertsEarned.push(c1);
           if (c2) realCertsEarned.push(c2);
+          if (c3) realCertsEarned.push(c3);
           if (a1) realAchievementsEarned.push(a1);
         }
         if (univCompleted.researchlib) {

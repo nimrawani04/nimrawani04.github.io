@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { useState, useMemo, useRef, useEffect, useCallback, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Calendar, 
@@ -14,8 +14,33 @@ import {
   Info
 } from "lucide-react";
 
-// Optimized lazy-loading image with IntersectionObserver + fade-in
-const LazyImage = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
+// Shared IntersectionObserver singleton — avoids creating 28+ separate observers
+const observerCallbacks = new WeakMap<Element, () => void>();
+let sharedObserver: IntersectionObserver | null = null;
+
+function getSharedObserver(): IntersectionObserver {
+  if (!sharedObserver) {
+    sharedObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const cb = observerCallbacks.get(entry.target);
+            if (cb) {
+              cb();
+              observerCallbacks.delete(entry.target);
+              sharedObserver?.unobserve(entry.target);
+            }
+          }
+        });
+      },
+      { rootMargin: "300px" }
+    );
+  }
+  return sharedObserver;
+}
+
+// Optimized lazy-loading image — uses shared observer + native loading="lazy"
+const LazyImage = memo(({ src, alt, className }: { src: string; alt: string; className?: string }) => {
   const imgRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -23,17 +48,13 @@ const LazyImage = ({ src, alt, className }: { src: string; alt: string; classNam
   useEffect(() => {
     const el = imgRef.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { rootMargin: "200px" }
-    );
+    const observer = getSharedObserver();
+    observerCallbacks.set(el, () => setIsVisible(true));
     observer.observe(el);
-    return () => observer.disconnect();
+    return () => {
+      observerCallbacks.delete(el);
+      observer.unobserve(el);
+    };
   }, []);
 
   return (
@@ -42,16 +63,56 @@ const LazyImage = ({ src, alt, className }: { src: string; alt: string; classNam
         <img
           src={src}
           alt={alt}
+          loading="lazy"
           decoding="async"
+          width={400}
+          height={400}
           onLoad={() => setIsLoaded(true)}
-          className={`w-full h-full object-cover transition-opacity duration-500 ${
-            isLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
+          style={{ opacity: isLoaded ? 1 : 0, transition: 'opacity 0.3s ease' }}
+          className="w-full h-full object-cover"
         />
       )}
     </div>
   );
-};
+});
+
+// Memoized photo card — prevents re-render of ALL cards when one favorite toggles
+const PhotoCard = memo(({ photo, index, isFavorite, onOpenLightbox, onToggleFavorite }: {
+  photo: Photo;
+  index: number;
+  isFavorite: boolean;
+  onOpenLightbox: (index: number) => void;
+  onToggleFavorite: (id: string, e: React.MouseEvent) => void;
+}) => {
+  return (
+    <div
+      onClick={() => onOpenLightbox(index)}
+      className="group relative aspect-square bg-slate-900 rounded-xl border border-slate-800/50 overflow-hidden cursor-zoom-in shadow-lg"
+    >
+      {/* Hover Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10 flex flex-col justify-end p-3 text-left">
+        <span className="text-xs font-bold text-white line-clamp-1">{photo.title}</span>
+        <span className="text-[9px] text-slate-300 font-semibold">{photo.albumName}</span>
+      </div>
+
+      {/* Favorite Badge */}
+      <button
+        onClick={(e) => onToggleFavorite(photo.id, e)}
+        className="absolute top-2 right-2 p-1.5 rounded-full bg-black/40 border border-white/10 text-white hover:bg-black/60 transition-colors z-20"
+      >
+        <Heart 
+          className={`w-3.5 h-3.5 ${isFavorite ? "fill-red-500 text-red-500" : "text-slate-300"}`} 
+        />
+      </button>
+
+      <LazyImage 
+        src={photo.src} 
+        alt={photo.title}
+        className="w-full h-full"
+      />
+    </div>
+  );
+});
 
 interface Photo {
   id: string;

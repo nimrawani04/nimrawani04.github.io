@@ -70,6 +70,14 @@ export const BentoGrid = () => {
   // Certifications data
   const certifications = [
     {
+      title: "Frappe Framework Workshop",
+      provider: "FOSS NIT Srinagar & FOSS United",
+      year: "Aug 2026",
+      desc: "Hands-on workshop focused on building business applications using Frappe and ERPNext, understanding Site architectures, DocTypes, and server/client scripting.",
+      link: "/gallery/frappe_cert.jpg",
+      tags: ["Frappe Framework", "ERPNext", "Python", "Full-Stack Dev"]
+    },
+    {
       title: "Introduction to Artificial Intelligence Concepts",
       provider: "Microsoft",
       year: "Jan 2026",
