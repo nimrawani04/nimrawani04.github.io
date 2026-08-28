@@ -86,7 +86,7 @@ export function BannerAlert({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 backdrop-blur-md p-4 sm:p-5 text-left font-sans shadow-2xl",
+        "relative overflow-hidden rounded-2xl border border-white/10 bg-slate-900/90 backdrop-blur-md p-3 sm:p-4 md:p-5 text-left font-sans shadow-2xl",
         className
       )}
       style={{ boxShadow: "0 20px 60px -30px rgba(0,0,0,0.9)" }}
@@ -132,7 +132,7 @@ export function BannerAlert({
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-sm font-bold text-white tracking-tight leading-snug">
+            <span className="text-xs sm:text-sm font-bold text-white tracking-tight leading-snug">
               {title}
             </span>
             <span
@@ -145,7 +145,7 @@ export function BannerAlert({
               {provider || style.label}
             </span>
           </div>
-          <p className="mt-1.5 text-xs leading-relaxed text-slate-300 font-normal">
+          <p className="mt-1 sm:mt-1.5 text-[11px] sm:text-xs leading-relaxed text-slate-300 font-normal">
             {message}
           </p>
           {actionLabel ? (
@@ -235,7 +235,7 @@ export function CertificateBannerSlider({
         </span>
       </div>
 
-      <div className="relative min-h-[140px] w-full flex items-center">
+      <div className="relative min-h-[120px] sm:min-h-[140px] w-full flex items-center">
         <AnimatePresence mode="wait">
           <motion.div
             key={index}

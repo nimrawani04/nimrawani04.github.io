@@ -231,10 +231,10 @@ export const BentoGrid = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 items-stretch">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 items-stretch">
       
       {/* ================= COLUMN 1: EXPERIENCE TIMELINE ================= */}
-      <div className="flex flex-col h-full md:col-span-1">
+      <div className="flex flex-col h-full md:col-span-2 lg:col-span-1">
         <MagicBento className="flex-1 flex flex-col justify-between border-slate-800/80 bg-slate-900/40 p-4 md:p-5">
           <div>
             <div className="flex items-center gap-3 mb-5 border-b border-slate-800/60 pb-3">
@@ -317,7 +317,7 @@ export const BentoGrid = () => {
       </div>
 
       {/* ================= COLUMN 2: EDUCATION + CREDENTIALS STACKED ================= */}
-      <div className="flex flex-col gap-6 h-full md:col-span-1">
+      <div className="flex flex-col gap-6 h-full md:col-span-1 lg:col-span-1">
         
         {/* Education (Highly Compact: No details, only institute, degree, years, stream) */}
         <MagicBento className="border-slate-800/80 bg-slate-900/40 flex-1 flex flex-col justify-between p-4 md:p-5">
@@ -362,7 +362,7 @@ export const BentoGrid = () => {
       </div>
 
       {/* ================= COLUMN 3: HONORS & COMPETITIONS ================= */}
-      <div className="flex flex-col h-full md:col-span-1">
+      <div className="flex flex-col h-full md:col-span-1 lg:col-span-1">
         <MagicBento className="flex-1 flex flex-col justify-between border-slate-800/80 bg-slate-900/40 p-4 md:p-5 relative overflow-hidden">
           <div className="h-full flex flex-col justify-between flex-1">
             <div className="flex-grow flex flex-col">
