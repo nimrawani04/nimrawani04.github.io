@@ -14,6 +14,7 @@ import EducationCampus from "@/components/EducationCampus";
 import { Folder } from "@/components/Folder";
 import { ProjectMarquee } from "@/components/ProjectMarquee";
 import { BentoGrid } from "@/components/BentoGrid";
+import { ActivityHeatmap } from "@/components/ActivityHeatmap";
 import {
   Home,
   User,
@@ -230,6 +231,10 @@ const Index = () => {
               </div>
 
               <BentoGrid />
+
+              <div className="pt-12">
+                <ActivityHeatmap />
+              </div>
             </motion.div>
           </div>
         </section>
