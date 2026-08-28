@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Briefcase, Award, GraduationCap, Trophy, ExternalLink, Calendar, ChevronLeft, ChevronRight, Sparkles, Code, MapPin } from "lucide-react";
 import { MagicBento } from "./MagicBento";
 import { Badge } from "./ui/badge";
+import { CertificateBannerSlider, type BannerVariant } from "./BannerAlert";
 
 export const BentoGrid = () => {
   const experiences = [
@@ -75,7 +76,8 @@ export const BentoGrid = () => {
       year: "Aug 2026",
       desc: "Hands-on workshop focused on building business applications using Frappe and ERPNext, understanding Site architectures, DocTypes, and server/client scripting.",
       link: "/gallery/frappe_cert.jpg",
-      tags: ["Frappe Framework", "ERPNext", "Python", "Full-Stack Dev"]
+      tags: ["Frappe Framework", "ERPNext", "Python", "Full-Stack Dev"],
+      variant: "info" as BannerVariant,
     },
     {
       title: "Introduction to Artificial Intelligence Concepts",
@@ -83,7 +85,8 @@ export const BentoGrid = () => {
       year: "Jan 2026",
       desc: "Mastered fundamental concepts of AI, including machine learning basics, generative AI applications, and core principles of responsible AI development and deployment.",
       link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/WV44L35N?sharingId=B856B6811014E40C",
-      tags: ["Artificial Intelligence", "Generative AI", "Responsible AI", "Computer Vision"]
+      tags: ["Artificial Intelligence", "Generative AI", "Responsible AI", "Computer Vision"],
+      variant: "success" as BannerVariant,
     },
     {
       title: "Introduction to Machine Learning Concepts",
@@ -91,7 +94,8 @@ export const BentoGrid = () => {
       year: "Jan 2026",
       desc: "Explored advanced statistical modeling techniques, focusing on linear regression algorithms, data classification methodologies, and neural network foundations.",
       link: "https://learn.microsoft.com/api/achievements/share/en-gb/NimraWani-9486/KC8WHGGB?sharingId=B856B6811014E40C",
-      tags: ["Machine Learning", "Linear Regression", "Classification", "Clustering", "Deep Learning"]
+      tags: ["Machine Learning", "Linear Regression", "Classification", "Clustering", "Deep Learning"],
+      variant: "success" as BannerVariant,
     },
     {
       title: "Artificial Intelligence Fundamentals",
@@ -99,7 +103,8 @@ export const BentoGrid = () => {
       year: "Dec 2025",
       desc: "Comprehensive study covering the core philosophy of AI, neural networks architecture, deep learning paradigms, and the ethical considerations of modern AI.",
       link: "https://www.credly.com/badges/a36fcbd9-3963-4a4a-b29b-19ff4792aaf1/public_url",
-      tags: ["AI Ethics", "ML / DL Models", "Neural Networks", "NLP / Computer Vision"]
+      tags: ["AI Ethics", "ML / DL Models", "Neural Networks", "NLP / Computer Vision"],
+      variant: "warning" as BannerVariant,
     },
     {
       title: "Oracle Cloud Infrastructure 2025 AI Associate",
@@ -107,7 +112,8 @@ export const BentoGrid = () => {
       year: "Dec 2025",
       desc: "Validated expertise in utilizing OCI services for developing, deploying, and managing scalable artificial intelligence and machine learning applications.",
       link: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=C982AECE9426EA178736DD1F01312EA6B7ECF089391F6FDDCF9CCBCC6CB1A243",
-      tags: ["Cloud Computing", "AI Foundations", "Oracle Cloud (OCI)", "Deep Learning"]
+      tags: ["Cloud Computing", "AI Foundations", "Oracle Cloud (OCI)", "Deep Learning"],
+      variant: "error" as BannerVariant,
     },
     {
       title: "Prepare Data for ML APIs on Google Cloud",
@@ -115,21 +121,24 @@ export const BentoGrid = () => {
       year: "Dec 2025",
       desc: "Specialized in data preprocessing techniques, utilizing TensorFlow and Google Cloud tools to optimize datasets for sophisticated machine learning models.",
       link: "https://www.credly.com/badges/0c570f0b-e9e3-4228-962c-c6b06ac28f8c/public_url",
-      tags: ["Python", "TensorFlow", "Google Cloud ML APIs", "Dataflow Caching"]
+      tags: ["Python", "TensorFlow", "Google Cloud ML APIs", "Dataflow Caching"],
+      variant: "success" as BannerVariant,
     },
     {
       title: "DSA in Modern Product Engineering",
       provider: "TechBairn",
       year: "Dec 2025",
       desc: "Intensive training on advanced data structures, optimization algorithms, and modern problem-solving frameworks tailored for scalable software engineering.",
-      tags: ["DSA", "Data Structures", "Algorithms", "Problem Solving"]
+      tags: ["DSA", "Data Structures", "Algorithms", "Problem Solving"],
+      variant: "info" as BannerVariant,
     },
     {
       title: "Python for AI (5-Day Workshop)",
       provider: "NIT Srinagar",
       year: "Nov 2025",
       desc: "Hands-on implementation of Python libraries including NumPy, Pandas, and Scikit-Learn for data manipulation and predictive modeling.",
-      tags: ["Python", "NumPy", "Pandas", "Scikit-Learn"]
+      tags: ["Python", "NumPy", "Pandas", "Scikit-Learn"],
+      variant: "warning" as BannerVariant,
     }
   ];
 
@@ -201,10 +210,6 @@ export const BentoGrid = () => {
     }
   ];
 
-  // Certificate Carousel state
-  const [currentCertIdx, setCurrentCertIdx] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
   // Honors & Participations Carousel state (0 = Honors, 1 = Participations)
   const [honorsSlide, setHonorsSlide] = useState(0);
 
@@ -224,22 +229,6 @@ export const BentoGrid = () => {
       prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
     );
   };
-
-  const nextCertificate = () => {
-    setCurrentCertIdx((prev) => (prev + 1) % certifications.length);
-  };
-
-  const prevCertificate = () => {
-    setCurrentCertIdx((prev) => (prev - 1 + certifications.length) % certifications.length);
-  };
-
-  useEffect(() => {
-    if (isHovered) return;
-    const timer = setInterval(nextCertificate, 4500);
-    return () => clearInterval(timer);
-  }, [isHovered]);
-
-  const activeCert = certifications[currentCertIdx];
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto px-4 items-stretch">
@@ -364,113 +353,11 @@ export const BentoGrid = () => {
           </div>
         </MagicBento>
 
-        {/* Credentials Carousel */}
+        {/* Credentials Banner Slider */}
         <MagicBento 
           className="border-slate-800/80 bg-slate-900/40 flex flex-col justify-between relative overflow-hidden flex-1 p-4 md:p-5"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="h-full flex flex-col justify-between flex-1">
-            <div className="flex-grow flex flex-col">
-              <div className="flex items-center justify-between mb-3 border-b border-slate-800/60 pb-2.5">
-                <div className="flex items-center gap-2.5">
-                  <div className="p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                    <Award className="w-5 h-5 text-purple-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold tracking-tight text-slate-100 uppercase">Credentials</h3>
-                    <p className="text-[9px] text-slate-400 tracking-wider">Certifications & Badges</p>
-                  </div>
-                </div>
-                
-                {/* Carousel controls */}
-                <div className="flex gap-1">
-                  <button 
-                    onClick={prevCertificate}
-                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-855 hover:bg-slate-800 hover:text-purple-400 border border-slate-800 transition-all text-slate-400"
-                  >
-                    <ChevronLeft className="w-3.5 h-3.5" />
-                  </button>
-                  <button 
-                    onClick={nextCertificate}
-                    className="w-6 h-6 flex items-center justify-center rounded-full bg-slate-855 hover:bg-slate-800 hover:text-purple-400 border border-slate-800 transition-all text-slate-400"
-                  >
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Slider Content Wrapper */}
-              <div className="relative flex-grow flex flex-col justify-center py-1">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={currentCertIdx}
-                    initial={{ opacity: 0, x: 10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -10 }}
-                    transition={{ duration: 0.2 }}
-                    className="w-full flex flex-col justify-between flex-grow space-y-2.5"
-                  >
-                    <div className="space-y-1.5">
-                      <span className="text-[8px] uppercase font-black text-purple-400 tracking-widest bg-purple-500/10 px-1.5 py-0.5 border border-purple-500/20 rounded">
-                        {activeCert.provider}
-                      </span>
-                      <h4 className="text-[11px] font-black text-slate-200 tracking-tight leading-snug">{activeCert.title}</h4>
-                      <p className="text-[8px] text-slate-500">Issued: {activeCert.year}</p>
-                      {activeCert.desc && (
-                        <p className="text-[9px] text-slate-400 leading-relaxed mt-1.5">
-                          {activeCert.desc}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <div className="flex flex-wrap gap-1 mt-2">
-                        {activeCert.tags.slice(0, 3).map((tag, tIdx) => (
-                          <span key={tIdx} className="text-[8px] font-bold text-slate-350 bg-slate-950 border border-slate-855 px-1.5 py-0.5 rounded">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-
-                      {activeCert.link && (
-                        <a
-                          href={activeCert.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center justify-between w-full p-2 bg-slate-950/60 hover:bg-purple-950/15 border border-slate-855 hover:border-purple-500/30 rounded-lg text-[9px] font-bold text-purple-400 hover:text-purple-300 transition-all group mt-2"
-                        >
-                          <span className="flex items-center gap-1">
-                            <Sparkles className="w-2.5 h-2.5 text-purple-400 group-hover:scale-110 transition-transform" />
-                            Verify Credentials
-                          </span>
-                          <ExternalLink className="w-2.5 h-2.5 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
-                        </a>
-                      )}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-            </div>
-
-            {/* Dots Indicator */}
-            <div className="flex items-center justify-between border-t border-slate-850 pt-2.5 mt-1">
-              <div className="flex gap-1">
-                {certifications.map((_, dotIdx) => (
-                  <button
-                    key={dotIdx}
-                    onClick={() => setCurrentCertIdx(dotIdx)}
-                    className={`w-1 h-1 rounded-full transition-all duration-300 ${
-                      dotIdx === currentCertIdx ? "w-2.5 bg-purple-400" : "bg-slate-700 hover:bg-slate-650"
-                    }`}
-                  />
-                ))}
-              </div>
-              <span className="text-[8px] font-black tracking-wider text-slate-500 uppercase">
-                {currentCertIdx + 1} / {certifications.length}
-              </span>
-            </div>
-          </div>
+          <CertificateBannerSlider certificates={certifications} />
         </MagicBento>
       </div>
 
