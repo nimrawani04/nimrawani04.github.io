@@ -178,7 +178,7 @@ const SCHOOL_LOCATIONS: SchoolLocation[] = [
     name: "Classroom Block",
     task: "Solve Equations",
     emoji: "🏫",
-    top: "22%",
+    top: "18%",
     left: "18%",
     color: "#b71c1c",
     badge: "Logic Prodigy",
@@ -191,7 +191,7 @@ const SCHOOL_LOCATIONS: SchoolLocation[] = [
     name: "Art Room",
     task: "Arrange Gradients",
     emoji: "🎨",
-    top: "16%",
+    top: "15%",
     left: "58%",
     color: "#ff8f00",
     badge: "Creative Visionary",
@@ -204,7 +204,7 @@ const SCHOOL_LOCATIONS: SchoolLocation[] = [
     name: "Playground",
     emoji: "⚽",
     task: "Catch Rhythm Balls",
-    top: "68%",
+    top: "60%",
     left: "15%",
     color: "#2e7d32",
     badge: "Star Athlete",
@@ -217,7 +217,7 @@ const SCHOOL_LOCATIONS: SchoolLocation[] = [
     name: "Indoor Stadium",
     task: "Precision Reflex Stop",
     emoji: "🏟️",
-    top: "72%",
+    top: "58%",
     left: "48%",
     color: "#1565c0",
     badge: "Stadium Champion",
@@ -230,7 +230,7 @@ const SCHOOL_LOCATIONS: SchoolLocation[] = [
     name: "School Library",
     task: "Library Riddles",
     emoji: "📚",
-    top: "40%",
+    top: "36%",
     left: "35%",
     color: "#4e342e",
     badge: "Scholar of Secrets",
@@ -243,7 +243,7 @@ const SCHOOL_LOCATIONS: SchoolLocation[] = [
     name: "Laboratory",
     task: "Synthesize Serum",
     emoji: "🔬",
-    top: "45%",
+    top: "40%",
     left: "75%",
     color: "#00695c",
     badge: "Alchemist of Code",
@@ -1790,7 +1790,7 @@ export default function EducationCampus({ onBack }: { onBack: () => void }) {
             <div className="ec-map-canvas">
               {/* Dynamic pathway lines connecting the school block */}
               <svg className="ec-map-pathways" width="100%" height="100%">
-                <path d="M 18% 22% L 58% 16% L 75% 45% L 48% 72% L 15% 68% L 35% 40% Z" className="ec-pathway-line" />
+                <path d="M 18% 18% L 58% 15% L 75% 40% L 48% 58% L 15% 60% L 35% 36% Z" className="ec-pathway-line" />
               </svg>
 
               {/* Aesthetic Wind tree foliage */}
