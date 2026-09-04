@@ -48,47 +48,34 @@ interface ProjectTimelineProps {
 
 const PROJECT_MILESTONES: ProjectMilestone[] = [
   {
-    date: "Nov 2024",
-    title: "Smart House – Arduino",
-    description: "IoT-based home automation prototype with multi-sensor integration.",
-    tech: ["Arduino", "C++", "IR Sensors", "Ultrasonic"],
+    date: "Jun 2026",
+    title: "2AI Conference Website",
+    description: "Official 2026 International Conference on Applied AI site.",
+    tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
     github: "https://github.com/nimrawani04",
-    color: "#f97316",
+    live: "https://2ai-conference.org/",
+    color: "#22d3ee",
     details: [
-      "Designed IoT-based home automation with multiple sensors.",
-      "Intelligent environmental control via infrared & ultrasonic sensors.",
-      "First hardware project bridging software and physical computing.",
+      "Official website for international AI conference.",
+      "Clean modern UI with responsive, accessible design.",
+      "Built for a global academic audience.",
     ],
-    icon: <Cpu className="w-4 h-4" />,
+    icon: <Globe className="w-4 h-4" />,
   },
   {
-    date: "Dec 2024",
-    title: "Araaz E-Commerce",
-    description: "Modern responsive e-commerce with automated contact handling.",
-    tech: ["HTML", "CSS", "JS", "Web3Forms", "Vercel"],
-    github: "https://github.com/nimrawani04",
-    live: "https://araaaz.vercel.app/",
-    color: "#a855f7",
-    details: [
-      "Fully responsive e-commerce website with modern UI/UX.",
-      "Automated contact form handling via Web3Forms.",
-      "Performance-optimized with lazy-loaded product images.",
-    ],
-    icon: <ShoppingBag className="w-4 h-4" />,
-  },
-  {
-    date: "Jan 2025",
-    title: "Academic Portal – CUK",
-    description: "Full-stack portal with role-based auth and attendance tracking.",
+    date: "Mar 2026",
+    title: "CUK Exam System",
+    description: "Secure exam management with RBAC and real-time data handling.",
     tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
     github: "https://github.com/nimrawani04",
-    color: "#4ade80",
+    live: "https://secure-exam-flow.vercel.app/",
+    color: "#f59e0b",
     details: [
-      "Role-based portals for students, faculty, and administrators.",
-      "Attendance tracking, marks management, and exam workflows.",
-      "Real-time academic data sync with Supabase.",
+      "Secure role-based access control for exam workflows.",
+      "Real-time exam scheduling and monitoring.",
+      "Row-level security with optimistic UI updates.",
     ],
-    icon: <GraduationCap className="w-4 h-4" />,
+    icon: <ClipboardList className="w-4 h-4" />,
   },
   {
     date: "Feb 2025",
@@ -106,33 +93,18 @@ const PROJECT_MILESTONES: ProjectMilestone[] = [
     icon: <ShieldCheck className="w-4 h-4" />,
   },
   {
-    date: "Mar 2025",
-    title: "Rasta AI",
-    description: "Multi-domain AI platform — documents, crops, youth services.",
-    tech: ["React", "TypeScript", "Supabase", "Voice API"],
+    date: "Jan 2025",
+    title: "Academic Portal – CUK",
+    description: "Full-stack portal with role-based auth and attendance tracking.",
+    tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
     github: "https://github.com/nimrawani04",
-    live: "https://cursor-hackathon-roan.vercel.app/",
-    color: "#10b981",
+    color: "#4ade80",
     details: [
-      "Four AI domains: documents, crops, youth, and guidance.",
-      "Won 2nd place at Cursor Kashmir Hackathon.",
-      "Voice & text multimodal interaction.",
+      "Role-based portals for students, faculty, and administrators.",
+      "Attendance tracking, marks management, and exam workflows.",
+      "Real-time academic data sync with Supabase.",
     ],
-    icon: <Map className="w-4 h-4" />,
-  },
-  {
-    date: "Apr 2025",
-    title: "Her Space",
-    description: "Women's health tracking, AI coaching, and community platform.",
-    tech: ["React", "TypeScript", "Supabase", "AI APIs"],
-    github: "https://github.com/nimrawani04",
-    color: "#f43f5e",
-    details: [
-      "Health tracking, pregnancy planning, and AI-powered support.",
-      "Mentorship, career opportunities, and community features.",
-      "Strict privacy controls for sensitive health data.",
-    ],
-    icon: <Heart className="w-4 h-4" />,
+    icon: <GraduationCap className="w-4 h-4" />,
   },
   {
     date: "May 2025",
@@ -147,6 +119,35 @@ const PROJECT_MILESTONES: ProjectMilestone[] = [
       "Persistent chat sessions and dialect dictionary lookups.",
     ],
     icon: <Languages className="w-4 h-4" />,
+  },
+  {
+    date: "Jan 2026",
+    title: "CUK Acadex",
+    description: "University-wide student & teacher portals with role dashboards.",
+    tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
+    github: "https://github.com/nimrawani04",
+    live: "https://ds-cuk.vercel.app/",
+    color: "#ec4899",
+    details: [
+      "Dual portals for students and teachers.",
+      "Role-based dashboards with attendance and marks.",
+      "Seamless cross-role data flow and notices.",
+    ],
+    icon: <BookOpen className="w-4 h-4" />,
+  },
+  {
+    date: "Apr 2025",
+    title: "Her Space",
+    description: "Women's health tracking, AI coaching, and community platform.",
+    tech: ["React", "TypeScript", "Supabase", "AI APIs"],
+    github: "https://github.com/nimrawani04",
+    color: "#f43f5e",
+    details: [
+      "Health tracking, pregnancy planning, and AI-powered support.",
+      "Mentorship, career opportunities, and community features.",
+      "Strict privacy controls for sensitive health data.",
+    ],
+    icon: <Heart className="w-4 h-4" />,
   },
   {
     date: "Jun 2025",
@@ -177,49 +178,48 @@ const PROJECT_MILESTONES: ProjectMilestone[] = [
     icon: <Accessibility className="w-4 h-4" />,
   },
   {
-    date: "Jan 2026",
-    title: "CUK Acadex",
-    description: "University-wide student & teacher portals with role dashboards.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
+    date: "Dec 2024",
+    title: "Araaz E-Commerce",
+    description: "Modern responsive e-commerce with automated contact handling.",
+    tech: ["HTML", "CSS", "JS", "Web3Forms", "Vercel"],
     github: "https://github.com/nimrawani04",
-    live: "https://ds-cuk.vercel.app/",
-    color: "#ec4899",
+    live: "https://araaaz.vercel.app/",
+    color: "#a855f7",
     details: [
-      "Dual portals for students and teachers.",
-      "Role-based dashboards with attendance and marks.",
-      "Seamless cross-role data flow and notices.",
+      "Fully responsive e-commerce website with modern UI/UX.",
+      "Automated contact form handling via Web3Forms.",
+      "Performance-optimized with lazy-loaded product images.",
     ],
-    icon: <BookOpen className="w-4 h-4" />,
+    icon: <ShoppingBag className="w-4 h-4" />,
   },
   {
-    date: "Mar 2026",
-    title: "CUK Exam System",
-    description: "Secure exam management with RBAC and real-time data handling.",
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL"],
+    date: "Mar 2025",
+    title: "Rasta AI",
+    description: "Multi-domain AI platform — documents, crops, youth services.",
+    tech: ["React", "TypeScript", "Supabase", "Voice API"],
     github: "https://github.com/nimrawani04",
-    live: "https://secure-exam-flow.vercel.app/",
-    color: "#f59e0b",
+    live: "https://cursor-hackathon-roan.vercel.app/",
+    color: "#10b981",
     details: [
-      "Secure role-based access control for exam workflows.",
-      "Real-time exam scheduling and monitoring.",
-      "Row-level security with optimistic UI updates.",
+      "Four AI domains: documents, crops, youth, and guidance.",
+      "Won 2nd place at Cursor Kashmir Hackathon.",
+      "Voice & text multimodal interaction.",
     ],
-    icon: <ClipboardList className="w-4 h-4" />,
+    icon: <Map className="w-4 h-4" />,
   },
   {
-    date: "Jun 2026",
-    title: "2AI Conference Website",
-    description: "Official 2026 International Conference on Applied AI site.",
-    tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
+    date: "Nov 2024",
+    title: "Smart House – Arduino",
+    description: "IoT-based home automation prototype with multi-sensor integration.",
+    tech: ["Arduino", "C++", "IR Sensors", "Ultrasonic"],
     github: "https://github.com/nimrawani04",
-    live: "https://2ai-conference.org/",
-    color: "#22d3ee",
+    color: "#f97316",
     details: [
-      "Official website for international AI conference.",
-      "Clean modern UI with responsive, accessible design.",
-      "Built for a global academic audience.",
+      "Designed IoT-based home automation with multiple sensors.",
+      "Intelligent environmental control via infrared & ultrasonic sensors.",
+      "First hardware project bridging software and physical computing.",
     ],
-    icon: <Globe className="w-4 h-4" />,
+    icon: <Cpu className="w-4 h-4" />,
   },
 ];
 
@@ -264,6 +264,21 @@ export function ProjectTimeline({
   const lastActive = useRef(-1);
   const [selectedProject, setSelectedProject] = useState<ProjectMilestone | null>(null);
 
+  /* Visibility tracking — only run the rAF animation when the section is in view */
+  const sectionRef = useRef<HTMLElement>(null);
+  const isVisible = useRef(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { isVisible.current = entry.isIntersecting; },
+      { threshold: 0.05 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
   useEffect(() => {
     let raf = 0;
     let start = 0;
@@ -274,6 +289,10 @@ export function ProjectTimeline({
     const TOTAL = SWEEP + HOLD + FADE + GAP;
 
     const tick = (ts: number) => {
+      if (!isVisible.current) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
       if (!start) start = ts;
       const t = (ts - start) % TOTAL;
 
@@ -312,7 +331,7 @@ export function ProjectTimeline({
   }, [positions, head, lit]);
 
   return (
-    <section id="projects" className="py-24 px-4 sm:px-6 relative">
+    <section id="projects" ref={sectionRef} className="py-24 px-4 sm:px-6 relative">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -484,7 +503,7 @@ function MilestoneNode({
         onClick={onClick}
       >
         <motion.div
-          className="relative overflow-hidden rounded-xl border p-2.5 sm:p-3 backdrop-blur-sm group"
+          className="relative overflow-hidden rounded-xl border p-2.5 sm:p-3 group"
           initial={false}
           animate={{
             y: active ? (isTop ? -4 : 4) : 0,

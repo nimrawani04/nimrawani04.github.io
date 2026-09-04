@@ -603,6 +603,7 @@
 /* Responsive grid mobile adaptation */
 @media (max-width: 768px) {
   .bd-viewport {
+    position: relative !important;
     height: auto;
     min-height: 100vh;
     overflow-y: auto;
@@ -656,8 +657,18 @@
     overflow: visible;
   }
 
+  .bd-puzzle-frame {
+    min-height: 320px;
+  }
+
+  .bd-puzzle-workspace {
+    min-height: 200px;
+    overflow: visible;
+    flex-wrap: wrap;
+  }
+
   .bd-terminal-logs {
-    min-height: 180px;
+    min-height: 140px;
     max-height: 250px;
     overflow-wrap: break-word;
     word-break: break-word;
@@ -675,9 +686,23 @@
     box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
   }
 
+  .bd-story-overlay {
+    display: grid;
+    place-items: center;
+    overflow-y: auto;
+    padding: 2rem 1.5rem;
+  }
+
   .bd-story-card {
     padding: 1rem;
     max-width: 92%;
     margin: auto;
   }
+
+  .bd-hud-top {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.8rem 1rem;
+  }
 }
+
