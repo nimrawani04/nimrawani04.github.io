@@ -155,6 +155,32 @@ export const projects = [
     missionObj: ['Health tracking dashboard', 'AI-powered coaching logs', 'Mentorship portal']
   },
   {
+    id: 'companion-ai',
+    name: 'Companion AI',
+    subtitle: 'Personalized AI Companion & Intelligent Assistant',
+    desc: 'Engineered an intelligent conversational companion leveraging LLM context windows, custom prompt engineering, and proactive assistance to help users with daily productivity, studying, and queries.',
+    tech: ['React', 'TypeScript', 'Supabase', 'PostgreSQL', 'AI APIs', 'Tailwind CSS', 'Vercel'],
+    features: [
+      'Contextual memory and persistent multi-turn chat sessions',
+      'Daily task planning, study schedules, and proactive reminders',
+      'Multimodal text and voice interaction support with streaming responses',
+      'Cross-device cloud synchronization and responsive mobile UI'
+    ],
+    live: '',
+    github: 'https://github.com/nimrawani04',
+    color: '#06b6d4',
+    status: 'COMPLETED',
+    levelRequired: 2,
+    story: 'An intelligent companion designed to provide personalized conversational support, routine management, and daily productivity aid.',
+    challenges: ['Optimizing conversational context memory', 'Real-time response latency minimization', 'Structuring personalized prompt routines'],
+    learned: ['Context window management', 'Conversational UX design', 'AI agent architectures'],
+    approach: ['Modular persona prompts', 'Supabase persistent memory store', 'Responsive conversational UI'],
+    optimizations: ['Streaming token rendering', 'Debounced input handlers', 'Optimized session cache'],
+    systemFlow: 'User Input → Context Assembly → LLM Streaming → Action Execution & Memory Store',
+    skillsGained: ['Conversational AI', 'Prompt Engineering', 'State Synchronization'],
+    missionObj: ['Conversational UI', 'Context persistence', 'Daily workflow automation']
+  },
+  {
     id: 'karawan',
     name: 'Karawan',
     subtitle: 'Intercity Carpooling Platform for Kashmir',

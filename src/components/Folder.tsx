@@ -1,6 +1,19 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, User, Cpu, Sparkles, FileText, CheckCircle, Code, Image as ImageIcon } from "lucide-react";
+import {
+  X,
+  User,
+  Cpu,
+  Sparkles,
+  FileText,
+  CheckCircle,
+  Code,
+  Image as ImageIcon,
+  Database,
+  Globe,
+  Terminal,
+  CheckCircle2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GalleryView } from "./GalleryView";
 import { Card } from "@/components/ui/card";
@@ -22,32 +35,67 @@ export const Folder = ({ isOpen, onClose }: FolderProps) => {
 
   const skillCategories = [
     {
-      title: "Frontend Development",
-      color: "from-cyan-500 to-blue-500",
-      glow: "rgba(34, 211, 238, 0.35)",
-      borderColor: "border-cyan-500/30",
-      skills: ["React", "TypeScript", "JavaScript", "HTML5", "CSS3", "Tailwind CSS", "Next.js", "Framer Motion", "PWA"],
-    },
-    {
-      title: "Backend & Database",
-      color: "from-emerald-500 to-teal-500",
-      glow: "rgba(16, 185, 129, 0.35)",
-      borderColor: "border-emerald-500/30",
-      skills: ["Supabase", "PostgreSQL", "REST APIs", "SQL", "Web3Forms", "Node.js (Basic)"],
+      title: "Frontend Engineering",
+      subtitle: "User Interfaces, Modern Web & Accessible UX",
+      icon: <Globe className="w-4 h-4 text-cyan-400" />,
+      dotColor: "bg-cyan-400",
+      skills: [
+        "React",
+        "TypeScript",
+        "Next.js",
+        "JavaScript (ES6+)",
+        "Tailwind CSS",
+        "HTML5 / CSS3",
+        "Framer Motion",
+        "PWA Architecture",
+        "Web Accessibility (WCAG)",
+      ],
     },
     {
       title: "AI & Machine Learning",
-      color: "from-purple-500 to-indigo-500",
-      glow: "rgba(139, 92, 246, 0.35)",
-      borderColor: "border-purple-500/30",
-      skills: ["Python", "TensorFlow", "RAG Pipelines", "AI Chatbot Design", "NLP Models", "OCI AI Foundations", "Google Cloud ML APIs"],
+      subtitle: "Conversational Agents, RAG & Vision Models",
+      icon: <Sparkles className="w-4 h-4 text-purple-400" />,
+      dotColor: "bg-purple-400",
+      skills: [
+        "Python",
+        "RAG Pipelines",
+        "Prompt Engineering",
+        "MediaPipe Vision AI",
+        "OCR Document Processing",
+        "Speech Synthesis APIs",
+        "Vector Search & Embeddings",
+        "Responsible AI Principles",
+      ],
     },
     {
-      title: "Core & Hardware",
-      color: "from-amber-500 to-orange-500",
-      glow: "rgba(245, 158, 11, 0.35)",
-      borderColor: "border-amber-500/30",
-      skills: ["C++", "Arduino", "Embedded Systems", "Data Structures", "Algorithms", "Git & GitHub", "Vite", "Linux Basics"],
+      title: "Backend & Database",
+      subtitle: "Data Pipelines, Auth & Cloud Workflows",
+      icon: <Database className="w-4 h-4 text-emerald-400" />,
+      dotColor: "bg-emerald-400",
+      skills: [
+        "PostgreSQL",
+        "Supabase (Auth & RLS)",
+        "Supabase Realtime Sync",
+        "RESTful API Design",
+        "SQL Schema Optimization",
+        "Vercel Deployment",
+        "Web3Forms Integration",
+      ],
+    },
+    {
+      title: "Systems & Embedded Hardware",
+      subtitle: "Algorithms, Version Control & Embedded IoT",
+      icon: <Terminal className="w-4 h-4 text-amber-400" />,
+      dotColor: "bg-amber-400",
+      skills: [
+        "Data Structures & Algorithms",
+        "C / C++",
+        "Git & GitHub Workflows",
+        "Arduino Microcontrollers",
+        "Ultrasonic & IR Sensor Interfacing",
+        "Linux Basics",
+        "Vite Tooling",
+      ],
     },
   ];
 
@@ -209,62 +257,78 @@ export const Folder = ({ isOpen, onClose }: FolderProps) => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 10 }}
                     transition={{ duration: 0.25 }}
-                    className="space-y-5"
+                    className="space-y-4"
                   >
                     {/* Header */}
                     <div className="flex items-center gap-3">
-                      <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                        <Cpu className="w-5 h-5 text-emerald-400" />
+                      <div className="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20">
+                        <Cpu className="w-5 h-5 text-cyan-400" />
                       </div>
                       <div>
                         <h3 className="text-lg md:text-xl font-black text-slate-100 tracking-tight">
-                          TECH <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">ABILITIES</span>
+                          TECHNICAL <span className="bg-gradient-to-r from-cyan-400 to-emerald-400 bg-clip-text text-transparent">STACK</span>
                         </h3>
-                        <p className="text-[10px] text-emerald-400/80 uppercase tracking-widest font-semibold mt-0.5">Skills Matrix & Technical Stack</p>
+                        <p className="text-[10px] text-cyan-400/80 uppercase tracking-widest font-semibold mt-0.5">Core Languages, Frameworks & Specialized Tools</p>
                       </div>
                     </div>
 
-                    {/* Skill Cards Grid (Upgraded visually to resemble Premium React Bits elements) */}
-                    <div className="grid sm:grid-cols-2 gap-4 pt-1">
+                    {/* Skill Cards Grid — Clean, decent, and matching BentoGrid */}
+                    <div className="grid sm:grid-cols-2 gap-3.5 pt-1">
                       {skillCategories.map((cat, idx) => (
                         <motion.div
                           key={cat.title}
-                          initial={{ opacity: 0, y: 12 }}
+                          initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: idx * 0.05, duration: 0.35 }}
-                          className={`group relative p-4 bg-slate-900/60 border ${cat.borderColor} hover:bg-slate-900/90 rounded-2xl transition-all duration-300 shadow-md flex flex-col justify-between overflow-hidden`}
+                          transition={{ delay: idx * 0.05, duration: 0.3 }}
+                          className="group relative p-4 bg-slate-900/70 border border-slate-800 hover:border-slate-700/80 rounded-2xl transition-all duration-300 shadow-sm hover:shadow-md flex flex-col justify-between"
                         >
-                          {/* Top Glow bar accent */}
-                          <div className={`absolute top-0 inset-x-0 h-1 bg-gradient-to-r ${cat.color} opacity-80`} />
+                          <div>
+                            {/* Card Header */}
+                            <div className="flex items-start justify-between gap-2 mb-3">
+                              <div className="flex items-center gap-2.5">
+                                <div className="p-2 rounded-lg bg-slate-950/80 border border-slate-800">
+                                  {cat.icon}
+                                </div>
+                                <div>
+                                  <h4 className="text-xs md:text-sm font-bold text-slate-100 group-hover:text-cyan-400 transition-colors">
+                                    {cat.title}
+                                  </h4>
+                                  <p className="text-[10px] text-slate-400 leading-tight">
+                                    {cat.subtitle}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
 
-                          {/* Hover background radial glow */}
-                          <div
-                            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
-                            style={{
-                              background: `radial-gradient(120px circle at 50% 50%, ${cat.glow}, transparent 70%)`,
-                            }}
-                          />
-
-                          <div className="relative z-10">
-                            <h4 className="text-xs md:text-sm font-black tracking-wider text-slate-200 mb-3 uppercase flex items-center justify-between">
-                              <span>{cat.title}</span>
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse" />
-                            </h4>
-
-                            <div className="flex flex-wrap gap-1.5">
+                            {/* Skills Pills */}
+                            <div className="flex flex-wrap gap-1.5 mt-2">
                               {cat.skills.map((skill) => (
                                 <span
                                   key={skill}
-                                  className="px-2.5 py-1 rounded-lg bg-slate-950/60 hover:bg-slate-950 border border-slate-800/80 hover:border-slate-700 text-slate-300 hover:text-white text-[10px] md:text-xs font-semibold cursor-default transition-all duration-200 flex items-center gap-1.5"
+                                  className="px-2.5 py-1 rounded-lg bg-slate-950/70 hover:bg-slate-950 border border-slate-800/80 hover:border-slate-700 text-slate-300 hover:text-white text-[11px] font-medium cursor-default transition-all duration-150 flex items-center gap-1.5"
                                 >
-                                  <span className="w-1 h-1 rounded-full bg-cyan-400" />
-                                  {skill}
+                                  <span className={`w-1.5 h-1.5 rounded-full ${cat.dotColor} opacity-80`} />
+                                  <span>{skill}</span>
                                 </span>
                               ))}
                             </div>
                           </div>
                         </motion.div>
                       ))}
+                    </div>
+
+                    {/* Core Competencies Summary Box */}
+                    <div className="bg-slate-900/50 border border-slate-800/80 rounded-2xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 text-slate-200 text-xs font-semibold">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                        <span>Core Engineering Focus:</span>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 text-[10px]">
+                        <span className="px-2.5 py-0.5 rounded-md bg-slate-950 border border-slate-800 text-cyan-300 font-medium">Full-Stack Web Dev</span>
+                        <span className="px-2.5 py-0.5 rounded-md bg-slate-950 border border-slate-800 text-purple-300 font-medium">RAG & AI Chatbots</span>
+                        <span className="px-2.5 py-0.5 rounded-md bg-slate-950 border border-slate-800 text-emerald-300 font-medium">Role-Based Security (RLS)</span>
+                        <span className="px-2.5 py-0.5 rounded-md bg-slate-950 border border-slate-800 text-amber-300 font-medium">Responsive UI/UX</span>
+                      </div>
                     </div>
                   </motion.div>
                 )}

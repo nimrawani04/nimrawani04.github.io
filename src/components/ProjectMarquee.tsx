@@ -1,14 +1,10 @@
-"use client";
-
-import { useEffect, useMemo, useRef, useState } from "react";
-import { motion, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { useMemo, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
   ShoppingBag,
   Globe,
   ClipboardList,
-  BookOpen,
   ShieldCheck,
   Map,
   Cpu,
@@ -19,458 +15,492 @@ import {
   Languages,
   Car,
   Accessibility,
-  LayoutGrid,
   Sparkles,
+  Bot,
+  FolderOpen,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 
-interface ProjectItem {
+export interface ProjectItem {
+  id: string;
   title: string;
   subtitle: string;
-  category: "Web & ERP" | "AI & ML" | "IoT & Hardware";
+  badge?: string;
+  category: string;
   description: string[];
+  summary: string;
   tech: string[];
   github?: string;
   link?: string;
   icon: React.ReactNode;
   color: string;
-  date: string; // Added for timeline chronological order
+  date: string;
 }
 
-const projectsList: ProjectItem[] = [
+// 1. BEST / FEATURED PROJECTS (The 6 designated by the user)
+const featuredProjects: ProjectItem[] = [
   {
-    title: "2AI Conference Website",
-    subtitle: "Team Project · Official International Conference Website",
-    category: "Web & ERP",
-    description: [
-      "Collaborated as a team on designing and developing the complete frontend and user experience of the conference website.",
-      "Built responsive interfaces for speakers, events, schedules and conference information.",
-      "Optimized accessibility, performance and cross-device compatibility for public deployment.",
-    ],
-    tech: ["JavaScript", "TypeScript", "CSS", "HTML"],
-    github: "https://github.com/nimrawani04",
-    link: "https://2ai-conference.org/",
-    icon: <Globe className="w-5 h-5" />,
-    color: "#22d3ee",
-    date: "Jun 2026",
-  },
-  {
+    id: "cuk-exam",
     title: "CUK Examination Management System",
     subtitle: "Secure Examination Administration Platform",
+    badge: "Security & ERP",
     category: "Web & ERP",
+    summary: "Role-based exam administration system with automated paper handling workflows and Supabase RLS security.",
     description: [
-      "Developed a role-based exam management system for faculty, HODs and administrators.",
-      "Automated examination workflows including paper handling and leak prevention.",
-      "Implemented secure access controls and administrative tools for confidential examination operations.",
+      "Collaboratively developed a confidential role-based examination management platform for university faculty, department heads, and controllers.",
+      "Engineered automated examination administration workflows with strict paper handling protocols to eliminate leakage risks.",
+      "Implemented Supabase Row-Level Security (RLS) policies, session-based authentication, and real-time audit logging for high-stakes academic records.",
     ],
     tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
     github: "https://github.com/nimrawani04",
     link: "https://secure-exam-flow.vercel.app/",
-    icon: <ClipboardList className="w-5 h-5" />,
+    icon: <ClipboardList className="w-4 h-4" />,
     color: "#f59e0b",
     date: "Mar 2026",
   },
   {
-    title: "BIS AI",
-    subtitle: "Team Project · AI Product Verification Assistant",
-    category: "AI & ML",
+    id: "2ai-conf",
+    title: "2AI Conference Website",
+    subtitle: "Official International Applied AI Conference",
+    badge: "Public Conference",
+    category: "Web & ERP",
+    summary: "Official applied AI conference website with responsive speaker rosters, schedules, and paper submissions.",
     description: [
-      "Developed an AI assistant for product verification and standards compliance.",
-      "Implemented multilingual chatbot interactions with source-backed responses.",
-      "Built scalable backend workflows and Progressive Web App functionality.",
+      "Served as design team lead and frontend engineer on the official website for the 2026 International Conference on Applied AI.",
+      "Engineered high-performance, accessible responsive interfaces for keynote speakers, paper submissions, committee rosters, and schedules.",
+      "Optimized cross-device compatibility, modern visual aesthetics, and Core Web Vitals for an international academic audience.",
     ],
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "PWA", "Vercel"],
+    tech: ["TypeScript", "JavaScript", "CSS3", "HTML5"],
+    github: "https://github.com/nimrawani04",
+    link: "https://2ai-conference.org/",
+    icon: <Globe className="w-4 h-4" />,
+    color: "#22d3ee",
+    date: "Jun 2026",
+  },
+  {
+    id: "bis-ai",
+    title: "BIS AI",
+    subtitle: "Product Safety & Standards Verification Assistant",
+    badge: "Hackathon Winner",
+    category: "AI & ML",
+    summary: "AI product verification platform with multilingual RAG queries and offline-first PWA architecture.",
+    description: [
+      "Built an AI-driven product verification platform inspired by Bureau of Indian Standards (BIS) to assess product authenticity and Indian compliance.",
+      "Constructed a Retrieval-Augmented Generation (RAG) pipeline delivering multilingual, source-verified regulatory answers.",
+      "Architected as an offline-capable Progressive Web App (PWA) with client-side caching and low-latency vector queries.",
+    ],
+    tech: ["React", "TypeScript", "Supabase", "PWA", "Vercel"],
     github: "https://github.com/nimrawani04",
     link: "https://bis-ai.vercel.app/",
-    icon: <ShieldCheck className="w-5 h-5" />,
+    icon: <ShieldCheck className="w-4 h-4" />,
     color: "#3b82f6",
     date: "Feb 2025",
   },
   {
-    title: "Academic Portal System",
-    subtitle: "Full-Stack Academic Management System",
+    id: "cuk-academics",
+    title: "CUK Academics",
+    subtitle: "Full-Stack Academic Management Portal",
+    badge: "University Portal",
     category: "Web & ERP",
+    summary: "University-wide portal with role-based student/teacher dashboards, attendance tracking, and marks management.",
     description: [
-      "Developed role-based portals for students, faculty members and administrators.",
-      "Built attendance tracking, marks management, notices, resources and academic record modules.",
-      "Implemented real-time academic workflows for managing day-to-day university operations.",
-    ],
-    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
-    github: "https://github.com/nimrawani04",
-    icon: <GraduationCap className="w-5 h-5" />,
-    color: "#4ade80",
-    date: "Jan 2025",
-  },
-  {
-    title: "GaashAI",
-    subtitle: "Multilingual AI Translation & Conversational Assistant",
-    category: "AI & ML",
-    description: [
-      "Developed a multilingual AI assistant supporting Kashmiri, Urdu, and English communication and translation.",
-      "Integrated OCR-based image recognition to extract and translate text from images and documents.",
-      "Implemented voice input, text-to-speech, RTL support, and persistent chat sessions.",
-    ],
-    tech: [
-      "React",
-      "TypeScript",
-      "AI APIs",
-      "OCR",
-      "Voice API",
-      "Tailwind CSS",
-      "Vercel",
-    ],
-    github: "https://github.com/nimrawani04",
-    icon: <Languages className="w-5 h-5" />,
-    color: "#8b5cf6",
-    date: "May 2025",
-  },
-  {
-    title: "CUK Acadex",
-    subtitle: "Team Project · University ERP Platform",
-    category: "Web & ERP",
-    description: [
-      "Contributed the Academic Portal System as a core module of the university ERP platform.",
-      "Developed academic management features including attendance, marks, notices and student records.",
-      "Implemented real-time academic workflows.",
+      "Designed and deployed a university-scale academic portal featuring personalized role-based dashboards for students, teachers, and administrators.",
+      "Engineered real-time modules for daily attendance tracking, internal marks management, official departmental notices, and exam workflows.",
+      "Structured a normalized PostgreSQL schema on Supabase with optimistic UI updates and responsive data tables.",
     ],
     tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Vercel"],
     github: "https://github.com/nimrawani04",
     link: "https://ds-cuk.vercel.app/",
-    icon: <BookOpen className="w-5 h-5" />,
-    color: "#ec4899",
+    icon: <GraduationCap className="w-4 h-4" />,
+    color: "#4ade80",
     date: "Jan 2026",
   },
   {
-    title: "Her Space",
-    subtitle: "Women's Health Support Platform",
+    id: "gaash-ai",
+    title: "GaashAI",
+    subtitle: "Multilingual AI Translation & Voice Assistant",
+    badge: "Regional AI & NLP",
     category: "AI & ML",
+    summary: "Conversational assistant bridging Kashmiri, Urdu, and English with document OCR and speech synthesis.",
     description: [
-      "Developed a comprehensive platform combining health tracking, pregnancy planning, research resources, and AI-powered health support.",
-      "Integrated mentorship, career opportunities, women-focused travel, professional discovery, and community experiences.",
-      "Built resources for health awareness, research discovery, mental wellness, safety, and personalized support in one ecosystem.",
+      "Developed a multilingual conversational assistant bridging Kashmiri, Urdu, and English communication and local language preservation.",
+      "Integrated OCR document parsing to detect and translate Kashmiri and Urdu script directly from physical books and images.",
+      "Implemented speech synthesis streams, bi-directional RTL text alignment, and persistent conversational session states.",
     ],
-    tech: [
-      "React",
-      "TypeScript",
-      "Supabase",
-      "PostgreSQL",
-      "AI APIs",
-      "Tailwind CSS",
-      "Vercel",
-    ],
+    tech: ["React", "TypeScript", "AI APIs", "OCR", "Voice API"],
     github: "https://github.com/nimrawani04",
-    icon: <Heart className="w-5 h-5" />,
+    icon: <Languages className="w-4 h-4" />,
+    color: "#8b5cf6",
+    date: "May 2025",
+  },
+  {
+    id: "her-space",
+    title: "Her Space",
+    subtitle: "Comprehensive Women's Health & Wellness Platform",
+    badge: "HealthTech & AI",
+    category: "AI & ML",
+    summary: "Privacy-first health ecosystem combining cycle tracking, pregnancy care, and AI health support.",
+    description: [
+      "Created an empathetic digital ecosystem combining cycle tracking, pregnancy care, mental wellness logs, and AI-powered health advice.",
+      "Enforced client-side encryption and strict privacy controls for sensitive medical logs and personal wellness metrics.",
+      "Integrated community resources, verified mentorship pathways, safety tools, and natural-language health queries.",
+    ],
+    tech: ["React", "TypeScript", "Supabase", "AI APIs", "Tailwind CSS"],
+    github: "https://github.com/nimrawani04",
+    icon: <Heart className="w-4 h-4" />,
     color: "#f43f5e",
     date: "Apr 2025",
   },
+];
+
+// 2. OTHER WORKS / OTHER PROJECTS (Including Companion AI + Rasta AI + Karawan + Sign Bridge India + Araaz + Smart House)
+const otherProjects: ProjectItem[] = [
   {
-    title: "Karawan",
-    subtitle: "Team Project · Intercity Carpooling Platform for Kashmir",
-    category: "Web & ERP",
-    description: [
-      "Developed a peer-to-peer carpooling platform connecting people travelling along the same routes across Kashmir.",
-      "Enabled users to offer rides by publishing their route, date, available seats, and fare, while others can discover and join suitable rides.",
-      "Implemented real-time ride search, bookings, in-ride chat, notifications, ratings, and cross-platform mobile support.",
-    ],
-    tech: [
-      "React",
-      "TypeScript",
-      "Supabase",
-      "PostgreSQL",
-      "Maps API",
-      "Tailwind CSS",
-      "Vercel",
-    ],
-    github: "https://github.com/nimrawani04",
-    icon: <Car className="w-5 h-5" />,
-    color: "#14b8a6",
-    date: "Jun 2025",
-  },
-  {
-    title: "Sign Bridge India",
-    subtitle: "Real-Time Indian Sign Language Communication Platform",
+    id: "companion-ai",
+    title: "Companion AI",
+    subtitle: "Personalized AI Companion & Smart Assistant",
+    badge: "Conversational AI",
     category: "AI & ML",
+    summary: "Personalized companion with contextual memory, multi-turn dialogues, routine planning, and streaming responses.",
     description: [
-      "Developed a browser-based platform for real-time bidirectional translation between Indian Sign Language and spoken/written language.",
-      "Integrated MediaPipe Vision AI for real-time sign recognition and a 3D avatar for generating ISL signs from text and speech.",
-      "Implemented ISL grammar conversion, interactive gloss editing, bilingual support, and privacy-focused local processing.",
+      "Engineered an intelligent conversational companion leveraging LLM context windows, custom prompt engineering, and proactive assistance.",
+      "Equipped with contextual memory, multi-turn dialogues, study and routine planning, and streaming responses.",
+      "Built with cross-device sync and clean mobile-first UI for seamless everyday productivity.",
     ],
-    tech: [
-      "React",
-      "TypeScript",
-      "MediaPipe",
-      "3D Avatar",
-      "WebGL",
-      "Tailwind CSS",
-      "Vercel",
-    ],
+    tech: ["React", "TypeScript", "AI APIs", "Supabase", "Tailwind CSS"],
     github: "https://github.com/nimrawani04",
-    icon: <Accessibility className="w-5 h-5" />,
+    icon: <Bot className="w-4 h-4" />,
     color: "#06b6d4",
-    date: "Jul 2025",
+    date: "2026",
   },
   {
-    title: "Araaz E-Commerce Website",
-    subtitle: "Full-Stack E-Commerce Platform",
-    category: "Web & ERP",
-    description: [
-      "Developed a responsive e-commerce platform with product showcase pages.",
-      "Integrated inquiry and contact workflows using Web3Forms.",
-      "Deployed and optimized the application on Vercel.",
-    ],
-    tech: ["HTML", "CSS", "JavaScript", "Web3Forms", "Vercel"],
-    github: "https://github.com/nimrawani04",
-    link: "https://araaaz.vercel.app/",
-    icon: <ShoppingBag className="w-5 h-5" />,
-    color: "#a855f7",
-    date: "Dec 2024",
-  },
-  {
+    id: "rasta-ai",
     title: "Rasta AI",
-    subtitle: "Team Project · AI-Powered Assistant Platform",
+    subtitle: "Multi-Domain Assistance Platform",
+    badge: "2nd Place Hackathon",
     category: "AI & ML",
+    summary: "Multi-domain AI platform for document comprehension, crop intelligence, and multimodal guidance.",
     description: [
-      "Built an AI-powered platform for document analysis and information retrieval.",
-      "Integrated multilingual voice and text interactions using LLMs.",
-      "Secured 2nd Position at the Cursor Kashmir Hackathon.",
+      "Award-winning platform structured across four specialized domains: document understanding, crop intelligence, youth services, and guided assistance.",
+      "Integrated multimodal voice and text queries with high-efficiency RAG pipelines for contextual local guidance in Kashmir.",
     ],
-    tech: ["React", "TypeScript", "AI APIs", "Supabase", "PostgreSQL", "Vercel"],
+    tech: ["React", "TypeScript", "AI APIs", "Supabase", "Vercel"],
     github: "https://github.com/nimrawani04",
     link: "https://cursor-hackathon-roan.vercel.app/",
-    icon: <Map className="w-5 h-5" />,
+    icon: <Map className="w-4 h-4" />,
     color: "#10b981",
     date: "Mar 2025",
   },
   {
-    title: "Smart House using Arduino",
-    subtitle: "IoT Home Automation System",
-    category: "IoT & Hardware",
+    id: "karawan",
+    title: "Karawan",
+    subtitle: "Intercity Carpooling Platform for Kashmir",
+    badge: "Logistics",
+    category: "Web & ERP",
+    summary: "Peer-to-peer ride-sharing platform with route discovery, seat booking, and in-ride messaging.",
     description: [
-      "Developed an Arduino-based home automation system.",
-      "Integrated infrared and ultrasonic sensors for automated device control.",
-      "Implemented real-time monitoring and smart automation features.",
+      "Peer-to-peer carpooling platform connecting commuters across Kashmir valleys with route discovery, seat booking, and ride publishing.",
+      "Features real-time booking updates, route overlays with Maps API, and in-ride chat communication channels.",
     ],
-    tech: ["Arduino", "C++", "Infrared Sensors", "Ultrasonic Sensors"],
+    tech: ["React", "TypeScript", "Supabase", "PostgreSQL", "Maps API"],
     github: "https://github.com/nimrawani04",
-    icon: <Cpu className="w-5 h-5" />,
+    icon: <Car className="w-4 h-4" />,
+    color: "#14b8a6",
+    date: "Jun 2025",
+  },
+  {
+    id: "sign-bridge",
+    title: "Sign Bridge India",
+    subtitle: "Real-Time ISL Communication Platform",
+    badge: "Vision AI",
+    category: "AI & ML",
+    summary: "Bidirectional sign language translation using MediaPipe pose detection and a 3D avatar rig.",
+    description: [
+      "Browser-based accessibility platform delivering bidirectional translation between Indian Sign Language (ISL) and text/speech.",
+      "Integrates MediaPipe Vision AI for real-time hand/pose detection and a 3D WebGL avatar for rendering sign animations.",
+    ],
+    tech: ["React", "TypeScript", "MediaPipe", "3D Avatar", "WebGL"],
+    github: "https://github.com/nimrawani04",
+    icon: <Accessibility className="w-4 h-4" />,
+    color: "#38bdf8",
+    date: "Jul 2025",
+  },
+  {
+    id: "araaz",
+    title: "Araaz E-Commerce",
+    subtitle: "Modern Storefront with Form Automation",
+    badge: "Commercial",
+    category: "Web & ERP",
+    summary: "Responsive storefront featuring product showcases, automated Web3Forms order routing, and Vercel hosting.",
+    description: [
+      "Modern, fast storefront featuring responsive product catalog showcases, automated Web3Forms order/inquiry routing, and Vercel CDN deployment.",
+    ],
+    tech: ["HTML5", "CSS3", "JavaScript", "Web3Forms", "Vercel"],
+    github: "https://github.com/nimrawani04",
+    link: "https://araaaz.vercel.app/",
+    icon: <ShoppingBag className="w-4 h-4" />,
+    color: "#a855f7",
+    date: "Dec 2024",
+  },
+  {
+    id: "smart-house",
+    title: "Smart House Arduino",
+    subtitle: "IoT Automation & Sensor Prototype",
+    badge: "IoT & Hardware",
+    category: "IoT & Hardware",
+    summary: "Home automation prototype integrating ultrasonic and infrared sensors for automated device control.",
+    description: [
+      "Microcontroller-powered smart home automation prototype integrating ultrasonic and infrared sensors for automated appliance triggering and environment monitoring.",
+    ],
+    tech: ["Arduino", "C++", "IR Sensors", "Ultrasonic"],
+    github: "https://github.com/nimrawani04",
+    icon: <Cpu className="w-4 h-4" />,
     color: "#f97316",
     date: "Nov 2024",
   },
 ];
 
 interface ProjectMarqueeProps {
-  onOpenCookingGame: () => void;
-  onOpenMemoryLab: () => void;
-  onOpenBugDungeon: () => void;
-  onOpenCityQuest: () => void;
-  onOpenEducationCampus: () => void;
+  onOpenCookingGame?: () => void;
+  onOpenMemoryLab?: () => void;
+  onOpenBugDungeon?: () => void;
+  onOpenCityQuest?: () => void;
+  onOpenEducationCampus?: () => void;
 }
 
-export const ProjectMarquee = ({
-  onOpenCookingGame,
-  onOpenMemoryLab,
-  onOpenBugDungeon,
-  onOpenCityQuest,
-  onOpenEducationCampus,
-}: ProjectMarqueeProps) => {
+export const ProjectMarquee = ({}: ProjectMarqueeProps) => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [expandedTile, setExpandedTile] = useState<string | null>(null);
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [activeTab, setActiveTab] = useState<"featured" | "other">("featured");
+  const [expandedProject, setExpandedProject] = useState<ProjectItem | null>(null);
 
-  // Filtering projects based on chosen category
-  const filteredProjects = useMemo(() => {
-    return selectedCategory === "All"
-      ? projectsList
-      : projectsList.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
-
-  const handleTileClick = (project: ProjectItem) => {
-    setExpandedTile(expandedTile === project.title ? null : project.title);
-  };
-
-  const expandedProject = expandedTile
-    ? projectsList.find((p) => p.title === expandedTile)
-    : null;
+  const currentList = activeTab === "featured" ? featuredProjects : otherProjects;
 
   return (
     <section
       ref={sectionRef}
       id="projects"
-      className="relative pt-20 sm:pt-28 md:pt-36 pb-16 bg-[#0C0C0C] w-full overflow-hidden"
+      className="relative py-16 sm:py-20 bg-[#090D14] w-full overflow-hidden text-left"
     >
       <a id="portfolio-summary" className="sr-only" aria-hidden="true" />
 
-      {/* Header & Controls */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 mb-8 text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-cyan-500/20 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-4">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>All 12 Featured Projects</span>
-        </div>
+      {/* Subtle ambient lighting */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-cyan-500/5 blur-[100px] pointer-events-none rounded-full" />
 
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-          Featured{" "}
-          <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-indigo-400 bg-clip-text text-transparent">
-            Projects
-          </span>
-        </h2>
-        <p className="text-slate-400 text-xs sm:text-sm mt-2 max-w-xl mx-auto uppercase tracking-widest font-semibold">
-          Explore all {filteredProjects.length} projects • Tap any card for details
-        </p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-xl mx-auto mb-8 sm:mb-10">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-cyan-500/25 bg-cyan-500/10 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+            <span>Selected Work</span>
+          </div>
 
-        {/* Category Filters */}
-        <div className="flex flex-wrap items-center justify-center gap-2 mt-6 pt-4 border-t border-slate-800/80">
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-            {["All", "Web & ERP", "AI & ML", "IoT & Hardware"].map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all whitespace-nowrap border ${
-                  selectedCategory === cat
-                    ? "bg-slate-800 text-cyan-400 border-cyan-500/40 shadow-[0_0_12px_rgba(6,182,212,0.15)]"
-                    : "bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white"
-                }`}
-              >
-                {cat} {cat === "All" ? `(${projectsList.length})` : ""}
-              </button>
-            ))}
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-white uppercase">
+            My{" "}
+            <span className="bg-gradient-to-r from-cyan-400 via-emerald-400 to-indigo-400 bg-clip-text text-transparent">
+              Projects
+            </span>
+          </h2>
+          <p className="text-slate-400 text-xs sm:text-sm mt-1.5 font-medium">
+            Core systems, specialized applications, and technical builds
+          </p>
+
+          {/* Sleek, Compact 2-Option Pill Switcher */}
+          <div className="inline-flex items-center p-1 rounded-xl bg-slate-900/90 border border-slate-800 mt-5 shadow-lg">
+            <button
+              onClick={() => setActiveTab("featured")}
+              className={`relative px-4 sm:px-6 py-2 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-2 ${
+                activeTab === "featured"
+                  ? "text-cyan-300"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {activeTab === "featured" && (
+                <motion.div
+                  layoutId="activeTabPill"
+                  className="absolute inset-0 bg-slate-800 border border-cyan-500/30 rounded-lg shadow-sm"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Featured Projects</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-cyan-500/15 text-cyan-300 font-mono">
+                  {featuredProjects.length}
+                </span>
+              </span>
+            </button>
+
+            <button
+              onClick={() => setActiveTab("other")}
+              className={`relative px-4 sm:px-6 py-2 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-2 ${
+                activeTab === "other"
+                  ? "text-cyan-300"
+                  : "text-slate-400 hover:text-slate-200"
+              }`}
+            >
+              {activeTab === "other" && (
+                <motion.div
+                  layoutId="activeTabPill"
+                  className="absolute inset-0 bg-slate-800 border border-cyan-500/30 rounded-lg shadow-sm"
+                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5">
+                <FolderOpen className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Other Works</span>
+                <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-slate-700/60 text-slate-300 font-mono">
+                  {otherProjects.length}
+                </span>
+              </span>
+            </button>
           </div>
         </div>
-      </div>
 
-      {/* GRID VIEW */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 animate-fade-in">
-          {filteredProjects.map((project, idx) => (
-            <div
-              key={`grid-${project.title}-${idx}`}
-              onClick={() => handleTileClick(project)}
-              className="group relative flex flex-col justify-between rounded-2xl border border-slate-800/80 bg-slate-900/80 hover:bg-slate-850/90 backdrop-blur-md p-5 transition-all duration-300 hover:border-cyan-500/30 hover:shadow-[0_10px_30px_-15px_rgba(6,182,212,0.2)] cursor-pointer animate-fade-in"
-            >
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div
-                    className="p-2.5 rounded-xl transition-transform group-hover:scale-110"
-                    style={{
-                      background: project.color + "18",
-                      border: `1px solid ${project.color}35`,
-                      color: project.color,
-                    }}
-                  >
-                    {project.icon}
-                  </div>
+        {/* Compact, High-Density Uniform Grid (3 cols on desktop, 2 on tablet, 1 on mobile) */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"
+          >
+            {currentList.map((project) => (
+              <div
+                key={project.id}
+                onClick={() => setExpandedProject(project)}
+                className="group relative flex flex-col justify-between rounded-xl border border-slate-800/80 bg-slate-900/50 hover:bg-slate-900/90 backdrop-blur-sm p-4 sm:p-5 transition-all duration-250 hover:border-slate-700 hover:shadow-lg hover:-translate-y-0.5 cursor-pointer overflow-hidden"
+              >
+                {/* Thin top accent indicator on hover */}
+                <div
+                  className="absolute top-0 inset-x-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ background: project.color }}
+                />
 
-                  <span
-                    className="text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full border"
-                    style={{
-                      color: project.color,
-                      background: project.color + "12",
-                      borderColor: project.color + "25",
-                    }}
-                  >
-                    {project.category}
-                  </span>
-                </div>
+                <div>
+                  {/* Top Row: Icon + Title + Actions */}
+                  <div className="flex items-start justify-between gap-3 mb-2.5">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div
+                        className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-transform group-hover:scale-105"
+                        style={{
+                          background: project.color + "18",
+                          border: `1px solid ${project.color}35`,
+                          color: project.color,
+                        }}
+                      >
+                        {project.icon}
+                      </div>
 
-                <h3 className="text-base sm:text-lg font-bold text-white group-hover:text-cyan-400 transition-colors leading-snug">
-                  {project.title}
-                </h3>
+                      <div className="min-w-0">
+                        <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-cyan-400 transition-colors truncate leading-tight">
+                          {project.title}
+                        </h3>
+                        <p
+                          className="text-[11px] font-medium truncate mt-0.5"
+                          style={{ color: project.color + "d0" }}
+                        >
+                          {project.subtitle}
+                        </p>
+                      </div>
+                    </div>
 
-                <p
-                  className="text-xs font-semibold mt-1"
-                  style={{ color: project.color + "dd" }}
-                >
-                  {project.subtitle}
-                </p>
-
-                <p className="text-xs text-slate-400 mt-2.5 leading-relaxed line-clamp-3">
-                  {project.description[0]}
-                </p>
-              </div>
-
-              <div className="mt-5 pt-4 border-t border-slate-800/60">
-                <div className="flex flex-wrap gap-1.5 mb-3">
-                  {project.tech.slice(0, 4).map((techItem) => (
-                    <span
-                      key={techItem}
-                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-350 border border-slate-800 font-medium"
+                    {/* Action links in top-right */}
+                    <div
+                      className="flex items-center gap-1.5 flex-shrink-0"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      {techItem}
-                    </span>
-                  ))}
-                  {project.tech.length > 4 && (
-                    <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-950 text-slate-500">
-                      +{project.tech.length - 4}
-                    </span>
-                  )}
+                      {project.github && (
+                        <a
+                          href={project.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-md hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+                          title="GitHub Repository"
+                        >
+                          <FaGithub className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                      {project.link && (
+                        <a
+                          href={project.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-md hover:bg-cyan-500/20 text-cyan-400 hover:text-cyan-300 transition-colors"
+                          title="Live Demo"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </a>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Summary Text (Concise 2 lines) */}
+                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-3">
+                    {project.summary}
+                  </p>
                 </div>
 
-                <div className="flex items-center justify-between gap-2 mt-2">
-                  <span className="text-xs font-bold text-cyan-400 group-hover:text-cyan-300 flex items-center gap-1">
-                    View details <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </span>
-
-                  <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg bg-slate-950 hover:bg-slate-800 text-slate-400 hover:text-white transition-colors border border-slate-800"
-                        title="GitHub Repository"
+                {/* Bottom Row: Tech Tags + Detail Prompt */}
+                <div className="pt-2.5 border-t border-slate-850 flex items-center justify-between gap-2 mt-auto">
+                  <div className="flex flex-wrap gap-1 items-center overflow-hidden">
+                    {project.tech.slice(0, 3).map((t) => (
+                      <span
+                        key={t}
+                        className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-slate-950 text-slate-400 border border-slate-850"
                       >
-                        <FaGithub className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-                    {project.link && (
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 transition-colors border border-cyan-500/30"
-                        title="Live Demo"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
+                        {t}
+                      </span>
+                    ))}
+                    {project.tech.length > 3 && (
+                      <span className="text-[9px] font-mono text-slate-500 px-1">
+                        +{project.tech.length - 3}
+                      </span>
                     )}
                   </div>
+
+                  <span className="text-[11px] font-semibold text-slate-500 group-hover:text-cyan-400 transition-colors flex items-center gap-0.5 flex-shrink-0">
+                    <span>Details</span>
+                    <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
       </div>
 
-      {/* Expanded project overlay — renders above everything, never clipped */}
+      {/* Expanded Project Details Modal */}
       {expandedProject && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-md p-4"
-          onClick={() => setExpandedTile(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4"
+          onClick={() => setExpandedProject(null)}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full max-w-[340px] sm:max-w-[420px] md:max-w-[500px] h-auto max-h-[85vh] relative rounded-2xl shadow-2xl flex flex-col p-5 sm:p-6 overflow-y-auto scrollbar-none whitespace-normal text-left"
+            className="w-full max-w-[480px] md:max-w-[520px] max-h-[85vh] relative rounded-2xl shadow-2xl flex flex-col p-5 sm:p-6 overflow-y-auto scrollbar-none text-left"
             style={{
-              border: `1px solid ${expandedProject.color}60`,
-              background: `linear-gradient(145deg, ${expandedProject.color}15, #0a0f1a 40%, #0d1117)`,
-              animation: "fadeScaleIn 0.25s ease-out",
+              border: `1px solid ${expandedProject.color}45`,
+              background: `linear-gradient(145deg, ${expandedProject.color}15, #0a0f1a 45%, #0d1117)`,
             }}
           >
-            {/* Header */}
+            {/* Modal Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3 min-w-0">
                 <div
-                  className="p-2 rounded-xl flex-shrink-0"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                   style={{
-                    background: expandedProject.color + "20",
+                    background: expandedProject.color + "22",
                     color: expandedProject.color,
-                    border: `1px solid ${expandedProject.color}35`,
+                    border: `1px solid ${expandedProject.color}40`,
                   }}
                 >
                   {expandedProject.icon}
                 </div>
                 <div className="min-w-0">
                   <h3
-                    className="text-base sm:text-lg font-extrabold leading-tight truncate"
+                    className="text-base sm:text-lg font-black leading-tight truncate"
                     style={{ color: expandedProject.color }}
                   >
                     {expandedProject.title}
@@ -481,15 +511,37 @@ export const ProjectMarquee = ({
                 </div>
               </div>
               <button
-                onClick={() => setExpandedTile(null)}
-                className="p-1.5 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors flex-shrink-0"
+                onClick={() => setExpandedProject(null)}
+                className="p-1 rounded-lg hover:bg-white/10 text-slate-400 hover:text-white transition-colors flex-shrink-0 ml-2"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
+            {/* Badges */}
+            <div className="flex items-center gap-2 mb-3.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700">
+                {expandedProject.category}
+              </span>
+              {expandedProject.badge && (
+                <span
+                  className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border"
+                  style={{
+                    color: expandedProject.color,
+                    background: expandedProject.color + "15",
+                    borderColor: expandedProject.color + "35",
+                  }}
+                >
+                  {expandedProject.badge}
+                </span>
+              )}
+              <span className="text-[10px] font-mono text-slate-500 ml-auto font-semibold">
+                {expandedProject.date}
+              </span>
+            </div>
+
             {/* Description bullets */}
-            <div className="flex-1 space-y-2 mb-4 overflow-y-auto scrollbar-none">
+            <div className="space-y-2 mb-4 overflow-y-auto scrollbar-none">
               {expandedProject.description.map((line, i) => (
                 <p
                   key={i}
@@ -505,36 +557,33 @@ export const ProjectMarquee = ({
             </div>
 
             {/* Tech tags */}
-            <div className="flex flex-wrap gap-1.5 mb-4">
+            <div className="flex flex-wrap gap-1.5 mb-4 pt-2 border-t border-slate-800/80">
               {expandedProject.tech.map((tag) => (
                 <span
                   key={tag}
-                  className="text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-mono font-semibold"
-                  style={{
-                    background: expandedProject.color + "18",
-                    border: `1px solid ${expandedProject.color}30`,
-                    color: expandedProject.color,
-                  }}
+                  className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-slate-800 font-semibold"
+                  style={{ color: expandedProject.color }}
                 >
                   {tag}
                 </span>
               ))}
             </div>
 
-            {/* Action links */}
-            <div className="flex gap-2.5 pt-2 border-t border-slate-800">
+            {/* Action buttons */}
+            <div className="flex gap-2.5 pt-2">
               {expandedProject.link && (
                 <a
                   href={expandedProject.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-1.5 px-4 py-2 font-bold rounded-xl text-xs transition-transform hover:scale-105 shadow-md flex-1 text-center"
+                  className="flex items-center justify-center gap-1.5 px-4 py-2 font-bold rounded-xl text-xs transition-transform hover:scale-102 shadow-md flex-1 text-center"
                   style={{
                     background: expandedProject.color,
-                    color: "#0a0f1a",
+                    color: "#090D14",
                   }}
                 >
-                  <span>Live Demo</span> <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Launch Live Demo</span>{" "}
+                  <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               )}
               {expandedProject.github && (
@@ -544,7 +593,8 @@ export const ProjectMarquee = ({
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-1.5 px-4 py-2 bg-slate-800 text-slate-200 font-bold rounded-xl text-xs hover:bg-slate-700 transition-colors border border-slate-700 shadow-md flex-1 text-center"
                 >
-                  <span>GitHub</span> <FaGithub className="w-3.5 h-3.5" />
+                  <span>View Repository</span>{" "}
+                  <FaGithub className="w-3.5 h-3.5" />
                 </a>
               )}
             </div>
